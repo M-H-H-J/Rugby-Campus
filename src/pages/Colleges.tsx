@@ -1,24 +1,21 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useLocation } from 'wouter';
-import { Search, SlidersHorizontal, Map as MapIcon } from 'lucide-react';
+import { useLocation, Link } from 'wouter';
+import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS, SEASON_LABEL, Tier } from '@/data/colleges';
 import CollegeCard from '@/components/CollegeCard';
-import { Link } from 'wouter';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 const TIER_ORDER: Tier[] = ['championship', 'playoff', 'competitive'];
 
 export default function Colleges() {
-  usePageMeta('College Rugby Programs', 'Browse the top 40 college rugby programs in the USA — CRAA D1A and NCR D1 — with tiers, coach contacts, conferences, and campus details.');
+  usePageMeta('College Rugby Programs', 'The top 40 college rugby programs in the USA — CRAA D1A and NCR D1 — tiered on results, with coach contacts, conferences, and campus details.');
   const { colleges } = useColleges();
   const [location] = useLocation();
 
-  // Read ?q= from the hero search
   const initialQ = useMemo(() => {
-    const qs = window.location.search;
-    const m = qs.match(/[?&]q=([^&]*)/);
+    const m = window.location.search.match(/[?&]q=([^&]*)/);
     return m ? decodeURIComponent(m[1]) : '';
   }, [location]);
 
@@ -44,87 +41,81 @@ export default function Colleges() {
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-10 md:py-14">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-7">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
-          <h1 className="font-heading font-bold text-3xl text-dark mb-2">College rugby programs</h1>
-          <p className="text-gray-400 text-sm">The top 40 men's programs in the USA. <span className="text-gray-300">{SEASON_LABEL}.</span></p>
+          <p className="kicker mb-2">{SEASON_LABEL}</p>
+          <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink">The 40 programs</h1>
         </div>
-        <Link href="/map" className="inline-flex items-center gap-2 self-start md:self-auto border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-semibold hover:border-gray-300 hover:bg-gray-50 transition-all">
+        <Link href="/map" className="btn inline-flex items-center gap-2 self-start md:self-auto border border-line text-ink px-4 py-2.5 rounded-md text-[13px] font-semibold hover:border-navy/40">
           <MapIcon size={15} /> Map view
         </Link>
       </div>
 
-      {/* Sticky filter bar */}
-      <div className="sticky top-16 z-30 bg-white/95 backdrop-blur-md -mx-5 px-5 py-3 border-b border-gray-100 mb-8">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-3">
-          {/* Affiliation tabs */}
-          <div className="flex bg-gray-50 rounded-xl p-1 self-start">
+      {/* Filter bar — underline tabs, plain controls */}
+      <div className="sticky top-16 z-30 bg-white -mx-5 px-5 border-b border-line mb-10">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-x-8 gap-y-3 pb-0">
+          <div className="flex gap-6 -mb-px">
             {AFFILIATION_TABS.map((t) => (
               <button key={t} onClick={() => setTab(t)}
-                className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${tab === t ? 'bg-white text-navy shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}>
+                className={`pb-3 pt-2 text-[13.5px] font-medium border-b-2 transition-colors ${
+                  tab === t ? 'border-navy text-ink' : 'border-transparent text-faint hover:text-muted'
+                }`}>
                 {t}
               </button>
             ))}
           </div>
 
-          {/* Search */}
-          <div className="flex items-center flex-1 max-w-md bg-gray-50 rounded-xl px-3.5">
-            <Search size={15} className="text-gray-300" />
-            <input
-              type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search name, city, state, or conference…"
-              className="flex-1 bg-transparent px-2.5 py-2.5 text-sm outline-none placeholder:text-gray-300"
-            />
-          </div>
-
-          {/* Dropdowns */}
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal size={14} className="text-gray-300 hidden lg:block" />
+          <div className="flex items-center flex-1 gap-4 pb-3 lg:pb-2.5">
+            <div className="flex items-center flex-1 max-w-xs border border-line rounded-md px-3 focus-within:border-navy transition-colors">
+              <Search size={14} className="text-faint flex-shrink-0" />
+              <input
+                type="text" value={search} onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search programs"
+                className="flex-1 min-w-0 bg-transparent px-2.5 py-2 text-[13px] outline-none placeholder:text-faint"
+              />
+            </div>
             <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value as typeof tierFilter)}
-              className="bg-gray-50 rounded-xl px-3 py-2.5 text-[13px] font-medium text-gray-600 outline-none cursor-pointer">
+              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
               <option value="all">All tiers</option>
               {TIER_ORDER.map((t) => <option key={t} value={t}>{TIER_LABELS[t]}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as typeof typeFilter)}
-              className="bg-gray-50 rounded-xl px-3 py-2.5 text-[13px] font-medium text-gray-600 outline-none cursor-pointer">
-              <option value="all">Club & Varsity</option>
+              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
+              <option value="all">Club & varsity</option>
               <option value="Varsity">Varsity</option>
               <option value="Club">Club</option>
             </select>
-          </div>
 
-          {/* Women's framework toggle (disabled — flip on when data lands) */}
-          <div className="flex items-center gap-2 lg:ml-auto" title="Women's programs are coming soon">
-            <span className="text-[12px] font-medium text-gray-300 select-none">Men's</span>
-            <button disabled aria-label="Switch to women's programs (coming soon)"
-              className="relative w-9 h-5 rounded-full bg-gray-100 cursor-not-allowed">
-              <span className="absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-white shadow-sm" />
-            </button>
-            <span className="text-[12px] font-medium text-gray-300 select-none">Women's <span className="text-gold-dark bg-gold/10 px-1.5 py-0.5 rounded ml-0.5 text-[10px] font-semibold">Soon</span></span>
+            <div className="hidden lg:flex items-center gap-2 ml-auto" title="Women's programs coming soon">
+              <span className="text-[12px] text-faint select-none">Men's</span>
+              <button disabled aria-label="Women's programs coming soon"
+                className="relative w-8 h-[18px] rounded-full bg-line cursor-not-allowed">
+                <span className="absolute left-0.5 top-0.5 w-[14px] h-[14px] rounded-full bg-white shadow-sm" />
+              </button>
+              <span className="text-[12px] text-faint select-none">Women's soon</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Results */}
-      <p className="text-[13px] text-gray-400 mb-8">
-        Showing <strong className="text-gray-600">{filtered.length}</strong> of {colleges.length} programs
+      <p className="text-[13px] text-faint mb-10">
+        {filtered.length} of {colleges.length} programs
       </p>
 
       {grouped.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-gray-400 text-sm mb-2">No programs match those filters.</p>
+        <div className="text-center py-24">
+          <p className="text-muted text-[14px] mb-3">No programs match those filters.</p>
           <button onClick={() => { setSearch(''); setTab('All'); setTierFilter('all'); setTypeFilter('all'); }}
-            className="text-navy text-sm font-semibold hover:underline">Clear all filters</button>
+            className="text-navy text-[13px] font-semibold hover:text-navy-deep">Clear all filters</button>
         </div>
       ) : (
-        grouped.map(({ tier, items }) => (
-          <section key={tier} className="mb-12">
-            <div className="flex items-center gap-3 mb-5">
-              <h2 className="font-heading font-bold text-lg text-dark">{TIER_LABELS[tier]}</h2>
-              <span className="text-xs text-gray-300 font-medium">{items.length} programs</span>
+        grouped.map(({ tier, items }, gi) => (
+          <section key={tier} className={gi > 0 ? 'mt-16 pt-12 border-t border-line' : ''}>
+            <div className="flex items-baseline gap-3 mb-8">
+              <h2 className="font-heading text-[24px] text-ink">{TIER_LABELS[tier]}s</h2>
+              <span className="text-[13px] text-faint">{items.length}</span>
             </div>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
               {items.map((c) => <CollegeCard key={c.id} college={c} />)}
             </div>
           </section>

@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import type { College } from '@/data/colleges';
 
 const navy = '#00458c';
-const gold = '#ffb700';
+const gold = '#f2b600';
 
 function makePin(color: string, size = 30) {
   const h = size * 1.3;
@@ -83,9 +83,9 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       });
 
       const popupHtml = `
-        <div style="font-family:Inter,sans-serif;min-width:200px;padding:4px 2px">
+        <div style="font-family:'Libre Franklin',sans-serif;min-width:200px;padding:4px 2px">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
-            <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:13px;color:#0b1026;line-height:1.25">${c.name}</span>
+            <span style="font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:13px;color:#071B33;line-height:1.25">${c.name}</span>
             
           </div>
           <div style="font-size:11px;color:#9ca3af;margin-bottom:8px">${c.location}</div>
@@ -93,7 +93,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
             <span style="font-size:10px;font-weight:600;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:5px">${c.affiliation}</span>
             ${c.draftPicks > 0 ? `<span style="font-size:10px;font-weight:700;background:rgba(255,183,0,0.15);color:#9a6e00;padding:2px 7px;border-radius:5px">${c.draftPicks} MLR picks</span>` : ''}
           </div>
-          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:12px;font-weight:600;background:${navy};color:white;padding:8px;border-radius:8px;border:none;cursor:pointer">View Full Profile →</button>
+          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:12px;font-weight:600;background:${navy};color:white;padding:8px;border-radius:6px;border:none;cursor:pointer">View Full Profile →</button>
         </div>
       `;
 

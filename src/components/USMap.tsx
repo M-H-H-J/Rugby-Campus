@@ -60,7 +60,7 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
           background: 'white', borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.14)', border: '1px solid #f3f4f6',
           padding: '10px 12px', pointerEvents: 'none', whiteSpace: 'nowrap', zIndex: 20,
         }}>
-          <div style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 600, fontSize: 12, color: '#0b1026' }}>{hover.name}</div>
+          <div style={{ fontFamily: 'Newsreader, Georgia, serif', fontWeight: 600, fontSize: 12, color: '#071B33' }}>{hover.name}</div>
           <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{hover.location}</div>
           <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
             <span style={{ fontSize: 10, fontWeight: 600, background: '#f3f4f6', color: '#4b5563', padding: '2px 7px', borderRadius: 5 }}>{hover.affiliation}</span>

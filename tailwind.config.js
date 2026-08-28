@@ -4,14 +4,28 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['Montserrat', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Newsreader', 'Georgia', 'serif'],
+        body: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
       },
       colors: {
         navy: '#00458c',
-        gold: '#ffb700',
-        'gold-dark': '#9a6e00',
-        dark: '#0b1026',
+        'navy-deep': '#062B57',
+        gold: '#f2b600',
+        'gold-dark': '#8a6400',
+        dark: '#071B33',
+        ink: '#101E30',
+        line: '#e5e9ef',
+        muted: '#5b6b7d',
+        faint: '#8b98a8',
+      },
+      borderRadius: {
+        DEFAULT: '6px',
+        md: '8px',
+        lg: '10px',
+        xl: '12px',
+      },
+      letterSpacing: {
+        caps: '0.12em',
       },
     },
   },

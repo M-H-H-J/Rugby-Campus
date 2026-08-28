@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { Lock, Check, Mail } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
-import { Dumbbell, Zap, Heart, Lock, Check, ArrowRight, Mail, UserCheck } from 'lucide-react';
 
 export default function Training() {
-  usePageMeta('Rugby Training Programs', 'Free rugby strength & conditioning sample program, plus individualised coaching from a national championship-winning college coach.');
+  usePageMeta('Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching from a national championship-winning college coach.');
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 
@@ -15,173 +15,118 @@ export default function Training() {
     setUnlocked(true);
   };
 
-  return (
-    <div className="max-w-6xl mx-auto px-5 py-10 md:py-16">
-      {/* Header */}
-      <div className="max-w-2xl mb-12">
-        <h1 className="font-heading font-bold text-3xl text-dark mb-3">Rugby Training Programs</h1>
-        <p className="text-gray-400 text-base leading-relaxed">
-          Get college-ready with training programs built for aspiring rugby players. Start with a free sample program, or work with me directly for fully individualised coaching.
-        </p>
-      </div>
-
-      {/* Program Categories */}
-      <div className="grid md:grid-cols-3 gap-5 mb-16">
-        {[
-          { icon: Dumbbell, title: 'Strength & Conditioning', desc: 'Gym programs designed for rugby — build the power, endurance, and resilience you need to compete at the college level.', tags: ['Off-Season', 'Pre-Season', 'In-Season'] },
-          { icon: Zap, title: 'Speed & Agility', desc: 'Sprint mechanics, change-of-direction drills, and acceleration work to help you get faster on the field.', tags: ['Speed', 'Agility', 'Footwork'] },
-          { icon: Heart, title: 'Rugby Conditioning', desc: 'Sport-specific conditioning that mirrors the demands of a rugby match — repeated high-intensity efforts.', tags: ['Fitness', 'Game-Ready', 'Endurance'] },
-        ].map((prog) => (
-          <div key={prog.title} className="bg-white rounded-2xl border border-gray-100 p-6 hover:border-gray-200 hover:shadow-lg hover:shadow-gray-100/80 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-navy/5 flex items-center justify-center mb-4">
-              <prog.icon size={22} className="text-navy" />
-            </div>
-            <h3 className="font-heading font-semibold text-lg text-dark mb-2">{prog.title}</h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">{prog.desc}</p>
-            <div className="flex flex-wrap gap-2">
-              {prog.tags.map((t) => (
-                <span key={t} className="bg-gray-50 text-gray-500 px-2.5 py-1 rounded-lg text-xs font-medium">{t}</span>
-              ))}
-            </div>
-          </div>
+  const day = (title: string, exercises: string[]) => (
+    <div>
+      <h3 className="font-body font-semibold text-[14px] text-ink mb-3">{title}</h3>
+      <ul className="space-y-2">
+        {exercises.map((ex, i) => (
+          <li key={i} className="text-[14px] text-ink/80 flex items-baseline gap-2.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0 translate-y-[-2px]" /> {ex}
+          </li>
         ))}
-      </div>
+      </ul>
+    </div>
+  );
 
-      {/* ── FREE: Sample Program (email unlock) ── */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-lg uppercase tracking-wide">Free</span>
-          <h2 className="font-heading font-bold text-xl text-dark">Sample Strength Program</h2>
-        </div>
-      </div>
+  return (
+    <div className="max-w-6xl mx-auto px-5 py-10 md:py-14">
+      <header className="mb-14 max-w-2xl">
+        <p className="kicker mb-2">Training</p>
+        <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink mb-4">Arrive ready to compete</h1>
+        <p className="text-muted text-[15px] leading-relaxed">
+          The gap between club rugby and a US college squad is physical. Start with the free sample block below — or work with me directly and turn up on day one already at the level.
+        </p>
+      </header>
 
-      <div className="bg-gray-50 rounded-2xl border border-gray-100 p-6 md:p-8 mb-8">
-        <p className="text-gray-400 text-sm mb-6">A preview of the off-season strength block. Enter your email to unlock the full program.</p>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Day 1 - free */}
-          <div className="bg-white rounded-xl p-5 border border-gray-100">
-            <h3 className="font-heading font-semibold text-sm text-navy mb-3">Day 1 — Upper Body Push</h3>
-            <ul className="space-y-2">
-              {['Bench Press — 4x6 @ 80%', 'Overhead Press — 3x8', 'Incline DB Press — 3x10', 'Tricep Dips — 3x12', 'Face Pulls — 3x15'].map((ex, i) => (
-                <li key={i} className="text-sm text-gray-600 flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full bg-gold flex-shrink-0" /> {ex}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Day 2 - locked */}
-          <div className="relative">
-            <div className={`bg-white rounded-xl p-5 border border-gray-100 ${!unlocked ? 'blur-sm select-none' : ''}`}>
-              <h3 className="font-heading font-semibold text-sm text-navy mb-3">Day 2 — Lower Body Strength</h3>
-              <ul className="space-y-2">
-                {['Back Squat — 4x5 @ 85%', 'Romanian Deadlift — 3x8', 'Walking Lunges — 3x12', 'Leg Press — 3x10', 'Nordic Curls — 3x6'].map((ex, i) => (
-                  <li key={i} className="text-sm text-gray-600 flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-gold flex-shrink-0" /> {ex}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {!unlocked && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-sm border border-gray-200 flex items-center gap-2">
-                  <Lock size={14} className="text-navy" />
-                  <span className="text-sm font-semibold text-dark">Enter email to unlock</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Email unlock */}
-        <div className="mt-6">
+      {/* Free sample */}
+      <section className="grid lg:grid-cols-12 gap-10 mb-20">
+        <div className="lg:col-span-4">
+          <p className="kicker mb-2">Free sample</p>
+          <h2 className="font-heading text-[26px] text-ink leading-tight mb-3">Off-season strength block</h2>
+          <p className="text-muted text-[14px] leading-relaxed mb-6">
+            Two days from the program I've used with college athletes. Day one is open — your email unlocks the rest, and the full block lands in your inbox.
+          </p>
           {unlocked ? (
-            <div className="bg-green-50 text-green-700 rounded-xl px-5 py-4 text-sm font-medium flex items-center gap-2">
-              <Check size={18} /> Unlocked! The full program is on its way to your inbox.
-            </div>
+            <p className="inline-flex items-center gap-2 text-[14px] text-navy font-medium">
+              <Check size={16} /> Unlocked — the full program is on its way.
+            </p>
           ) : (
-            <form className="flex flex-col sm:flex-row gap-3 max-w-md" onSubmit={handleUnlock}>
+            <form onSubmit={handleUnlock} className="space-y-3 max-w-xs">
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy/30 transition-all"
+                type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email" required
+                className="w-full px-4 py-3 rounded-md border border-line text-[14px] outline-none focus:border-navy transition-colors"
               />
-              <button type="submit" className="px-6 py-3 bg-navy text-white rounded-xl text-sm font-semibold hover:bg-navy/90 transition-all whitespace-nowrap">
-                Unlock Free Program
+              <button type="submit" className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold">
+                Unlock the full program
               </button>
             </form>
           )}
         </div>
-      </div>
 
-      {/* ── PAID: Work with Me ── */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-bold text-gold-dark bg-gold/15 px-2.5 py-1 rounded-lg uppercase tracking-wide">Premium</span>
-          <h2 className="font-heading font-bold text-xl text-dark">Work with Me — Individualised Coaching</h2>
-        </div>
-      </div>
-
-      <div className="bg-navy rounded-2xl p-8 md:p-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4">
-              <UserCheck size={22} className="text-gold" />
+        <div className="lg:col-span-8 grid sm:grid-cols-2 gap-8 lg:pl-8 lg:border-l lg:border-line">
+          {day('Day 1 — Upper body push', ['Bench press — 4×6 @ 80%', 'Overhead press — 3×8', 'Incline DB press — 3×10', 'Tricep dips — 3×12', 'Face pulls — 3×15'])}
+          <div className="relative">
+            <div className={!unlocked ? 'blur-[5px] select-none' : ''}>
+              {day('Day 2 — Lower body strength', ['Back squat — 4×5 @ 85%', 'Romanian deadlift — 3×8', 'Walking lunges — 3×12', 'Leg press — 3×10', 'Nordic curls — 3×6'])}
             </div>
-            <h3 className="font-heading font-bold text-xl text-white mb-3">Train directly with me</h3>
-            <p className="text-white/60 text-sm leading-relaxed mb-5">
-              The free programs are a great start — but if you want to arrive at college genuinely ready to compete, I work with a limited number of athletes one-on-one. Fully individualised programming, built around your position, your goals, and your schedule, with ongoing check-ins to keep you accountable.
+            {!unlocked && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="inline-flex items-center gap-2 bg-white border border-line rounded-md px-4 py-2.5 text-[13px] font-medium text-ink">
+                  <Lock size={13} className="text-navy" /> Unlocks with your email
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Work with me */}
+      <section className="bg-dark rounded-lg overflow-hidden">
+        <div className="grid lg:grid-cols-12 gap-10 p-8 md:p-12">
+          <div className="lg:col-span-7">
+            <p className="kicker mb-3 text-gold">Work with me</p>
+            <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
+              Individualised coaching, from someone who's coached the level
+            </h2>
+            <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
+              I take on a limited number of athletes one-on-one. Your program is built around your position, your goals, and your timeline for getting to the US — with regular check-ins to keep you honest. This is the preparation I wish I'd had at 17.
             </p>
-            <ul className="space-y-2.5 mb-6">
+            <ul className="space-y-2.5 mb-8">
               {[
-                'A program built specifically for you, not a generic template',
-                'Regular check-ins so you stay on track',
+                'Programming built for you, not a template',
                 'Position-specific strength, speed, and conditioning',
-                'Guidance from someone who played and coached at the college level',
-              ].map((point, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-sm text-white/70">
-                  <Check size={16} className="text-gold mt-0.5 flex-shrink-0" /> {point}
+                'Regular check-ins and adjustments',
+                'Straight answers from a player, captain, and championship-winning coach',
+              ].map((p, i) => (
+                <li key={i} className="flex items-start gap-3 text-[14px] text-white/75">
+                  <Check size={15} className="text-gold mt-[3px] flex-shrink-0" /> {p}
                 </li>
               ))}
             </ul>
             <a href={`mailto:${CONTACT_EMAIL}?subject=Individualised%20Coaching`}
-              className="inline-flex items-center gap-2 bg-gold text-navy px-6 py-3 rounded-xl text-sm font-bold hover:bg-gold/90 transition-all">
-              <Mail size={16} /> Enquire About Coaching
+              className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+              <Mail size={15} /> Enquire about coaching
             </a>
           </div>
-
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <div className="text-white/40 text-xs font-semibold uppercase tracking-wider mb-2">How it works</div>
-            <div className="space-y-4">
-              {[
-                { n: '1', t: 'Intro chat', d: 'We talk through your goals, level, and timeline.' },
-                { n: '2', t: 'Your program', d: 'I build a plan tailored to you and your position.' },
-                { n: '3', t: 'Ongoing support', d: 'Regular check-ins and adjustments as you progress.' },
-              ].map((s) => (
-                <div key={s.n} className="flex gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-gold/15 text-gold flex items-center justify-center text-xs font-bold flex-shrink-0">{s.n}</div>
-                  <div>
-                    <div className="text-white text-sm font-semibold">{s.t}</div>
-                    <div className="text-white/45 text-xs leading-relaxed">{s.d}</div>
-                  </div>
+          <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
+            <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
+            {[
+              { n: '1', t: 'Intro chat', d: 'Your goals, your level, your timeline. No obligation.' },
+              { n: '2', t: 'Your program', d: 'Built for your position and what US coaches look for.' },
+              { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments until you\u2019re on the plane.' },
+            ].map((s, i) => (
+              <div key={s.n} className={`flex gap-5 py-4 ${i > 0 ? 'border-t border-white/10' : ''}`}>
+                <span className="font-heading text-[26px] text-gold leading-none">{s.n}</span>
+                <div>
+                  <p className="text-white text-[14px] font-semibold mb-1">{s.t}</p>
+                  <p className="text-white/45 text-[13px] leading-relaxed">{s.d}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* Footer CTA */}
-      <div className="text-center mt-12">
-        <p className="text-gray-400 text-sm mb-4">Not sure where to start? Explore programs first.</p>
-        <a href="/map" className="inline-flex items-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl text-sm font-semibold hover:border-gray-300 hover:bg-gray-50 transition-all">
-          Explore the College Map <ArrowRight size={14} />
-        </a>
-      </div>
+      </section>
     </div>
   );
 }

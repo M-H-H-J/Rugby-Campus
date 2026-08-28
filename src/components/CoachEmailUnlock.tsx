@@ -28,31 +28,24 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
 
   return (
     <>
-      <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-        <div className="flex items-start justify-between mb-1">
-          <div>
-            <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-widest mb-1">Head coach</p>
-            <p className="font-heading font-semibold text-lg text-dark">{coachName || 'To be confirmed'}</p>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center">
-            <Mail size={16} className="text-navy" />
-          </div>
-        </div>
-        <div className="mt-4 pt-4 border-t border-gray-100">
+      <div className="border border-line rounded-lg p-6">
+        <p className="kicker mb-2">Head coach</p>
+        <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'To be confirmed'}</p>
+        <div className="pt-4 border-t border-line">
           {unlocked ? (
             <div className="flex items-center gap-2">
-              <Mail size={13} className="text-gray-400 flex-shrink-0" />
+              <Mail size={14} className="text-faint flex-shrink-0" />
               {coachEmail ? (
-                <a href={`mailto:${coachEmail}`} className="text-navy text-sm font-medium hover:underline break-all">{coachEmail}</a>
+                <a href={`mailto:${coachEmail}`} className="text-navy text-[14px] font-medium hover:text-navy-deep break-all">{coachEmail}</a>
               ) : (
-                <span className="text-gray-400 text-sm italic">Email being verified — check back soon</span>
+                <span className="text-faint text-[13px] italic">Email being verified — check back soon</span>
               )}
             </div>
           ) : (
-            <button onClick={() => setShowModal(true)} className="w-full flex items-center gap-2.5 group">
-              <Lock size={13} className="text-gray-400 flex-shrink-0" />
-              <span className="text-sm text-gray-400 blur-[5px] select-none">coach@university.edu</span>
-              <span className="ml-auto text-[11px] font-semibold text-navy bg-navy/5 group-hover:bg-navy/10 px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors">
+            <button onClick={() => setShowModal(true)} className="w-full flex items-center gap-2.5 group text-left">
+              <Lock size={13} className="text-faint flex-shrink-0" />
+              <span className="text-[14px] text-faint blur-[5px] select-none">coach@university.edu</span>
+              <span className="btn ml-auto text-[12px] font-semibold text-white bg-navy px-3.5 py-2 rounded-md whitespace-nowrap">
                 Unlock email
               </span>
             </button>
@@ -63,40 +56,34 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
       {showModal && (
         <div
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-          style={{ background: 'rgba(11,16,38,0.6)', backdropFilter: 'blur(4px)' }}
+          style={{ background: 'rgba(7,27,51,0.55)', backdropFilter: 'blur(3px)' }}
           onClick={(e) => { if (e.target === e.currentTarget) setShowModal(false); }}
         >
-          <div className="bg-white rounded-2xl max-w-sm w-full p-7 text-center relative">
-            <button onClick={() => setShowModal(false)} aria-label="Close" className="absolute top-4 right-4 text-gray-300 hover:text-gray-500">
+          <div className="bg-white rounded-lg max-w-sm w-full p-8 relative">
+            <button onClick={() => setShowModal(false)} aria-label="Close" className="absolute top-4 right-4 text-faint hover:text-muted">
               <X size={18} />
             </button>
             {done ? (
-              <>
-                <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-3">
-                  <Check size={22} className="text-green-600" />
-                </div>
-                <p className="font-heading font-bold text-lg text-dark mb-1">Unlocked</p>
-                <p className="text-gray-400 text-sm">Coach emails are now visible on every college page.</p>
-              </>
+              <div className="text-center py-2">
+                <Check size={26} className="text-navy mx-auto mb-3" />
+                <p className="font-heading text-[22px] text-ink mb-1">Unlocked</p>
+                <p className="text-muted text-[13px]">Coach emails are now visible on every college page.</p>
+              </div>
             ) : (
               <>
-                <div className="w-12 h-12 rounded-full bg-navy/5 flex items-center justify-center mx-auto mb-3">
-                  <Mail size={20} className="text-navy" />
-                </div>
-                <p className="font-heading font-bold text-lg text-dark mb-1">Unlock coach emails</p>
-                <p className="text-gray-400 text-sm mb-5">One email unlocks coach contacts across all 40 colleges. Free, forever.</p>
+                <p className="font-heading text-[24px] text-ink mb-2">Unlock coach emails</p>
+                <p className="text-muted text-[13.5px] leading-relaxed mb-6">One email unlocks coach contacts across all 40 colleges. Free, forever. No spam.</p>
                 <form onSubmit={handleUnlock}>
                   <input
                     type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com" required autoFocus
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm mb-2.5 outline-none focus:border-navy/40 focus:ring-4 focus:ring-navy/5 transition-all"
+                    className="w-full px-4 py-3 rounded-md border border-line text-[14px] mb-3 outline-none focus:border-navy transition-colors"
                   />
                   <button type="submit" disabled={busy}
-                    className="w-full py-3 bg-navy text-white rounded-xl text-sm font-semibold hover:bg-navy/90 disabled:opacity-60 transition-all">
-                    {busy ? 'Unlocking…' : 'Unlock coach emails — free'}
+                    className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold disabled:opacity-60">
+                    {busy ? 'Unlocking…' : 'Unlock coach emails'}
                   </button>
                 </form>
-                <p className="text-gray-300 text-[11px] mt-2.5">One-time signup. No spam.</p>
               </>
             )}
           </div>
