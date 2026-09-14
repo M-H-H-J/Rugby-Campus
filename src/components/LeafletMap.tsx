@@ -102,10 +102,10 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
             <span style="font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:13px;color:#071B33;line-height:1.25">${c.name}</span>
             
           </div>
-          <div style="font-size:11px;color:#9ca3af;margin-bottom:8px">${c.location}</div>
+          <div style="font-size:11px;color:#6a747e;margin-bottom:8px">${c.location}</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-            <span style="font-size:10px;font-weight:600;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:5px">${c.affiliation}</span>
-            ${c.draftPicks > 0 ? `<span style="font-size:10px;font-weight:700;background:rgba(255,183,0,0.15);color:#9a6e00;padding:2px 7px;border-radius:5px">${c.draftPicks} MLR picks</span>` : ''}
+            <span style="font-size:10px;font-weight:600;background:#e5e9ef;color:#5b6b7d;padding:2px 7px;border-radius:5px">${c.affiliation}</span>
+            ${c.draftPicks > 0 ? `<span style="font-size:10px;font-weight:700;background:rgba(242,182,0,0.15);color:#8a6400;padding:2px 7px;border-radius:5px">${c.draftPicks} MLR picks</span>` : ''}
           </div>
           <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:10px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View full profile →</button>
         </div>
