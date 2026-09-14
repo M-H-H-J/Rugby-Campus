@@ -43,7 +43,7 @@ export default function CollegeDetail() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-5 py-8 md:py-12">
+    <div className="max-w-6xl mx-auto px-5 py-8 md:py-12 min-w-0">
       <Link href="/colleges" className="inline-flex items-center gap-1.5 text-[13px] text-faint hover:text-navy transition-colors mb-8">
         <ArrowLeft size={14} /> All colleges
       </Link>
@@ -66,8 +66,8 @@ export default function CollegeDetail() {
         )}
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-7 space-y-12">
+      <div className="grid lg:grid-cols-12 gap-12 min-w-0">
+        <div className="lg:col-span-7 space-y-12 min-w-0">
           <section>
             <h2 className="font-heading text-[24px] text-ink mb-4">About the program</h2>
             <p className="text-[15px] text-ink/80 leading-[1.7]">{college.description}</p>
@@ -114,20 +114,20 @@ export default function CollegeDetail() {
           </section>
 
           {college.monthlyTemps.length === 12 && (
-            <section>
+            <section className="min-w-0">
               <h2 className="font-heading text-[24px] text-ink mb-1.5">Weather</h2>
               <p className="text-[14px] text-muted mb-5">{college.weatherSummary}</p>
-              <div className="overflow-x-auto -mx-1 px-1 max-w-full overscroll-x-contain">
+              <div className="overflow-x-auto max-w-full overscroll-x-contain">
                 <table className="w-full min-w-[32rem] text-[11px] sm:text-[12px] border-t border-line">
                   <thead>
                     <tr className="text-faint">
-                      <th className="text-left font-medium py-2.5 pr-2 sticky left-0 bg-white">Month</th>
+                      <th className="text-left font-medium py-2.5 pr-2 sticky left-0 bg-white z-[1]">Month</th>
                       {college.monthlyTemps.map((t) => <th key={t.month} className="font-medium py-2.5 px-1 text-center">{t.month}</th>)}
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white">High</td>
+                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white z-[1]">High</td>
                       {college.monthlyTemps.map((t) => (
                         <td key={t.month} className="py-2.5 px-1 text-center">
                           <span className="text-ink font-semibold">{t.hC}°</span>
@@ -136,7 +136,7 @@ export default function CollegeDetail() {
                       ))}
                     </tr>
                     <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white">Low</td>
+                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white z-[1]">Low</td>
                       {college.monthlyTemps.map((t) => (
                         <td key={t.month} className="py-2.5 px-1 text-center">
                           <span className="text-ink font-semibold">{t.lC}°</span>
