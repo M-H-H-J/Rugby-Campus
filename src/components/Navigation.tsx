@@ -55,7 +55,12 @@ export default function Navigation() {
             </Link>
           </div>
 
-          <button className="md:hidden text-ink p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+          <button
+            className="md:hidden text-ink p-1 rounded-md"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+          >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>

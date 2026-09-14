@@ -65,8 +65,8 @@ export default function Colleges() {
             ))}
           </div>
 
-          <div className="flex items-center flex-1 gap-4 pb-3 lg:pb-2.5">
-            <div className="flex items-center flex-1 max-w-xs border border-line rounded-md px-3 focus-within:border-navy transition-colors">
+          <div className="flex flex-wrap items-center flex-1 gap-x-3 gap-y-2 pb-3 lg:pb-2.5 min-w-0">
+            <div className="flex items-center flex-1 min-w-[9rem] max-w-xs border border-line rounded-md px-3 focus-within:border-navy transition-colors">
               <Search size={14} className="text-faint flex-shrink-0" />
               <input
                 type="text" value={search} onChange={(e) => setSearch(e.target.value)}
@@ -75,12 +75,12 @@ export default function Colleges() {
               />
             </div>
             <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value as typeof tierFilter)}
-              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
+              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors max-w-full">
               <option value="all">All tiers</option>
               {TIER_ORDER.map((t) => <option key={t} value={t}>{TIER_LABELS[t]}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as typeof typeFilter)}
-              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
+              className="bg-transparent border border-line rounded-md px-2.5 py-2 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors max-w-full">
               <option value="all">Club & varsity</option>
               <option value="Varsity">Varsity</option>
               <option value="Club">Club</option>

@@ -33,6 +33,27 @@ h1, h2, h3 {
 
 ::selection { background: rgba(242, 182, 0, 0.35); }
 
+/* Visible keyboard focus — navy ring; mouse clicks stay quiet via :focus-visible */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid #00458c;
+  outline-offset: 2px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #00458c;
+  outline-offset: 2px;
+}
+/* Inputs that suppress default outline still get the ring */
+.outline-none:focus-visible {
+  outline: 2px solid #00458c;
+  outline-offset: 2px;
+}
+
 /* Editorial kicker label — plain letterspaced caps, no chip */
 .kicker {
   font-family: 'Libre Franklin', sans-serif;

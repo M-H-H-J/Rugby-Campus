@@ -37,19 +37,19 @@ export default function MapPage() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-line overflow-hidden relative" style={{ zIndex: 0 }}>
-        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height={580} />
-        <div className="absolute bottom-6 left-4 bg-white rounded-md border border-line px-4 py-3" style={{ zIndex: 500 }}>
+      <div className="rounded-lg border border-line overflow-hidden relative max-w-full" style={{ zIndex: 0 }}>
+        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="min(580px, 70vh)" />
+        <div className="absolute bottom-4 left-3 right-3 sm:right-auto sm:bottom-6 sm:left-4 bg-white rounded-md border border-line px-3 py-2.5 sm:px-4 sm:py-3 max-w-[calc(100%-1.5rem)] sm:max-w-none" style={{ zIndex: 500 }}>
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-[12px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-gold" /> Championship contender
+              <span className="w-2 h-2 rounded-full bg-gold flex-shrink-0" /> Championship contender
             </div>
             <div className="flex items-center gap-2 text-[12px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-navy" /> Top-40 program
+              <span className="w-2 h-2 rounded-full bg-navy flex-shrink-0" /> Top-40 program
             </div>
           </div>
         </div>
-        <div className="absolute top-4 right-4 bg-white rounded-md border border-line px-3.5 py-2" style={{ zIndex: 500 }}>
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white rounded-md border border-line px-3 py-2" style={{ zIndex: 500 }}>
           <span className="text-[13px] font-semibold text-ink">{filtered.length}</span>
           <span className="text-[13px] text-faint ml-1.5">programs</span>
         </div>

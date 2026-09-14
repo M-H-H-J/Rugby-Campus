@@ -16,7 +16,8 @@ export default {
         ink: '#101E30',
         line: '#e5e9ef',
         muted: '#5b6b7d',
-        faint: '#8b98a8',
+        // Was #8b98a8 (2.94:1 on white — fails WCAG AA). Darkened to ≥4.5:1.
+        faint: '#6a747e',
       },
       borderRadius: {
         DEFAULT: '6px',

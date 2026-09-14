@@ -117,28 +117,28 @@ export default function CollegeDetail() {
             <section>
               <h2 className="font-heading text-[24px] text-ink mb-1.5">Weather</h2>
               <p className="text-[14px] text-muted mb-5">{college.weatherSummary}</p>
-              <div className="overflow-x-auto -mx-1 px-1">
-                <table className="w-full text-[12px] border-t border-line">
+              <div className="overflow-x-auto -mx-1 px-1 max-w-full overscroll-x-contain">
+                <table className="w-full min-w-[32rem] text-[11px] sm:text-[12px] border-t border-line">
                   <thead>
                     <tr className="text-faint">
-                      <th className="text-left font-medium py-2.5 pr-3">Month</th>
-                      {college.monthlyTemps.map((t) => <th key={t.month} className="font-medium py-2.5 px-1.5 text-center">{t.month}</th>)}
+                      <th className="text-left font-medium py-2.5 pr-2 sticky left-0 bg-white">Month</th>
+                      {college.monthlyTemps.map((t) => <th key={t.month} className="font-medium py-2.5 px-1 text-center">{t.month}</th>)}
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-3">High</td>
+                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white">High</td>
                       {college.monthlyTemps.map((t) => (
-                        <td key={t.month} className="py-2.5 px-1.5 text-center">
+                        <td key={t.month} className="py-2.5 px-1 text-center">
                           <span className="text-ink font-semibold">{t.hC}°</span>
                           <span className="block text-faint text-[10px]">{t.hF}°F</span>
                         </td>
                       ))}
                     </tr>
                     <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-3">Low</td>
+                      <td className="text-muted py-2.5 pr-2 sticky left-0 bg-white">Low</td>
                       {college.monthlyTemps.map((t) => (
-                        <td key={t.month} className="py-2.5 px-1.5 text-center">
+                        <td key={t.month} className="py-2.5 px-1 text-center">
                           <span className="text-ink font-semibold">{t.lC}°</span>
                           <span className="block text-faint text-[10px]">{t.lF}°F</span>
                         </td>
