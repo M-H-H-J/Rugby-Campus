@@ -113,3 +113,27 @@ From now on, any change you push to GitHub redeploys automatically.
 ## When something breaks
 
 Ask Cursor's AI chat (Cmd+L): *"this project won't start, here's the error: [paste]"*. It will fix most things. For anything bigger, come back to Claude with the error text.
+
+---
+
+## Part 5 — 2026–27 data update (do this once)
+
+The season rollover changed some data (UCLA moved to NCR D1; Western Washington replaces AIC). Your Supabase database still has the old rows, and the live site reads from Supabase first. To sync:
+
+1. Supabase → SQL Editor → paste the whole of `supabase-setup.sql` again → Run.
+   It's safe to re-run: existing rows are skipped, the update section at the bottom applies the changes.
+2. Refresh the site. UCLA now shows NCR D1 and Western Washington appears in the Pacific Northwest.
+
+## Part 6 — Going public (when you're ready)
+
+1. In the `public` folder, delete `robots.txt` and rename `robots.public.txt` to `robots.txt`. Push.
+   (The public version explicitly welcomes Google, Bing, GPTBot, ClaudeBot and PerplexityBot, and points them at your sitemap.)
+2. Vercel → Settings → Domains → add `rugbycampus.org` → add the DNS records at Cloudflare.
+3. Google Search Console → add property → verify via DNS → Sitemaps → submit `https://rugbycampus.org/sitemap.xml`.
+4. Bing Webmaster Tools → same (this is what ChatGPT search reads). You can import straight from Search Console.
+5. Every page is already pre-rendered as real HTML with structured data, so crawlers and AI assistants can read the whole site without JavaScript. `llms.txt` and `llms-full.txt` give AI tools a clean summary.
+
+## Coach data gaps (fill these first)
+
+These 12 programs have no head coach on file. Fix them in Supabase → Table Editor → colleges → `coach_name` / `coach_email`:
+Dartmouth, Notre Dame, Ohio State, Marian, Michigan, St. Thomas (MN), Southern Nazarene, Santa Clara, San Diego, Utah, Walsh, Western Washington.

@@ -15,19 +15,31 @@ export const articles: Article[] = [
   {
     id: 1,
     slug: "best-rugby-colleges-usa",
-    title: "Best Rugby Colleges in the USA (2026 Guide)",
-    metaTitle: "Best Rugby Colleges in the USA (2026 Guide) | Rugby Campus",
-    metaDescription: "Discover the top college rugby programs in the USA for 2026. Rankings, coach details, scholarship info, and what makes each program stand out.",
-    excerpt: "A comprehensive guide to the best college rugby programs in the United States — from D1A powerhouses to rising programs offering scholarships.",
+    title: "Best Rugby Colleges in America: The Top 40 Programs for 2026–27",
+    metaTitle: "Best Rugby Colleges in America (2026–27): Top 40 Programs, Tiered | Rugby Campus",
+    metaDescription: "The best universities to play rugby at in the USA for 2026–27: the top 40 college rugby programs across D1A and NCR D1, tiered on results, with scholarships, coach contacts and how to choose — from a championship-winning coach.",
+    excerpt: "The top 40 college rugby programs in the United States for 2026–27 — who's a genuine championship contender, who offers scholarships, and how to pick the right one for you.",
     category: "College Guide",
-    publishedDate: "2026-03-01",
-    readTime: "12 min read",
+    publishedDate: "2026-09-03",
+    readTime: "13 min read",
     content: `
-## The Best College Rugby Programs in America
+## The best college rugby programs in America, 2026–27
 
-If you're looking to play rugby at a US college, you're in the right place. The college rugby landscape in America has grown significantly over the past decade, with programs now competing across multiple divisions and conferences. Some schools offer scholarships, others have world-class facilities, and a select few have produced players who've gone on to play professionally in Major League Rugby (MLR) and represent the United States at international level.
+If you're looking for the best universities to play rugby at in the USA, this is the guide. It's written by someone who was recruited to a US college program from Australia at 17, captained it, and came back to coach it to a national championship — so it's opinionated where it needs to be.
 
-This guide breaks down the top programs, what makes each one different, and how to figure out which one might be right for you.
+The short version: the strongest programs right now are **Cal (back-to-back D1A national champions, 2025 and 2026), Navy, Life, Saint Mary's, and Lindenwood** at the top of CRAA D1A, and **St. Bonaventure (2025 champions), Queens, Brown, and Walsh** at the top of NCR D1. Below them sits a deep group of playoff-calibre programs, and then a long tail of genuinely good rugby environments where you'd play every week.
+
+On Rugby Campus we sort all 40 into three tiers rather than ranking them 1 to 40, because rankings shift weekly and no single authority agrees on them — Goff Rugby Report and NCR regularly publish different lists. Tiers are honest; numbers are false precision. You can browse all 40, with coach contacts, on the [colleges page](/colleges).
+
+## How college rugby is structured in the USA
+
+American college rugby has two main governing bodies at the top level, and you need to understand both.
+
+**CRAA D1A** (College Rugby Association of America) is the highest level of college rugby. The spring playoffs decide the national champion. In 2026, Cal beat Navy 36–22 in the final in Indianapolis to complete a perfect 17–0 season and go back-to-back. New D1A entrants for 2026–27 include St. Thomas (Minnesota), Santa Clara, San Diego, Utah, and Western Washington.
+
+**NCR D1** (National Collegiate Rugby) runs a fall championship. St. Bonaventure won the 2025 title over Queens, and Walsh University — which inherited the Notre Dame College program that won the 2023 title — is a consistent contender. For 2026–27, UCLA has moved from CRAA D1A into NCR D1.
+
+The honest take on the difference: the very top of D1A is stronger than the top of NCR D1, but the middle of both divisions is closer than people think, and an NCR D1 starter often develops faster than a D1A bench player.
 
 ## How College Rugby is Structured in the USA
 
@@ -104,7 +116,28 @@ Choosing the right college rugby program isn't just about who's ranked highest. 
 4. **Visit if possible** — Nothing replaces seeing a campus and meeting the team in person.
 
 Ready to explore? Browse our full list of college rugby programs or check out our interactive map to see where these programs are located across the country.
-    `.trim(),
+    
+
+## Frequently asked questions
+
+**What is the best rugby college in America?**
+Cal (University of California, Berkeley) is the best college rugby program in America right now: back-to-back CRAA D1A national champions in 2025 and 2026, a perfect 17–0 season in 2026, and 30 XVs national titles under long-time coach Jack Clark. Navy, Life, Saint Mary's and Lindenwood complete the top tier. In NCR D1, St. Bonaventure (2025 champions) and Queens lead.
+
+**Which US universities offer rugby scholarships?**
+Rugby scholarships in the US are mostly at smaller private universities that run rugby as a varsity sport: Life University, Lindenwood, Davenport, McKendree, Mount St. Mary's, Queens, St. Bonaventure, Walsh and Belmont Abbey among them. Large public universities like Cal, Penn State and Ohio State usually run rugby as a club sport with limited or no athletic scholarships, though academic aid may be available.
+
+**What is the difference between D1A and NCR D1 rugby?**
+CRAA D1A is the top level of US college rugby, with a spring national playoff; NCR D1 is run by a separate governing body with a fall championship. The top of D1A is stronger, but the middle of both divisions overlaps, and programs move between them — UCLA moved from D1A to NCR D1 for 2026–27.
+
+**Can international students play college rugby in the USA?**
+Yes. Programs actively recruit from Australia, New Zealand, the UK, Ireland, South Africa and the Pacific Islands. You do not need an agency — you can email coaches directly, and every profile on Rugby Campus includes coach contact details. Agencies typically charge US$7,000–11,500; a direct approach costs nothing.
+
+**How many college rugby programs are there in the USA?**
+There are roughly 900 college rugby programs across the United States. Around 40 of them compete at the top level across CRAA D1A and NCR D1 — those are the programs profiled on Rugby Campus.
+
+**How do I get recruited to play college rugby in America?**
+Build a short highlight reel, write a one-page profile with your position, size, and playing history, and email coaches directly with a specific, honest note about why their program. Coaches reply to players. Read the full recruitment guide on Rugby Campus, or work with Hugh directly if you want the shortlist and outreach done for you.
+`.trim(),
   },
   {
     id: 2,
@@ -174,6 +207,7 @@ When you're evaluating programs on this site or anywhere else, weight these far 
 **The trajectory, not the snapshot.** A program that went 4-4 with a young squad is often a better bet than one that went 7-1 with fifteen graduating seniors.
 
 Rankings are a photograph of last season. You're choosing where to spend the next four years. Look at the film, not the photo.
+
 `,
   },
   {

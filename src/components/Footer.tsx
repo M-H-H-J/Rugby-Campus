@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Explore */}
           <div>
             <h4 className="text-[11px] font-semibold text-white/40 uppercase tracking-caps mb-3">Explore</h4>
-            {[['/map', 'Interactive map'], ['/colleges', 'All colleges'], ['/learn', 'Guides'], ['/training', 'Training'], ['/about', 'About']].map(([href, label]) => (
+            {[['/map', 'Interactive map'], ['/colleges', 'All colleges'], ['/learn', 'Guides'], ['/work-with-me', 'Work with me'], ['/for-coaches', 'For coaches'], ['/about', 'About']].map(([href, label]) => (
               <Link key={href} href={href} className="block text-white/45 hover:text-white/80 text-xs py-1 transition-colors">{label}</Link>
             ))}
           </div>

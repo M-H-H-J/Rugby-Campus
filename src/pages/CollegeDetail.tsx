@@ -165,7 +165,7 @@ export default function CollegeDetail() {
               <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium hover:text-navy-deep">
                 Read how recruitment works
               </Link>{' '}
-              — or <Link href="/about" className="text-navy font-medium hover:text-navy-deep">work with me directly</Link>.
+              — or <Link href="/work-with-me" className="text-navy font-medium hover:text-navy-deep">work with me directly</Link>.
             </p>
           </div>
         </aside>

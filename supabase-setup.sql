@@ -99,9 +99,9 @@ on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
   'university-of-california-los-angeles-ucla','University of California, Los Angeles (UCLA)','Los Angeles, California','California','west',
   34.0522,-118.2437,85.5,357.2,
-  'CRAA D1A','Independent','competitive','Club',
+  'NCR D1','Independent','playoff','Club',
   4,54,'Harry Bennett','hbennett@recreation.ucla.edu',
-  'UCLA rugby plays on one of the best rugby fields in the country at Wallis Annenberg Stadium with live scoreboards and video replay capabilities.',48651,'["Engineering", "Life Sciences", "Social Sciences", "Psychology"]',
+  'UCLA moved from CRAA D1A to NCR D1 for the 2026–27 season and immediately enters the NCR conversation as a contender. The Bruins play on one of the best rugby fields in the country at Wallis Annenberg Stadium, with live scoreboards and video replay, and have produced four MLR draft picks.',48651,'["Engineering", "Life Sciences", "Social Sciences", "Psychology"]',
   'Warm summers, mild winters.','[{"month": "Jan", "hF": 68, "lF": 48, "hC": 20, "lC": 9}, {"month": "Feb", "hF": 69, "lF": 50, "hC": 21, "lC": 10}, {"month": "Mar", "hF": 72, "lF": 53, "hC": 22, "lC": 12}, {"month": "Apr", "hF": 75, "lF": 56, "hC": 24, "lC": 13}, {"month": "May", "hF": 77, "lF": 60, "hC": 25, "lC": 16}, {"month": "Jun", "hF": 81, "lF": 64, "hC": 27, "lC": 18}, {"month": "Jul", "hF": 85, "lF": 68, "hC": 29, "lC": 20}, {"month": "Aug", "hF": 85, "lF": 68, "hC": 29, "lC": 20}, {"month": "Sep", "hF": 83, "lF": 66, "hC": 28, "lC": 19}, {"month": "Oct", "hF": 78, "lF": 61, "hC": 26, "lC": 16}, {"month": "Nov", "hF": 73, "lF": 54, "hC": 23, "lC": 12}, {"month": "Dec", "hF": 68, "lF": 48, "hC": 20, "lC": 9}]',
   '["4 MLR Draft Picks"]','["PAC Rugby Conference Championships", "National Tournament appearances"]',
   'https://www.ucla.edu','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80','mens')
@@ -427,12 +427,18 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   'https://www.fairfield.edu','https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
-  'american-international-college','American International College','Springfield, Massachusetts','Massachusetts','northeast',
-  42.112,-72.5657,872.1,175.8,
-  'NCR D1','Liberty','competitive','Club',
-  0,49,'','',
-  'American International College in Springfield, Massachusetts is a consistent NCR D1 program with a strong tradition of recruiting internationally — true to its name. AIC offers a genuine varsity-style rugby environment in the Northeast with a roster that regularly features players from across the rugby world.',2100,'["Business", "Criminal Justice", "Nursing", "Exercise Science"]',
-  'Warm summers, cold snowy winters.','[{"month": "Jan", "hF": 32, "lF": 14, "hC": 0, "lC": -10}, {"month": "Feb", "hF": 36, "lF": 17, "hC": 2, "lC": -8}, {"month": "Mar", "hF": 46, "lF": 26, "hC": 8, "lC": -3}, {"month": "Apr", "hF": 59, "lF": 37, "hC": 15, "lC": 3}, {"month": "May", "hF": 70, "lF": 47, "hC": 21, "lC": 8}, {"month": "Jun", "hF": 78, "lF": 57, "hC": 26, "lC": 14}, {"month": "Jul", "hF": 83, "lF": 62, "hC": 28, "lC": 17}, {"month": "Aug", "hF": 81, "lF": 61, "hC": 27, "lC": 16}, {"month": "Sep", "hF": 73, "lF": 52, "hC": 23, "lC": 11}, {"month": "Oct", "hF": 62, "lF": 41, "hC": 17, "lC": 5}, {"month": "Nov", "hF": 50, "lF": 31, "hC": 10, "lC": -1}, {"month": "Dec", "hF": 37, "lF": 20, "hC": 3, "lC": -7}]',
-  '[]','[]',
-  'https://www.aic.edu','https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80','mens')
+  'western-washington-university','Western Washington University','Bellingham, Washington','Washington','west',
+  48.7343,-122.4867,100.7,20.6,
+  'CRAA D1A','Independent','competitive','Club',
+  0,0,'','',
+  'Western Washington University in Bellingham is the Pacific Northwest''s D1A program for 2026–27, stepping into the space left by Central Washington''s discontinued program. A fast-growing club with a strong regional player base, a spectacular campus between the Cascades and the Salish Sea, and a chance to be part of a program on the rise.',14700,'["Business", "Environmental Science", "Education", "Computer Science"]',
+  'Mild summers, cool wet winters.','[{"month": "Jan", "hF": 47, "lF": 36, "hC": 8, "lC": 2}, {"month": "Feb", "hF": 50, "lF": 37, "hC": 10, "lC": 3}, {"month": "Mar", "hF": 54, "lF": 39, "hC": 12, "lC": 4}, {"month": "Apr", "hF": 59, "lF": 42, "hC": 15, "lC": 6}, {"month": "May", "hF": 65, "lF": 47, "hC": 18, "lC": 8}, {"month": "Jun", "hF": 69, "lF": 51, "hC": 21, "lC": 11}, {"month": "Jul", "hF": 74, "lF": 54, "hC": 23, "lC": 12}, {"month": "Aug", "hF": 74, "lF": 54, "hC": 23, "lC": 12}, {"month": "Sep", "hF": 69, "lF": 50, "hC": 21, "lC": 10}, {"month": "Oct", "hF": 59, "lF": 44, "hC": 15, "lC": 7}, {"month": "Nov", "hF": 51, "lF": 39, "hC": 11, "lC": 4}, {"month": "Dec", "hF": 46, "lF": 35, "hC": 8, "lC": 2}]',
+  '["New to D1A for 2026–27"]','[]',
+  'https://www.wwu.edu','https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80','mens')
 on conflict (slug) do nothing;
+
+-- ── 2026-27 season updates (safe to re-run) ──
+update colleges set affiliation='NCR D1', tier='playoff',
+  description='UCLA moved from CRAA D1A to NCR D1 for the 2026–27 season and immediately enters the NCR conversation as a contender. The Bruins play on one of the best rugby fields in the country at Wallis Annenberg Stadium, with live scoreboards and video replay, and have produced four MLR draft picks.'
+  where slug='university-of-california-los-angeles-ucla';
+delete from colleges where slug='american-international-college';

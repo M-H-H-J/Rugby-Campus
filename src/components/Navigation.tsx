@@ -50,6 +50,9 @@ export default function Navigation() {
                 )}
               </Link>
             ))}
+            <Link href="/work-with-me" className="btn ml-2 bg-navy text-white text-[13px] font-semibold px-4 py-2 rounded-md">
+              Work with me
+            </Link>
           </div>
 
           <button className="md:hidden text-ink p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
@@ -60,7 +63,7 @@ export default function Navigation() {
 
       {open && (
         <div className="md:hidden bg-white border-t border-line">
-          {navItems.map((item) => (
+          {[...navItems, { href: '/work-with-me', label: 'Work with me' }].map((item) => (
             <Link
               key={item.href}
               href={item.href}

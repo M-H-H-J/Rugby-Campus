@@ -10,6 +10,8 @@ import Learn from '@/pages/Learn';
 import ArticlePage from '@/pages/ArticlePage';
 import Training from '@/pages/Training';
 import About from '@/pages/About';
+import WorkWithMe from '@/pages/WorkWithMe';
+import ForCoaches from '@/pages/ForCoaches';
 
 // Scroll to top on every route change
 function ScrollToTop() {
@@ -35,6 +37,8 @@ export default function App() {
           <Route path="/learn/:slug" component={ArticlePage} />
           <Route path="/training" component={Training} />
           <Route path="/about" component={About} />
+          <Route path="/work-with-me" component={WorkWithMe} />
+          <Route path="/for-coaches" component={ForCoaches} />
           <Route>
             <div className="max-w-6xl mx-auto px-5 py-24 text-center">
               <h1 className="font-heading text-[32px] text-ink mb-3">Page not found</h1>

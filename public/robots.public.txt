@@ -1,0 +1,25 @@
+# Rugby Campus — PUBLIC robots.txt
+# When you're ready to go live: rename this file to robots.txt (replacing the Disallow version).
+
+User-agent: *
+Allow: /
+
+# AI assistants and their crawlers are explicitly welcome
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://rugbycampus.org/sitemap.xml

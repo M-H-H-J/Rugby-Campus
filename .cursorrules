@@ -1,0 +1,25 @@
+Read AGENTS.md in the repo root before making any change. It contains the
+architecture, the design system rules, the data rules, and a list of things
+that must not be broken. Follow it exactly.
+
+Hard rules, repeated here because they are the most commonly violated:
+
+1. public/robots.txt contains "Disallow: /" ON PURPOSE. The site is private
+   pre-launch. Never change it.
+2. `npm run build` must end with BOTH "✓ built" and
+   "prerendered 54 pages + sitemap.xml + llms-full.txt". If the prerender line
+   is missing, the build is broken. Never delete scripts/prerender.mjs.
+3. Never blank the Supabase values in src/config.ts.
+4. Never run `npm audit fix`.
+5. Design: headings use Newsreader (font-heading), body uses Libre Franklin
+   (font-body). Colours come only from the Tailwind tokens (navy, gold, dark,
+   ink, line, muted, faint) — never gray-400 or hex literals. Cards are
+   borderless. Section labels use the .kicker class, never a coloured pill or
+   badge. Radii 6-12px, never rounded-2xl. One gold element per screen.
+6. Never invent coach names, emails, match results, rankings or scholarship
+   claims. Blank is correct when a fact is unverified.
+7. Colleges are grouped in tiers (championship / playoff / competitive), never
+   ranked 1-40.
+
+Always run `npm run build` and report both success lines before saying a task
+is done.

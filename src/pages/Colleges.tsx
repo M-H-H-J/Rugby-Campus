@@ -44,7 +44,7 @@ export default function Colleges() {
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
           <p className="kicker mb-2">{SEASON_LABEL}</p>
-          <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink">The 40 programs</h1>
+          <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink">The 40 best college rugby programs in America</h1>
         </div>
         <Link href="/map" className="btn inline-flex items-center gap-2 self-start md:self-auto border border-line text-ink px-4 py-2.5 rounded-md text-[13px] font-semibold hover:border-navy/40">
           <MapIcon size={15} /> Map view

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Lock, Check, Mail } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { CONTACT_EMAIL } from '@/config';
+import { Link } from 'wouter';
 
 export default function Training() {
   usePageMeta('Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching from a national championship-winning college coach.');
@@ -104,10 +104,9 @@ export default function Training() {
                 </li>
               ))}
             </ul>
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Individualised%20Coaching`}
-              className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+            <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
               <Mail size={15} /> Enquire about coaching
-            </a>
+            </Link>
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
             <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>

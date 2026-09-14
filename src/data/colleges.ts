@@ -20,7 +20,7 @@ export const TIER_LABELS: Record<Tier, string> = {
   competitive: 'Competitive Top 40',
 };
 
-export const SEASON_LABEL = 'Based on final 2025\u201326 season results';
+export const SEASON_LABEL = '2026\u201327 season \u00b7 tiers based on final 2025\u201326 results and early-season rankings';
 
 // Fallback dataset — the site loads from Supabase first, then falls back to this.
 export const colleges: College[] = [
@@ -112,10 +112,10 @@ export const colleges: College[] = [
     id: 7, slug: "university-of-california-los-angeles-ucla", name: "University of California, Los Angeles (UCLA)",
     location: "Los Angeles, California", state: "California", region: "west",
     lat: 34.0522, lng: -118.2437, mapX: 85.5, mapY: 357.2,
-    affiliation: "CRAA D1A", conference: "Independent", tier: "competitive", programType: "Club",
+    affiliation: "NCR D1", conference: "Independent", tier: "playoff", programType: "Club",
     draftPicks: 4, playerCount: 54,
     coachName: "Harry Bennett", coachEmail: "hbennett@recreation.ucla.edu",
-    description: "UCLA rugby plays on one of the best rugby fields in the country at Wallis Annenberg Stadium with live scoreboards and video replay capabilities.",
+    description: "UCLA moved from CRAA D1A to NCR D1 for the 2026–27 season and immediately enters the NCR conversation as a contender. The Bruins play on one of the best rugby fields in the country at Wallis Annenberg Stadium, with live scoreboards and video replay, and have produced four MLR draft picks.",
     enrollment: 48651, popularMajors: ["Engineering", "Life Sciences", "Social Sciences", "Psychology"],
     weatherSummary: "Warm summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:68,lF:48,hC:20,lC:9},{month:"Feb",hF:69,lF:50,hC:21,lC:10},{month:"Mar",hF:72,lF:53,hC:22,lC:12},{month:"Apr",hF:75,lF:56,hC:24,lC:13},{month:"May",hF:77,lF:60,hC:25,lC:16},{month:"Jun",hF:81,lF:64,hC:27,lC:18},{month:"Jul",hF:85,lF:68,hC:29,lC:20},{month:"Aug",hF:85,lF:68,hC:29,lC:20},{month:"Sep",hF:83,lF:66,hC:28,lC:19},{month:"Oct",hF:78,lF:61,hC:26,lC:16},{month:"Nov",hF:73,lF:54,hC:23,lC:12},{month:"Dec",hF:68,lF:48,hC:20,lC:9}],
@@ -571,19 +571,20 @@ export const colleges: College[] = [
     website: "https://www.fairfield.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
   },
   {
-    id: 40, slug: "american-international-college", name: "American International College",
-    location: "Springfield, Massachusetts", state: "Massachusetts", region: "northeast",
-    lat: 42.112, lng: -72.5657, mapX: 872.1, mapY: 175.8,
-    affiliation: "NCR D1", conference: "Liberty", tier: "competitive", programType: "Club",
-    draftPicks: 0, playerCount: 49,
+    id: 40, slug: "western-washington-university", name: "Western Washington University",
+    location: "Bellingham, Washington", state: "Washington", region: "west",
+    lat: 48.7343, lng: -122.4867, mapX: 100.7, mapY: 20.6,
+    affiliation: "CRAA D1A", conference: "Independent", tier: "competitive", programType: "Club",
+    draftPicks: 0, playerCount: 0,
     coachName: "", coachEmail: "",
-    description: "American International College in Springfield, Massachusetts is a consistent NCR D1 program with a strong tradition of recruiting internationally — true to its name. AIC offers a genuine varsity-style rugby environment in the Northeast with a roster that regularly features players from across the rugby world.",
-    enrollment: 2100, popularMajors: ["Business", "Criminal Justice", "Nursing", "Exercise Science"],
-    weatherSummary: "Warm summers, cold snowy winters.",
-    monthlyTemps: [{month:"Jan",hF:32,lF:14,hC:0,lC:-10},{month:"Feb",hF:36,lF:17,hC:2,lC:-8},{month:"Mar",hF:46,lF:26,hC:8,lC:-3},{month:"Apr",hF:59,lF:37,hC:15,lC:3},{month:"May",hF:70,lF:47,hC:21,lC:8},{month:"Jun",hF:78,lF:57,hC:26,lC:14},{month:"Jul",hF:83,lF:62,hC:28,lC:17},{month:"Aug",hF:81,lF:61,hC:27,lC:16},{month:"Sep",hF:73,lF:52,hC:23,lC:11},{month:"Oct",hF:62,lF:41,hC:17,lC:5},{month:"Nov",hF:50,lF:31,hC:10,lC:-1},{month:"Dec",hF:37,lF:20,hC:3,lC:-7}],
-    badges: [], achievements: [],
-    website: "https://www.aic.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80", gender: "mens",
-  },
+    description: "Western Washington University in Bellingham is the Pacific Northwest's D1A program for 2026–27, stepping into the space left by Central Washington's discontinued program. A fast-growing club with a strong regional player base, a spectacular campus between the Cascades and the Salish Sea, and a chance to be part of a program on the rise.",
+    enrollment: 14700, popularMajors: ["Business", "Environmental Science", "Education", "Computer Science"],
+    weatherSummary: "Mild summers, cool wet winters.",
+    monthlyTemps: [{month:"Jan",hF:47,lF:36,hC:8,lC:2},{month:"Feb",hF:50,lF:37,hC:10,lC:3},{month:"Mar",hF:54,lF:39,hC:12,lC:4},{month:"Apr",hF:59,lF:42,hC:15,lC:6},{month:"May",hF:65,lF:47,hC:18,lC:8},{month:"Jun",hF:69,lF:51,hC:21,lC:11},{month:"Jul",hF:74,lF:54,hC:23,lC:12},{month:"Aug",hF:74,lF:54,hC:23,lC:12},{month:"Sep",hF:69,lF:50,hC:21,lC:10},{month:"Oct",hF:59,lF:44,hC:15,lC:7},{month:"Nov",hF:51,lF:39,hC:11,lC:4},{month:"Dec",hF:46,lF:35,hC:8,lC:2}],
+    badges: ["New to D1A for 2026–27"], achievements: [],
+    website: "https://www.wwu.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",
+    gender: "mens",
+  }
 ];
 
 export function getCollegeBySlug(slug: string) { return colleges.find(c => c.slug === slug); }

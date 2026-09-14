@@ -1,7 +1,6 @@
 import { Link } from 'wouter';
 import { Mail, ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { CONTACT_EMAIL } from '@/config';
 
 export default function About() {
   usePageMeta('About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship-winning head coach. Why Rugby Campus exists.');
@@ -62,10 +61,9 @@ export default function About() {
         <p className="text-white/55 text-[14.5px] leading-relaxed mb-7 max-w-lg">
           For players and parents who want hands-on help with the US pathway — choosing programs, approaching coaches, and arriving ready to compete. And for coaches who want their program in front of the right international recruits.
         </p>
-        <a href={`mailto:${CONTACT_EMAIL}`}
-          className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
-          <Mail size={15} /> Get in touch
-        </a>
+        <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+          <Mail size={15} /> See how it works
+        </Link>
       </section>
 
       <div className="flex items-center justify-between py-6 border-t border-line">

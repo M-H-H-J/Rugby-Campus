@@ -46,10 +46,22 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       worldCopyJump: true,
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
+    // Resilience: if OSM tiles fail (rate-limits, outages), fall back to CARTO's OSM-based tiles
+    let tileErrors = 0;
+    osm.on('tileerror', () => {
+      tileErrors += 1;
+      if (tileErrors === 4) {
+        map.removeLayer(osm);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+          maxZoom: 19, subdomains: 'abcd',
+        }).addTo(map);
+      }
+    });
 
     layerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
@@ -63,10 +75,12 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       }
     });
 
-    // Fix sizing after mount
+    // Keep sizing correct after mount and whenever the container resizes (rotation, layout shifts)
     setTimeout(() => map.invalidateSize(), 100);
+    const ro = new ResizeObserver(() => map.invalidateSize());
+    ro.observe(ref.current);
 
-    return () => { map.remove(); mapRef.current = null; };
+    return () => { ro.disconnect(); map.remove(); mapRef.current = null; };
   }, []);
 
   // Update markers when colleges change
@@ -93,7 +107,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
             <span style="font-size:10px;font-weight:600;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:5px">${c.affiliation}</span>
             ${c.draftPicks > 0 ? `<span style="font-size:10px;font-weight:700;background:rgba(255,183,0,0.15);color:#9a6e00;padding:2px 7px;border-radius:5px">${c.draftPicks} MLR picks</span>` : ''}
           </div>
-          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:12px;font-weight:600;background:${navy};color:white;padding:8px;border-radius:6px;border:none;cursor:pointer">View Full Profile →</button>
+          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:10px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View full profile →</button>
         </div>
       `;
 
@@ -108,6 +122,11 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
 
       marker.addTo(layer);
     });
+
+    if (colleges.length > 0) {
+      const bounds = L.latLngBounds(colleges.map((c) => [c.lat, c.lng] as [number, number]));
+      map.fitBounds(bounds.pad(0.12), { maxZoom: 6, animate: false });
+    }
   }, [colleges]);
 
   return <div ref={ref} style={{ width: '100%', height, background: '#e8edf2' }} />;
