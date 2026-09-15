@@ -317,14 +317,14 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   'https://www.snu.edu','https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
-  'mckendree-university','McKendree University','Lebanon, Illinois','Illinois','midwest',
-  38.6037,-89.7276,598.7,298.6,
-  'CRAA D1A','Midwest','competitive','Varsity',
-  0,45,'Cameron Wyper','',
-  'McKendree University is a small private school 25 miles east of St. Louis where rugby is a fully funded varsity sport — one of the few in the country. Head Coach Cameron Wyper, a former Scotland 7s international, has built a roster with strong international representation from Ireland, the UK, and Australia. With genuine rugby scholarships and a small-school feel, McKendree is a popular pathway for overseas players entering American college rugby.',2300,'["Nursing", "Business", "Education", "Computer Science"]',
-  'Warm summers, cold winters with snow.','[{"month": "Jan", "hF": 39, "lF": 22, "hC": 4, "lC": -6}, {"month": "Feb", "hF": 45, "lF": 27, "hC": 7, "lC": -3}, {"month": "Mar", "hF": 56, "lF": 37, "hC": 13, "lC": 3}, {"month": "Apr", "hF": 68, "lF": 48, "hC": 20, "lC": 9}, {"month": "May", "hF": 77, "lF": 58, "hC": 25, "lC": 14}, {"month": "Jun", "hF": 86, "lF": 67, "hC": 30, "lC": 19}, {"month": "Jul", "hF": 89, "lF": 71, "hC": 32, "lC": 22}, {"month": "Aug", "hF": 88, "lF": 69, "hC": 31, "lC": 21}, {"month": "Sep", "hF": 80, "lF": 61, "hC": 27, "lC": 16}, {"month": "Oct", "hF": 69, "lF": 49, "hC": 21, "lC": 9}, {"month": "Nov", "hF": 55, "lF": 38, "hC": 13, "lC": 3}, {"month": "Dec", "hF": 42, "lF": 26, "hC": 6, "lC": -3}]',
-  '["Rugby Scholarships Available"]','[]',
-  'https://www.mckendree.edu','https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80','mens')
+  'california-state-university-long-beach','California State University Long Beach','Long Beach, California','California','west',
+  33.783,-118.1129,86.4,363.7,
+  'CRAA D1A','California','playoff','Club',
+  0,0,'Peter Sio','',
+  'California State University Long Beach (CSULB / Long Beach State) competes in CRAA D1A''s California Conference. The 49ers moved into D1A and have held their own in one of the toughest conferences in the country, under Head Coach Peter Sio, a former USA 7s player with deep Belmont Shore roots. A large public campus on the Southern California coast for players who want D1A rugby without leaving the LA basin.',40057,'["Business", "Engineering", "Health Sciences", "Liberal Arts"]',
+  'Mild, dry summers and mild winters.','[{"month": "Jan", "hF": 68, "lF": 48, "hC": 20, "lC": 9}, {"month": "Feb", "hF": 68, "lF": 50, "hC": 20, "lC": 10}, {"month": "Mar", "hF": 69, "lF": 52, "hC": 21, "lC": 11}, {"month": "Apr", "hF": 72, "lF": 55, "hC": 22, "lC": 13}, {"month": "May", "hF": 74, "lF": 59, "hC": 23, "lC": 15}, {"month": "Jun", "hF": 78, "lF": 63, "hC": 26, "lC": 17}, {"month": "Jul", "hF": 83, "lF": 66, "hC": 28, "lC": 19}, {"month": "Aug", "hF": 84, "lF": 67, "hC": 29, "lC": 19}, {"month": "Sep", "hF": 83, "lF": 65, "hC": 28, "lC": 18}, {"month": "Oct", "hF": 78, "lF": 60, "hC": 26, "lC": 16}, {"month": "Nov", "hF": 73, "lF": 53, "hC": 23, "lC": 12}, {"month": "Dec", "hF": 68, "lF": 48, "hC": 20, "lC": 9}]',
+  '[]','[]',
+  'https://www.csulb.edu','https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
   'santa-clara-university','Santa Clara University','Santa Clara, California','California','west',
@@ -367,14 +367,14 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   'https://www.walsh.edu','https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
-  'siena-college','Siena College','Loudonville, New York','New York','northeast',
-  42.7184,-73.754,850,167.2,
-  'NCR D1','Liberty','playoff','Club',
-  0,40,'Greg Matthew','gmatthew@siena.edu',
-  'Siena College is a private Franciscan liberal arts school just outside Albany, New York, and a consistent NCR D1 playoff program in the Liberty Conference. The Saints made deep playoff runs in recent seasons and offer a close-knit campus community with competitive rugby in the Northeast corridor.',3497,'["Business", "Biology", "Psychology", "Finance"]',
-  'Warm summers, cold snowy winters.','[{"month": "Jan", "hF": 32, "lF": 17, "hC": 0, "lC": -8}, {"month": "Feb", "hF": 35, "lF": 19, "hC": 2, "lC": -7}, {"month": "Mar", "hF": 44, "lF": 27, "hC": 7, "lC": -3}, {"month": "Apr", "hF": 57, "lF": 37, "hC": 14, "lC": 3}, {"month": "May", "hF": 69, "lF": 47, "hC": 21, "lC": 8}, {"month": "Jun", "hF": 77, "lF": 57, "hC": 25, "lC": 14}, {"month": "Jul", "hF": 80, "lF": 61, "hC": 27, "lC": 16}, {"month": "Aug", "hF": 78, "lF": 59, "hC": 26, "lC": 15}, {"month": "Sep", "hF": 71, "lF": 52, "hC": 22, "lC": 11}, {"month": "Oct", "hF": 60, "lF": 41, "hC": 16, "lC": 5}, {"month": "Nov", "hF": 47, "lF": 32, "hC": 8, "lC": 0}, {"month": "Dec", "hF": 36, "lF": 23, "hC": 2, "lC": -5}]',
+  'fordham-university','Fordham University','Bronx, New York','New York','northeast',
+  40.8619,-73.8861,857.5,208.4,
+  'NCR D1','Liberty','competitive','Club',
+  0,0,'Federico Rienhardt','federico.44@live.com',
+  'Fordham University is a Jesuit university in the Bronx competing in NCR D1''s Liberty Conference. The Rams entered the early-season NCR Top 20 in fall 2026 and play in one of the strongest Northeast conferences, with Rose Hill campus a Metro-North stop from Manhattan. Club rugby with big-city access and serious Liberty competition.',16800,'["Business", "Communications", "Psychology", "Political Science"]',
+  'Hot summers, cold winters.','[{"month": "Jan", "hF": 39, "lF": 26, "hC": 4, "lC": -3}, {"month": "Feb", "hF": 42, "lF": 28, "hC": 6, "lC": -2}, {"month": "Mar", "hF": 51, "lF": 35, "hC": 11, "lC": 2}, {"month": "Apr", "hF": 62, "lF": 44, "hC": 17, "lC": 7}, {"month": "May", "hF": 72, "lF": 54, "hC": 22, "lC": 12}, {"month": "Jun", "hF": 80, "lF": 63, "hC": 27, "lC": 17}, {"month": "Jul", "hF": 85, "lF": 69, "hC": 29, "lC": 21}, {"month": "Aug", "hF": 83, "lF": 67, "hC": 28, "lC": 19}, {"month": "Sep", "hF": 76, "lF": 60, "hC": 24, "lC": 16}, {"month": "Oct", "hF": 65, "lF": 49, "hC": 18, "lC": 9}, {"month": "Nov", "hF": 54, "lF": 40, "hC": 12, "lC": 4}, {"month": "Dec", "hF": 44, "lF": 31, "hC": 7, "lC": -1}]',
   '[]','[]',
-  'https://www.siena.edu','https://images.unsplash.com/photo-1567168539593-59673ababaae?w=800&q=80','mens')
+  'https://www.fordham.edu','https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
   'kutztown-university','Kutztown University','Kutztown, Pennsylvania','Pennsylvania','northeast',
@@ -407,14 +407,14 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   'https://www.thomasmore.edu','https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
-  'iona-university','Iona University','New Rochelle, New York','New York','northeast',
-  40.9223,-73.7857,858.8,206.7,
-  'NCR D1','Liberty','competitive','Club',
-  2,38,'Connor Buckley','cbuckley@iona.edu',
-  'Iona University competes in NCR D1''s Liberty Conference from New Rochelle, just north of New York City. With two MLR draft picks and a location that puts Manhattan a short train ride away, Iona offers competitive Northeast rugby with unmatched access to the biggest city in America.',3134,'["Business", "Finance", "Communication", "Criminal Justice"]',
-  'Hot summers, cold winters.','[{"month": "Jan", "hF": 35, "lF": 20, "hC": 2, "lC": -7}, {"month": "Feb", "hF": 39, "lF": 23, "hC": 4, "lC": -5}, {"month": "Mar", "hF": 48, "lF": 31, "hC": 9, "lC": -1}, {"month": "Apr", "hF": 61, "lF": 42, "hC": 16, "lC": 6}, {"month": "May", "hF": 71, "lF": 52, "hC": 22, "lC": 11}, {"month": "Jun", "hF": 79, "lF": 61, "hC": 26, "lC": 16}, {"month": "Jul", "hF": 83, "lF": 66, "hC": 28, "lC": 19}, {"month": "Aug", "hF": 82, "lF": 64, "hC": 28, "lC": 18}, {"month": "Sep", "hF": 74, "lF": 56, "hC": 23, "lC": 13}, {"month": "Oct", "hF": 63, "lF": 45, "hC": 17, "lC": 7}, {"month": "Nov", "hF": 51, "lF": 35, "hC": 11, "lC": 2}, {"month": "Dec", "hF": 40, "lF": 26, "hC": 4, "lC": -3}]',
-  '["2 MLR Draft Picks"]','[]',
-  'https://www.iona.edu','https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80','mens')
+  'colorado-state-university','Colorado State University','Fort Collins, Colorado','Colorado','west',
+  40.5738,-105.0909,337.7,250.5,
+  'CRAA D1A','Rocky Mountain','playoff','Club',
+  0,30,'Joe Rusert-Cuddy','',
+  'Colorado State University is a CRAA D1A Rocky Mountain program based in Fort Collins. The Rams have reached the D1A national championships in consecutive seasons and sit among the stronger early-season D1A sides, behind conference rival BYU on the Rocky Mountain ladder. A large public research campus with Front Range access and a genuine pathway into high-level club rugby.',34412,'["Business", "Engineering", "Health Sciences", "Natural Resources"]',
+  'Warm, dry summers and cold, snowy winters.','[{"month": "Jan", "hF": 43, "lF": 17, "hC": 6, "lC": -8}, {"month": "Feb", "hF": 46, "lF": 20, "hC": 8, "lC": -7}, {"month": "Mar", "hF": 55, "lF": 27, "hC": 13, "lC": -3}, {"month": "Apr", "hF": 62, "lF": 34, "hC": 17, "lC": 1}, {"month": "May", "hF": 71, "lF": 43, "hC": 22, "lC": 6}, {"month": "Jun", "hF": 82, "lF": 51, "hC": 28, "lC": 11}, {"month": "Jul", "hF": 88, "lF": 57, "hC": 31, "lC": 14}, {"month": "Aug", "hF": 86, "lF": 55, "hC": 30, "lC": 13}, {"month": "Sep", "hF": 78, "lF": 46, "hC": 26, "lC": 8}, {"month": "Oct", "hF": 65, "lF": 35, "hC": 18, "lC": 2}, {"month": "Nov", "hF": 52, "lF": 25, "hC": 11, "lC": -4}, {"month": "Dec", "hF": 43, "lF": 17, "hC": 6, "lC": -8}]',
+  '[]','["D1A National Championship appearances"]',
+  'https://www.colostate.edu','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
   'fairfield-university','Fairfield University','Fairfield, Connecticut','Connecticut','northeast',
@@ -442,3 +442,5 @@ update colleges set affiliation='NCR D1', tier='playoff',
   description='UCLA moved from CRAA D1A to NCR D1 for the 2026–27 season and immediately enters the NCR conversation as a contender. The Bruins play on one of the best rugby fields in the country at Wallis Annenberg Stadium, with live scoreboards and video replay, and have produced four MLR draft picks.'
   where slug='university-of-california-los-angeles-ucla';
 delete from colleges where slug='american-international-college';
+-- College selection swaps (Hugh-approved, early fall 2026 Goff rankings)
+delete from colleges where slug in ('iona-university','mckendree-university','siena-college');
