@@ -12,6 +12,9 @@ create table if not exists colleges (
   weather_summary text, monthly_temps jsonb default '[]',
   badges jsonb default '[]', achievements jsonb default '[]',
   website text, image_url text, gender text default 'mens',
+  niche_overall_grade text, niche_academics_grade text, niche_value_grade text, niche_location_grade text,
+  niche_enrollment int, acceptance_rate int, setting text,
+  niche_source_url text, niche_data_as_of text, niche_paywalled boolean default false, niche_notes text,
   updated_at timestamptz default now()
 );
 
@@ -442,3 +445,25 @@ update colleges set affiliation='NCR D1', tier='playoff',
   description='UCLA moved from CRAA D1A to NCR D1 for the 2026–27 season and immediately enters the NCR conversation as a contender. The Bruins play on one of the best rugby fields in the country at Wallis Annenberg Stadium, with live scoreboards and video replay, and have produced four MLR draft picks.'
   where slug='university-of-california-los-angeles-ucla';
 delete from colleges where slug='american-international-college';
+
+-- ── 2026-09-15 Wheeling scholarship badge ──
+update colleges set badges='["Rugby Scholarships Available"]'
+  where slug='wheeling-university';
+
+-- ── Niche enrichment columns (2026-09-15) ──
+-- New columns added to table definition above:
+--   niche_overall_grade, niche_academics_grade, niche_value_grade, niche_location_grade,
+--   niche_enrollment, acceptance_rate, setting,
+--   niche_source_url, niche_data_as_of, niche_paywalled, niche_notes
+-- 
+-- The TypeScript source of truth (src/data/colleges.ts) contains all 40 rows with Niche data.
+-- To sync Supabase with the bundled data, run the full seed above on a fresh database,
+-- or use a migration script to update existing rows with the new columns.
+-- Example update for one college:
+--   UPDATE colleges SET
+--     niche_overall_grade = 'A+', niche_academics_grade = 'A+', niche_value_grade = 'A',
+--     niche_location_grade = 'A', niche_enrollment = 33070, acceptance_rate = 11,
+--     setting = 'City', niche_source_url = 'https://www.niche.com/colleges/university-of-california-berkeley/',
+--     niche_data_as_of = '2026-09-15', niche_paywalled = false,
+--     niche_notes = 'Niche labels location as Midsize City; mapped to City.'
+--   WHERE slug = 'university-of-california-berkeley';

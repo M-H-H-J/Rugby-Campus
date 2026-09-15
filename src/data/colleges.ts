@@ -2,6 +2,8 @@ export type Tier = 'championship' | 'playoff' | 'competitive';
 export type Gender = 'mens' | 'womens';
 export interface MonthTemp { month: string; hF: number; lF: number; hC: number; lC: number; }
 
+export type Setting = 'City' | 'Suburban' | 'Town' | 'Rural';
+
 export interface College {
   id: number; slug: string; name: string; location: string; state: string; region: string;
   lat: number; lng: number; mapX: number; mapY: number;
@@ -12,6 +14,17 @@ export interface College {
   weatherSummary: string; monthlyTemps: MonthTemp[];
   badges: string[]; achievements: string[];
   website: string; imageUrl: string; gender: Gender;
+  nicheOverallGrade?: string | null;
+  nicheAcademicsGrade?: string | null;
+  nicheValueGrade?: string | null;
+  nicheLocationGrade?: string | null;
+  nicheEnrollment?: number | null;
+  acceptanceRate?: number | null;
+  setting?: Setting | null;
+  nicheSourceUrl?: string | null;
+  nicheDataAsOf?: string | null;
+  nichePaywalled?: boolean | null;
+  nicheNotes?: string | null;
 }
 
 export const TIER_LABELS: Record<Tier, string> = {
@@ -37,6 +50,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:58,lF:45,hC:14,lC:7},{month:"Feb",hF:62,lF:47,hC:17,lC:8},{month:"Mar",hF:65,lF:49,hC:18,lC:9},{month:"Apr",hF:68,lF:51,hC:20,lC:11},{month:"May",hF:72,lF:54,hC:22,lC:12},{month:"Jun",hF:75,lF:57,hC:24,lC:14},{month:"Jul",hF:75,lF:58,hC:24,lC:14},{month:"Aug",hF:76,lF:59,hC:24,lC:15},{month:"Sep",hF:77,lF:58,hC:25,lC:14},{month:"Oct",hF:73,lF:55,hC:23,lC:13},{month:"Nov",hF:65,lF:50,hC:18,lC:10},{month:"Dec",hF:58,lF:45,hC:14,lC:7}],
     badges: ["4 MLR Draft Picks", "2026 D1A National Champions", "Back-to-Back Champions (2025 & 2026)"], achievements: ["33-time National Champions", "PAC Rugby Conference Titles"],
     website: "https://www.berkeley.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "A", nicheLocationGrade: "A", nicheEnrollment: 33070, acceptanceRate: 11, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-california-berkeley/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche labels location as Midsize City; mapped to City. Total undergrad students 33,070 (full-time 31,576 + part-time 1,494).",
   },
   {
     id: 2, slug: "united-states-naval-academy", name: "United States Naval Academy",
@@ -51,6 +65,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:43,lF:29,hC:6,lC:-2},{month:"Feb",hF:47,lF:32,hC:8,lC:0},{month:"Mar",hF:56,lF:39,hC:13,lC:4},{month:"Apr",hF:67,lF:48,hC:19,lC:9},{month:"May",hF:76,lF:58,hC:24,lC:14},{month:"Jun",hF:84,lF:67,hC:29,lC:19},{month:"Jul",hF:88,lF:72,hC:31,lC:22},{month:"Aug",hF:86,lF:70,hC:30,lC:21},{month:"Sep",hF:80,lF:63,hC:27,lC:17},{month:"Oct",hF:69,lF:51,hC:21,lC:11},{month:"Nov",hF:59,lF:41,hC:15,lC:5},{month:"Dec",hF:48,lF:33,hC:9,lC:1}],
     badges: ["2026 D1A Finalists"], achievements: ["Rugby East Conference Championships", "Multiple Elite Competition appearances"],
     website: "https://www.usna.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: null, nicheLocationGrade: "A+", nicheEnrollment: 4474, acceptanceRate: 9, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/united-states-naval-academy/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Value grade listed as unavailable on Niche (null). Total undergrad 4,474 full-time (0 part-time). Niche setting label: Suburb (Annapolis, MD).",
   },
   {
     id: 3, slug: "life-university", name: "Life University",
@@ -65,6 +80,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:51,lF:31,hC:11,lC:-1},{month:"Feb",hF:56,lF:35,hC:13,lC:2},{month:"Mar",hF:64,lF:42,hC:18,lC:6},{month:"Apr",hF:72,lF:49,hC:22,lC:9},{month:"May",hF:80,lF:58,hC:27,lC:14},{month:"Jun",hF:86,lF:66,hC:30,lC:19},{month:"Jul",hF:88,lF:70,hC:31,lC:21},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:82,lF:62,hC:28,lC:17},{month:"Oct",hF:73,lF:50,hC:23,lC:10},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:53,lF:33,hC:12,lC:1}],
     badges: ["8 MLR Draft Picks", "2026 D1A Semifinalists", "Rugby Scholarships Available"], achievements: ["2018 & 2019 National Champions", "Multiple Rugby East Championships"],
     website: "https://www.life.edu", imageUrl: "https://images.unsplash.com/photo-1606800052259-a9b0a9c8c3b0?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "B-", nicheValueGrade: "C", nicheLocationGrade: "B+", nicheEnrollment: 899, acceptanceRate: 93, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/life-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label: Small City (Marietta, GA).",
   },
   {
     id: 4, slug: "lindenwood-university", name: "Lindenwood University",
@@ -79,6 +95,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:39,lF:22,hC:4,lC:-6},{month:"Feb",hF:45,lF:27,hC:7,lC:-3},{month:"Mar",hF:56,lF:37,hC:13,lC:3},{month:"Apr",hF:68,lF:48,hC:20,lC:9},{month:"May",hF:77,lF:58,hC:25,lC:14},{month:"Jun",hF:86,lF:67,hC:30,lC:19},{month:"Jul",hF:89,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:80,lF:61,hC:27,lC:16},{month:"Oct",hF:69,lF:49,hC:21,lC:9},{month:"Nov",hF:55,lF:38,hC:13,lC:3},{month:"Dec",hF:42,lF:26,hC:6,lC:-3}],
     badges: ["17 MLR Draft Picks", "Rugby Scholarships Available"], achievements: ["Multiple Midwest Conference Championships", "National Tournament appearances"],
     website: "https://www.lindenwood.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "C+", nicheValueGrade: "C+", nicheLocationGrade: "B", nicheEnrollment: 4663, acceptanceRate: 52, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/lindenwood-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label: Small City (Saint Charles, MO).",
   },
   {
     id: 5, slug: "saint-mary-s-college-of-california", name: "Saint Mary's College of California",
@@ -93,6 +110,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:62,lF:42,hC:17,lC:6},{month:"Feb",hF:66,lF:45,hC:19,lC:7},{month:"Mar",hF:69,lF:47,hC:21,lC:8},{month:"Apr",hF:72,lF:50,hC:22,lC:10},{month:"May",hF:75,lF:53,hC:24,lC:12},{month:"Jun",hF:79,lF:57,hC:26,lC:14},{month:"Jul",hF:82,lF:59,hC:28,lC:15},{month:"Aug",hF:83,lF:60,hC:28,lC:16},{month:"Sep",hF:82,lF:58,hC:28,lC:14},{month:"Oct",hF:77,lF:54,hC:25,lC:12},{month:"Nov",hF:69,lF:47,hC:21,lC:8},{month:"Dec",hF:62,lF:42,hC:17,lC:6}],
     badges: ["5 MLR Draft Picks", "2026 D1A Semifinalists", "2024 D1A National Champions"], achievements: ["2014 National Champions", "Multiple California Conference Championships"],
     website: "https://www.stmarys-ca.edu", imageUrl: "https://images.unsplash.com/photo-1567168544813-cc03465b4fa8?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "B-", nicheValueGrade: "C+", nicheLocationGrade: "C", nicheEnrollment: 1954, acceptanceRate: 87, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/saint-marys-college-of-california/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad students 1,954 (1,851 full-time + 103 part-time). Niche setting label: Suburb (Moraga, CA).",
   },
   {
     id: 6, slug: "united-states-military-academy-army", name: "United States Military Academy (Army)",
@@ -107,6 +125,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:35,lF:20,hC:2,lC:-7},{month:"Feb",hF:39,lF:23,hC:4,lC:-5},{month:"Mar",hF:48,lF:31,hC:9,lC:-1},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:52,hC:22,lC:11},{month:"Jun",hF:79,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:74,lF:56,hC:23,lC:13},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:51,lF:35,hC:11,lC:2},{month:"Dec",hF:40,lF:26,hC:4,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: ["2022 D1A National Champions", "Multiple Rugby East Championships"],
     website: "https://www.westpoint.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A-", nicheAcademicsGrade: "A+", nicheValueGrade: null, nicheLocationGrade: "D+", nicheEnrollment: 4473, acceptanceRate: 12, setting: "Town", nicheSourceUrl: "https://www.niche.com/colleges/united-states-military-academy-at-west-point/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche URL slug: united-states-military-academy-at-west-point. Value grade listed as unavailable on Niche (null). Total undergrad 4,473 full-time. Niche setting label: Town (West Point, NY).",
   },
   {
     id: 7, slug: "university-of-california-los-angeles-ucla", name: "University of California, Los Angeles (UCLA)",
@@ -121,6 +140,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:68,lF:48,hC:20,lC:9},{month:"Feb",hF:69,lF:50,hC:21,lC:10},{month:"Mar",hF:72,lF:53,hC:22,lC:12},{month:"Apr",hF:75,lF:56,hC:24,lC:13},{month:"May",hF:77,lF:60,hC:25,lC:16},{month:"Jun",hF:81,lF:64,hC:27,lC:18},{month:"Jul",hF:85,lF:68,hC:29,lC:20},{month:"Aug",hF:85,lF:68,hC:29,lC:20},{month:"Sep",hF:83,lF:66,hC:28,lC:19},{month:"Oct",hF:78,lF:61,hC:26,lC:16},{month:"Nov",hF:73,lF:54,hC:23,lC:12},{month:"Dec",hF:68,lF:48,hC:20,lC:9}],
     badges: ["4 MLR Draft Picks"], achievements: ["PAC Rugby Conference Championships", "National Tournament appearances"],
     website: "https://www.ucla.edu", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "B+", nicheLocationGrade: "A+", nicheEnrollment: 33475, acceptanceRate: 9, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-california-los-angeles/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche labels location as Large City; mapped to City. Total undergrad students 33,475 (full-time 32,972 + part-time 503).",
   },
   {
     id: 8, slug: "brown-university", name: "Brown University",
@@ -135,6 +155,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:40,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:59,lF:41,hC:15,lC:5},{month:"May",hF:69,lF:51,hC:21,lC:11},{month:"Jun",hF:78,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:65,hC:28,lC:18},{month:"Sep",hF:75,lF:58,hC:24,lC:14},{month:"Oct",hF:64,lF:47,hC:18,lC:8},{month:"Nov",hF:53,lF:37,hC:12,lC:3},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
     badges: [], achievements: ["2022 D1 National Champions", "Multiple Ivy Rugby Conference titles"],
     website: "https://www.brown.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "A-", nicheLocationGrade: "A+", nicheEnrollment: 7910, acceptanceRate: 5, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/brown-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label remapped: Midsize City → City.",
   },
   {
     id: 9, slug: "mount-st-mary-s-university", name: "Mount St. Mary's University",
@@ -149,6 +170,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:40,lF:26,hC:4,lC:-3},{month:"Feb",hF:44,lF:28,hC:7,lC:-2},{month:"Mar",hF:53,lF:36,hC:12,lC:2},{month:"Apr",hF:64,lF:45,hC:18,lC:7},{month:"May",hF:74,lF:55,hC:23,lC:13},{month:"Jun",hF:82,lF:64,hC:28,lC:18},{month:"Jul",hF:87,lF:69,hC:31,lC:21},{month:"Aug",hF:85,lF:67,hC:29,lC:19},{month:"Sep",hF:78,lF:59,hC:26,lC:15},{month:"Oct",hF:67,lF:47,hC:19,lC:8},{month:"Nov",hF:56,lF:37,hC:13,lC:3},{month:"Dec",hF:44,lF:30,hC:7,lC:-1}],
     badges: [], achievements: ["2016 NSCRO National Champions", "DI-AA Chesapeake Conference titles"],
     website: "https://www.msmary.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "B-", nicheValueGrade: "B", nicheLocationGrade: "D", nicheEnrollment: 1726, acceptanceRate: 74, setting: "Rural", nicheSourceUrl: "https://www.niche.com/colleges/mount-st-marys-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Confirmed Mount St. Mary's University, Emmitsburg, MD (Maryland), not Mount Saint Mary's University Los Angeles. Niche setting label: Rural Location.",
   },
   {
     id: 10, slug: "brigham-young-university", name: "Brigham Young University",
@@ -163,6 +185,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:37,lF:22,hC:3,lC:-6},{month:"Feb",hF:43,lF:27,hC:6,lC:-3},{month:"Mar",hF:53,lF:35,hC:12,lC:2},{month:"Apr",hF:62,lF:42,hC:17,lC:6},{month:"May",hF:72,lF:51,hC:22,lC:11},{month:"Jun",hF:82,lF:60,hC:28,lC:16},{month:"Jul",hF:89,lF:67,hC:32,lC:19},{month:"Aug",hF:87,lF:65,hC:31,lC:18},{month:"Sep",hF:77,lF:55,hC:25,lC:13},{month:"Oct",hF:64,lF:43,hC:18,lC:6},{month:"Nov",hF:48,lF:32,hC:9,lC:0},{month:"Dec",hF:38,lF:24,hC:3,lC:-4}],
     badges: ["3 MLR Draft Picks"], achievements: ["5 National Championships", "Multiple Rocky Mountain Conference titles"],
     website: "https://www.byu.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A", nicheValueGrade: "B", nicheLocationGrade: "B", nicheEnrollment: 32952, acceptanceRate: 68, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/brigham-young-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label remapped: Midsize City → City.",
   },
   {
     id: 11, slug: "university-of-arizona", name: "University of Arizona",
@@ -177,6 +200,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:66,lF:40,hC:19,lC:4},{month:"Feb",hF:70,lF:43,hC:21,lC:6},{month:"Mar",hF:76,lF:48,hC:24,lC:9},{month:"Apr",hF:84,lF:55,hC:29,lC:13},{month:"May",hF:94,lF:64,hC:34,lC:18},{month:"Jun",hF:103,lF:73,hC:39,lC:23},{month:"Jul",hF:106,lF:79,hC:41,lC:26},{month:"Aug",hF:104,lF:77,hC:40,lC:25},{month:"Sep",hF:99,lF:71,hC:37,lC:22},{month:"Oct",hF:87,lF:58,hC:31,lC:14},{month:"Nov",hF:75,lF:46,hC:24,lC:8},{month:"Dec",hF:66,lF:40,hC:19,lC:4}],
     badges: ["4 MLR Draft Picks"], achievements: ["PAC Rugby Conference Championships", "Division 1-A National Tournament appearances"],
     website: "https://www.arizona.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A-", nicheValueGrade: "B-", nicheLocationGrade: "B", nicheEnrollment: 44848, acceptanceRate: 86, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-arizona/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad students 44,848 (35,623 full-time + 9,225 part-time). Niche setting label: Large City (Tucson, AZ). University of Arizona Online listed as separate branch on Niche.",
   },
   {
     id: 12, slug: "pennsylvania-state-university", name: "Pennsylvania State University",
@@ -191,6 +215,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:35,lF:21,hC:2,lC:-6},{month:"Feb",hF:39,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:51,hC:22,lC:11},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:82,lF:64,hC:28,lC:18},{month:"Aug",hF:81,lF:62,hC:27,lC:17},{month:"Sep",hF:74,lF:55,hC:23,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:50,lF:34,hC:10,lC:1},{month:"Dec",hF:39,lF:26,hC:4,lC:-3}],
     badges: ["4 MLR Draft Picks"], achievements: ["Multiple National Championships", "Big Ten Conference Titles", "National Tournament appearances"],
     website: "https://www.psu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A", nicheValueGrade: "B-", nicheLocationGrade: "A", nicheEnrollment: 42604, acceptanceRate: 61, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/penn-state/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Confirmed Penn State University Park. Niche setting label: Small City.",
   },
   {
     id: 13, slug: "dartmouth-college", name: "Dartmouth College",
@@ -205,6 +230,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:28,lF:8,hC:-2,lC:-13},{month:"Feb",hF:32,lF:11,hC:0,lC:-12},{month:"Mar",hF:42,lF:21,hC:6,lC:-6},{month:"Apr",hF:56,lF:33,hC:13,lC:1},{month:"May",hF:68,lF:44,hC:20,lC:7},{month:"Jun",hF:77,lF:53,hC:25,lC:12},{month:"Jul",hF:81,lF:58,hC:27,lC:14},{month:"Aug",hF:79,lF:56,hC:26,lC:13},{month:"Sep",hF:71,lF:47,hC:22,lC:8},{month:"Oct",hF:59,lF:36,hC:15,lC:2},{month:"Nov",hF:46,lF:26,hC:8,lC:-3},{month:"Dec",hF:33,lF:14,hC:1,lC:-10}],
     badges: [], achievements: ["2019 D1-AA Spring Championship", "Ivy Rugby Conference titles"],
     website: "https://www.dartmouth.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "A", nicheLocationGrade: "B", nicheEnrollment: 4637, acceptanceRate: 5, setting: "Town", nicheSourceUrl: "https://www.niche.com/colleges/dartmouth-college/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: null,
   },
   {
     id: 14, slug: "california-polytechnic-state-university", name: "California Polytechnic State University",
@@ -219,6 +245,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:64,lF:43,hC:18,lC:6},{month:"Feb",hF:65,lF:45,hC:18,lC:7},{month:"Mar",hF:67,lF:47,hC:19,lC:8},{month:"Apr",hF:70,lF:49,hC:21,lC:9},{month:"May",hF:72,lF:53,hC:22,lC:12},{month:"Jun",hF:75,lF:57,hC:24,lC:14},{month:"Jul",hF:77,lF:59,hC:25,lC:15},{month:"Aug",hF:78,lF:60,hC:26,lC:16},{month:"Sep",hF:77,lF:58,hC:25,lC:14},{month:"Oct",hF:74,lF:53,hC:23,lC:12},{month:"Nov",hF:69,lF:47,hC:21,lC:8},{month:"Dec",hF:64,lF:43,hC:18,lC:6}],
     badges: [], achievements: ["PAC Rugby Conference titles", "West Coast rugby excellence"],
     website: "https://www.calpoly.edu", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A-", nicheValueGrade: "A-", nicheLocationGrade: "A", nicheEnrollment: 22428, acceptanceRate: 31, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/cal-poly/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Confirmed Cal Poly San Luis Obispo; Niche URL slug is cal-poly. Niche setting label remapped: Suburb → Suburban.",
   },
   {
     id: 15, slug: "st-bonaventure-university", name: "St. Bonaventure University",
@@ -233,6 +260,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:32,lF:17,hC:0,lC:-8},{month:"Feb",hF:35,lF:19,hC:2,lC:-7},{month:"Mar",hF:44,lF:27,hC:7,lC:-3},{month:"Apr",hF:57,lF:37,hC:14,lC:3},{month:"May",hF:69,lF:47,hC:21,lC:8},{month:"Jun",hF:77,lF:57,hC:25,lC:14},{month:"Jul",hF:80,lF:61,hC:27,lC:16},{month:"Aug",hF:78,lF:59,hC:26,lC:15},{month:"Sep",hF:71,lF:52,hC:22,lC:11},{month:"Oct",hF:60,lF:41,hC:16,lC:5},{month:"Nov",hF:47,lF:32,hC:8,lC:0},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: ["4 MLR Draft Picks", "2025 NCR D1 National Champions"], achievements: ["2023 NCR 15s National Champions", "D1 promotion", "100+ rugby players"],
     website: "https://www.sbu.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B+", nicheAcademicsGrade: "B+", nicheValueGrade: "B-", nicheLocationGrade: "B+", nicheEnrollment: 2042, acceptanceRate: 82, setting: "Town", nicheSourceUrl: "https://www.niche.com/colleges/st-bonaventure-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad students 2,042 (2,004 full-time). Niche setting label: Town (Saint Bonaventure, NY).",
   },
   {
     id: 16, slug: "arkansas-state-university", name: "Arkansas State University",
@@ -247,6 +275,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:49,lF:29,hC:9,lC:-2},{month:"Feb",hF:55,lF:34,hC:13,lC:1},{month:"Mar",hF:65,lF:43,hC:18,lC:6},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:83,lF:62,hC:28,lC:17},{month:"Jun",hF:90,lF:70,hC:32,lC:21},{month:"Jul",hF:93,lF:74,hC:34,lC:23},{month:"Aug",hF:92,lF:72,hC:33,lC:22},{month:"Sep",hF:86,lF:64,hC:30,lC:18},{month:"Oct",hF:76,lF:52,hC:24,lC:11},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:52,lF:32,hC:11,lC:0}],
     badges: ["4 MLR Draft Picks"], achievements: ["2012, 2013 USA Rugby 7s National Champions", "D1A National Championship appearance"],
     website: "https://www.astate.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B", nicheAcademicsGrade: "B", nicheValueGrade: "B", nicheLocationGrade: "B-", nicheEnrollment: 11189, acceptanceRate: 82, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/arkansas-state-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label remapped: Small City → City.",
   },
   {
     id: 17, slug: "grand-canyon-university", name: "Grand Canyon University",
@@ -261,6 +290,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:67,lF:45,hC:19,lC:7},{month:"Feb",hF:71,lF:49,hC:22,lC:9},{month:"Mar",hF:77,lF:54,hC:25,lC:12},{month:"Apr",hF:85,lF:61,hC:29,lC:16},{month:"May",hF:95,lF:70,hC:35,lC:21},{month:"Jun",hF:104,lF:79,hC:40,lC:26},{month:"Jul",hF:107,lF:84,hC:42,lC:29},{month:"Aug",hF:105,lF:83,hC:41,lC:28},{month:"Sep",hF:100,lF:77,hC:38,lC:25},{month:"Oct",hF:89,lF:65,hC:32,lC:18},{month:"Nov",hF:76,lF:53,hC:24,lC:12},{month:"Dec",hF:67,lF:44,hC:19,lC:7}],
     badges: [], achievements: ["CRAA Challenger Cup finals", "Defeated Utah State 72-6 in semifinals"],
     website: "https://www.gcu.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B", nicheAcademicsGrade: "B-", nicheValueGrade: "B", nicheLocationGrade: "C+", nicheEnrollment: 75936, acceptanceRate: 79, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/grand-canyon-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label remapped: Large City → City.",
   },
   {
     id: 18, slug: "university-of-mary-washington", name: "University of Mary Washington",
@@ -275,6 +305,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:47,lF:27,hC:8,lC:-3},{month:"Feb",hF:52,lF:30,hC:11,lC:-1},{month:"Mar",hF:61,lF:38,hC:16,lC:3},{month:"Apr",hF:72,lF:47,hC:22,lC:8},{month:"May",hF:80,lF:57,hC:27,lC:14},{month:"Jun",hF:87,lF:66,hC:31,lC:19},{month:"Jul",hF:90,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:82,lF:62,hC:28,lC:17},{month:"Oct",hF:72,lF:50,hC:22,lC:10},{month:"Nov",hF:62,lF:40,hC:17,lC:4},{month:"Dec",hF:51,lF:31,hC:11,lC:-1}],
     badges: [], achievements: ["2014 Women's D2 National Champions", "2017 Men's D1AA Fall Champions", "Leicester Tigers partnership"],
     website: "https://www.umw.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "B", nicheValueGrade: "C+", nicheLocationGrade: "A-", nicheEnrollment: 3531, acceptanceRate: 80, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/university-of-mary-washington/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche labels location as Suburb; mapped to Suburban.",
   },
   {
     id: 19, slug: "queens-university-of-charlotte", name: "Queens University of Charlotte",
@@ -289,6 +320,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:52,lF:33,hC:11,lC:1},{month:"Feb",hF:57,lF:36,hC:14,lC:2},{month:"Mar",hF:66,lF:44,hC:19,lC:7},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:82,lF:61,hC:28,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:90,lF:73,hC:32,lC:23},{month:"Aug",hF:89,lF:72,hC:32,lC:22},{month:"Sep",hF:84,lF:66,hC:29,lC:19},{month:"Oct",hF:75,lF:54,hC:24,lC:12},{month:"Nov",hF:66,lF:43,hC:19,lC:6},{month:"Dec",hF:56,lF:36,hC:13,lC:2}],
     badges: ["3 MLR Draft Picks", "2025 NCR D1 Finalists"], achievements: ["Regional championships", "NCAA D1 transition program"],
     website: "https://www.queens.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B", nicheAcademicsGrade: "B", nicheValueGrade: "C+", nicheLocationGrade: "A+", nicheEnrollment: 1225, acceptanceRate: 62, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/queens-university-of-charlotte/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label: Large City (Charlotte, NC).",
   },
   {
     id: 20, slug: "university-of-notre-dame", name: "University of Notre Dame",
@@ -303,6 +335,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:33,lF:18,hC:1,lC:-8},{month:"Feb",hF:38,lF:22,hC:3,lC:-6},{month:"Mar",hF:49,lF:31,hC:9,lC:-1},{month:"Apr",hF:62,lF:42,hC:17,lC:6},{month:"May",hF:72,lF:52,hC:22,lC:11},{month:"Jun",hF:81,lF:62,hC:27,lC:17},{month:"Jul",hF:84,lF:66,hC:29,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:76,lF:57,hC:24,lC:14},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:50,lF:35,hC:10,lC:2},{month:"Dec",hF:37,lF:24,hC:3,lC:-4}],
     badges: [], achievements: ["ESPN coverage", "Penn Mutual College Rugby 7s appearances", "Midwest rugby leadership"],
     website: "https://www.nd.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "A-", nicheLocationGrade: "B-", nicheEnrollment: 8950, acceptanceRate: 11, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/university-of-notre-dame/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche labels location as Suburb; mapped to Suburban. Total undergrad students 8,950.",
   },
   {
     id: 21, slug: "the-ohio-state-university", name: "The Ohio State University",
@@ -317,6 +350,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:41,lF:25,hC:5,lC:-4},{month:"Mar",hF:52,lF:34,hC:11,lC:1},{month:"Apr",hF:64,lF:44,hC:18,lC:7},{month:"May",hF:74,lF:54,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:58,hC:26,lC:14},{month:"Oct",hF:66,lF:46,hC:19,lC:8},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],
     badges: ["2025 Big Ten Champions"], achievements: ["Big Ten Rugby Conference", "Multiple All-Americans", "Eagle players produced"],
     website: "https://www.osu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A", nicheValueGrade: "B", nicheLocationGrade: "A+", nicheEnrollment: 46627, acceptanceRate: 61, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/the-ohio-state-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Columbus main campus. Total undergrad 46,627. Niche setting label: Large City.",
   },
   {
     id: 22, slug: "davenport-university", name: "Davenport University",
@@ -331,6 +365,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:32,lF:18,hC:0,lC:-8},{month:"Feb",hF:36,lF:21,hC:2,lC:-6},{month:"Mar",hF:47,lF:30,hC:8,lC:-1},{month:"Apr",hF:60,lF:40,hC:16,lC:4},{month:"May",hF:71,lF:50,hC:22,lC:10},{month:"Jun",hF:80,lF:60,hC:27,lC:16},{month:"Jul",hF:83,lF:64,hC:28,lC:18},{month:"Aug",hF:82,lF:62,hC:28,lC:17},{month:"Sep",hF:75,lF:55,hC:24,lC:13},{month:"Oct",hF:63,lF:43,hC:17,lC:6},{month:"Nov",hF:49,lF:34,hC:9,lC:1},{month:"Dec",hF:36,lF:24,hC:2,lC:-4}],
     badges: ["Rugby Scholarships Available"], achievements: ["2010/11 D1AA National Champions", "2011/12 D1AA National Champions"],
     website: "https://www.davenport.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "C+", nicheValueGrade: "B-", nicheLocationGrade: "C+", nicheEnrollment: 3741, acceptanceRate: 98, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/davenport-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche setting label remapped: Suburb → Suburban.",
   },
   {
     id: 23, slug: "marian-university", name: "Marian University",
@@ -345,6 +380,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:36,lF:20,hC:2,lC:-7},{month:"Feb",hF:41,lF:24,hC:5,lC:-4},{month:"Mar",hF:52,lF:33,hC:11,lC:1},{month:"Apr",hF:64,lF:43,hC:18,lC:6},{month:"May",hF:74,lF:53,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:57,hC:26,lC:14},{month:"Oct",hF:66,lF:45,hC:19,lC:7},{month:"Nov",hF:53,lF:35,hC:12,lC:2},{month:"Dec",hF:40,lF:25,hC:4,lC:-4}],
     badges: [], achievements: ["New varsity program", "NAIA competition", "Strong recruiting"],
     website: "https://www.marian.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B", nicheAcademicsGrade: "B", nicheValueGrade: "B+", nicheLocationGrade: "B", nicheEnrollment: 2378, acceptanceRate: 95, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/marian-university-indianapolis/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Confirmed Marian University Indianapolis (Indiana). Niche setting label: Large City.",
   },
   {
     id: 24, slug: "university-of-michigan", name: "University of Michigan",
@@ -359,6 +395,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:32,lF:18,hC:0,lC:-8},{month:"Feb",hF:36,lF:21,hC:2,lC:-6},{month:"Mar",hF:47,lF:30,hC:8,lC:-1},{month:"Apr",hF:60,lF:40,hC:16,lC:4},{month:"May",hF:72,lF:51,hC:22,lC:11},{month:"Jun",hF:81,lF:61,hC:27,lC:16},{month:"Jul",hF:84,lF:65,hC:29,lC:18},{month:"Aug",hF:82,lF:63,hC:28,lC:17},{month:"Sep",hF:75,lF:55,hC:24,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:48,lF:33,hC:9,lC:1},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: [], achievements: ["Big Ten Conference rugby", "D1A competition", "Long rugby tradition"],
     website: "https://www.umich.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A+", nicheAcademicsGrade: "A+", nicheValueGrade: "A-", nicheLocationGrade: "A", nicheEnrollment: 34454, acceptanceRate: 16, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-michigan-ann-arbor/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Ann Arbor. Total undergrad 34,454.",
   },
   {
     id: 25, slug: "indiana-university", name: "Indiana University",
@@ -373,6 +410,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:42,lF:25,hC:6,lC:-4},{month:"Mar",hF:53,lF:34,hC:12,lC:1},{month:"Apr",hF:65,lF:44,hC:18,lC:7},{month:"May",hF:75,lF:54,hC:24,lC:12},{month:"Jun",hF:84,lF:64,hC:29,lC:18},{month:"Jul",hF:87,lF:68,hC:31,lC:20},{month:"Aug",hF:85,lF:66,hC:29,lC:19},{month:"Sep",hF:79,lF:58,hC:26,lC:14},{month:"Oct",hF:67,lF:46,hC:19,lC:8},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:26,hC:5,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: ["7x Big Ten 15's Champions", "NCR competition", "Strong rugby tradition"],
     website: "https://www.indiana.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A", nicheValueGrade: "B-", nicheLocationGrade: "A-", nicheEnrollment: 38093, acceptanceRate: 78, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/indiana-university-bloomington/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Confirmed Indiana University Bloomington.",
   },
   {
     id: 26, slug: "university-of-st-thomas-minnesota", name: "University of St. Thomas (Minnesota)",
@@ -387,6 +425,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:25,lF:9,hC:-4,lC:-13},{month:"Feb",hF:30,lF:14,hC:-1,lC:-10},{month:"Mar",hF:42,lF:26,hC:6,lC:-3},{month:"Apr",hF:58,lF:38,hC:14,lC:3},{month:"May",hF:70,lF:50,hC:21,lC:10},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:83,lF:65,hC:28,lC:18},{month:"Aug",hF:81,lF:63,hC:27,lC:17},{month:"Sep",hF:72,lF:53,hC:22,lC:12},{month:"Oct",hF:59,lF:41,hC:15,lC:5},{month:"Nov",hF:42,lF:28,hC:6,lC:-2},{month:"Dec",hF:28,lF:15,hC:-2,lC:-9}],
     badges: [], achievements: ["Division I club sport", "Twin Cities rugby", "Strong recruiting"],
     website: "https://www.stthomas.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B+", nicheAcademicsGrade: "B+", nicheValueGrade: "B-", nicheLocationGrade: "A", nicheEnrollment: 6750, acceptanceRate: 85, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-st-thomas-minnesota/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad 6,750.",
   },
   {
     id: 27, slug: "wheeling-university", name: "Wheeling University",
@@ -399,8 +438,9 @@ export const colleges: College[] = [
     enrollment: 1500, popularMajors: ["Business", "Kinesiology", "Nursing", "Education"],
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:38,lF:21,hC:3,lC:-6},{month:"Feb",hF:43,lF:25,hC:6,lC:-4},{month:"Mar",hF:52,lF:33,hC:11,lC:1},{month:"Apr",hF:64,lF:43,hC:18,lC:6},{month:"May",hF:73,lF:52,hC:23,lC:11},{month:"Jun",hF:81,lF:61,hC:27,lC:16},{month:"Jul",hF:85,lF:65,hC:29,lC:18},{month:"Aug",hF:84,lF:64,hC:29,lC:18},{month:"Sep",hF:77,lF:57,hC:25,lC:14},{month:"Oct",hF:66,lF:45,hC:19,lC:7},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
-    badges: [], achievements: ["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"],
+    badges: ["Rugby Scholarships Available"], achievements: ["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"],
     website: "https://wheeling.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "C+", nicheValueGrade: "B-", nicheLocationGrade: "B-", nicheEnrollment: 619, acceptanceRate: 63, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/wheeling-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Live Niche overall C+ as of capture.",
   },
   {
     id: 28, slug: "southern-nazarene-university", name: "Southern Nazarene University",
@@ -415,6 +455,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:49,lF:28,hC:9,lC:-2},{month:"Feb",hF:55,lF:33,hC:13,lC:1},{month:"Mar",hF:64,lF:42,hC:18,lC:6},{month:"Apr",hF:73,lF:51,hC:23,lC:11},{month:"May",hF:81,lF:60,hC:27,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:93,lF:73,hC:34,lC:23},{month:"Aug",hF:92,lF:72,hC:33,lC:22},{month:"Sep",hF:84,lF:64,hC:29,lC:18},{month:"Oct",hF:74,lF:52,hC:23,lC:11},{month:"Nov",hF:61,lF:40,hC:16,lC:4},{month:"Dec",hF:51,lF:31,hC:11,lC:-1}],
     badges: [], achievements: ["Nationally ranked program", "Strong men's and women's teams", "D1 competition"],
     website: "https://www.snu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "C+", nicheValueGrade: "B+", nicheLocationGrade: "B-", nicheEnrollment: 1456, acceptanceRate: 100, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/southern-nazarene-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Suburb Bethany OK.",
   },
   {
     id: 29, slug: "mckendree-university", name: "McKendree University",
@@ -429,6 +470,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:39,lF:22,hC:4,lC:-6},{month:"Feb",hF:45,lF:27,hC:7,lC:-3},{month:"Mar",hF:56,lF:37,hC:13,lC:3},{month:"Apr",hF:68,lF:48,hC:20,lC:9},{month:"May",hF:77,lF:58,hC:25,lC:14},{month:"Jun",hF:86,lF:67,hC:30,lC:19},{month:"Jul",hF:89,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:80,lF:61,hC:27,lC:16},{month:"Oct",hF:69,lF:49,hC:21,lC:9},{month:"Nov",hF:55,lF:38,hC:13,lC:3},{month:"Dec",hF:42,lF:26,hC:6,lC:-3}],
     badges: ["Rugby Scholarships Available"], achievements: [],
     website: "https://www.mckendree.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "C+", nicheValueGrade: "B-", nicheLocationGrade: "B-", nicheEnrollment: 1757, acceptanceRate: 72, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/mckendree-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Suburb Lebanon IL.",
   },
   {
     id: 30, slug: "santa-clara-university", name: "Santa Clara University",
@@ -443,6 +485,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:59,lF:42,hC:15,lC:6},{month:"Feb",hF:62,lF:44,hC:17,lC:7},{month:"Mar",hF:66,lF:46,hC:19,lC:8},{month:"Apr",hF:70,lF:48,hC:21,lC:9},{month:"May",hF:74,lF:51,hC:23,lC:11},{month:"Jun",hF:79,lF:55,hC:26,lC:13},{month:"Jul",hF:81,lF:57,hC:27,lC:14},{month:"Aug",hF:81,lF:57,hC:27,lC:14},{month:"Sep",hF:80,lF:56,hC:27,lC:13},{month:"Oct",hF:74,lF:51,hC:23,lC:11},{month:"Nov",hF:65,lF:45,hC:18,lC:7},{month:"Dec",hF:58,lF:41,hC:14,lC:5}],
     badges: ["2026 Challenger Cup Champions"], achievements: [],
     website: "https://www.scu.edu", imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A", nicheValueGrade: "B-", nicheLocationGrade: "A-", nicheEnrollment: 6695, acceptanceRate: 48, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/santa-clara-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad 6,695.",
   },
   {
     id: 31, slug: "university-of-san-diego", name: "University of San Diego",
@@ -457,6 +500,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:65,lF:50,hC:18,lC:10},{month:"Feb",hF:65,lF:51,hC:18,lC:11},{month:"Mar",hF:66,lF:53,hC:19,lC:12},{month:"Apr",hF:68,lF:56,hC:20,lC:13},{month:"May",hF:69,lF:59,hC:21,lC:15},{month:"Jun",hF:72,lF:62,hC:22,lC:17},{month:"Jul",hF:76,lF:66,hC:24,lC:19},{month:"Aug",hF:78,lF:67,hC:26,lC:19},{month:"Sep",hF:77,lF:65,hC:25,lC:18},{month:"Oct",hF:74,lF:60,hC:23,lC:16},{month:"Nov",hF:70,lF:54,hC:21,lC:12},{month:"Dec",hF:65,lF:49,hC:18,lC:9}],
     badges: [], achievements: [],
     website: "https://www.sandiego.edu", imageUrl: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A-", nicheAcademicsGrade: "A-", nicheValueGrade: "B-", nicheLocationGrade: "A", nicheEnrollment: 6049, acceptanceRate: 52, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-san-diego/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad 6,049.",
   },
   {
     id: 32, slug: "university-of-utah", name: "University of Utah",
@@ -471,6 +515,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:38,lF:23,hC:3,lC:-5},{month:"Feb",hF:44,lF:27,hC:7,lC:-3},{month:"Mar",hF:54,lF:34,hC:12,lC:1},{month:"Apr",hF:62,lF:40,hC:17,lC:4},{month:"May",hF:72,lF:48,hC:22,lC:9},{month:"Jun",hF:84,lF:57,hC:29,lC:14},{month:"Jul",hF:93,lF:65,hC:34,lC:18},{month:"Aug",hF:91,lF:63,hC:33,lC:17},{month:"Sep",hF:80,lF:53,hC:27,lC:12},{month:"Oct",hF:65,lF:41,hC:18,lC:5},{month:"Nov",hF:50,lF:31,hC:10,lC:-1},{month:"Dec",hF:39,lF:24,hC:4,lC:-4}],
     badges: [], achievements: [],
     website: "https://www.utah.edu", imageUrl: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "A", nicheAcademicsGrade: "A", nicheValueGrade: "B-", nicheLocationGrade: "A-", nicheEnrollment: 28064, acceptanceRate: 86, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/university-of-utah/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad 28,064.",
   },
   {
     id: 33, slug: "walsh-university", name: "Walsh University",
@@ -485,6 +530,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:41,lF:25,hC:5,lC:-4},{month:"Mar",hF:52,lF:34,hC:11,lC:1},{month:"Apr",hF:64,lF:44,hC:18,lC:7},{month:"May",hF:74,lF:54,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:58,hC:26,lC:14},{month:"Oct",hF:66,lF:46,hC:19,lC:8},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],
     badges: ["2 MLR Draft Picks", "Rugby Scholarships Available", "2023 NCR D1 Champions (as Notre Dame College)"], achievements: [],
     website: "https://www.walsh.edu", imageUrl: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B", nicheAcademicsGrade: "B-", nicheValueGrade: "B", nicheLocationGrade: "B+", nicheEnrollment: 1523, acceptanceRate: 71, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/walsh-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Total undergrad 1,523.",
   },
   {
     id: 34, slug: "siena-college", name: "Siena College",
@@ -499,6 +545,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:32,lF:17,hC:0,lC:-8},{month:"Feb",hF:35,lF:19,hC:2,lC:-7},{month:"Mar",hF:44,lF:27,hC:7,lC:-3},{month:"Apr",hF:57,lF:37,hC:14,lC:3},{month:"May",hF:69,lF:47,hC:21,lC:8},{month:"Jun",hF:77,lF:57,hC:25,lC:14},{month:"Jul",hF:80,lF:61,hC:27,lC:16},{month:"Aug",hF:78,lF:59,hC:26,lC:15},{month:"Sep",hF:71,lF:52,hC:22,lC:11},{month:"Oct",hF:60,lF:41,hC:16,lC:5},{month:"Nov",hF:47,lF:32,hC:8,lC:0},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: [], achievements: [],
     website: "https://www.siena.edu", imageUrl: "https://images.unsplash.com/photo-1567168539593-59673ababaae?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "B-", nicheValueGrade: "B-", nicheLocationGrade: "B+", nicheEnrollment: 3467, acceptanceRate: 69, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/siena-college/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche title Siena University; URL /siena-college/.",
   },
   {
     id: 35, slug: "kutztown-university", name: "Kutztown University",
@@ -513,6 +560,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:35,lF:21,hC:2,lC:-6},{month:"Feb",hF:39,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:51,hC:22,lC:11},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:82,lF:64,hC:28,lC:18},{month:"Aug",hF:81,lF:62,hC:27,lC:17},{month:"Sep",hF:74,lF:55,hC:23,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:50,lF:34,hC:10,lC:1},{month:"Dec",hF:39,lF:26,hC:4,lC:-3}],
     badges: ["7 MLR Draft Picks"], achievements: [],
     website: "https://www.kutztown.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "B-", nicheValueGrade: "B-", nicheLocationGrade: "B", nicheEnrollment: 6306, acceptanceRate: 91, setting: "Town", nicheSourceUrl: "https://www.niche.com/colleges/kutztown-university-of-pennsylvania/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Niche page: Kutztown University of Pennsylvania.",
   },
   {
     id: 36, slug: "belmont-abbey-college", name: "Belmont Abbey College",
@@ -527,6 +575,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:52,lF:33,hC:11,lC:1},{month:"Feb",hF:57,lF:36,hC:14,lC:2},{month:"Mar",hF:66,lF:44,hC:19,lC:7},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:82,lF:61,hC:28,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:90,lF:73,hC:32,lC:23},{month:"Aug",hF:89,lF:72,hC:32,lC:22},{month:"Sep",hF:84,lF:66,hC:29,lC:19},{month:"Oct",hF:75,lF:54,hC:24,lC:12},{month:"Nov",hF:66,lF:43,hC:19,lC:6},{month:"Dec",hF:56,lF:36,hC:13,lC:2}],
     badges: [], achievements: [],
     website: "https://www.belmontabbeycollege.edu", imageUrl: "https://images.unsplash.com/photo-1568792923760-d70635a89fdc?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C", nicheAcademicsGrade: "C", nicheValueGrade: "C", nicheLocationGrade: "B", nicheEnrollment: 1298, acceptanceRate: 75, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/belmont-abbey-college/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Suburb remapped.",
   },
   {
     id: 37, slug: "thomas-more-university", name: "Thomas More University",
@@ -541,6 +590,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:42,lF:25,hC:6,lC:-4},{month:"Mar",hF:53,lF:34,hC:12,lC:1},{month:"Apr",hF:65,lF:44,hC:18,lC:7},{month:"May",hF:75,lF:54,hC:24,lC:12},{month:"Jun",hF:84,lF:64,hC:29,lC:18},{month:"Jul",hF:87,lF:68,hC:31,lC:20},{month:"Aug",hF:85,lF:66,hC:29,lC:19},{month:"Sep",hF:79,lF:58,hC:26,lC:14},{month:"Oct",hF:67,lF:46,hC:19,lC:8},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:26,hC:5,lC:-3}],
     badges: ["3 MLR Draft Picks"], achievements: [],
     website: "https://www.thomasmore.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "C+", nicheValueGrade: "B", nicheLocationGrade: "A", nicheEnrollment: 1259, acceptanceRate: 90, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/thomas-more-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Crestview Hills KY.",
   },
   {
     id: 38, slug: "iona-university", name: "Iona University",
@@ -555,6 +605,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:35,lF:20,hC:2,lC:-7},{month:"Feb",hF:39,lF:23,hC:4,lC:-5},{month:"Mar",hF:48,lF:31,hC:9,lC:-1},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:52,hC:22,lC:11},{month:"Jun",hF:79,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:74,lF:56,hC:23,lC:13},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:51,lF:35,hC:11,lC:2},{month:"Dec",hF:40,lF:26,hC:4,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: [],
     website: "https://www.iona.edu", imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "C+", nicheAcademicsGrade: "C+", nicheValueGrade: "C+", nicheLocationGrade: "B-", nicheEnrollment: 3389, acceptanceRate: 87, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/iona-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "New Rochelle NY.",
   },
   {
     id: 39, slug: "fairfield-university", name: "Fairfield University",
@@ -569,6 +620,7 @@ export const colleges: College[] = [
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:40,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:59,lF:41,hC:15,lC:5},{month:"May",hF:69,lF:51,hC:21,lC:11},{month:"Jun",hF:78,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:65,hC:28,lC:18},{month:"Sep",hF:75,lF:58,hC:24,lC:14},{month:"Oct",hF:64,lF:47,hC:18,lC:8},{month:"Nov",hF:53,lF:37,hC:12,lC:3},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
     badges: [], achievements: [],
     website: "https://www.fairfield.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    nicheOverallGrade: "B+", nicheAcademicsGrade: "A-", nicheValueGrade: "B-", nicheLocationGrade: "A", nicheEnrollment: 5391, acceptanceRate: 33, setting: "Suburban", nicheSourceUrl: "https://www.niche.com/colleges/fairfield-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Suburb remapped.",
   },
   {
     id: 40, slug: "western-washington-university", name: "Western Washington University",
@@ -584,6 +636,7 @@ export const colleges: College[] = [
     badges: ["New to D1A for 2026–27"], achievements: [],
     website: "https://www.wwu.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",
     gender: "mens",
+    nicheOverallGrade: "B-", nicheAcademicsGrade: "B", nicheValueGrade: "C", nicheLocationGrade: "A", nicheEnrollment: 13609, acceptanceRate: 93, setting: "City", nicheSourceUrl: "https://www.niche.com/colleges/western-washington-university/", nicheDataAsOf: "2026-09-15", nichePaywalled: false, nicheNotes: "Small City → City.",
   }
 ];
 
