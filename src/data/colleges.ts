@@ -399,7 +399,7 @@ export const colleges: College[] = [
     enrollment: 1500, popularMajors: ["Business", "Kinesiology", "Nursing", "Education"],
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:38,lF:21,hC:3,lC:-6},{month:"Feb",hF:43,lF:25,hC:6,lC:-4},{month:"Mar",hF:52,lF:33,hC:11,lC:1},{month:"Apr",hF:64,lF:43,hC:18,lC:6},{month:"May",hF:73,lF:52,hC:23,lC:11},{month:"Jun",hF:81,lF:61,hC:27,lC:16},{month:"Jul",hF:85,lF:65,hC:29,lC:18},{month:"Aug",hF:84,lF:64,hC:29,lC:18},{month:"Sep",hF:77,lF:57,hC:25,lC:14},{month:"Oct",hF:66,lF:45,hC:19,lC:7},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
-    badges: [], achievements: ["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"],
+    badges: ["Rugby Scholarships Available"], achievements: ["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"],
     website: "https://wheeling.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
   },
   {
