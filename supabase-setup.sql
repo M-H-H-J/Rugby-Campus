@@ -303,7 +303,7 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   0,27,'Michael Geibel','',
   'Wheeling Cardinals rugby is a premier varsity program competing at Division 1-A level in Rugby East, providing scholarships and featuring the 2024 National Champions in 7s rugby.',1500,'["Business", "Kinesiology", "Nursing", "Education"]',
   'Warm summers, cold, snowy winters.','[{"month": "Jan", "hF": 38, "lF": 21, "hC": 3, "lC": -6}, {"month": "Feb", "hF": 43, "lF": 25, "hC": 6, "lC": -4}, {"month": "Mar", "hF": 52, "lF": 33, "hC": 11, "lC": 1}, {"month": "Apr", "hF": 64, "lF": 43, "hC": 18, "lC": 6}, {"month": "May", "hF": 73, "lF": 52, "hC": 23, "lC": 11}, {"month": "Jun", "hF": 81, "lF": 61, "hC": 27, "lC": 16}, {"month": "Jul", "hF": 85, "lF": 65, "hC": 29, "lC": 18}, {"month": "Aug", "hF": 84, "lF": 64, "hC": 29, "lC": 18}, {"month": "Sep", "hF": 77, "lF": 57, "hC": 25, "lC": 14}, {"month": "Oct", "hF": 66, "lF": 45, "hC": 19, "lC": 7}, {"month": "Nov", "hF": 54, "lF": 36, "hC": 12, "lC": 2}, {"month": "Dec", "hF": 42, "lF": 27, "hC": 6, "lC": -3}]',
-  '[]','["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"]',
+  '["Rugby Scholarships Available"]','["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"]',
   'https://wheeling.edu','https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80','mens')
 on conflict (slug) do nothing;
 insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affiliation,conference,tier,program_type,draft_picks,player_count,coach_name,coach_email,description,enrollment,popular_majors,weather_summary,monthly_temps,badges,achievements,website,image_url,gender) values (
