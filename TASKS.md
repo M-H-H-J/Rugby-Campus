@@ -4,7 +4,7 @@ Priority order. Each task states its own definition of done.
 Read AGENTS.md first.
 
 ## 1. Pre-launch verification (blocking go-live)
-- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 54 pages + sitemap.xml + llms-full.txt".
+- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 55 pages + sitemap.xml + llms-full.txt".
 - [ ] Confirm `vercel.json` exists and contains the SPA rewrite.
 - [ ] Confirm `public/robots.txt` still contains `Disallow: /`.
 - [ ] Open every route in dev and confirm no console errors:
@@ -37,11 +37,10 @@ Done when: every image is genuinely of that campus, with attribution where requi
 In src/data/articles.ts, articles whose `content` starts with "Coming soon".
 Write in Hugh's voice per AGENTS.md. Each needs metaTitle, metaDescription,
 excerpt, readTime, and markdown-ish content matching the existing articles' style.
-- [ ] "How to Play Rugby in College in the USA"
-- [ ] "Rugby Scholarships in the USA — What's Actually Available"
-- [ ] "How College Rugby Recruitment Works in the USA"
-Also worth writing: "How to get recruited yourself (without an agency)" — it is
-the highest-value lead magnet for /work-with-me.
+- [x] "How to Play Rugby in College in the USA"
+- [x] "Rugby Scholarships in the USA — What's Actually Available"
+- [x] "How College Rugby Recruitment Works in the USA"
+- [x] "How to get recruited yourself (without an agency)" — highest-value lead magnet for /work-with-me.
 Done when: no article content begins with "Coming soon" and the build prerenders them.
 
 ## 5. 2026–27 season preview article

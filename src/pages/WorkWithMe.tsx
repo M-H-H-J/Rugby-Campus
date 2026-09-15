@@ -73,7 +73,8 @@ export default function WorkWithMe() {
           <h2 className="font-heading text-[24px] text-ink mb-3">You can also do this yourself. Genuinely.</h2>
           <p className="text-[15px] text-ink/80 leading-relaxed mb-4">
             Every coach email on this site is free. Plenty of players message a coach directly, get a reply, and sort the rest out with their parents. If that's you, brilliant — start with the{' '}
-            <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium">recruitment guide</Link> and the{' '}
+            <Link href="/learn/get-recruited-without-agency" className="text-navy font-medium">DIY recruitment guide</Link>, the{' '}
+            <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium">recruitment overview</Link> and the{' '}
             <Link href="/colleges" className="text-navy font-medium">40 programs</Link>.
           </p>
           <p className="text-[15px] text-ink/80 leading-relaxed">
