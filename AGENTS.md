@@ -29,7 +29,7 @@ npm run dev      # local dev, localhost:5173
 npm run build    # tsc + vite build + prerender  ← must print BOTH success lines
 ```
 
-`npm run build` must end with `prerendered 54 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
+`npm run build` must end with `prerendered 55 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
 
 ## File map
 
@@ -110,6 +110,6 @@ Deployed to Vercel, **private** (robots blocked), custom domain not yet attached
 Open work, roughly in priority order:
 1. Fill the 12 empty coach records (Hugh is verifying; do not invent).
 2. Replace 40 Unsplash stock images with correctly-attributed Wikimedia Commons campus photos, or Hugh's own photography.
-3. Write the three stub guides in `articles.ts` (they currently start with "Coming soon" — that prefix is how the UI detects stubs).
+3. ~~Write the three stub guides in `articles.ts`~~ (done — plus DIY recruitment guide).
 4. Women's rugby: `gender` field exists on every record and in the schema; the Colleges page has a disabled "Women's — soon" toggle. Enabling means adding rows with `gender: 'womens'` and activating the toggle.
 5. Season preview article for 2026–27.
