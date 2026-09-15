@@ -240,7 +240,7 @@ export const colleges: College[] = [
     lat: 35.8424, lng: -90.6782, mapX: 585.8, mapY: 361.8,
     affiliation: "CRAA D1A", conference: "Midwest", tier: "playoff", programType: "Club",
     draftPicks: 4, playerCount: 33,
-    coachName: "Dominic Shaw", coachEmail: "dshaw@astate.edu",
+    coachName: "", coachEmail: "",
     description: "Arkansas State Red Wolves rugby won USA Rugby 7s National Championships in 2012 and 2013, plus a D-1A 15's National Championship appearance.",
     enrollment: 17926, popularMajors: ["Business", "Engineering", "Agriculture", "Education"],
     weatherSummary: "Hot summers, cool winters.",

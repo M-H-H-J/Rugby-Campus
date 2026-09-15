@@ -190,7 +190,7 @@ insert into colleges (slug,name,location,state,region,lat,lng,map_x,map_y,affili
   'arkansas-state-university','Arkansas State University','Jonesboro, Arkansas','Arkansas','south',
   35.8424,-90.6782,585.8,361.8,
   'CRAA D1A','Midwest','playoff','Club',
-  4,33,'Dominic Shaw','dshaw@astate.edu',
+  4,33,'','',
   'Arkansas State Red Wolves rugby won USA Rugby 7s National Championships in 2012 and 2013, plus a D-1A 15''s National Championship appearance.',17926,'["Business", "Engineering", "Agriculture", "Education"]',
   'Hot summers, cool winters.','[{"month": "Jan", "hF": 49, "lF": 29, "hC": 9, "lC": -2}, {"month": "Feb", "hF": 55, "lF": 34, "hC": 13, "lC": 1}, {"month": "Mar", "hF": 65, "lF": 43, "hC": 18, "lC": 6}, {"month": "Apr", "hF": 75, "lF": 52, "hC": 24, "lC": 11}, {"month": "May", "hF": 83, "lF": 62, "hC": 28, "lC": 17}, {"month": "Jun", "hF": 90, "lF": 70, "hC": 32, "lC": 21}, {"month": "Jul", "hF": 93, "lF": 74, "hC": 34, "lC": 23}, {"month": "Aug", "hF": 92, "lF": 72, "hC": 33, "lC": 22}, {"month": "Sep", "hF": 86, "lF": 64, "hC": 30, "lC": 18}, {"month": "Oct", "hF": 76, "lF": 52, "hC": 24, "lC": 11}, {"month": "Nov", "hF": 63, "lF": 40, "hC": 17, "lC": 4}, {"month": "Dec", "hF": 52, "lF": 32, "hC": 11, "lC": 0}]',
   '["4 MLR Draft Picks"]','["2012, 2013 USA Rugby 7s National Champions", "D1A National Championship appearance"]',
