@@ -3,3 +3,8 @@ dist
 .prerender-data.mjs
 .DS_Store
 *.log
+AP.env
+.env
+.env.*
+!.env.example
+!AP.env.example

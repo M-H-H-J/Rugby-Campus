@@ -42,6 +42,8 @@ Content-Type: application/json
 
 Env: `TYPESAFE_API_KEY` (required). Optional: `TYPESAFE_BASE_URL`, `TYPESAFE_DEFAULT_MODEL`, `TYPESAFE_LOG_LEVEL`.
 
+**This repo:** the key lives in gitignored **`AP.env`** at the repo root (`TYPESAFE_API_KEY=...`). Copy `AP.env.example`. Load it with `scripts/load-ap-env.mjs`. Confirm with `npm run typesafe:ping`. Never commit `AP.env`, never send the key to the browser, never print it in logs or PRs.
+
 Request ID header on responses: `x-typesafe-request-id`.
 
 ### 2.1 `POST /v1/systemone`

@@ -18,5 +18,6 @@ Also noted (not mirrored as files):
 - Keys: https://console.typesafe.ai/settings/keys
 - HTTP API: https://api.typesafe.ai
 - Packages: `@typesafe-ai/sdk` (JS, Node 20+), `typesafe-sdk` (Python 3.10+)
+- Local key file (gitignored, not in git): repo-root `AP.env` → `TYPESAFE_API_KEY`
 
 If live docs disagree, update this folder from `llms.txt` / `llms-full.txt`.

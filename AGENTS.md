@@ -116,4 +116,4 @@ Open work, roughly in priority order:
 
 ## TypeSafe / Jev
 
-When calling TypeSafe’s System One model from this repo, read `.cursor/typesafe/COMPRESSED.md` first. Do not invent API fields. Keep keys server-side. Jev returns typed decisions, not generated copy — it must never be used to invent coach names, match results, rankings, or scholarship claims.
+When calling TypeSafe’s System One model from this repo, read `.cursor/typesafe/COMPRESSED.md` first. Do not invent API fields. The API key is in gitignored `AP.env` at the repo root — load it with `scripts/load-ap-env.mjs`, never commit it, never send it to the browser. Jev returns typed decisions, not generated copy — it must never be used to invent coach names, match results, rankings, or scholarship claims.

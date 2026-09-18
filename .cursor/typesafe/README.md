@@ -12,4 +12,6 @@ Compressed working reference for using TypeSafe's System One model **Jev** from 
 
 Live docs: https://docs.typesafe.ai/introduction
 
+**API key:** gitignored `AP.env` at the repo root (`TYPESAFE_API_KEY=`). See `AP.env.example`. `npm run typesafe:ping` checks auth without printing the secret.
+
 Fetched: 2026-09-18. If live docs disagree with this folder, trust live docs and update this folder.
