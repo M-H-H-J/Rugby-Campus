@@ -1,0 +1,9 @@
+---
+description: Use when calling TypeSafe / Jev / System One, writing questions, or integrating the TypeSafe API
+globs:
+alwaysApply: false
+---
+
+# TypeSafe / Jev
+
+Before writing TypeSafe code, read `.cursor/typesafe/COMPRESSED.md`. Do not invent request or response fields. Use `POST https://api.typesafe.ai/v1/systemone` with `state` + `questions` (map) + `model`. Questions are Choice / Score / Noul only. Batch independent questions in one call. Keep arithmetic, dates, counting, and control flow in code. Load `TYPESAFE_API_KEY` from gitignored `AP.env` at the repo root via `scripts/load-ap-env.mjs`. Never commit `AP.env`, never put the key in client code, never print it.
