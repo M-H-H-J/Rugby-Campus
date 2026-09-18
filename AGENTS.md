@@ -113,3 +113,7 @@ Open work, roughly in priority order:
 3. Write the three stub guides in `articles.ts` (they currently start with "Coming soon" — that prefix is how the UI detects stubs).
 4. Women's rugby: `gender` field exists on every record and in the schema; the Colleges page has a disabled "Women's — soon" toggle. Enabling means adding rows with `gender: 'womens'` and activating the toggle.
 5. Season preview article for 2026–27.
+
+## TypeSafe / Jev
+
+When calling TypeSafe’s System One model from this repo, read `.cursor/typesafe/COMPRESSED.md` first. Do not invent API fields. Keep keys server-side. Jev returns typed decisions, not generated copy — it must never be used to invent coach names, match results, rankings, or scholarship claims.
