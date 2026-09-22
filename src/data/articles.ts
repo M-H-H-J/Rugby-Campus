@@ -299,14 +299,38 @@ But recruiting agencies selling you a dream rarely mention the churn. I'm mentio
   {
     id: 6,
     slug: "how-college-rugby-recruitment-works",
-    title: "How College Rugby Recruitment Works in the USA",
+    title: "How college rugby recruitment works",
     metaTitle: "How College Rugby Recruitment Works | Rugby Campus",
-    metaDescription: "A complete guide to the college rugby recruitment process in the USA — timelines, what coaches look for, and how to stand out.",
-    excerpt: "The recruitment process for college rugby isn't like other sports. Here's how it actually works and what you need to do.",
+    metaDescription: "How colleges fill their rugby rosters, why you don't need an agency, and when to reach out to coaches — from a championship-winning coach.",
+    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. You don't need an agency — an email with film is enough to get a look.",
     category: "Recruitment",
     publishedDate: "2026-03-25",
-    readTime: "9 min read",
-    content: "Coming soon — this article is being written with input from college rugby coaches and current players.",
+    readTime: "4 min read",
+    content: `
+Colleges can fill their rugby rosters in a multitude of ways:
+1. Through agencies that send them players who are interested.
+2. From direct outreach from prospecting rugby players who want to join the program.
+3. By directly recruiting a player.
+4. Walk-ons.
+
+You don't need an agency to join a team — an email with film is enough to get a look.
+
+In season, coaches are flat out — so it's better to reach out during the offseason.
+
+## US College Rugby
+
+Men's rugby isn't NCAA football. Some universities/colleges are considered club teams while others are varsity sports. That matters hugely as it influences your scholarship, the facilities, the staff and the money going into the program. Additionally there are two competing College Rugby governing bodies — CRAA and NCR.
+
+## What to do
+
+1. Shortlist the colleges that fit you.
+2. Draft an email — do your research about the college.
+3. Email the head coach (and assistant coaches) if you have access to their emails.
+
+Yes, you can apply to the university at the same time — but that won't move the needle. You typically want the coach vouching for you and they typically allocate resources to help you through the process.
+
+If you're international it's unlikely you'll be found unless you attend a "recruiting camp". In the USA, you may get lucky and be recruited — however, don't base your college future on luck. Take it into your own hands.
+`,
   },
 ];
 
