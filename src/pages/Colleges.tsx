@@ -102,7 +102,7 @@ export default function Colleges() {
         grouped.map(({ tier, items }, gi) => (
           <section key={tier} className={gi > 0 ? 'mt-8 pt-6 border-t border-line' : ''}>
             <div className="flex items-baseline gap-2 mb-4">
-              <p className="kicker">{TIER_LABELS[tier]}s</p>
+              <p className="kicker">{TIER_LABELS[tier]}</p>
               <span className="text-[11px] text-faint">{items.length}</span>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
