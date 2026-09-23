@@ -40,82 +40,70 @@ export default function Colleges() {
     .filter((g) => g.items.length > 0), [filtered]);
 
   return (
-    <div className="max-w-6xl mx-auto px-5 py-8 md:py-12">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-        <div>
-          <p className="kicker mb-2">{SEASON_LABEL}</p>
-          <h1 className="font-heading text-[28px] md:text-[34px] leading-tight text-ink">College rugby programs</h1>
+    <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
+      {/* Header row */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+        <div className="flex items-baseline gap-3">
+          <h1 className="font-heading text-[22px] md:text-[26px] text-ink">Programs</h1>
+          <span className="text-[13px] text-faint">{SEASON_LABEL}</span>
         </div>
-        <Link href="/map" className="btn inline-flex items-center gap-2 self-start md:self-auto bg-white border border-line text-ink px-4 py-2 rounded-md text-[13px] font-semibold hover:border-navy/40">
-          <MapIcon size={15} /> Map view
+        <Link href="/map" className="btn inline-flex items-center gap-1.5 self-start md:self-auto bg-white border border-line text-ink px-3 py-1.5 rounded-md text-[12px] font-medium hover:border-navy/30">
+          <MapIcon size={14} /> Map
         </Link>
       </div>
 
       {/* Filter bar — dense tool chrome */}
-      <div className="sticky top-16 z-30 bg-paper -mx-5 px-5 border-b border-line mb-6">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-x-6 gap-y-2 pb-0">
-          <div className="flex gap-5 -mb-px">
+      <div className="sticky top-14 z-30 bg-paper -mx-4 px-4 border-b border-line mb-5">
+        <div className="flex items-center gap-4 py-2">
+          <div className="flex gap-4 -mb-px">
             {AFFILIATION_TABS.map((t) => (
               <button key={t} onClick={() => setTab(t)}
-                className={`pb-2.5 pt-2 text-[13px] font-medium border-b-2 transition-colors ${
+                className={`pb-2 text-[12px] font-medium border-b-2 transition-colors ${
                   tab === t ? 'border-navy text-ink' : 'border-transparent text-faint hover:text-muted'
                 }`}>
                 {t}
               </button>
             ))}
           </div>
-
-          <div className="flex items-center flex-1 gap-3 pb-2.5 lg:pb-2">
-            <div className="flex items-center flex-1 max-w-xs bg-white border border-line rounded-md px-3 focus-within:border-navy transition-colors">
-              <Search size={13} className="text-faint flex-shrink-0" />
+          <div className="flex items-center flex-1 gap-2">
+            <div className="flex items-center max-w-[180px] bg-white border border-line rounded-md px-2 focus-within:border-navy transition-colors">
+              <Search size={12} className="text-faint flex-shrink-0" />
               <input
                 type="text" value={search} onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
-                className="flex-1 min-w-0 bg-transparent px-2 py-1.5 text-[13px] outline-none placeholder:text-faint"
+                className="flex-1 min-w-0 bg-transparent px-1.5 py-1 text-[12px] outline-none placeholder:text-faint"
               />
             </div>
             <select value={tierFilter} onChange={(e) => setTierFilter(e.target.value as typeof tierFilter)}
-              className="bg-white border border-line rounded-md px-2.5 py-1.5 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
+              className="bg-white border border-line rounded-md px-2 py-1 text-[12px] text-muted outline-none cursor-pointer hover:border-navy/40">
               <option value="all">All tiers</option>
               {TIER_ORDER.map((t) => <option key={t} value={t}>{TIER_LABELS[t]}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as typeof typeFilter)}
-              className="bg-white border border-line rounded-md px-2.5 py-1.5 text-[13px] text-muted outline-none cursor-pointer hover:border-navy/40 transition-colors">
-              <option value="all">Club & varsity</option>
+              className="bg-white border border-line rounded-md px-2 py-1 text-[12px] text-muted outline-none cursor-pointer hover:border-navy/40">
+              <option value="all">All types</option>
               <option value="Varsity">Varsity</option>
               <option value="Club">Club</option>
             </select>
-
-            <div className="hidden lg:flex items-center gap-2 ml-auto" title="Women's programs coming soon">
-              <span className="text-[11px] text-faint select-none">Men's</span>
-              <button disabled aria-label="Women's programs coming soon"
-                className="relative w-7 h-[16px] rounded-full bg-line cursor-not-allowed">
-                <span className="absolute left-0.5 top-0.5 w-[12px] h-[12px] rounded-full bg-white" />
-              </button>
-              <span className="text-[11px] text-faint select-none">Women's soon</span>
-            </div>
+            <span className="text-[11px] text-faint ml-auto hidden sm:block">{filtered.length} results</span>
           </div>
         </div>
       </div>
 
-      <p className="text-[12px] text-faint mb-6">
-        {filtered.length} of {colleges.length} programs
-      </p>
-
       {grouped.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="text-center py-16">
           <p className="text-muted text-[14px] mb-3">No programs match those filters.</p>
           <button onClick={() => { setSearch(''); setTab('All'); setTierFilter('all'); setTypeFilter('all'); }}
-            className="text-navy text-[13px] font-semibold hover:text-navy-deep">Clear all filters</button>
+            className="text-navy text-[13px] font-semibold hover:text-navy-deep">Clear all</button>
         </div>
       ) : (
         grouped.map(({ tier, items }, gi) => (
-          <section key={tier} className={gi > 0 ? 'mt-10 pt-8 border-t border-line' : ''}>
-            <div className="flex items-baseline gap-3 mb-5">
+          <section key={tier} className={gi > 0 ? 'mt-8 pt-6 border-t border-line' : ''}>
+            <div className="flex items-baseline gap-2 mb-4">
               <p className="kicker">{TIER_LABELS[tier]}s</p>
-              <span className="text-[12px] text-faint">{items.length}</span>
+              <span className="text-[11px] text-faint">{items.length}</span>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
               {items.map((c) => <CollegeCard key={c.id} college={c} variant="tool" />)}
             </div>
           </section>

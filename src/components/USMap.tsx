@@ -17,25 +17,25 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   return (
-    <div style={{ position: 'relative', width: '100%', height, background: '#fafbfc', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height, background: '#f8fafc', overflow: 'hidden' }}>
       <svg viewBox="0 0 960 600" style={{ width: '100%', height: '100%', display: 'block' }} preserveAspectRatio="xMidYMid meet">
         {/* Ocean / background */}
-        <rect width="960" height="600" fill="#fafbfc" />
+        <rect width="960" height="600" fill="#f8fafc" />
 
         {/* Nation fill */}
         <path d={US_NATION_PATH} fill="#ffffff" stroke="none" />
 
         {/* State borders */}
-        <path d={US_BORDERS_PATH} fill="none" stroke="#e5e7eb" strokeWidth={0.8} strokeLinejoin="round" />
+        <path d={US_BORDERS_PATH} fill="none" stroke="#e2e5ea" strokeWidth={0.7} strokeLinejoin="round" />
 
         {/* Nation outline */}
-        <path d={US_NATION_PATH} fill="none" stroke="#d1d5db" strokeWidth={1.2} strokeLinejoin="round" />
+        <path d={US_NATION_PATH} fill="none" stroke="#cdd3db" strokeWidth={1} strokeLinejoin="round" />
 
-        {/* Pins */}
+        {/* Pins — larger for visibility */}
         {colleges.map((c) => {
           if (c.mapX == null || c.mapY == null) return null;
           const isHover = hover?.id === c.id;
-          const r = c.tier === 'championship' ? 7 : 5.5;
+          const r = c.tier === 'championship' ? 9 : 7;
           return (
             <g
               key={c.id}
@@ -44,10 +44,9 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
               onMouseLeave={() => interactive && setHover(null)}
               onClick={() => interactive && onSelect(c.slug)}
             >
-              {/* Halo on hover */}
-              {isHover && <circle cx={c.mapX} cy={c.mapY} r={r + 5} fill={c.tier === 'championship' ? gold : navy} opacity={0.2} />}
-              <circle cx={c.mapX} cy={c.mapY} r={r} fill={c.tier === 'championship' ? gold : navy} stroke="#fff" strokeWidth={1.5} opacity={isHover ? 1 : 0.85} />
-              <circle cx={c.mapX} cy={c.mapY} r={r * 0.4} fill="#fff" opacity={0.9} />
+              {isHover && <circle cx={c.mapX} cy={c.mapY} r={r + 6} fill={c.tier === 'championship' ? gold : navy} opacity={0.2} />}
+              <circle cx={c.mapX} cy={c.mapY} r={r} fill={c.tier === 'championship' ? gold : navy} stroke="#fff" strokeWidth={2} opacity={isHover ? 1 : 0.9} />
+              <circle cx={c.mapX} cy={c.mapY} r={r * 0.35} fill="#fff" opacity={0.95} />
             </g>
           );
         })}

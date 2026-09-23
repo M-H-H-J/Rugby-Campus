@@ -40,7 +40,7 @@ export default function App() {
     <div className={`min-h-screen flex flex-col font-body ${canvasClass}`}>
       <ScrollToTop />
       <Navigation />
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-14">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/map" component={MapPage} />
