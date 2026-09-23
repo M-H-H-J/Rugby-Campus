@@ -87,10 +87,10 @@ export default function Training() {
           <div className="lg:col-span-7">
             <p className="kicker mb-3 text-gold">Paid coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
-              Individualised coaching from someone who\u2019s coached at this level
+              One-on-one coaching built around you
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a limited number of athletes one-on-one. Your program is built around your position, what you want, and your rugby season timeline — with regular check-ins to keep you honest. This is the preparation I wish I\u2019d had coming out of school. Coaching is not free — enquire for details.
+              I take on a limited number of athletes. Your program is built around your position, what you want to work on, and your rugby season timeline — with regular check-ins and adjustments as you go. Coaching is a paid service — enquire for details.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[

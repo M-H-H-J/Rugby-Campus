@@ -75,7 +75,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Championship contenders — large editorial rows ── */}
+      {/* ── Top programs — large editorial rows ── */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-5">
           <div className="flex items-end justify-between mb-8">
@@ -93,8 +93,14 @@ export default function Home() {
             <Link key={c.id} href={`/colleges/${c.slug}`} className={`block group cursor-pointer ${i > 0 ? 'border-t border-line' : ''}`}>
               <div className="max-w-7xl mx-auto px-5 py-6 md:py-8 flex gap-6 md:gap-10 items-center">
                 <div className="w-24 md:w-36 flex-shrink-0">
-                  <div className="aspect-[4/3] rounded-md overflow-hidden bg-line flex items-center justify-center">
-                    <span className="text-[11px] text-faint font-medium text-center px-2">{c.name}</span>
+                  <div className="aspect-[4/3] rounded-md overflow-hidden bg-line">
+                    {c.imageUrl ? (
+                      <img src={c.imageUrl} alt={`${c.name} campus`} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-[11px] text-faint font-medium text-center px-2">{c.name}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">

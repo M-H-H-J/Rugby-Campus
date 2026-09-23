@@ -146,7 +146,7 @@ Let me tell you about one college rugby program over a few seasons. In year one 
 
 **Key idea up front: programs move in cycles.** That is the piece most rankings miss.
 
-That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I was lucky enough to captain, but that senior group had gone and we were poor. Senior year was better. After I graduated I moved into the head coaching role. In 2023 we won the **NCR D1 National Championship**, beating St. Bonaventure in the final in Houston. We only lost one game that year — to Navy.
+That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I was captain, but that senior group had gone and we were poor. Senior year was better. After I graduated I moved into the head coaching role. In 2023 we won the NCR D1 National Championship, beating St. Bonaventure in the final in Houston. We only lost one game that year — to Navy.
 
 If you had ranked that program from any single season, you would have drawn the wrong conclusion about the next twelve months. That is the problem with rankings.
 

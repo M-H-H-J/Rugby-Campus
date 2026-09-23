@@ -10,7 +10,7 @@ export default function About() {
       <header className="mb-10">
         <p className="kicker mb-3">About</p>
         <h1 className="font-heading text-[36px] md:text-[46px] text-ink leading-[1.06] mb-5">
-          The resource I needed at 17.
+          Why this site exists
         </h1>
         <p className="font-heading text-[19px] text-muted leading-[1.6]">
           Rugby Campus is a free guide to US college rugby — from someone who\u2019s seen both sides of the recruitment process.
@@ -28,7 +28,7 @@ export default function About() {
             What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over and play.
           </p>
           <p>
-            I\u2019m Hugh Johnston — an Australian who joined Notre Dame College\u2019s rugby program in Ohio in Fall 2019, at 17. I walked into a D1A side in Rugby East against Army, Navy, and Penn State — at the time one of the most competitive conferences in the country. I was lucky enough to captain the side in my junior and senior years as the program shifted from D1A to NCR D1. After finishing, I played PR7s and club rugby in Austin, Texas, then came back to Notre Dame College in Fall 2023 as Head Coach. That season we won the NCR D1 National Championship, beating St. Bonaventure in the final in Houston.
+            I\u2019m Hugh Johnston — an Australian who joined Notre Dame College\u2019s rugby program in Ohio in Fall 2019, at 17. I played in Rugby East against Army, Navy, and Penn State, captained the side as the program shifted from D1A to NCR D1, then played PR7s and club rugby in Austin, Texas. In Fall 2023 I came back to Notre Dame College as Head Coach. That season we won the 2023 NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
