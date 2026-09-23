@@ -8,6 +8,8 @@ export default {
         body: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
       },
       colors: {
+        cream: '#f7f4ef',
+        paper: '#f6f5f4',
         navy: '#00458c',
         'navy-deep': '#062B57',
         gold: '#f2b600',

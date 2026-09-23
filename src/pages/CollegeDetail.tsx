@@ -177,8 +177,8 @@ export default function CollegeDetail() {
             <h2 className="font-heading text-[24px] text-ink">More {TIER_LABELS[college.tier].toLowerCase()}s</h2>
             <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
-            {others.map((c) => <CollegeCard key={c.id} college={c} />)}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">
+            {others.map((c) => <CollegeCard key={c.id} college={c} variant="tool" />)}
           </div>
         </section>
       )}

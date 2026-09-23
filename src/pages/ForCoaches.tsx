@@ -35,7 +35,7 @@ export default function ForCoaches() {
           ))}
         </div>
         <aside className="lg:col-span-5">
-          <div className="lg:sticky lg:top-24 border border-line rounded-lg p-7">
+          <div className="lg:sticky lg:top-24 bg-white border border-line rounded-lg p-7">
             <p className="kicker mb-3">Who's looking</p>
             <ul className="space-y-3">
               {[

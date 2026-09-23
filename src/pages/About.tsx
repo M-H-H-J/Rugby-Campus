@@ -61,7 +61,7 @@ export default function About() {
         <p className="text-white/55 text-[14.5px] leading-relaxed mb-7 max-w-lg">
           For players and parents who want hands-on help with the US pathway — choosing programs, approaching coaches, and arriving ready to compete. And for coaches who want their program in front of the right international recruits.
         </p>
-        <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+        <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold hover:bg-gold/90 transition-colors">
           <Mail size={15} /> See how it works
         </Link>
       </section>

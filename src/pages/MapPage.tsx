@@ -55,7 +55,7 @@ export default function MapPage() {
         </div>
       </div>
 
-      <p className="text-[12px] text-faint mt-4">Map © OpenStreetMap contributors</p>
+      <p className="text-[12px] text-faint mt-4">Map tiles © CARTO · Data © OpenStreetMap contributors</p>
     </div>
   );
 }

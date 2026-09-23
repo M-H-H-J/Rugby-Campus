@@ -52,7 +52,7 @@ export default function Colleges() {
       </div>
 
       {/* Filter bar — underline tabs, plain controls */}
-      <div className="sticky top-16 z-30 bg-white -mx-5 px-5 border-b border-line mb-10">
+      <div className="sticky top-16 z-30 bg-paper -mx-5 px-5 border-b border-line mb-10">
         <div className="flex flex-col lg:flex-row lg:items-center gap-x-8 gap-y-3 pb-0">
           <div className="flex gap-6 -mb-px">
             {AFFILIATION_TABS.map((t) => (
@@ -115,8 +115,8 @@ export default function Colleges() {
               <h2 className="font-heading text-[24px] text-ink">{TIER_LABELS[tier]}s</h2>
               <span className="text-[13px] text-faint">{items.length}</span>
             </div>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
-              {items.map((c) => <CollegeCard key={c.id} college={c} />)}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-6">
+              {items.map((c) => <CollegeCard key={c.id} college={c} variant="tool" />)}
             </div>
           </section>
         ))

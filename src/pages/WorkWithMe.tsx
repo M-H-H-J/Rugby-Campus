@@ -44,7 +44,7 @@ export default function WorkWithMe() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="lg:sticky lg:top-24 border border-line rounded-lg p-7">
+          <div className="lg:sticky lg:top-24 bg-white border border-line rounded-lg p-7">
             <p className="kicker mb-2">Why me</p>
             <ul className="space-y-3 mb-6">
               {[
@@ -61,7 +61,7 @@ export default function WorkWithMe() {
             </ul>
             <div className="pt-5 border-t border-line">
               <p className="text-[13px] text-muted leading-relaxed mb-5">I take on a limited number of players each intake. Pricing is discussed on the intro call — it's a fraction of what agencies charge.</p>
-              <a href="#enquire" className="btn block text-center bg-navy text-white px-5 py-3 rounded-md text-[13px] font-bold">Start with a free intro call</a>
+              <a href="#enquire" className="btn block text-center border border-navy text-navy px-5 py-3 rounded-md text-[13px] font-bold hover:bg-navy hover:text-white transition-colors">Start with a free intro call</a>
             </div>
           </div>
         </aside>

@@ -67,7 +67,7 @@ export default function Home() {
 
           <div className="lg:col-span-7">
             <Link href="/map" aria-label="Open the interactive map">
-              <div className="group cursor-pointer border border-line rounded-lg overflow-hidden bg-[#fafbfc] hover:border-navy/30 transition-colors">
+              <div className="group cursor-pointer border border-line rounded-lg overflow-hidden bg-white hover:border-navy/30 transition-colors">
                 <USMap colleges={colleges} onSelect={() => navigate('/map')} height={430} interactive={false} />
                 <div className="flex items-center justify-between px-5 py-3 border-t border-line bg-white">
                   <span className="text-[13px] text-muted">{colleges.length} programs, coast to coast</span>
@@ -93,7 +93,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
-          {featured.map((c) => <CollegeCard key={c.id} college={c} />)}
+          {featured.map((c) => <CollegeCard key={c.id} college={c} variant="editorial" />)}
         </div>
         <div className="mt-8 sm:hidden">
           <Link href="/colleges" className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy">
@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* ── How it works: editorial numbered list ── */}
-      <section className="border-y border-line bg-[#fafbfc]">
+      <section className="border-y border-line bg-white">
         <div className="max-w-6xl mx-auto px-5 py-14 md:py-20 grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <p className="kicker mb-2">The pathway</p>

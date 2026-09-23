@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Switch, Route, useLocation } from 'wouter';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -13,7 +13,17 @@ import About from '@/pages/About';
 import WorkWithMe from '@/pages/WorkWithMe';
 import ForCoaches from '@/pages/ForCoaches';
 
-// Scroll to top on every route change
+const TOOL_ROUTES = ['/map', '/colleges'];
+
+function useCanvasClass(location: string): string {
+  return useMemo(() => {
+    const isToolSurface = TOOL_ROUTES.some(
+      (r) => location === r || location.startsWith(r + '/')
+    );
+    return isToolSurface ? 'bg-paper' : 'bg-cream';
+  }, [location]);
+}
+
 function ScrollToTop() {
   const [location] = useLocation();
   useEffect(() => {
@@ -23,8 +33,11 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [location] = useLocation();
+  const canvasClass = useCanvasClass(location);
+
   return (
-    <div className="min-h-screen flex flex-col font-body">
+    <div className={`min-h-screen flex flex-col font-body ${canvasClass}`}>
       <ScrollToTop />
       <Navigation />
       <main className="flex-1 pt-16">

@@ -17,10 +17,10 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   return (
-    <div style={{ position: 'relative', width: '100%', height, background: '#f8fafc', borderRadius: 16, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height, background: '#fafbfc', overflow: 'hidden' }}>
       <svg viewBox="0 0 960 600" style={{ width: '100%', height: '100%', display: 'block' }} preserveAspectRatio="xMidYMid meet">
         {/* Ocean / background */}
-        <rect width="960" height="600" fill="#f8fafc" />
+        <rect width="960" height="600" fill="#fafbfc" />
 
         {/* Nation fill */}
         <path d={US_NATION_PATH} fill="#ffffff" stroke="none" />
@@ -53,19 +53,16 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
         })}
       </svg>
 
-      {/* Hover tooltip */}
+      {/* Hover tooltip — hairline card, no shadow */}
       {hover && interactive && (
         <div style={{
           position: 'absolute', left: pos.x, top: pos.y, transform: 'translate(-50%, calc(-100% - 14px))',
-          background: 'white', borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.14)', border: '1px solid #f3f4f6',
+          background: 'white', borderRadius: 8, border: '1px solid #e5e9ef',
           padding: '10px 12px', pointerEvents: 'none', whiteSpace: 'nowrap', zIndex: 20,
         }}>
           <div style={{ fontFamily: 'Newsreader, Georgia, serif', fontWeight: 600, fontSize: 12, color: '#071B33' }}>{hover.name}</div>
-          <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{hover.location}</div>
-          <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
-            <span style={{ fontSize: 10, fontWeight: 600, background: '#f3f4f6', color: '#4b5563', padding: '2px 7px', borderRadius: 5 }}>{hover.affiliation}</span>
-            
-          </div>
+          <div style={{ fontSize: 11, color: '#5b6b7d', marginTop: 2 }}>{hover.location}</div>
+          <div style={{ fontSize: 10, color: '#8b98a8', marginTop: 4 }}>{hover.affiliation}</div>
         </div>
       )}
     </div>

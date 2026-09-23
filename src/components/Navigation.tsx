@@ -28,7 +28,7 @@ export default function Navigation() {
     href === '/' ? location === '/' : location.startsWith(href);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-200 ${scrolled ? 'shadow-[0_1px_0_0_#e5e9ef]' : ''} border-b border-line`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-line transition-shadow duration-200 ${scrolled ? 'shadow-[0_1px_3px_rgba(0,0,0,0.04)]' : ''}`}>
       <div className="max-w-6xl mx-auto px-5">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center" aria-label="Rugby Campus home">
