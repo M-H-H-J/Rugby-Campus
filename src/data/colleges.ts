@@ -16,9 +16,9 @@ export interface College {
 }
 
 export const TIER_LABELS: Record<Tier, string> = {
-  championship: 'Championship Contender',
+  championship: 'Often Near the Top',
   playoff: 'Playoff Calibre',
-  competitive: 'Competitive Top 40',
+  competitive: 'Competitive',
 };
 
 export const SEASON_LABEL = '2026\u201327 season \u00b7 tiers based on final 2025\u201326 results and early-season rankings';

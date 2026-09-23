@@ -9,7 +9,7 @@ import { captureEmail } from '@/lib/supabase';
 import { TIER_LABELS } from '@/data/colleges';
 
 export default function Home() {
-  usePageMeta('', 'Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from a national championship-winning coach.');
+  usePageMeta('', 'Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who\u2019s been on both sides of recruitment.');
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
   const [email, setEmail] = useState('');
@@ -149,7 +149,7 @@ export default function Home() {
             <div className="flex items-end justify-between mb-10">
               <div>
                 <p className="kicker mb-3">Honest Guides</p>
-                <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">How it really works</h2>
+                <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">How it works</h2>
               </div>
               <Link href="/learn" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
                 All guides <ArrowRight size={15} />

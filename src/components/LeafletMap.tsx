@@ -101,7 +101,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
           <p style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:#00458c;margin:0 0 4px">${c.affiliation}</p>
           <p style="font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:14px;color:#071B33;line-height:1.25;margin:0 0 2px">${c.name}</p>
           <p style="font-size:11px;color:#5b6b7d;margin:0 0 10px">${c.location}</p>
-          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:9px 12px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View profile</button>
+          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:9px 12px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View profile · Coach contact</button>
         </div>
       `;
 

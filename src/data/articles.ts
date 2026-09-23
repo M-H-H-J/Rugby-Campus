@@ -220,7 +220,7 @@ The program that had climbed hard over a decade, shaped a lot of lives including
 
 **Silver lining:** the program transferred to **Walsh University** in **North Canton, Ohio**. Many players and a lot of the culture carried across. Walsh is a legitimate NCR D1 side now — find them on the [map](/map). If you had committed to NDC in mid-2024, you learned the hard version of a real American higher-ed risk: small colleges can close, and rugby goes with them.
 
-Two of America\u2019s **best-known programs if you play rugby** disappeared in a short window. One of them was mine. Here\u2019s what happened — and how to protect yourself.
+Two programs that were **known if you play rugby** disappeared in a short window. One of them was mine. Here\u2019s what happened — and how to protect yourself.
 
 ## Central Washington: varsity discontinued; club restart
 
