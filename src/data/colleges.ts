@@ -12,7 +12,7 @@ export interface College {
   description: string; enrollment: number; popularMajors: string[];
   weatherSummary: string; monthlyTemps: MonthTemp[];
   badges: string[]; achievements: string[];
-  website: string; imageUrl: string; gender: Gender;
+  website: string; imageUrl: string; imageCredit: string; imageSourcePage: string; gender: Gender;
 }
 
 export const TIER_LABELS: Record<Tier, string> = {
@@ -38,7 +38,7 @@ export const colleges: College[] = [
     weatherSummary: "Mild summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:58,lF:45,hC:14,lC:7},{month:"Feb",hF:62,lF:47,hC:17,lC:8},{month:"Mar",hF:65,lF:49,hC:18,lC:9},{month:"Apr",hF:68,lF:51,hC:20,lC:11},{month:"May",hF:72,lF:54,hC:22,lC:12},{month:"Jun",hF:75,lF:57,hC:24,lC:14},{month:"Jul",hF:75,lF:58,hC:24,lC:14},{month:"Aug",hF:76,lF:59,hC:24,lC:15},{month:"Sep",hF:77,lF:58,hC:25,lC:14},{month:"Oct",hF:73,lF:55,hC:23,lC:13},{month:"Nov",hF:65,lF:50,hC:18,lC:10},{month:"Dec",hF:58,lF:45,hC:14,lC:7}],
     badges: ["4 MLR Draft Picks", "2026 D1A National Champions", "Back-to-Back Champions (2025 & 2026)"], achievements: ["33-time National Champions", "PAC Rugby Conference Titles"],
-    website: "https://www.berkeley.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    website: "https://www.berkeley.edu", imageUrl: "/college-images/university-of-california-berkeley.jpg", imageCredit: "Photo: Gku / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Berkeley%20glade%20afternoon.jpg", gender: "mens",
   },
   {
     id: 2, slug: "united-states-naval-academy", name: "United States Naval Academy",
@@ -53,7 +53,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:43,lF:29,hC:6,lC:-2},{month:"Feb",hF:47,lF:32,hC:8,lC:0},{month:"Mar",hF:56,lF:39,hC:13,lC:4},{month:"Apr",hF:67,lF:48,hC:19,lC:9},{month:"May",hF:76,lF:58,hC:24,lC:14},{month:"Jun",hF:84,lF:67,hC:29,lC:19},{month:"Jul",hF:88,lF:72,hC:31,lC:22},{month:"Aug",hF:86,lF:70,hC:30,lC:21},{month:"Sep",hF:80,lF:63,hC:27,lC:17},{month:"Oct",hF:69,lF:51,hC:21,lC:11},{month:"Nov",hF:59,lF:41,hC:15,lC:5},{month:"Dec",hF:48,lF:33,hC:9,lC:1}],
     badges: ["2026 D1A Finalists"], achievements: ["Rugby East Conference Championships", "Multiple Elite Competition appearances"],
-    website: "https://www.usna.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.usna.edu", imageUrl: "/college-images/united-states-naval-academy.jpg", imageCredit: "Photo: National Museum of the U.S. Navy / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Aerial%20photograph%20of%20the%20United%20States%20Naval%20Academy%20%28121011-N-OA833-002%29.jpg", gender: "mens",
   },
   {
     id: 3, slug: "life-university", name: "Life University",
@@ -68,7 +68,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:51,lF:31,hC:11,lC:-1},{month:"Feb",hF:56,lF:35,hC:13,lC:2},{month:"Mar",hF:64,lF:42,hC:18,lC:6},{month:"Apr",hF:72,lF:49,hC:22,lC:9},{month:"May",hF:80,lF:58,hC:27,lC:14},{month:"Jun",hF:86,lF:66,hC:30,lC:19},{month:"Jul",hF:88,lF:70,hC:31,lC:21},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:82,lF:62,hC:28,lC:17},{month:"Oct",hF:73,lF:50,hC:23,lC:10},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:53,lF:33,hC:12,lC:1}],
     badges: ["8 MLR Draft Picks", "2026 D1A Semifinalists"], achievements: ["2018 & 2019 National Champions", "Multiple Rugby East Championships"],
-    website: "https://www.life.edu", imageUrl: "https://images.unsplash.com/photo-1606800052259-a9b0a9c8c3b0?w=800&q=80", gender: "mens",
+    website: "https://www.life.edu", imageUrl: "/college-images/life-university.jpg", imageCredit: "Photo: John Phelan / Wikimedia Commons (CC BY 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Drs%20Sid%20E%20and%20Nell%20K%20Williams%20Library%20entrance%2C%20Marietta%20GA.jpg", gender: "mens",
   },
   {
     id: 4, slug: "lindenwood-university", name: "Lindenwood University",
@@ -83,7 +83,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:39,lF:22,hC:4,lC:-6},{month:"Feb",hF:45,lF:27,hC:7,lC:-3},{month:"Mar",hF:56,lF:37,hC:13,lC:3},{month:"Apr",hF:68,lF:48,hC:20,lC:9},{month:"May",hF:77,lF:58,hC:25,lC:14},{month:"Jun",hF:86,lF:67,hC:30,lC:19},{month:"Jul",hF:89,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:80,lF:61,hC:27,lC:16},{month:"Oct",hF:69,lF:49,hC:21,lC:9},{month:"Nov",hF:55,lF:38,hC:13,lC:3},{month:"Dec",hF:42,lF:26,hC:6,lC:-3}],
     badges: ["17 MLR Draft Picks"], achievements: ["Multiple Midwest Conference Championships", "National Tournament appearances"],
-    website: "https://www.lindenwood.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    website: "https://www.lindenwood.edu", imageUrl: "/college-images/lindenwood-university.jpg", imageCredit: "Photo: Bhockey10 / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:SpellmanncenterLindenwood.jpg", gender: "mens",
   },
   {
     id: 5, slug: "saint-mary-s-college-of-california", name: "Saint Mary's College of California",
@@ -98,7 +98,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:62,lF:42,hC:17,lC:6},{month:"Feb",hF:66,lF:45,hC:19,lC:7},{month:"Mar",hF:69,lF:47,hC:21,lC:8},{month:"Apr",hF:72,lF:50,hC:22,lC:10},{month:"May",hF:75,lF:53,hC:24,lC:12},{month:"Jun",hF:79,lF:57,hC:26,lC:14},{month:"Jul",hF:82,lF:59,hC:28,lC:15},{month:"Aug",hF:83,lF:60,hC:28,lC:16},{month:"Sep",hF:82,lF:58,hC:28,lC:14},{month:"Oct",hF:77,lF:54,hC:25,lC:12},{month:"Nov",hF:69,lF:47,hC:21,lC:8},{month:"Dec",hF:62,lF:42,hC:17,lC:6}],
     badges: ["5 MLR Draft Picks", "2026 D1A Semifinalists", "2024 D1A National Champions"], achievements: ["4\u00d7 D1A National Champions (2014, 2015, 2017, 2024)", "Multiple California Conference Championships"],
-    website: "https://www.stmarys-ca.edu", imageUrl: "https://images.unsplash.com/photo-1567168544813-cc03465b4fa8?w=800&q=80", gender: "mens",
+    website: "https://www.stmarys-ca.edu", imageUrl: "/college-images/saint-mary-s-college-of-california.jpg", imageCredit: "Photo: Smcj0001 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:SMC%20Pictures%20028.jpg", gender: "mens",
   },
   {
     id: 6, slug: "united-states-military-academy-army", name: "United States Military Academy (Army)",
@@ -113,7 +113,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:35,lF:20,hC:2,lC:-7},{month:"Feb",hF:39,lF:23,hC:4,lC:-5},{month:"Mar",hF:48,lF:31,hC:9,lC:-1},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:52,hC:22,lC:11},{month:"Jun",hF:79,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:74,lF:56,hC:23,lC:13},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:51,lF:35,hC:11,lC:2},{month:"Dec",hF:40,lF:26,hC:4,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: ["2022 D1A National Champions", "Multiple Rugby East Championships"],
-    website: "https://www.westpoint.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    website: "https://www.westpoint.edu", imageUrl: "/college-images/united-states-military-academy-army.jpg", imageCredit: "Photo: USMA Public Affairs Office / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:USMA%20Aerial%20View%20Looking%20North.jpg", gender: "mens",
   },
   {
     id: 7, slug: "university-of-california-los-angeles-ucla", name: "University of California, Los Angeles (UCLA)",
@@ -128,7 +128,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:68,lF:48,hC:20,lC:9},{month:"Feb",hF:69,lF:50,hC:21,lC:10},{month:"Mar",hF:72,lF:53,hC:22,lC:12},{month:"Apr",hF:75,lF:56,hC:24,lC:13},{month:"May",hF:77,lF:60,hC:25,lC:16},{month:"Jun",hF:81,lF:64,hC:27,lC:18},{month:"Jul",hF:85,lF:68,hC:29,lC:20},{month:"Aug",hF:85,lF:68,hC:29,lC:20},{month:"Sep",hF:83,lF:66,hC:28,lC:19},{month:"Oct",hF:78,lF:61,hC:26,lC:16},{month:"Nov",hF:73,lF:54,hC:23,lC:12},{month:"Dec",hF:68,lF:48,hC:20,lC:9}],
     badges: ["4 MLR Draft Picks"], achievements: ["PAC Rugby Conference Championships", "National Tournament appearances"],
-    website: "https://www.ucla.edu", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", gender: "mens",
+    website: "https://www.ucla.edu", imageUrl: "/college-images/university-of-california-los-angeles-ucla.jpg", imageCredit: "Photo: Satyriconi / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Royce%20Hall%2C%20University%20of%20California%2C%20Los%20Angeles%20%2823-09-2003%29.jpg", gender: "mens",
   },
   {
     id: 8, slug: "brown-university", name: "Brown University",
@@ -143,7 +143,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:40,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:59,lF:41,hC:15,lC:5},{month:"May",hF:69,lF:51,hC:21,lC:11},{month:"Jun",hF:78,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:65,hC:28,lC:18},{month:"Sep",hF:75,lF:58,hC:24,lC:14},{month:"Oct",hF:64,lF:47,hC:18,lC:8},{month:"Nov",hF:53,lF:37,hC:12,lC:3},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
     badges: [], achievements: ["2022 D1 National Champions", "Multiple Ivy Rugby Conference titles"],
-    website: "https://www.brown.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    website: "https://www.brown.edu", imageUrl: "/college-images/brown-university.jpg", imageCredit: "Photo: Kenneth C. Zirkel / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Brown%27s%20University%20Hall%20in%202007.jpg", gender: "mens",
   },
   {
     id: 9, slug: "mount-st-mary-s-university", name: "Mount St. Mary's University",
@@ -158,7 +158,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:40,lF:26,hC:4,lC:-3},{month:"Feb",hF:44,lF:28,hC:7,lC:-2},{month:"Mar",hF:53,lF:36,hC:12,lC:2},{month:"Apr",hF:64,lF:45,hC:18,lC:7},{month:"May",hF:74,lF:55,hC:23,lC:13},{month:"Jun",hF:82,lF:64,hC:28,lC:18},{month:"Jul",hF:87,lF:69,hC:31,lC:21},{month:"Aug",hF:85,lF:67,hC:29,lC:19},{month:"Sep",hF:78,lF:59,hC:26,lC:15},{month:"Oct",hF:67,lF:47,hC:19,lC:8},{month:"Nov",hF:56,lF:37,hC:13,lC:3},{month:"Dec",hF:44,lF:30,hC:7,lC:-1}],
     badges: [], achievements: ["2016 NSCRO National Champions", "DI-AA Chesapeake Conference titles"],
-    website: "https://www.msmary.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    website: "https://www.msmary.edu", imageUrl: "/college-images/mount-st-mary-s-university.jpg", imageCredit: "Photo: Guoguo12 / Wikimedia Commons (CC0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:MountStMarysSign.JPG", gender: "mens",
   },
   {
     id: 10, slug: "brigham-young-university", name: "Brigham Young University",
@@ -173,7 +173,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:22,hC:3,lC:-6},{month:"Feb",hF:43,lF:27,hC:6,lC:-3},{month:"Mar",hF:53,lF:35,hC:12,lC:2},{month:"Apr",hF:62,lF:42,hC:17,lC:6},{month:"May",hF:72,lF:51,hC:22,lC:11},{month:"Jun",hF:82,lF:60,hC:28,lC:16},{month:"Jul",hF:89,lF:67,hC:32,lC:19},{month:"Aug",hF:87,lF:65,hC:31,lC:18},{month:"Sep",hF:77,lF:55,hC:25,lC:13},{month:"Oct",hF:64,lF:43,hC:18,lC:6},{month:"Nov",hF:48,lF:32,hC:9,lC:0},{month:"Dec",hF:38,lF:24,hC:3,lC:-4}],
     badges: ["3 MLR Draft Picks"], achievements: ["5 National Championships", "Multiple Rocky Mountain Conference titles"],
-    website: "https://www.byu.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    website: "https://www.byu.edu", imageUrl: "/college-images/brigham-young-university.jpg", imageCredit: "Photo: Eustress / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:MaeserBuilding.JPG", gender: "mens",
   },
   {
     id: 11, slug: "university-of-arizona", name: "University of Arizona",
@@ -188,7 +188,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:66,lF:40,hC:19,lC:4},{month:"Feb",hF:70,lF:43,hC:21,lC:6},{month:"Mar",hF:76,lF:48,hC:24,lC:9},{month:"Apr",hF:84,lF:55,hC:29,lC:13},{month:"May",hF:94,lF:64,hC:34,lC:18},{month:"Jun",hF:103,lF:73,hC:39,lC:23},{month:"Jul",hF:106,lF:79,hC:41,lC:26},{month:"Aug",hF:104,lF:77,hC:40,lC:25},{month:"Sep",hF:99,lF:71,hC:37,lC:22},{month:"Oct",hF:87,lF:58,hC:31,lC:14},{month:"Nov",hF:75,lF:46,hC:24,lC:8},{month:"Dec",hF:66,lF:40,hC:19,lC:4}],
     badges: ["4 MLR Draft Picks"], achievements: ["PAC Rugby Conference Championships", "Division 1-A National Tournament appearances"],
-    website: "https://www.arizona.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    website: "https://www.arizona.edu", imageUrl: "/college-images/university-of-arizona.jpg", imageCredit: "Photo: Michael Barera / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:University%20of%20Arizona%20May%202019%2047%20%28Mall%29.jpg", gender: "mens",
   },
   {
     id: 12, slug: "pennsylvania-state-university", name: "Pennsylvania State University",
@@ -203,7 +203,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:35,lF:21,hC:2,lC:-6},{month:"Feb",hF:39,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:51,hC:22,lC:11},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:82,lF:64,hC:28,lC:18},{month:"Aug",hF:81,lF:62,hC:27,lC:17},{month:"Sep",hF:74,lF:55,hC:23,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:50,lF:34,hC:10,lC:1},{month:"Dec",hF:39,lF:26,hC:4,lC:-3}],
     badges: ["4 MLR Draft Picks"], achievements: ["Multiple National Championships", "Big Ten Conference Titles", "National Tournament appearances"],
-    website: "https://www.psu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.psu.edu", imageUrl: "/college-images/pennsylvania-state-university.jpg", imageCredit: "Photo: George Chriss / Wikimedia Commons (CC BY 2.5)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Penn%20state%20old%20main%20summer.jpg", gender: "mens",
   },
   {
     id: 13, slug: "dartmouth-college", name: "Dartmouth College",
@@ -218,7 +218,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:28,lF:8,hC:-2,lC:-13},{month:"Feb",hF:32,lF:11,hC:0,lC:-12},{month:"Mar",hF:42,lF:21,hC:6,lC:-6},{month:"Apr",hF:56,lF:33,hC:13,lC:1},{month:"May",hF:68,lF:44,hC:20,lC:7},{month:"Jun",hF:77,lF:53,hC:25,lC:12},{month:"Jul",hF:81,lF:58,hC:27,lC:14},{month:"Aug",hF:79,lF:56,hC:26,lC:13},{month:"Sep",hF:71,lF:47,hC:22,lC:8},{month:"Oct",hF:59,lF:36,hC:15,lC:2},{month:"Nov",hF:46,lF:26,hC:8,lC:-3},{month:"Dec",hF:33,lF:14,hC:1,lC:-10}],
     badges: [], achievements: ["2019 D1-AA Spring Championship", "Ivy Rugby Conference titles"],
-    website: "https://www.dartmouth.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    website: "https://www.dartmouth.edu", imageUrl: "/college-images/dartmouth-college.jpg", imageCredit: "Photo: Kane5187 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Dartmouth%20College%20campus%202007-06-23%20Dartmouth%20Hall%2002.JPG", gender: "mens",
   },
   {
     id: 14, slug: "california-polytechnic-state-university", name: "California Polytechnic State University",
@@ -233,7 +233,7 @@ export const colleges: College[] = [
     weatherSummary: "Mild summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:64,lF:43,hC:18,lC:6},{month:"Feb",hF:65,lF:45,hC:18,lC:7},{month:"Mar",hF:67,lF:47,hC:19,lC:8},{month:"Apr",hF:70,lF:49,hC:21,lC:9},{month:"May",hF:72,lF:53,hC:22,lC:12},{month:"Jun",hF:75,lF:57,hC:24,lC:14},{month:"Jul",hF:77,lF:59,hC:25,lC:15},{month:"Aug",hF:78,lF:60,hC:26,lC:16},{month:"Sep",hF:77,lF:58,hC:25,lC:14},{month:"Oct",hF:74,lF:53,hC:23,lC:12},{month:"Nov",hF:69,lF:47,hC:21,lC:8},{month:"Dec",hF:64,lF:43,hC:18,lC:6}],
     badges: [], achievements: ["PAC Rugby Conference titles", "West Coast rugby excellence"],
-    website: "https://www.calpoly.edu", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", gender: "mens",
+    website: "https://www.calpoly.edu", imageUrl: "/college-images/california-polytechnic-state-university.jpg", imageCredit: "Photo: Gregg Erickson / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Cal-Poly-from-outback.jpg", gender: "mens",
   },
   {
     id: 15, slug: "st-bonaventure-university", name: "St. Bonaventure University",
@@ -248,7 +248,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:32,lF:17,hC:0,lC:-8},{month:"Feb",hF:35,lF:19,hC:2,lC:-7},{month:"Mar",hF:44,lF:27,hC:7,lC:-3},{month:"Apr",hF:57,lF:37,hC:14,lC:3},{month:"May",hF:69,lF:47,hC:21,lC:8},{month:"Jun",hF:77,lF:57,hC:25,lC:14},{month:"Jul",hF:80,lF:61,hC:27,lC:16},{month:"Aug",hF:78,lF:59,hC:26,lC:15},{month:"Sep",hF:71,lF:52,hC:22,lC:11},{month:"Oct",hF:60,lF:41,hC:16,lC:5},{month:"Nov",hF:47,lF:32,hC:8,lC:0},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: ["4 MLR Draft Picks", "2025 NCR D1 National Champions"], achievements: ["2023 NCR D1 National Finalist", "D1 promotion", "100+ rugby players"],
-    website: "https://www.sbu.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    website: "https://www.sbu.edu", imageUrl: "/college-images/st-bonaventure-university.jpg", imageCredit: "Photo: Chevvin / Wikimedia Commons (CC0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Fred%20Handler%20Park.jpg", gender: "mens",
   },
   {
     id: 16, slug: "arkansas-state-university", name: "Arkansas State University",
@@ -263,7 +263,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:49,lF:29,hC:9,lC:-2},{month:"Feb",hF:55,lF:34,hC:13,lC:1},{month:"Mar",hF:65,lF:43,hC:18,lC:6},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:83,lF:62,hC:28,lC:17},{month:"Jun",hF:90,lF:70,hC:32,lC:21},{month:"Jul",hF:93,lF:74,hC:34,lC:23},{month:"Aug",hF:92,lF:72,hC:33,lC:22},{month:"Sep",hF:86,lF:64,hC:30,lC:18},{month:"Oct",hF:76,lF:52,hC:24,lC:11},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:52,lF:32,hC:11,lC:0}],
     badges: ["4 MLR Draft Picks"], achievements: ["2012, 2013 USA Rugby 7s National Champions", "D1A National Championship appearance"],
-    website: "https://www.astate.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    website: "https://www.astate.edu", imageUrl: "/college-images/arkansas-state-university.jpg", imageCredit: "Photo: Zereshk / Wikimedia Commons (CC BY 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:ASUJonesboro%20%287%29.JPG", gender: "mens",
   },
   {
     id: 17, slug: "grand-canyon-university", name: "Grand Canyon University",
@@ -278,7 +278,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:67,lF:45,hC:19,lC:7},{month:"Feb",hF:71,lF:49,hC:22,lC:9},{month:"Mar",hF:77,lF:54,hC:25,lC:12},{month:"Apr",hF:85,lF:61,hC:29,lC:16},{month:"May",hF:95,lF:70,hC:35,lC:21},{month:"Jun",hF:104,lF:79,hC:40,lC:26},{month:"Jul",hF:107,lF:84,hC:42,lC:29},{month:"Aug",hF:105,lF:83,hC:41,lC:28},{month:"Sep",hF:100,lF:77,hC:38,lC:25},{month:"Oct",hF:89,lF:65,hC:32,lC:18},{month:"Nov",hF:76,lF:53,hC:24,lC:12},{month:"Dec",hF:67,lF:44,hC:19,lC:7}],
     badges: [], achievements: ["CRAA Challenger Cup finals", "Defeated Utah State 72-6 in semifinals"],
-    website: "https://www.gcu.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    website: "https://www.gcu.edu", imageUrl: "/college-images/grand-canyon-university.jpg", imageCredit: "Photo: davidpinter / Wikimedia Commons (CC BY 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Grand%20Canyon%20University%2C%20Phoenix%2C%20Arizona%20-%20panoramio%20%2822%29.jpg", gender: "mens",
   },
   {
     id: 18, slug: "university-of-mary-washington", name: "University of Mary Washington",
@@ -293,7 +293,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:47,lF:27,hC:8,lC:-3},{month:"Feb",hF:52,lF:30,hC:11,lC:-1},{month:"Mar",hF:61,lF:38,hC:16,lC:3},{month:"Apr",hF:72,lF:47,hC:22,lC:8},{month:"May",hF:80,lF:57,hC:27,lC:14},{month:"Jun",hF:87,lF:66,hC:31,lC:19},{month:"Jul",hF:90,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:82,lF:62,hC:28,lC:17},{month:"Oct",hF:72,lF:50,hC:22,lC:10},{month:"Nov",hF:62,lF:40,hC:17,lC:4},{month:"Dec",hF:51,lF:31,hC:11,lC:-1}],
     badges: [], achievements: ["2014 Women's D2 National Champions", "2017 Men's D1AA Fall Champions", "Leicester Tigers partnership"],
-    website: "https://www.umw.edu", imageUrl: "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=800&q=80", gender: "mens",
+    website: "https://www.umw.edu", imageUrl: "/college-images/university-of-mary-washington.jpg", imageCredit: "Photo: Kenneth Hawes / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Ball%20Hall.JPG", gender: "mens",
   },
   {
     id: 19, slug: "queens-university-of-charlotte", name: "Queens University of Charlotte",
@@ -308,7 +308,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:52,lF:33,hC:11,lC:1},{month:"Feb",hF:57,lF:36,hC:14,lC:2},{month:"Mar",hF:66,lF:44,hC:19,lC:7},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:82,lF:61,hC:28,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:90,lF:73,hC:32,lC:23},{month:"Aug",hF:89,lF:72,hC:32,lC:22},{month:"Sep",hF:84,lF:66,hC:29,lC:19},{month:"Oct",hF:75,lF:54,hC:24,lC:12},{month:"Nov",hF:66,lF:43,hC:19,lC:6},{month:"Dec",hF:56,lF:36,hC:13,lC:2}],
     badges: ["3 MLR Draft Picks", "2025 NCR D1 Finalists"], achievements: ["Regional championships", "NCAA D1 transition program"],
-    website: "https://www.queens.edu", imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80", gender: "mens",
+    website: "https://www.queens.edu", imageUrl: "/college-images/queens-university-of-charlotte.jpg", imageCredit: "Photo: Bz3rk / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Queens%20University%20of%20Charlotte.jpg", gender: "mens",
   },
   {
     id: 20, slug: "university-of-notre-dame", name: "University of Notre Dame",
@@ -323,7 +323,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:33,lF:18,hC:1,lC:-8},{month:"Feb",hF:38,lF:22,hC:3,lC:-6},{month:"Mar",hF:49,lF:31,hC:9,lC:-1},{month:"Apr",hF:62,lF:42,hC:17,lC:6},{month:"May",hF:72,lF:52,hC:22,lC:11},{month:"Jun",hF:81,lF:62,hC:27,lC:17},{month:"Jul",hF:84,lF:66,hC:29,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:76,lF:57,hC:24,lC:14},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:50,lF:35,hC:10,lC:2},{month:"Dec",hF:37,lF:24,hC:3,lC:-4}],
     badges: [], achievements: ["ESPN coverage", "Penn Mutual College Rugby 7s appearances", "Midwest rugby leadership"],
-    website: "https://www.nd.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    website: "https://www.nd.edu", imageUrl: "/college-images/university-of-notre-dame.jpg", imageCredit: "Photo: Eccekevin / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Basilica%20and%20Dome.jpg", gender: "mens",
   },
   {
     id: 21, slug: "the-ohio-state-university", name: "The Ohio State University",
@@ -338,7 +338,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:41,lF:25,hC:5,lC:-4},{month:"Mar",hF:52,lF:34,hC:11,lC:1},{month:"Apr",hF:64,lF:44,hC:18,lC:7},{month:"May",hF:74,lF:54,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:58,hC:26,lC:14},{month:"Oct",hF:66,lF:46,hC:19,lC:8},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],
     badges: ["2025 Big Ten Champions"], achievements: ["Big Ten Rugby Conference", "Multiple All-Americans", "Eagle players produced"],
-    website: "https://www.osu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.osu.edu", imageUrl: "/college-images/the-ohio-state-university.jpg", imageCredit: "Photo: Robert Chriss / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:OSU%20The%20Oval%20Aerial.JPG", gender: "mens",
   },
   {
     id: 22, slug: "davenport-university", name: "Davenport University",
@@ -353,7 +353,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:32,lF:18,hC:0,lC:-8},{month:"Feb",hF:36,lF:21,hC:2,lC:-6},{month:"Mar",hF:47,lF:30,hC:8,lC:-1},{month:"Apr",hF:60,lF:40,hC:16,lC:4},{month:"May",hF:71,lF:50,hC:22,lC:10},{month:"Jun",hF:80,lF:60,hC:27,lC:16},{month:"Jul",hF:83,lF:64,hC:28,lC:18},{month:"Aug",hF:82,lF:62,hC:28,lC:17},{month:"Sep",hF:75,lF:55,hC:24,lC:13},{month:"Oct",hF:63,lF:43,hC:17,lC:6},{month:"Nov",hF:49,lF:34,hC:9,lC:1},{month:"Dec",hF:36,lF:24,hC:2,lC:-4}],
     badges: [], achievements: ["2010/11 D1AA National Champions", "2011/12 D1AA National Champions"],
-    website: "https://www.davenport.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.davenport.edu", imageUrl: "/college-images/davenport-university.jpg", imageCredit: "Photo: Dwight Burdette / Wikimedia Commons (CC BY 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Davenport%20University%20Livonia%20Michigan%20campus.JPG", gender: "mens",
   },
   {
     id: 23, slug: "marian-university", name: "Marian University",
@@ -368,7 +368,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:36,lF:20,hC:2,lC:-7},{month:"Feb",hF:41,lF:24,hC:5,lC:-4},{month:"Mar",hF:52,lF:33,hC:11,lC:1},{month:"Apr",hF:64,lF:43,hC:18,lC:6},{month:"May",hF:74,lF:53,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:57,hC:26,lC:14},{month:"Oct",hF:66,lF:45,hC:19,lC:7},{month:"Nov",hF:53,lF:35,hC:12,lC:2},{month:"Dec",hF:40,lF:25,hC:4,lC:-4}],
     badges: [], achievements: ["New varsity program", "NAIA competition", "Strong recruiting"],
-    website: "https://www.marian.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.marian.edu", imageUrl: "/college-images/marian-university.jpg", imageCredit: "Photo: Nyttend / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Allison%20Mansion%2C%20southern%20end.jpg", gender: "mens",
   },
   {
     id: 24, slug: "university-of-michigan", name: "University of Michigan",
@@ -383,7 +383,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:32,lF:18,hC:0,lC:-8},{month:"Feb",hF:36,lF:21,hC:2,lC:-6},{month:"Mar",hF:47,lF:30,hC:8,lC:-1},{month:"Apr",hF:60,lF:40,hC:16,lC:4},{month:"May",hF:72,lF:51,hC:22,lC:11},{month:"Jun",hF:81,lF:61,hC:27,lC:16},{month:"Jul",hF:84,lF:65,hC:29,lC:18},{month:"Aug",hF:82,lF:63,hC:28,lC:17},{month:"Sep",hF:75,lF:55,hC:24,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:48,lF:33,hC:9,lC:1},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: [], achievements: ["Big Ten Conference rugby", "D1A competition", "Long rugby tradition"],
-    website: "https://www.umich.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.umich.edu", imageUrl: "/college-images/university-of-michigan.jpg", imageCredit: "Photo: Jha4ceb / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:A%20picture%20of%20the%20University%20of%20Michigan%20campus%20in%20Ann%20Arbor%2C%20Michigan%2C%20USA.jpg", gender: "mens",
   },
   {
     id: 25, slug: "indiana-university", name: "Indiana University",
@@ -398,7 +398,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:42,lF:25,hC:6,lC:-4},{month:"Mar",hF:53,lF:34,hC:12,lC:1},{month:"Apr",hF:65,lF:44,hC:18,lC:7},{month:"May",hF:75,lF:54,hC:24,lC:12},{month:"Jun",hF:84,lF:64,hC:29,lC:18},{month:"Jul",hF:87,lF:68,hC:31,lC:20},{month:"Aug",hF:85,lF:66,hC:29,lC:19},{month:"Sep",hF:79,lF:58,hC:26,lC:14},{month:"Oct",hF:67,lF:46,hC:19,lC:8},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:26,hC:5,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: ["7x Big Ten 15's Champions", "NCR competition", "Strong rugby tradition"],
-    website: "https://www.indiana.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.indiana.edu", imageUrl: "/college-images/indiana-university.jpg", imageCredit: "Photo: Vmenkov / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Herman%20B%20Wells%20Library%20and%20lotus%20pond%20-%20P1100156.JPG", gender: "mens",
   },
   {
     id: 26, slug: "university-of-st-thomas-minnesota", name: "University of St. Thomas (Minnesota)",
@@ -413,7 +413,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:25,lF:9,hC:-4,lC:-13},{month:"Feb",hF:30,lF:14,hC:-1,lC:-10},{month:"Mar",hF:42,lF:26,hC:6,lC:-3},{month:"Apr",hF:58,lF:38,hC:14,lC:3},{month:"May",hF:70,lF:50,hC:21,lC:10},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:83,lF:65,hC:28,lC:18},{month:"Aug",hF:81,lF:63,hC:27,lC:17},{month:"Sep",hF:72,lF:53,hC:22,lC:12},{month:"Oct",hF:59,lF:41,hC:15,lC:5},{month:"Nov",hF:42,lF:28,hC:6,lC:-2},{month:"Dec",hF:28,lF:15,hC:-2,lC:-9}],
     badges: [], achievements: ["Division I club sport", "Twin Cities rugby", "Strong recruiting"],
-    website: "https://www.stthomas.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.stthomas.edu", imageUrl: "/college-images/university-of-st-thomas-minnesota.jpg", imageCredit: "Photo: Mulad / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:St%20Thomas%20campus.jpg", gender: "mens",
   },
   {
     id: 27, slug: "wheeling-university", name: "Wheeling University",
@@ -428,7 +428,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:38,lF:21,hC:3,lC:-6},{month:"Feb",hF:43,lF:25,hC:6,lC:-4},{month:"Mar",hF:52,lF:33,hC:11,lC:1},{month:"Apr",hF:64,lF:43,hC:18,lC:6},{month:"May",hF:73,lF:52,hC:23,lC:11},{month:"Jun",hF:81,lF:61,hC:27,lC:16},{month:"Jul",hF:85,lF:65,hC:29,lC:18},{month:"Aug",hF:84,lF:64,hC:29,lC:18},{month:"Sep",hF:77,lF:57,hC:25,lC:14},{month:"Oct",hF:66,lF:45,hC:19,lC:7},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
     badges: [], achievements: ["2024 National Champions 7s", "Rugby East D1A", "Unbeaten 2024 season"],
-    website: "https://wheeling.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://wheeling.edu", imageUrl: "/college-images/wheeling-university.jpg", imageCredit: "Photo: Ibagli / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:WJU%20Campus.JPG", gender: "mens",
   },
   {
     id: 28, slug: "southern-nazarene-university", name: "Southern Nazarene University",
@@ -443,7 +443,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:49,lF:28,hC:9,lC:-2},{month:"Feb",hF:55,lF:33,hC:13,lC:1},{month:"Mar",hF:64,lF:42,hC:18,lC:6},{month:"Apr",hF:73,lF:51,hC:23,lC:11},{month:"May",hF:81,lF:60,hC:27,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:93,lF:73,hC:34,lC:23},{month:"Aug",hF:92,lF:72,hC:33,lC:22},{month:"Sep",hF:84,lF:64,hC:29,lC:18},{month:"Oct",hF:74,lF:52,hC:23,lC:11},{month:"Nov",hF:61,lF:40,hC:16,lC:4},{month:"Dec",hF:51,lF:31,hC:11,lC:-1}],
     badges: [], achievements: ["Nationally ranked program", "Strong men's and women's teams", "D1 competition"],
-    website: "https://www.snu.edu", imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80", gender: "mens",
+    website: "https://www.snu.edu", imageUrl: "/college-images/southern-nazarene-university.jpg", imageCredit: "Photo: Moonraker0022 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Campus%20Mall%20of%20Southern%20Nazarene%20University.jpg", gender: "mens",
   },
   {
     id: 29, slug: "mckendree-university", name: "McKendree University",
@@ -458,7 +458,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold winters with snow.",
     monthlyTemps: [{month:"Jan",hF:39,lF:22,hC:4,lC:-6},{month:"Feb",hF:45,lF:27,hC:7,lC:-3},{month:"Mar",hF:56,lF:37,hC:13,lC:3},{month:"Apr",hF:68,lF:48,hC:20,lC:9},{month:"May",hF:77,lF:58,hC:25,lC:14},{month:"Jun",hF:86,lF:67,hC:30,lC:19},{month:"Jul",hF:89,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:80,lF:61,hC:27,lC:16},{month:"Oct",hF:69,lF:49,hC:21,lC:9},{month:"Nov",hF:55,lF:38,hC:13,lC:3},{month:"Dec",hF:42,lF:26,hC:6,lC:-3}],
     badges: [], achievements: [],
-    website: "https://www.mckendree.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    website: "https://www.mckendree.edu", imageUrl: "/college-images/mckendree-university.jpg", imageCredit: "Photo: Robert Lawton / Wikimedia Commons (CC BY-SA 2.5)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Barnett%20Hall.JPG", gender: "mens",
   },
   {
     id: 30, slug: "santa-clara-university", name: "Santa Clara University",
@@ -473,7 +473,7 @@ export const colleges: College[] = [
     weatherSummary: "Mild summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:59,lF:42,hC:15,lC:6},{month:"Feb",hF:62,lF:44,hC:17,lC:7},{month:"Mar",hF:66,lF:46,hC:19,lC:8},{month:"Apr",hF:70,lF:48,hC:21,lC:9},{month:"May",hF:74,lF:51,hC:23,lC:11},{month:"Jun",hF:79,lF:55,hC:26,lC:13},{month:"Jul",hF:81,lF:57,hC:27,lC:14},{month:"Aug",hF:81,lF:57,hC:27,lC:14},{month:"Sep",hF:80,lF:56,hC:27,lC:13},{month:"Oct",hF:74,lF:51,hC:23,lC:11},{month:"Nov",hF:65,lF:45,hC:18,lC:7},{month:"Dec",hF:58,lF:41,hC:14,lC:5}],
     badges: ["2026 Challenger Cup Champions"], achievements: [],
-    website: "https://www.scu.edu", imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", gender: "mens",
+    website: "https://www.scu.edu", imageUrl: "/college-images/santa-clara-university.jpg", imageCredit: "Photo: Steve Riggins / Wikimedia Commons (CC BY 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Santa%20Clara%20University%20-%20panoramio.jpg", gender: "mens",
   },
   {
     id: 31, slug: "university-of-san-diego", name: "University of San Diego",
@@ -488,7 +488,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm, dry and sunny virtually all year.",
     monthlyTemps: [{month:"Jan",hF:65,lF:50,hC:18,lC:10},{month:"Feb",hF:65,lF:51,hC:18,lC:11},{month:"Mar",hF:66,lF:53,hC:19,lC:12},{month:"Apr",hF:68,lF:56,hC:20,lC:13},{month:"May",hF:69,lF:59,hC:21,lC:15},{month:"Jun",hF:72,lF:62,hC:22,lC:17},{month:"Jul",hF:76,lF:66,hC:24,lC:19},{month:"Aug",hF:78,lF:67,hC:26,lC:19},{month:"Sep",hF:77,lF:65,hC:25,lC:18},{month:"Oct",hF:74,lF:60,hC:23,lC:16},{month:"Nov",hF:70,lF:54,hC:21,lC:12},{month:"Dec",hF:65,lF:49,hC:18,lC:9}],
     badges: [], achievements: [],
-    website: "https://www.sandiego.edu", imageUrl: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&q=80", gender: "mens",
+    website: "https://www.sandiego.edu", imageUrl: "/college-images/university-of-san-diego.jpg", imageCredit: "Photo: Walleigh / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:ShileyCenterUSD.jpg", gender: "mens",
   },
   {
     id: 32, slug: "university-of-utah", name: "University of Utah",
@@ -503,7 +503,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot, dry summers and cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:38,lF:23,hC:3,lC:-5},{month:"Feb",hF:44,lF:27,hC:7,lC:-3},{month:"Mar",hF:54,lF:34,hC:12,lC:1},{month:"Apr",hF:62,lF:40,hC:17,lC:4},{month:"May",hF:72,lF:48,hC:22,lC:9},{month:"Jun",hF:84,lF:57,hC:29,lC:14},{month:"Jul",hF:93,lF:65,hC:34,lC:18},{month:"Aug",hF:91,lF:63,hC:33,lC:17},{month:"Sep",hF:80,lF:53,hC:27,lC:12},{month:"Oct",hF:65,lF:41,hC:18,lC:5},{month:"Nov",hF:50,lF:31,hC:10,lC:-1},{month:"Dec",hF:39,lF:24,hC:4,lC:-4}],
     badges: [], achievements: [],
-    website: "https://www.utah.edu", imageUrl: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=800&q=80", gender: "mens",
+    website: "https://www.utah.edu", imageUrl: "/college-images/university-of-utah.jpg", imageCredit: "Photo: Bytebear / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Kingsbury%20Hall.jpg", gender: "mens",
   },
   {
     id: 33, slug: "walsh-university", name: "Walsh University",
@@ -518,7 +518,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold winters with lake-effect snow.",
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:41,lF:25,hC:5,lC:-4},{month:"Mar",hF:52,lF:34,hC:11,lC:1},{month:"Apr",hF:64,lF:44,hC:18,lC:7},{month:"May",hF:74,lF:54,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:58,hC:26,lC:14},{month:"Oct",hF:66,lF:46,hC:19,lC:8},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],
     badges: ["2 MLR Draft Picks", "2023 NCR D1 Champions (as Notre Dame College)"], achievements: [],
-    website: "https://www.walsh.edu", imageUrl: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80", gender: "mens",
+    website: "https://www.walsh.edu", imageUrl: "/college-images/walsh-university.jpg", imageCredit: "Photo: SilentMatt Psychedelic / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Farrell%20Hall%207-11-22%20394%20%282%29.jpg", gender: "mens",
   },
   {
     id: 34, slug: "siena-college", name: "Siena College",
@@ -533,7 +533,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold snowy winters.",
     monthlyTemps: [{month:"Jan",hF:32,lF:17,hC:0,lC:-8},{month:"Feb",hF:35,lF:19,hC:2,lC:-7},{month:"Mar",hF:44,lF:27,hC:7,lC:-3},{month:"Apr",hF:57,lF:37,hC:14,lC:3},{month:"May",hF:69,lF:47,hC:21,lC:8},{month:"Jun",hF:77,lF:57,hC:25,lC:14},{month:"Jul",hF:80,lF:61,hC:27,lC:16},{month:"Aug",hF:78,lF:59,hC:26,lC:15},{month:"Sep",hF:71,lF:52,hC:22,lC:11},{month:"Oct",hF:60,lF:41,hC:16,lC:5},{month:"Nov",hF:47,lF:32,hC:8,lC:0},{month:"Dec",hF:36,lF:23,hC:2,lC:-5}],
     badges: [], achievements: [],
-    website: "https://www.siena.edu", imageUrl: "https://images.unsplash.com/photo-1567168539593-59673ababaae?w=800&q=80", gender: "mens",
+    website: "https://www.siena.edu", imageUrl: "/college-images/siena-college.jpg", imageCredit: "Photo: UpstateNYer / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Seina%20Front.jpg", gender: "mens",
   },
   {
     id: 35, slug: "kutztown-university", name: "Kutztown University",
@@ -548,7 +548,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold winters with snow.",
     monthlyTemps: [{month:"Jan",hF:35,lF:21,hC:2,lC:-6},{month:"Feb",hF:39,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:51,hC:22,lC:11},{month:"Jun",hF:79,lF:60,hC:26,lC:16},{month:"Jul",hF:82,lF:64,hC:28,lC:18},{month:"Aug",hF:81,lF:62,hC:27,lC:17},{month:"Sep",hF:74,lF:55,hC:23,lC:13},{month:"Oct",hF:62,lF:43,hC:17,lC:6},{month:"Nov",hF:50,lF:34,hC:10,lC:1},{month:"Dec",hF:39,lF:26,hC:4,lC:-3}],
     badges: ["7 MLR Draft Picks"], achievements: [],
-    website: "https://www.kutztown.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80", gender: "mens",
+    website: "https://www.kutztown.edu", imageUrl: "/college-images/kutztown-university.jpg", imageCredit: "Photo: Dough4872 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Kutztown%20University%20view%20of%20Old%20Main%20from%20Alumni%20Plaza.jpg", gender: "mens",
   },
   {
     id: 36, slug: "belmont-abbey-college", name: "Belmont Abbey College",
@@ -563,7 +563,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:52,lF:33,hC:11,lC:1},{month:"Feb",hF:57,lF:36,hC:14,lC:2},{month:"Mar",hF:66,lF:44,hC:19,lC:7},{month:"Apr",hF:75,lF:52,hC:24,lC:11},{month:"May",hF:82,lF:61,hC:28,lC:16},{month:"Jun",hF:88,lF:69,hC:31,lC:21},{month:"Jul",hF:90,lF:73,hC:32,lC:23},{month:"Aug",hF:89,lF:72,hC:32,lC:22},{month:"Sep",hF:84,lF:66,hC:29,lC:19},{month:"Oct",hF:75,lF:54,hC:24,lC:12},{month:"Nov",hF:66,lF:43,hC:19,lC:6},{month:"Dec",hF:56,lF:36,hC:13,lC:2}],
     badges: [], achievements: [],
-    website: "https://www.belmontabbeycollege.edu", imageUrl: "https://images.unsplash.com/photo-1568792923760-d70635a89fdc?w=800&q=80", gender: "mens",
+    website: "https://www.belmontabbeycollege.edu", imageUrl: "/college-images/belmont-abbey-college.jpg", imageCredit: "Photo: Rnrivas / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:DJI%200068-May-2016-100.jpg", gender: "mens",
   },
   {
     id: 37, slug: "thomas-more-university", name: "Thomas More University",
@@ -578,7 +578,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cold winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:42,lF:25,hC:6,lC:-4},{month:"Mar",hF:53,lF:34,hC:12,lC:1},{month:"Apr",hF:65,lF:44,hC:18,lC:7},{month:"May",hF:75,lF:54,hC:24,lC:12},{month:"Jun",hF:84,lF:64,hC:29,lC:18},{month:"Jul",hF:87,lF:68,hC:31,lC:20},{month:"Aug",hF:85,lF:66,hC:29,lC:19},{month:"Sep",hF:79,lF:58,hC:26,lC:14},{month:"Oct",hF:67,lF:46,hC:19,lC:8},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:26,hC:5,lC:-3}],
     badges: ["3 MLR Draft Picks"], achievements: [],
-    website: "https://www.thomasmore.edu", imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", gender: "mens",
+    website: "https://www.thomasmore.edu", imageUrl: "/college-images/thomas-more-university.jpg", imageCredit: "Photo: Fannybyrd / Wikimedia Commons (CC BY-SA 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:TMU%20Chapel.jpg", gender: "mens",
   },
   {
     id: 38, slug: "iona-university", name: "Iona University",
@@ -593,7 +593,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cold winters.",
     monthlyTemps: [{month:"Jan",hF:35,lF:20,hC:2,lC:-7},{month:"Feb",hF:39,lF:23,hC:4,lC:-5},{month:"Mar",hF:48,lF:31,hC:9,lC:-1},{month:"Apr",hF:61,lF:42,hC:16,lC:6},{month:"May",hF:71,lF:52,hC:22,lC:11},{month:"Jun",hF:79,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:74,lF:56,hC:23,lC:13},{month:"Oct",hF:63,lF:45,hC:17,lC:7},{month:"Nov",hF:51,lF:35,hC:11,lC:2},{month:"Dec",hF:40,lF:26,hC:4,lC:-3}],
     badges: ["2 MLR Draft Picks"], achievements: [],
-    website: "https://www.iona.edu", imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", gender: "mens",
+    website: "https://www.iona.edu", imageUrl: "/college-images/iona-university.jpg", imageCredit: "Photo transferred from English Wikipedia to Wikimedia Commons (CC0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Iona%20College%20Hagan%20School%20of%20Business.jpg", gender: "mens",
   },
   {
     id: 39, slug: "fairfield-university", name: "Fairfield University",
@@ -608,7 +608,7 @@ export const colleges: College[] = [
     weatherSummary: "Warm summers, cold winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:40,lF:24,hC:4,lC:-4},{month:"Mar",hF:49,lF:32,hC:9,lC:0},{month:"Apr",hF:59,lF:41,hC:15,lC:5},{month:"May",hF:69,lF:51,hC:21,lC:11},{month:"Jun",hF:78,lF:61,hC:26,lC:16},{month:"Jul",hF:83,lF:66,hC:28,lC:19},{month:"Aug",hF:82,lF:65,hC:28,lC:18},{month:"Sep",hF:75,lF:58,hC:24,lC:14},{month:"Oct",hF:64,lF:47,hC:18,lC:8},{month:"Nov",hF:53,lF:37,hC:12,lC:3},{month:"Dec",hF:42,lF:27,hC:6,lC:-3}],
     badges: [], achievements: [],
-    website: "https://www.fairfield.edu", imageUrl: "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&q=80", gender: "mens",
+    website: "https://www.fairfield.edu", imageUrl: "/college-images/fairfield-university.jpg", imageCredit: "Photo: Stagophile / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Fairfield%20Entrance.JPG", gender: "mens",
   },
   {
     id: 40, slug: "western-washington-university", name: "Western Washington University",
@@ -623,8 +623,7 @@ export const colleges: College[] = [
     weatherSummary: "Mild summers, cool wet winters.",
     monthlyTemps: [{month:"Jan",hF:47,lF:36,hC:8,lC:2},{month:"Feb",hF:50,lF:37,hC:10,lC:3},{month:"Mar",hF:54,lF:39,hC:12,lC:4},{month:"Apr",hF:59,lF:42,hC:15,lC:6},{month:"May",hF:65,lF:47,hC:18,lC:8},{month:"Jun",hF:69,lF:51,hC:21,lC:11},{month:"Jul",hF:74,lF:54,hC:23,lC:12},{month:"Aug",hF:74,lF:54,hC:23,lC:12},{month:"Sep",hF:69,lF:50,hC:21,lC:10},{month:"Oct",hF:59,lF:44,hC:15,lC:7},{month:"Nov",hF:51,lF:39,hC:11,lC:4},{month:"Dec",hF:46,lF:35,hC:8,lC:2}],
     badges: ["New to D1A for 2026–27"], achievements: [],
-    website: "https://www.wwu.edu", imageUrl: "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=800&q=80",
-    gender: "mens",
+    website: "https://www.wwu.edu", imageUrl: "/college-images/western-washington-university.jpg", imageCredit: "Photo: Evanseric15 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Miller%20Hall.JPG", gender: "mens",
   }
 ];
 

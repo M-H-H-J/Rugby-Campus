@@ -57,14 +57,27 @@ export default function CollegeDetail() {
         <p className="text-muted text-[15px]">{college.location}</p>
       </header>
 
-      <div className="rounded-lg overflow-hidden mb-12 relative" style={{ maxHeight: 380 }}>
-        <img src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
-        {college.badges.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
-            <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
-          </div>
+      <figure className="mb-12">
+        <div className="rounded-lg overflow-hidden relative" style={{ maxHeight: 380 }}>
+          <img src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
+          {college.badges.length > 0 && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
+              <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
+            </div>
+          )}
+        </div>
+        {college.imageCredit && (
+          <figcaption className="text-[11px] text-faint mt-2">
+            {college.imageSourcePage ? (
+              <a href={college.imageSourcePage} target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">
+                {college.imageCredit}
+              </a>
+            ) : (
+              college.imageCredit
+            )}
+          </figcaption>
         )}
-      </div>
+      </figure>
 
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-7 space-y-12">
