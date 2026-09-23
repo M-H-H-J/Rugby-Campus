@@ -19,7 +19,7 @@ export default function MapPage() {
   );
 
   return (
-    <div className="flex flex-col" style={{ minHeight: 'calc(100vh - 56px)' }}>
+    <div>
       {/* Tight header bar */}
       <div className="border-b border-line bg-paper">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
@@ -45,9 +45,9 @@ export default function MapPage() {
         </div>
       </div>
 
-      {/* Map fills remaining viewport */}
-      <div className="flex-1 relative" style={{ minHeight: '500px' }}>
-        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="100%" />
+      {/* Map with explicit height */}
+      <div className="relative">
+        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 120px)" />
         <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2" style={{ zIndex: 500 }}>
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-[11px] text-muted">

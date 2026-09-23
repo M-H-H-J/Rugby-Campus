@@ -123,5 +123,5 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
     }
   }, [colleges]);
 
-  return <div ref={ref} style={{ width: '100%', height, background: '#f6f5f4' }} />;
+  return <div ref={ref} style={{ width: '100%', height, minHeight: 400, background: '#f3f4f6' }} />;
 }
