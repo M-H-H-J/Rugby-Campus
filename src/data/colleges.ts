@@ -473,7 +473,7 @@ export const colleges: College[] = [
     weatherSummary: "Mild summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:59,lF:42,hC:15,lC:6},{month:"Feb",hF:62,lF:44,hC:17,lC:7},{month:"Mar",hF:66,lF:46,hC:19,lC:8},{month:"Apr",hF:70,lF:48,hC:21,lC:9},{month:"May",hF:74,lF:51,hC:23,lC:11},{month:"Jun",hF:79,lF:55,hC:26,lC:13},{month:"Jul",hF:81,lF:57,hC:27,lC:14},{month:"Aug",hF:81,lF:57,hC:27,lC:14},{month:"Sep",hF:80,lF:56,hC:27,lC:13},{month:"Oct",hF:74,lF:51,hC:23,lC:11},{month:"Nov",hF:65,lF:45,hC:18,lC:7},{month:"Dec",hF:58,lF:41,hC:14,lC:5}],
     badges: ["2026 Challenger Cup Champions"], achievements: [],
-    website: "https://www.scu.edu", imageUrl: "/college-images/santa-clara-university.jpg", imageCredit: "Photo: Steve Riggins / Wikimedia Commons (CC BY 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Santa%20Clara%20University%20-%20panoramio.jpg", gender: "mens",
+    website: "https://www.scu.edu", imageUrl: "/college-images/santa-clara-university.jpg", imageCredit: "Photo: JaGa / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Mission_Santa_Clara.jpg", gender: "mens",
   },
   {
     id: 31, slug: "university-of-san-diego", name: "University of San Diego",
