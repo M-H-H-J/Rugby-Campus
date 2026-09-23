@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Switch, Route, useLocation } from 'wouter';
+import { Switch, Route, useLocation, Redirect } from 'wouter';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Home from '@/pages/Home';
@@ -10,7 +10,6 @@ import Learn from '@/pages/Learn';
 import ArticlePage from '@/pages/ArticlePage';
 import Training from '@/pages/Training';
 import About from '@/pages/About';
-import WorkWithMe from '@/pages/WorkWithMe';
 import ForCoaches from '@/pages/ForCoaches';
 
 const TOOL_ROUTES = ['/map', '/colleges'];
@@ -50,7 +49,7 @@ export default function App() {
           <Route path="/learn/:slug" component={ArticlePage} />
           <Route path="/training" component={Training} />
           <Route path="/about" component={About} />
-          <Route path="/work-with-me" component={WorkWithMe} />
+          <Route path="/work-with-me">{() => <Redirect to="/about" />}</Route>
           <Route path="/for-coaches" component={ForCoaches} />
           <Route>
             <div className="max-w-6xl mx-auto px-5 py-24 text-center">

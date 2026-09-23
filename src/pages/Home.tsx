@@ -128,7 +128,7 @@ export default function Home() {
             {[
               { n: '1', t: 'Find programs that fit', d: 'Browse the map and the tiers. Match your level honestly — game time at the right program beats a bench spot at a famous one.' },
               { n: '2', t: 'Email the coach yourself', d: 'Every profile has the coach\u2019s contact. A short, direct email with your position, size, and highlights is all it takes. Coaches answer players.' },
-              { n: '3', t: 'Apply and get over there', d: 'The guides cover applications, visas, scholarships, and what to expect when you land. If you want hands-on help, that\u2019s what I do.' },
+              { n: '3', t: 'Apply and get over there', d: 'The guides cover applications, visas, scholarships, and what to expect when you land. Questions? Email me.' },
             ].map((s, i) => (
               <div key={s.n} className={`flex gap-6 md:gap-10 py-8 ${i > 0 ? 'border-t border-line' : ''}`}>
                 <span className="font-heading text-[56px] md:text-[72px] text-navy leading-none w-16 md:w-24 flex-shrink-0">{s.n}</span>

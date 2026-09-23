@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
-import { Mail, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
+import { CONTACT_EMAIL } from '@/config';
 
 export default function About() {
   usePageMeta('About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship-winning head coach. Why Rugby Campus exists.');
@@ -52,18 +53,15 @@ export default function About() {
         </dl>
       </section>
 
-      {/* Work with me */}
-      <section id="work-with-me" className="mb-14 scroll-mt-24 bg-dark rounded-lg p-8 md:p-10">
-        <p className="kicker mb-3 text-gold">Work with me</p>
-        <h2 className="font-heading text-[26px] md:text-[30px] text-white leading-tight mb-4">
-          Someone in your corner who's actually done it
-        </h2>
-        <p className="text-white/55 text-[14.5px] leading-relaxed mb-7 max-w-lg">
-          For players and parents who want hands-on help with the US pathway — choosing programs, approaching coaches, and arriving ready to compete. And for coaches who want their program in front of the right international recruits.
+      {/* Questions — soft contact */}
+      <section className="mb-14 py-6 border-y border-line">
+        <p className="text-[15px] text-ink/85 leading-relaxed">
+          Questions about a program? Something not right on the site?{' '}
+          <a href={`mailto:${CONTACT_EMAIL}`} className="text-navy font-medium hover:text-navy-deep transition-colors">
+            Email me
+          </a>{' '}
+          — I reply personally.
         </p>
-        <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold hover:bg-gold/90 transition-colors">
-          <Mail size={15} /> See how it works
-        </Link>
       </section>
 
       <div className="flex items-center justify-between py-6 border-t border-line">

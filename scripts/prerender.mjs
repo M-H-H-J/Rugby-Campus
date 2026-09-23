@@ -66,7 +66,7 @@ function page({ path, title, description, jsonld, body, image }) {
 }
 
 const urls = [];
-const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/work-with-me">Work with me</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a></nav>`;
+const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a></nav>`;
 const byTier = (t) => colleges.filter((c) => c.tier === t);
 
 // ── Home ──
@@ -112,7 +112,7 @@ for (const c of colleges) {
     <h2>The rugby</h2><dl>${facts.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
     ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)} — email available on the page after a free one-time signup.</p>` : ''}
-    <p><a href="/colleges">All 40 programs</a> · <a href="/map">Map</a> · <a href="/work-with-me">Work with Hugh</a></p>`,
+    <p><a href="/colleges">All 40 programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
   }));
 }
 
@@ -149,11 +149,11 @@ for (const a of articles) {
 // ── Static pages ──
 for (const [path, title, description, body] of [
   ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship-winning head coach. Why Rugby Campus exists.',
-    `<h1>I'm Hugh. I built the resource I needed at 17.</h1><p>An Australian who joined Notre Dame College rugby in Fall 2019 at 17, captained the side, played PR7s and club rugby in Austin, Texas, then returned as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is the free guide to US college rugby I wish I'd had.</p>${nav}`],
+    `<h1>I'm Hugh. I built the resource I needed at 17.</h1><p>An Australian who joined Notre Dame College rugby in Fall 2019 at 17, captained the side, played PR7s and club rugby in Austin, Texas, then returned as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is the free guide to US college rugby I wish I'd had.</p><p>Questions about a program? Email me at hello@rugbycampus.org — I reply personally.</p>${nav}`],
   ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching from a national championship-winning college coach.',
     `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and one-on-one coaching for athletes heading to US college rugby.</p>${nav}`],
-  ['/work-with-me', 'Work with Hugh — College Rugby Placement & Coaching', 'Personal help getting placed at the right US college rugby program: program shortlist, coach outreach, application guidance and preparation — from a coach who has done it as a player, captain and championship-winning coach.',
-    `<h1>Get placed at the right US college rugby program</h1><p>Agencies charge US$7,000–11,500 to push players toward whatever college will take them. Hugh Johnston works directly with players and parents to find the right program — as a former international recruit, captain and 2023 NCR D1 championship-winning head coach.</p>${nav}`],
+  ['/work-with-me', 'About Hugh & Rugby Campus', 'This page has moved. See the About page for Hugh Johnston\u2019s background and contact.',
+    `<h1>This page has moved</h1><p>Looking for Hugh? Head to <a href="/about">About</a>.</p>${nav}`],
   ['/for-coaches', 'For College Coaches — Feature Your Program', 'Put your college rugby program in front of international recruits. Featured placements, verified profiles and direct enquiries from qualified players.',
     `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is where international recruits research US college rugby. Coaches can claim and verify their profile, and feature their program to qualified players.</p>${nav}`],
 ]) urls.push(page({ path, title, description, jsonld: [], body }));
