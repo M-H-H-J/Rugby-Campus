@@ -8,6 +8,8 @@ create table if not exists colleges (
   affiliation text, conference text, tier text, program_type text,
   draft_picks int default 0, player_count int default 0,
   coach_name text default '', coach_email text default '',
+  rugby_program_url text not null default '',
+  assistant_coaches jsonb not null default '[]',
   description text, enrollment int, popular_majors jsonb default '[]',
   weather_summary text, monthly_temps jsonb default '[]',
   badges jsonb default '[]', achievements jsonb default '[]',

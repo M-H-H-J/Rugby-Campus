@@ -24,6 +24,8 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
           weatherSummary: r.weather_summary ?? r.weatherSummary ?? '',
           coachName: r.coach_name ?? r.coachName ?? '',
           coachEmail: r.coach_email ?? r.coachEmail ?? '',
+          rugbyProgramUrl: r.rugby_program_url ?? r.rugbyProgramUrl ?? '',
+          assistantCoaches: Array.isArray(r.assistant_coaches) ? r.assistant_coaches : (Array.isArray(r.assistantCoaches) ? r.assistantCoaches : []),
           draftPicks: r.draft_picks ?? r.draftPicks ?? 0,
           playerCount: r.player_count ?? r.playerCount ?? 0,
           programType: r.program_type ?? r.programType ?? 'Club',
