@@ -96,6 +96,9 @@ export default function CollegeDetail() {
                 </div>
               ))}
             </dl>
+            <p className="mt-3 text-[12px] text-faint leading-relaxed">
+              Varsity/Club labels come from university athletics pages or published designations where possible — verify with the school if unclear.
+            </p>
             {college.achievements.length > 0 && (
               <ul className="mt-5 space-y-2">
                 {college.achievements.map((a, i) => (
@@ -173,6 +176,12 @@ export default function CollegeDetail() {
               className="btn flex items-center justify-center gap-2 w-full py-3 border border-line text-ink rounded-md text-[13px] font-semibold hover:border-navy/40">
               University website <ExternalLink size={13} />
             </a>
+            {college.rugbyProgramUrl && (
+              <a href={college.rugbyProgramUrl} target="_blank" rel="noopener noreferrer"
+                className="btn flex items-center justify-center gap-2 w-full py-3 border border-line text-ink rounded-md text-[13px] font-semibold hover:border-navy/40">
+                Rugby program <ExternalLink size={13} />
+              </a>
+            )}
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
               <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">
@@ -187,7 +196,7 @@ export default function CollegeDetail() {
       {others.length > 0 && (
         <section className="mt-20 pt-12 border-t border-line">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-[24px] text-ink">More {TIER_LABELS[college.tier].toLowerCase()}s</h2>
+            <h2 className="font-heading text-[24px] text-ink">More programs in this tier</h2>
             <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">

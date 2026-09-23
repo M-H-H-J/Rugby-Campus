@@ -230,7 +230,7 @@ Notre Dame College was not a one-off. Central Washington University discontinued
 
 ## Quinnipiac: varsity to club for 2026–27
 
-Quinnipiac women\u2019s rugby is moving from **varsity to club for 2026–27**. That is the primary status to plan around: a club restart or continuation is not the same recruiting pathway as a varsity program. Any earlier Title IX dispute is past context only; do not frame it as an ongoing case or let legal drama replace the current varsity-to-club fact.
+Quinnipiac women's rugby is moving from **varsity to club for 2026–27**. That is the primary status to plan around: a club restart or continuation is not the same recruiting pathway as a varsity program. Title IX litigation may still be active — verify current university status before committing.
 
 The broader lesson still holds: varsity status is not a forever guarantee, so ask where rugby sits structurally before committing.
 

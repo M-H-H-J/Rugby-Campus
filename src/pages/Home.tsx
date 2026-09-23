@@ -134,7 +134,7 @@ export default function Home() {
             {[
               { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference, and location. Game time at the right program beats a bench spot at a famous one.' },
               { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
-              { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. A short, direct email introducing yourself is all it takes to start the conversation.' },
+              { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. Send a short email with your position, size, and highlights — that is enough to start the conversation.' },
             ].map((s, i) => (
               <div key={s.n} className={`flex gap-6 md:gap-10 py-8 ${i > 0 ? 'border-t border-line' : ''}`}>
                 <span className="font-heading text-[56px] md:text-[72px] text-navy leading-none w-16 md:w-24 flex-shrink-0">{s.n}</span>
@@ -144,6 +144,9 @@ export default function Home() {
                 </div>
               </div>
             ))}
+            <p className="py-6 border-t border-line text-muted text-[15px] leading-relaxed max-w-xl">
+              If the coach engages, moving forward usually means interviews, academics, and visas — not just "apply and fly."
+            </p>
           </div>
         </div>
       </section>
