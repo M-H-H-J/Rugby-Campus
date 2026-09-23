@@ -293,7 +293,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:47,lF:27,hC:8,lC:-3},{month:"Feb",hF:52,lF:30,hC:11,lC:-1},{month:"Mar",hF:61,lF:38,hC:16,lC:3},{month:"Apr",hF:72,lF:47,hC:22,lC:8},{month:"May",hF:80,lF:57,hC:27,lC:14},{month:"Jun",hF:87,lF:66,hC:31,lC:19},{month:"Jul",hF:90,lF:71,hC:32,lC:22},{month:"Aug",hF:88,lF:69,hC:31,lC:21},{month:"Sep",hF:82,lF:62,hC:28,lC:17},{month:"Oct",hF:72,lF:50,hC:22,lC:10},{month:"Nov",hF:62,lF:40,hC:17,lC:4},{month:"Dec",hF:51,lF:31,hC:11,lC:-1}],
     badges: [], achievements: ["2014 Women's D2 National Champions", "2017 Men's D1AA Fall Champions", "Leicester Tigers partnership"],
-    website: "https://www.umw.edu", imageUrl: "/college-images/university-of-mary-washington.jpg", imageCredit: "Photo: Kenneth Hawes / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Ball%20Hall.JPG", gender: "mens",
+    website: "https://www.umw.edu", imageUrl: "/college-images/university-of-mary-washington.jpg", imageCredit: "Photo: Jte288 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Monroe_Hall_UMW.jpg", gender: "mens",
   },
   {
     id: 19, slug: "queens-university-of-charlotte", name: "Queens University of Charlotte",

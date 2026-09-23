@@ -59,7 +59,7 @@ export default function CollegeDetail() {
 
       <figure className="mb-12">
         <div className="rounded-lg overflow-hidden relative" style={{ maxHeight: 380 }}>
-          <img src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
+          <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
           {college.badges.length > 0 && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
               <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
