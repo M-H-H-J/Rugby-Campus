@@ -21,7 +21,7 @@ export const TIER_LABELS: Record<Tier, string> = {
   competitive: 'Competitive',
 };
 
-export const SEASON_LABEL = '2026\u201327 season \u00b7 tiers based on final 2025\u201326 results and early-season rankings';
+export const SEASON_LABEL = '2026–27 season · tiers based on final 2025–26 results and early-season rankings';
 
 // Fallback dataset — the site loads from Supabase first, then falls back to this.
 export const colleges: College[] = [
@@ -97,7 +97,7 @@ export const colleges: College[] = [
     enrollment: 2775, popularMajors: ["Business", "Liberal Arts", "Education", "Psychology"],
     weatherSummary: "Warm summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:62,lF:42,hC:17,lC:6},{month:"Feb",hF:66,lF:45,hC:19,lC:7},{month:"Mar",hF:69,lF:47,hC:21,lC:8},{month:"Apr",hF:72,lF:50,hC:22,lC:10},{month:"May",hF:75,lF:53,hC:24,lC:12},{month:"Jun",hF:79,lF:57,hC:26,lC:14},{month:"Jul",hF:82,lF:59,hC:28,lC:15},{month:"Aug",hF:83,lF:60,hC:28,lC:16},{month:"Sep",hF:82,lF:58,hC:28,lC:14},{month:"Oct",hF:77,lF:54,hC:25,lC:12},{month:"Nov",hF:69,lF:47,hC:21,lC:8},{month:"Dec",hF:62,lF:42,hC:17,lC:6}],
-    badges: ["5 MLR Draft Picks", "2026 D1A Semifinalists", "2024 D1A National Champions"], achievements: ["4\u00d7 D1A National Champions (2014, 2015, 2017, 2024)", "Multiple California Conference Championships"],
+    badges: ["5 MLR Draft Picks", "2026 D1A Semifinalists", "2024 D1A National Champions"], achievements: ["4× D1A National Champions (2014, 2015, 2017, 2024)", "Multiple California Conference Championships"],
     website: "https://www.stmarys-ca.edu", imageUrl: "/college-images/saint-mary-s-college-of-california.jpg", imageCredit: "Photo: Smcj0001 / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:SMC%20Pictures%20028.jpg", gender: "mens",
   },
   {
@@ -393,7 +393,7 @@ export const colleges: College[] = [
     draftPicks: 2, playerCount: 73,
     coachName: "Luke Gross", coachEmail: "coachgrossusa@gmail.com",
     rugbyProgramUrl: "https://www.iurugby.com/", assistantCoaches: [],
-    description: "Indiana Hoosiers rugby features a championship program with 7x Big Ten 15\u2019s Championships, planning to compete in both NCR and CRAA for 2026–27 (dual pathway), with excellent facilities and strong tradition.",
+    description: "Indiana Hoosiers rugby features a championship program with 7x Big Ten 15's Championships, planning to compete in both NCR and CRAA for 2026–27 (dual pathway), with excellent facilities and strong tradition.",
     enrollment: 48424, popularMajors: ["Business", "Communications", "Liberal Arts", "Public Affairs"],
     weatherSummary: "Warm summers, cold, snowy winters.",
     monthlyTemps: [{month:"Jan",hF:37,lF:21,hC:3,lC:-6},{month:"Feb",hF:42,lF:25,hC:6,lC:-4},{month:"Mar",hF:53,lF:34,hC:12,lC:1},{month:"Apr",hF:65,lF:44,hC:18,lC:7},{month:"May",hF:75,lF:54,hC:24,lC:12},{month:"Jun",hF:84,lF:64,hC:29,lC:18},{month:"Jul",hF:87,lF:68,hC:31,lC:20},{month:"Aug",hF:85,lF:66,hC:29,lC:19},{month:"Sep",hF:79,lF:58,hC:26,lC:14},{month:"Oct",hF:67,lF:46,hC:19,lC:8},{month:"Nov",hF:54,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:26,hC:5,lC:-3}],
@@ -513,7 +513,7 @@ export const colleges: College[] = [
     draftPicks: 2, playerCount: 50,
     coachName: "", coachEmail: "",
     rugbyProgramUrl: "https://athletics.walsh.edu/sports/mens-rugby", assistantCoaches: [],
-    description: "When Notre Dame College closed its doors in 2024, its championship-winning rugby program \u2014 the 2023 NCR D1 national champions \u2014 transferred to Walsh University in nearby North Canton. Walsh inherited that culture and much of its roster, immediately becoming a top NCR D1 contender in the ARC. Rugby is a varsity sport at Walsh; ask the coach about aid options.",
+    description: "When Notre Dame College closed its doors in 2024, its championship-winning rugby program — the 2023 NCR D1 national champions — transferred to Walsh University in nearby North Canton. Walsh inherited that culture and much of its roster, immediately becoming a top NCR D1 contender in the ARC. Rugby is a varsity sport at Walsh; ask the coach about aid options.",
     enrollment: 1900, popularMajors: ["Nursing", "Business", "Education", "Exercise Science"],
     weatherSummary: "Warm summers, cold winters with lake-effect snow.",
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:41,lF:25,hC:5,lC:-4},{month:"Mar",hF:52,lF:34,hC:11,lC:1},{month:"Apr",hF:64,lF:44,hC:18,lC:7},{month:"May",hF:74,lF:54,hC:23,lC:12},{month:"Jun",hF:83,lF:63,hC:28,lC:17},{month:"Jul",hF:86,lF:67,hC:30,lC:19},{month:"Aug",hF:84,lF:65,hC:29,lC:18},{month:"Sep",hF:78,lF:58,hC:26,lC:14},{month:"Oct",hF:66,lF:46,hC:19,lC:8},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],

@@ -9,7 +9,7 @@ import { captureEmail } from '@/lib/supabase';
 import { TIER_LABELS } from '@/data/colleges';
 
 export default function Home() {
-  usePageMeta('', 'Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who\u2019s been on both sides of recruitment.');
+  usePageMeta('', "Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who's been on both sides of recruitment.");
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
   const [email, setEmail] = useState('');
@@ -67,7 +67,7 @@ export default function Home() {
       <div className="border-b border-line bg-white">
         <div className="max-w-7xl mx-auto px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className="text-[13px] text-muted">
-            Built by <span className="text-ink font-medium">Hugh Johnston</span> — 2023 NCR D1 National Championship coach. Free for players.
+            Built by <span className="text-ink font-medium">Hugh Johnston</span> — seen both sides of college rugby recruitment. Free for players.
           </p>
           <Link href="/about" className="text-[13px] font-medium text-navy hover:text-navy-deep">
             About Hugh
@@ -127,7 +127,7 @@ export default function Home() {
             <p className="kicker mb-3">The Pathway</p>
             <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em] mb-5">From anywhere to a US college</h2>
             <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55]">
-              I\u2019ve seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here\u2019s how it works.
+              I've seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here's how it works.
             </p>
           </div>
           <div className="border-t border-line">
