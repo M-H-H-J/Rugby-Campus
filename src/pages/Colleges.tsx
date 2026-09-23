@@ -29,7 +29,9 @@ export default function Colleges() {
   const filtered = useMemo(() => colleges.filter((c) => {
     const q = search.toLowerCase();
     const matchQ = !q || c.name.toLowerCase().includes(q) || c.location.toLowerCase().includes(q) || c.state.toLowerCase().includes(q) || c.conference.toLowerCase().includes(q);
-    const matchTab = tab === 'All' || c.affiliation === tab || c.affiliation === 'Both';
+    const matchTab = tab === 'All' ||
+      (tab === 'CRAA D1A' && c.affiliation.includes('CRAA')) ||
+      (tab === 'NCR D1' && c.affiliation.includes('NCR'));
     const matchTier = tierFilter === 'all' || c.tier === tierFilter;
     const matchType = typeFilter === 'all' || c.programType === typeFilter;
     return matchQ && matchTab && matchTier && matchType;

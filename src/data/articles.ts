@@ -121,7 +121,7 @@ CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship
 Yes. Programs recruit from Australia, New Zealand, the UK, Ireland, South Africa, and other nations. You can email coaches directly — every Rugby Campus profile includes a coach contact. Agencies can help and are often expensive; I used one. Use an agency **and** this site if that is your path. Do not treat this tool as anti-agency.
 
 **How many college rugby programs are there in the USA?**
-Roughly 900 college rugby programs; around 40 compete at the top level across CRAA D1A and NCR D1.
+Estimates vary \u2014 NCR alone reports hundreds of teams, and CRAA adds more. Around 40 compete at the top level across CRAA D1A and NCR D1; those are the programs profiled here.
 
 **How do I get recruited?**
 Highlight reel, short profile (position, size, history), honest email to coaches. Not every coach will reply. Start with the [map](/map).
@@ -224,11 +224,11 @@ Two of America\u2019s **best-known programs if you play rugby** disappeared in a
 
 Notre Dame College was not a one-off. Central Washington University discontinued its men\u2019s rugby as a funded pathway. CWU had been producing serious professional pipeline talent — including MLR draft attention even around the wind-down. Rugby success does not immunise a program against budget and enrolment pressure.
 
-**Important clarity:** treat CWU as **club / restart territory, not a varsity recruit target**, until funding and status are clear. People have tried to keep rugby alive on campus without proper funding. That is why you should not treat a historic draft record as a reason to commit somewhere that no longer has a program to join.
+**Important clarity:** CWU\u2019s varsity program was discontinued at the end of 2024\u201325, but men\u2019s and women\u2019s **clubs restarted in fall 2025** with support from recreation and the foundation. Treat it as club / restart territory, not a varsity recruit target. See [CWU\u2019s October 2025 restart coverage](https://www.cwu.edu/about/media-resources/news/2025/10/returning-cwu-rugby-players-help-clubs-get-off-the-ground-this-fall).
 
-## Women\u2019s rugby — verify current status
+## Quinnipiac — varsity demoted to club
 
-There have been high-profile cases of varsity women\u2019s rugby programs being cut and challenged. The broader lesson: even varsity status is not a forever guarantee, and athletes sometimes have more leverage than they think. Verify current status with any program you are considering — do not rely on old news.
+Quinnipiac University announced in April 2026 that varsity women\u2019s rugby would become a club sport for 2026\u201327. A Title IX lawsuit followed; the injunction was denied, so club status stands pending trial. The broader lesson: even varsity status is not a forever guarantee, and athletes sometimes have more leverage than they think. Verify current status with any program you are considering.
 
 ## Why programs actually die
 

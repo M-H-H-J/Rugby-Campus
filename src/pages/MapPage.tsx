@@ -14,7 +14,10 @@ export default function MapPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('All');
 
   const filtered = useMemo(
-    () => (tab === 'All' ? colleges : colleges.filter((c) => c.affiliation === tab || c.affiliation === 'Both')),
+    () => (tab === 'All' ? colleges : colleges.filter((c) =>
+      (tab === 'CRAA D1A' && c.affiliation.includes('CRAA')) ||
+      (tab === 'NCR D1' && c.affiliation.includes('NCR'))
+    )),
     [colleges, tab]
   );
 
