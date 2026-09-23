@@ -33,6 +33,8 @@ I was lucky enough to be recruited to a US college program from Australia in 201
 
 On Rugby Campus we group programs rather than ranking them 1 to 40, because rankings shift and no single list agrees — Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
 
+**Method note:** We label a program **Varsity** or **Club** from university athletics pages or a published varsity designation where possible. If the current designation is unclear, verify it with the school or coach rather than treating an old label as permanent.
+
 ## How college rugby is structured in the USA
 
 American college rugby has two main governing bodies at the top level. Learning about both may influence your decision.
@@ -121,7 +123,7 @@ CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship
 Yes. Programs recruit from Australia, New Zealand, the UK, Ireland, South Africa, and other nations. You can email coaches directly — every Rugby Campus profile includes a coach contact. Agencies can help and are often expensive; I used one. Use an agency **and** this site if that is your path. Do not treat this tool as anti-agency.
 
 **How many college rugby programs are there in the USA?**
-Estimates vary \u2014 NCR alone reports hundreds of teams, and CRAA adds more. Around 40 compete at the top level across CRAA D1A and NCR D1; those are the programs profiled here.
+A commonly cited estimate is **roughly 900** college rugby programs, with **a few dozen** at the top level across CRAA D1A and NCR D1. Treat that as an estimate — **not a hard census** — drawn from figures often cited across college rugby media and governing-body coverage. The total shifts with how schools and teams are counted.
 
 **How do I get recruited?**
 Highlight reel, short profile (position, size, history), honest email to coaches. Not every coach will reply. Start with the [map](/map).
@@ -220,15 +222,17 @@ The program that had climbed hard over a decade, shaped a lot of lives including
 
 Two of America\u2019s **best-known programs if you play rugby** disappeared in a short window. One of them was mine. Here\u2019s what happened — and how to protect yourself.
 
-## Central Washington: funded pathway gone; club picture unclear
+## Central Washington: varsity discontinued; club restart
 
-Notre Dame College was not a one-off. Central Washington University discontinued its men\u2019s rugby as a funded pathway. CWU had been producing serious professional pipeline talent — including MLR draft attention even around the wind-down. Rugby success does not immunise a program against budget and enrolment pressure.
+Notre Dame College was not a one-off. Central Washington University discontinued its men\u2019s rugby as a funded/varsity pathway. In October 2025, CWU reported that returning players were helping clubs get off the ground again: [Returning CWU rugby players help clubs get off the ground this fall](https://www.cwu.edu/about/media-resources/news/2025/10/returning-cwu-rugby-players-help-clubs-get-off-the-ground-this-fall).
 
-**Important clarity:** CWU\u2019s varsity program was discontinued at the end of 2024\u201325, but men\u2019s and women\u2019s **clubs restarted in fall 2025** with support from recreation and the foundation. Treat it as club / restart territory, not a varsity recruit target. See [CWU\u2019s October 2025 restart coverage](https://www.cwu.edu/about/media-resources/news/2025/10/returning-cwu-rugby-players-help-clubs-get-off-the-ground-this-fall).
+**Important clarity:** CWU is returning as a **club**, not as a varsity recruit target. The varsity path was discontinued; a historic rugby record or professional pipeline is not a reason to assume a varsity roster is available. Ask the club or university about current funding, competition, and eligibility before treating it as an option.
 
-## Quinnipiac — varsity demoted to club
+## Quinnipiac: varsity to club for 2026–27
 
-Quinnipiac University announced in April 2026 that varsity women\u2019s rugby would become a club sport for 2026\u201327. A Title IX lawsuit followed; the injunction was denied, so club status stands pending trial. The broader lesson: even varsity status is not a forever guarantee, and athletes sometimes have more leverage than they think. Verify current status with any program you are considering.
+Quinnipiac women\u2019s rugby is moving from **varsity to club for 2026–27**. That is the primary status to plan around: a club restart or continuation is not the same recruiting pathway as a varsity program. Any earlier Title IX dispute is past context only; do not frame it as an ongoing case or let legal drama replace the current varsity-to-club fact.
+
+The broader lesson still holds: varsity status is not a forever guarantee, so ask where rugby sits structurally before committing.
 
 ## Why programs actually die
 
@@ -246,15 +250,15 @@ You cannot eliminate risk. You can manage it — especially at small private col
 
 **Check the institution\u2019s health, not just the rugby.** Enrolment growing or shrinking? News about budget cuts or \u201crestructuring\u201d? Ten minutes of searching helps. A brilliant rugby offer at a fragile college is a fragile offer.
 
-**Ask where rugby sits structurally.** Varsity under athletics, funded club, or student organisation? Varsity is not bulletproof, but it signals deeper commitment. We label Varsity / Club on profiles for that reason.
+**Ask where rugby sits structurally.** Varsity under athletics, funded club, or student organisation? Varsity is not bulletproof, but it signals deeper commitment. We label Varsity / Club on profiles for that reason. Our labels come from university athletics pages or published varsity designations where possible; when the current status is unclear, verify it with the school or coach.
 
-**Ask the coach the hard question.** \u201cHow secure is this program\u2019s funding for the next four years?\u201d Honesty is useful. Defensiveness is information.
+**Ask the coach the hard question.** "How secure is this program\u2019s funding for the next four years?" Honesty is useful. Defensiveness is information.
 
 **Know that transfer is easier once you are inside the US college system.** If the worst happens, players often land on their feet — NDC\u2019s group largely moved to Walsh. You already know more about what you like. Disruptive, not fatal.
 
 ## The bigger picture
 
-None of this should scare you off American college rugby. Programs get born as well as closed. New varsity and serious club projects launch; the women\u2019s game is expanding. The landscape moves in both directions.
+None of this should scare you off American college rugby. Programs get born as well as closed. New varsity and serious club projects launch; the women\u2019s game is expanding. The landscape moves in both directions — avoid the word "churn"; just say programs appear and disappear.
 
 If you want to go to the US to play rugby, go to play rugby. You can transfer. Go in with your eyes open, ask uncomfortable questions, and use the map to see what still exists.
 `.trim(),
