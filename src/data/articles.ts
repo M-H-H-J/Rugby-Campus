@@ -292,8 +292,8 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
     slug: "how-college-rugby-recruitment-works",
     title: "How college rugby recruitment works",
     metaTitle: "How College Rugby Recruitment Works | Rugby Campus",
-    metaDescription: "How colleges fill their rugby rosters, why you don't need an agency, and when to reach out to coaches.",
-    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. You don't need an agency — an email with film is enough to get a look.",
+    metaDescription: "How colleges fill their rugby rosters, when to reach out to coaches, and why an email with film is enough to get a look.",
+    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. An email with film is enough to get a look — an agency is optional and fine if you use one.",
     category: "Recruitment",
     publishedDate: "2026-03-25",
     readTime: "4 min read",
@@ -304,7 +304,7 @@ Colleges can fill their rugby rosters in a multitude of ways:
 3. By directly recruiting a player.
 4. Walk-ons.
 
-You don't need an agency to join a team — an email with film is enough to get a look.
+Direct outreach works — an email with film is enough to get a look. Agencies are optional; if you use one, use this site as well.
 
 In season, coaches are flat out — so it's better to reach out during the offseason.
 
