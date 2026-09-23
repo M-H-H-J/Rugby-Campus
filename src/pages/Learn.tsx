@@ -11,9 +11,9 @@ export default function Learn() {
     <div className="max-w-4xl mx-auto px-5 py-12 md:py-20">
       <header className="mb-12 pb-8 border-b border-line">
         <p className="kicker mb-4">Guides</p>
-        <h1 className="font-heading text-[38px] md:text-[48px] leading-[1.05] tracking-[-0.02em] text-ink mb-5">How US college rugby really works</h1>
+        <h1 className="font-heading text-[38px] md:text-[48px] leading-[1.05] tracking-[-0.02em] text-ink mb-5">How US college rugby works</h1>
         <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-2xl">
-          No agency spin. These are the straight answers I give players and parents who ask me what it's actually like — written from the inside.
+          These are my learnings from being a coach and a player in the US collegiate rugby system.
         </p>
       </header>
 

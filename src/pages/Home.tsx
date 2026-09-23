@@ -67,7 +67,7 @@ export default function Home() {
       <div className="border-b border-line bg-white">
         <div className="max-w-7xl mx-auto px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <p className="text-[13px] text-muted">
-            Built by <span className="text-ink font-medium">Hugh Johnston</span> — 2023 NCR D1 National Championship coach. Free for players, always.
+            Built by <span className="text-ink font-medium">Hugh Johnston</span> — 2023 NCR D1 National Championship coach. Free for players.
           </p>
           <Link href="/about" className="text-[13px] font-medium text-navy hover:text-navy-deep">
             About Hugh
@@ -80,8 +80,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="kicker mb-3">2025–26 Season</p>
-              <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">Championship contenders</h2>
+              <p className="kicker mb-3">2026–27 Season</p>
+              <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">Top programs</h2>
             </div>
             <Link href="/colleges" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
               All 40 programs <ArrowRight size={15} />
@@ -119,16 +119,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl mb-12">
             <p className="kicker mb-3">The Pathway</p>
-            <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em] mb-5">From anywhere to a US squad</h2>
+            <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em] mb-5">From anywhere to a US college</h2>
             <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55]">
-              No agency required. This is the same process I used as a 17-year-old from Australia — and later ran from the other side as a head coach.
+              I\u2019ve seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here\u2019s how it works.
             </p>
           </div>
           <div className="border-t border-line">
             {[
-              { n: '1', t: 'Find programs that fit', d: 'Browse the map and the tiers. Match your level honestly — game time at the right program beats a bench spot at a famous one.' },
-              { n: '2', t: 'Email the coach yourself', d: 'Every profile has the coach\u2019s contact. A short, direct email with your position, size, and highlights is all it takes. Coaches answer players.' },
-              { n: '3', t: 'Apply and get over there', d: 'The guides cover applications, visas, scholarships, and what to expect when you land. Questions? Email me.' },
+              { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference, and location. Game time at the right program beats a bench spot at a famous one.' },
+              { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
+              { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. A short, direct email introducing yourself is all it takes to start the conversation.' },
             ].map((s, i) => (
               <div key={s.n} className={`flex gap-6 md:gap-10 py-8 ${i > 0 ? 'border-t border-line' : ''}`}>
                 <span className="font-heading text-[56px] md:text-[72px] text-navy leading-none w-16 md:w-24 flex-shrink-0">{s.n}</span>
@@ -182,7 +182,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl">
             <p className="kicker mb-4 text-gold">Stay Connected</p>
-            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season is starting. Stay across it.</h2>
+            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Stay across it.</h2>
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows, and new guides — a short email, only when there's something worth sending.
             </p>

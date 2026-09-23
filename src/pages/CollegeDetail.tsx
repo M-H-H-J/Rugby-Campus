@@ -162,10 +162,10 @@ export default function CollegeDetail() {
             </a>
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
-              <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium hover:text-navy-deep">
-                Read how recruitment works
+              <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">
+                Read the guide
               </Link>{' '}
-              — or <Link href="/work-with-me" className="text-navy font-medium hover:text-navy-deep">work with me directly</Link>.
+              or <Link href="/map" className="text-navy font-medium hover:text-navy-deep">explore the map</Link>.
             </p>
           </div>
         </aside>

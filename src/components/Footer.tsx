@@ -24,7 +24,7 @@ export default function Footer() {
               <img src="/logo-white.png" alt="Rugby Campus" className="h-7 w-auto opacity-90" />
             </div>
             <p className="text-white/45 text-xs leading-relaxed">
-              Helping aspiring players discover U.S. college rugby. Built by a national championship-winning coach.
+              Helping aspiring players discover U.S. college rugby.
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-5 flex flex-col sm:flex-row justify-between gap-3">
-          <p className="text-white/35 text-[11px]">© 2026 Rugby Campus. Free for players, always.</p>
+          <p className="text-white/35 text-[11px]">© 2026 Rugby Campus.</p>
           <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/35 hover:text-white/60 text-[11px] transition-colors">{CONTACT_EMAIL}</a>
         </div>
       </div>

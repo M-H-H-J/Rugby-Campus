@@ -14,7 +14,7 @@ export default function MapPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('All');
 
   const filtered = useMemo(
-    () => (tab === 'All' ? colleges : colleges.filter((c) => c.affiliation === tab)),
+    () => (tab === 'All' ? colleges : colleges.filter((c) => c.affiliation === tab || c.affiliation === 'Both')),
     [colleges, tab]
   );
 
@@ -51,10 +51,10 @@ export default function MapPage() {
         <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2" style={{ zIndex: 500 }}>
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-[11px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-gold" /> Championship
+              <span className="w-2 h-2 rounded-full bg-gold" /> Top tier
             </div>
             <div className="flex items-center gap-2 text-[11px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-navy" /> Top-40
+              <span className="w-2 h-2 rounded-full bg-navy" /> Top 40
             </div>
           </div>
         </div>

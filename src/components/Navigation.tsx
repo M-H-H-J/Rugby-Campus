@@ -32,7 +32,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-5">
         <div className="flex justify-between items-center h-14">
           <Link href="/" className="flex items-center" aria-label="Rugby Campus home">
-            <img src="/logo.png" alt="Rugby Campus" className="h-6 w-auto" />
+            <img src="/logo.png" alt="Rugby Campus" className="h-7 w-auto" />
           </Link>
 
           <div className="hidden md:flex items-center gap-6">

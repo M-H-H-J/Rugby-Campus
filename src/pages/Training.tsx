@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Lock, Check, Mail } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { Link } from 'wouter';
+import { CONTACT_EMAIL } from '@/config';
 
 export default function Training() {
-  usePageMeta('Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching from a national championship-winning college coach.');
+  usePageMeta('Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching for athletes heading to US college rugby.');
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 
@@ -34,7 +34,7 @@ export default function Training() {
         <p className="kicker mb-2">Training</p>
         <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink mb-4">Arrive ready to compete</h1>
         <p className="text-muted text-[15px] leading-relaxed">
-          The gap between club rugby and a US college squad is physical. Start with the free sample block below — or work with me directly and turn up on day one already at the level.
+          US college rugby can be physical. Start with the free sample block below — or enquire about one-on-one coaching to turn up ready from day one.
         </p>
       </header>
 
@@ -81,39 +81,38 @@ export default function Training() {
         </div>
       </section>
 
-      {/* Work with me */}
+      {/* Coaching — paid service */}
       <section className="bg-dark rounded-lg overflow-hidden">
         <div className="grid lg:grid-cols-12 gap-10 p-8 md:p-12">
           <div className="lg:col-span-7">
-            <p className="kicker mb-3 text-gold">Work with me</p>
+            <p className="kicker mb-3 text-gold">Coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
-              Individualised coaching, from someone who's coached the level
+              Individualised coaching for athletes heading to the US
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a limited number of athletes one-on-one. Your program is built around your position, your goals, and your timeline for getting to the US — with regular check-ins to keep you honest. This is the preparation I wish I'd had at 17.
+              I take on a limited number of athletes one-on-one. Your program is built around your position, your goals, and what you want to achieve — with regular check-ins as you progress. Coaching is a paid service; pricing is discussed after the intro chat.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[
                 'Programming built for you, not a template',
                 'Position-specific strength, speed, and conditioning',
-                'Regular check-ins and adjustments',
-                'Straight answers from a player, captain, and championship-winning coach',
+                'Regular check-ins and adjustments as needed',
               ].map((p, i) => (
                 <li key={i} className="flex items-start gap-3 text-[14px] text-white/75">
                   <Check size={15} className="text-gold mt-[3px] flex-shrink-0" /> {p}
                 </li>
               ))}
             </ul>
-            <Link href="/work-with-me" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Training%20enquiry`} className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
               <Mail size={15} /> Enquire about coaching
-            </Link>
+            </a>
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
             <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
             {[
-              { n: '1', t: 'Intro chat', d: 'Your goals, your level, your timeline. No obligation.' },
-              { n: '2', t: 'Your program', d: 'Built for your position and what US coaches look for.' },
-              { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments until you\u2019re on the plane.' },
+              { n: '1', t: 'Intro chat', d: 'Your goals, your level, your situation. No obligation.' },
+              { n: '2', t: 'Your program', d: 'Built for your position and what you want to achieve.' },
+              { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments as needed.' },
             ].map((s, i) => (
               <div key={s.n} className={`flex gap-5 py-4 ${i > 0 ? 'border-t border-white/10' : ''}`}>
                 <span className="font-heading text-[26px] text-gold leading-none">{s.n}</span>

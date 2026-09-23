@@ -25,21 +25,21 @@ export const articles: Article[] = [
     content: `
 ## The best college rugby programs in America, 2026–27
 
-If you're looking for the best universities to play rugby at in the USA, this is the guide. It's written by someone who was recruited to a US college program from Australia at 17, captained it, and came back to coach it to a national championship — so it's opinionated where it needs to be.
+If you\u2019re looking for the best universities to play rugby at in the USA, this guide is for 15s. I was lucky enough to be recruited to Notre Dame College from Australia in 2019. I loved my time in the US — captained the side, then came back as head coach and took the program to the NCR D1 national championship. Here\u2019s what I\u2019ve learned about where to play.
 
-The short version: the strongest programs right now are **Cal (back-to-back D1A national champions, 2025 and 2026), Navy, Life, Saint Mary's, and Lindenwood** at the top of CRAA D1A, and **St. Bonaventure (2025 champions), Queens, Brown, and Walsh** at the top of NCR D1. Below them sits a deep group of playoff-calibre programs, and then a long tail of genuinely good rugby environments where you'd play every week.
+The short version: the strongest programs right now are **Cal (back-to-back D1A national champions, 2025 and 2026), Navy, Life, Saint Mary\u2019s, and Lindenwood** at the top of CRAA D1A, and **St. Bonaventure (2025 champions), Queens, Brown, and Walsh** at the top of NCR D1. Below them sits a deep group of playoff-calibre programs, and then a long tail of genuinely good rugby environments.
 
-On Rugby Campus we sort all 40 into three tiers rather than ranking them 1 to 40, because rankings shift weekly and no single authority agrees on them — Goff Rugby Report and NCR regularly publish different lists. Tiers are honest; numbers are false precision. You can browse all 40, with coach contacts, on the [colleges page](/colleges).
+On Rugby Campus we group all 40 into three tiers rather than ranking them 1 to 40, because rankings shift weekly and no single authority agrees on them — Goff Rugby Report and NCR regularly publish different lists. You can browse all 40, with coach contacts, on the [colleges page](/colleges).
 
 ## How college rugby is structured in the USA
 
-American college rugby has two main governing bodies at the top level, and you need to understand both.
+American college rugby has two main governing bodies at the top level, and learning about both may influence your decision.
 
-**CRAA D1A** (College Rugby Association of America) is the highest level of college rugby. The spring playoffs decide the national champion. In 2026, Cal beat Navy 36–22 in the final in Indianapolis to complete a perfect 17–0 season and go back-to-back. New D1A entrants for 2026–27 include St. Thomas (Minnesota), Santa Clara, San Diego, Utah, and Western Washington.
+**CRAA D1A** (College Rugby Association of America) is the highest level. The spring playoffs decide the national champion. In 2026, Cal beat Navy 36–22 in the final in Indianapolis to complete a perfect 17–0 season and go back-to-back. New D1A entrants for 2026–27 include St. Thomas (Minnesota), Santa Clara, San Diego, Utah, and Western Washington.
 
-**NCR D1** (National Collegiate Rugby) runs a fall championship. St. Bonaventure won the 2025 title over Queens, and Walsh University — which inherited the Notre Dame College program that won the 2023 title — is a consistent contender. For 2026–27, UCLA has moved from CRAA D1A into NCR D1.
+**NCR D1** (National Collegiate Rugby) runs a fall championship. St. Bonaventure won the 2025 title over Queens, and Walsh University — which inherited the Notre Dame College program that won the 2023 title — is a consistent contender. For 2026–27, UCLA is competing in both CRAA D1A and NCR D1.
 
-The honest take on the difference: the very top of D1A is stronger than the top of NCR D1, but the middle of both divisions is closer than people think, and an NCR D1 starter often develops faster than a D1A bench player.
+The honest take on the difference: the very top of D1A is stronger than the top of NCR D1, but the middle of both divisions is closer than people think.
 
 ## How College Rugby is Structured in the USA
 
@@ -71,28 +71,20 @@ Life is a smaller, specialized university focused on chiropractic and health sci
 
 **Key facts:** D1A, 2,800 students, rugby scholarships available, 2026 D1A semifinalists.
 
-### 3. McKendree University — The Rising Program
-
-McKendree in Lebanon, Illinois is one of the newest D1A programs, having launched varsity rugby in 2020. Despite being a small NCAA Division II school, McKendree has invested heavily in rugby. Head Coach Cameron Wyper, a former Scotland 7s international, has built a squad with strong international representation — you'll find players from Ireland, the UK, Australia, and across the US on the roster.
-
-McKendree offers rugby scholarships and provides a small-school experience where you won't get lost in the crowd. It's just 25 miles from St. Louis, giving you access to a major city while studying at a school where coaches know your name.
-
-**Key facts:** D1A, 2,300 students, rugby scholarships available, varsity sport.
-
 ### Other Top D1A Programs Worth Exploring
 
-- **Lindenwood University** — Another school where rugby is a varsity sport with scholarships. Located in St. Charles, Missouri, Lindenwood has been a D1A force for years.
-- **United States Naval Academy** — Playing rugby at Navy means combining military service with top-level competition. The Midshipmen compete in Rugby East and have produced Eagles.
-- **Saint Mary's College of California** — The Gaels have a proud rugby history in the Bay Area and compete at the highest level year after year.
-- **United States Military Academy (Army)** — Like Navy, Army offers rugby at a high level alongside a military academy education.
+- **Saint Mary\u2019s College of California** — The Gaels have a proud rugby history in the Bay Area and compete at the highest level year after year.
+- **Lindenwood University** — Another school where rugby is a varsity sport. Located in St. Charles, Missouri, Lindenwood has been a D1A force for years.
+- **United States Naval Academy** — Playing rugby at Navy means combining military service with top-level competition. The Midshipmen compete in Rugby East and have produced Eagles. Note: international students are generally not eligible to attend the service academies.
+- **United States Military Academy (Army)** — Like Navy, Army offers rugby at a high level alongside a military academy education. The same international eligibility caveat applies.
 
 ## Can You Get a Rugby Scholarship?
 
-This is one of the most common questions from international players. The short answer: yes, but it depends on the school.
+This is one of the most common questions from international players. The short answer: it depends on the school.
 
-Rugby is not an NCAA-sanctioned sport at most schools, which means traditional NCAA athletic scholarships for rugby are rare. However, schools where rugby is a varsity sport — like Life University, Lindenwood, McKendree, and a few others — can and do offer athletic scholarships specifically for rugby.
+Rugby is not an NCAA-sanctioned sport at most schools, which means traditional NCAA athletic scholarships for rugby are rare. However, schools where rugby is a varsity sport — like Life University, Lindenwood, and a few others — may have limited athletic scholarships available for rugby.
 
-At other schools, rugby players may receive academic scholarships, financial aid, or other forms of support. Many international students find that the combination of academic merit aid and the opportunity to play competitive rugby makes US college an attractive option.
+At other schools, rugby players may receive academic scholarships, financial aid, or other forms of support. Academic aid may be available at many programs. Many international students find that the combination of academic merit aid and the opportunity to play competitive rugby makes US college an attractive option.
 
 ## What Should You Consider When Choosing a Program?
 
@@ -127,16 +119,16 @@ Cal (University of California, Berkeley) is the best college rugby program in Am
 Rugby scholarships in the US are mostly at smaller private universities that run rugby as a varsity sport: Life University, Lindenwood, Davenport, McKendree, Mount St. Mary's, Queens, St. Bonaventure, Walsh and Belmont Abbey among them. Large public universities like Cal, Penn State and Ohio State usually run rugby as a club sport with limited or no athletic scholarships, though academic aid may be available.
 
 **What is the difference between D1A and NCR D1 rugby?**
-CRAA D1A is the top level of US college rugby, with a spring national playoff; NCR D1 is run by a separate governing body with a fall championship. The top of D1A is stronger, but the middle of both divisions overlaps, and programs move between them — UCLA moved from D1A to NCR D1 for 2026–27.
+CRAA D1A is the top level of US college rugby, with a spring national playoff; NCR D1 is run by a separate governing body with a fall championship. The top of D1A is stronger, but the middle of both divisions overlaps. UCLA is competing in both for 2026–27.
 
 **Can international students play college rugby in the USA?**
-Yes. Programs actively recruit from Australia, New Zealand, the UK, Ireland, South Africa and the Pacific Islands. You do not need an agency — you can email coaches directly, and every profile on Rugby Campus includes coach contact details. Agencies typically charge US$7,000–11,500; a direct approach costs nothing.
+Yes. Programs actively recruit from Australia, New Zealand, the UK, Ireland, South Africa, the Pacific Islands, and other rugby nations. You can email coaches directly — every profile on Rugby Campus includes coach contact details. Some players use agencies to help with the process; some go direct. Both approaches can work.
 
 **How many college rugby programs are there in the USA?**
 There are roughly 900 college rugby programs across the United States. Around 40 of them compete at the top level across CRAA D1A and NCR D1 — those are the programs profiled on Rugby Campus.
 
 **How do I get recruited to play college rugby in America?**
-Build a short highlight reel, write a one-page profile with your position, size, and playing history, and email coaches directly with a specific, honest note about why their program. Coaches reply to players. Read the full recruitment guide on Rugby Campus, or work with Hugh directly if you want the shortlist and outreach done for you.
+Build a short highlight reel, write a one-page profile with your position, size, and playing history, and email coaches directly with a specific, honest note about why their program interests you. You can explore all 40 programs on the [interactive map](/map).
 `.trim(),
   },
   {
@@ -154,17 +146,17 @@ Build a short highlight reel, write a one-page profile with your position, size,
 
 Let me tell you about one college rugby program over five seasons. In year one, it fielded a genuinely strong side in the toughest competition in America, going toe-to-toe with Army, Navy, and Penn State. Two years later, that same program went 1-7 — and honestly, the one win probably should have been a loss. The year after that, it improved but still missed the playoffs. And the season after that? It won the national championship.
 
-That program was Notre Dame College. I know because I lived every one of those seasons — as a freshman in the strong years, as captain through the painful ones, and as head coach when we won the 2023 NCR D1 National Championship, beating St. Bonaventure 33-10 in the final in Houston.
+That program was Notre Dame College. I was there through all of it — as a freshman in the strong years, injured and then captain through the difficult rebuilding seasons, and as head coach when we won the 2023 NCR D1 National Championship over St. Bonaventure in the final in Houston.
 
-If you had looked at rankings in any single one of those years, you would have drawn completely wrong conclusions about where that program would be twelve months later. That's the problem with rankings — and it's why Rugby Campus uses tiers instead of numbers.
+If you had looked at rankings in any single one of those years, you would have drawn completely wrong conclusions about where that program would be twelve months later. That\u2019s the problem with rankings — and it\u2019s why Rugby Campus uses tiers instead of numbers.
 
 ## Nobody actually agrees on the rankings
 
-Here's something most people outside American college rugby don't realise: there is no single authority on rankings. Goff Rugby Report — the best source of college rugby news in the country, and a site you should absolutely read — publishes its own rankings. National Collegiate Rugby publishes power rankings. They regularly disagree. Goff has, at times, published a different NCR ranking to NCR's own official one, essentially because he thought theirs was wrong.
+Here\u2019s something most people outside American college rugby don\u2019t realise: there is no single authority on rankings. Goff Rugby Report — one of the best sources of college rugby news in the country — publishes its own rankings. National Collegiate Rugby publishes power rankings. CRAA has its own rankings for D1A. They regularly disagree.
 
-Neither of them is being dishonest. Rankings in a sport with limited crossover games between conferences are always partly opinion. When a team in the Liberty Conference and a team in the ARC have played zero common opponents, ranking one above the other is an educated guess.
+None of them is being dishonest. Rankings in a sport with limited crossover games between conferences are always partly opinion. When a team in one conference and a team in another have played zero common opponents, ranking one above the other is an educated guess.
 
-So when you see a program ranked #12 and another ranked #15, you should hear: "roughly similar, someone made a judgment call." Not "the #12 team is better."
+So when you see a program ranked #12 and another ranked #15, you should hear: \u201croughly similar, someone made a judgment call.\u201d Not \u201cthe #12 team is better.\u201d
 
 ## Programs move in cycles — here's why
 
@@ -196,9 +188,9 @@ Here's why sevens matters for program evaluation: you only need seven to twelve 
 
 When you're evaluating programs on this site or anywhere else, weight these far above any number:
 
-**Coach tenure and stability.** A coach in year five of building something beats a higher-ranked program that just lost its coach.
+**Coach tenure and stability.** A coach in year five of building something is often a better bet than a higher-ranked program that just lost its coach. That said, a coaching change isn\u2019t automatically bad — new energy can transform a program quickly.
 
-**Retention.** Do players stay all four years? Ask the coach directly how many of last year's freshmen are still in the program.
+**Retention.** Do players stay all four years? Ask the coach directly how many of last year\u2019s freshmen are still in the program. Ask about the sophomore or prior freshman class — are those players happy?
 
 **Squad depth.** A program with 60+ registered players trains differently to one scraping together 25. We list squad sizes on every college profile for exactly this reason.
 
@@ -221,17 +213,17 @@ Rankings are a photograph of last season. You're choosing where to spend the nex
     publishedDate: "2026-06-25",
     readTime: "8 min read",
     content: `
-## The championship program that no longer exists
+## The program that no longer exists
 
-In December 2023, I coached Notre Dame College to the NCR D1 National Championship. Within a year, Notre Dame College didn't exist.
+In December 2023, I coached Notre Dame College to the NCR D1 National Championship. Within a year, Notre Dame College didn\u2019t exist.
 
 The college itself — a small institution in South Euclid, Ohio — closed its doors for financial reasons. Not the rugby program: the entire college. The rugby program that had climbed from Division 2 to the top of American college rugby in under a decade, that had won national titles at multiple levels, that had shaped my life and dozens of others — it didn't lose funding or get cut by an athletic director. The ground disappeared from under it.
 
 There's a silver lining: the program transferred to Walsh University in North Canton, Ohio, where many of the players and the program's culture carried on. Walsh is now a legitimate NCR D1 contender, and you'll find them on our map. But if you were a recruit who had committed to NDC in mid-2024, you learned an uncomfortable lesson about American higher education: small colleges can close, and your rugby program closes with them.
 
-## Central Washington: a powerhouse, gone
+## Central Washington: a strong program, gone
 
-Notre Dame College wasn't a one-off. In April 2025, Central Washington University discontinued its men's rugby program — and CWU wasn't a struggling club. It was one of the best programs in the country. CWU had seven MLR draft picks in recent years; in the 2025 MLR College Draft, held months after the program was already discontinued, three CWU players were still taken in the first five picks.
+Notre Dame College wasn\u2019t a one-off. In April 2025, Central Washington University discontinued its men\u2019s rugby club program — and CWU wasn\u2019t struggling. It was one of the better-known programs if you follow college rugby. CWU had seven MLR draft picks in recent years; in the 2025 MLR College Draft, held months after the program was already discontinued, three CWU players were still taken in the first five picks.
 
 Think about that: a program producing top-five professional draft picks was shut down anyway. University budgets, athletic department priorities, and enrollment pressures killed a program that was succeeding at everything rugby-wise.
 
@@ -267,9 +259,9 @@ You can't eliminate this risk, but you can manage it. Before committing anywhere
 
 ## The bigger picture
 
-None of this should scare you off American college rugby. Programs also get born: new varsity programs launch every year, schools like McKendree fund rugby properly, and the women's game is expanding fast. The landscape churns in both directions.
+None of this should scare you off American college rugby. Programs are also born: new varsity programs launch every year, and the women\u2019s game is expanding fast. The landscape changes in both directions.
 
-But recruiting agencies selling you a dream rarely mention the churn. I'm mentioning it because I lived it from every side — as the player, the captain, and the coach of a program that reached the very top and then vanished for reasons that had nothing to do with rugby. Go in with your eyes open, ask the uncomfortable questions, and choose a college you'd be happy at even if — worst case — the rugby went away.
+I\u2019m mentioning the risks because I lived them from every side — as the player, the captain, and the coach of a program that reached the top and then vanished for reasons that had nothing to do with rugby. Go in with your eyes open and ask the uncomfortable questions. And if the worst does happen, know that it\u2019s often easier to transfer once you\u2019re already in the US system — players do land on their feet.
 `,
   },
   {
