@@ -3,7 +3,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
 
 export default function Learn() {
-  usePageMeta('College Rugby Guides', 'Guides on how US college rugby works — structure, programs, rankings, and what recruits should know — from a coach and player in the system.');
+  usePageMeta('College Rugby Guides', 'Guides on how US college rugby works — structure, programs, rankings, and what to know before you commit.');
   const full = articles.filter((a) => !a.content.startsWith('Coming soon'));
   const stubs = articles.filter((a) => a.content.startsWith('Coming soon'));
 
@@ -13,7 +13,7 @@ export default function Learn() {
         <p className="kicker mb-4">Guides</p>
         <h1 className="font-heading text-[38px] md:text-[48px] leading-[1.05] tracking-[-0.02em] text-ink mb-5">How US college rugby works</h1>
         <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-2xl">
-          These are my learnings from being a coach and a player in the US collegiate rugby system.
+          Practical guides on structure, programs, rankings, and what to know before you commit.
         </p>
       </header>
 

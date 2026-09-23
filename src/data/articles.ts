@@ -27,7 +27,7 @@ export const articles: Article[] = [
 
 This guide is about **15s**, not 7s. NCR runs a lot of sevens; a side can be weak at 15s and strong at 7s in the same year. If sevens is your main path, ask coaches directly — and see our rankings guide for what to ask.
 
-I was recruited to a US college program from Australia in 2019. After finishing as a player, I came back to coach the same program and we won the 2023 NCR D1 National Championship. This guide is opinionated where it needs to be — not a flex list.
+I went through the US college rugby pathway as a recruit from Australia, then later as a coach. This guide is opinionated where it needs to be.
 
 **Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary\u2019s, and Lindenwood**. At the top of NCR D1 you\u2019ll often hear **St. Bonaventure, Queens, Brown, and Walsh**. Below that is a deep group of playoff-calibre sides, and a long tail of solid rugby environments where you can still get a proper season.
 
@@ -146,7 +146,7 @@ Let me tell you about one college rugby program over a few seasons. In year one 
 
 **Key idea up front: programs move in cycles.** That is the piece most rankings miss.
 
-That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I was captain, but that senior group had gone and we were poor. Senior year was better. After I graduated I moved into the head coaching role. In 2023 we won the NCR D1 National Championship, beating St. Bonaventure in the final in Houston. We only lost one game that year — to Navy.
+That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I captained, but that senior group had gone and we were poor. Senior year was better. After I graduated I moved into the head coaching role. In 2023 we won the **NCR D1 National Championship**. We only lost one game that year — to Navy.
 
 If you had ranked that program from any single season, you would have drawn the wrong conclusion about the next twelve months. That is the problem with rankings.
 

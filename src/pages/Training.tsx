@@ -44,7 +44,7 @@ export default function Training() {
           <p className="kicker mb-2">Free sample</p>
           <h2 className="font-heading text-[26px] text-ink leading-tight mb-3">Off-season strength block</h2>
           <p className="text-muted text-[14px] leading-relaxed mb-6">
-            Two days from a block I\u2019ve used with college athletes. Day one is open — your email unlocks the rest, and the full block lands in your inbox. One unlock for this page.
+            Two days from an off-season strength block. Day one is open — your email unlocks the rest, and the full block lands in your inbox. One unlock for this page.
           </p>
           {unlocked ? (
             <p className="inline-flex items-center gap-2 text-[14px] text-navy font-medium">
@@ -87,10 +87,10 @@ export default function Training() {
           <div className="lg:col-span-7">
             <p className="kicker mb-3 text-gold">Paid coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
-              One-on-one coaching built around you
+              Paid one-on-one coaching for college rugby prep
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a limited number of athletes. Your program is built around your position, what you want to work on, and your rugby season timeline — with regular check-ins and adjustments as you go. Coaching is a paid service — enquire for details.
+              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. Email to enquire about fit and pricing.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[
@@ -103,7 +103,7 @@ export default function Training() {
                 </li>
               ))}
             </ul>
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Training%20enquiry`} className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Coaching%20enquiry`} className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
               <Mail size={15} /> Enquire about coaching
             </a>
           </div>

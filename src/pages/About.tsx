@@ -4,16 +4,16 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 
 export default function About() {
-  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists — built by Hugh Johnston after going through the US college rugby pathway as a recruit and later as a coach.');
+  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists — a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">
       <header className="mb-10">
         <p className="kicker mb-3">About</p>
         <h1 className="font-heading text-[36px] md:text-[46px] text-ink leading-[1.06] mb-5">
-          Why this site exists
+          The resource I needed at 17.
         </h1>
         <p className="font-heading text-[19px] text-muted leading-[1.6]">
-          Rugby Campus is a free guide to US college rugby — from someone who\u2019s seen both sides of the recruitment process.
+          Rugby Campus is a free guide to US college rugby — programs, levels, and how recruitment actually works.
         </p>
       </header>
 
@@ -28,7 +28,7 @@ export default function About() {
             What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over and play.
           </p>
           <p>
-            I\u2019m Hugh Johnston — an Australian who joined Notre Dame College\u2019s rugby program in Ohio in Fall 2019, at 17. I played in Rugby East against Army, Navy, and Penn State, captained the side as the program shifted from D1A to NCR D1, then played PR7s and club rugby in Austin, Texas. In Fall 2023 I came back to Notre Dame College as Head Coach. That season we won the 2023 NCR D1 National Championship.
+            I'm Hugh Johnston — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. I played in Rugby East against sides like Army, Navy, and Penn State, captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
@@ -49,7 +49,7 @@ export default function About() {
           {[
             ['Player & captain', 'Notre Dame College — Rugby East, D1A then NCR D1'],
             ['After college', 'PR7s and club rugby in Austin, Texas'],
-            ['Coach', 'Notre Dame College Head Coach, 2023 — NCR D1 National Championship'],
+            ['Coach', 'Notre Dame College Head Coach, 2023'],
           ].map(([label, value]) => (
             <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-6 py-4 border-b border-line">
               <dt className="text-[13px] text-faint sm:pt-0.5">{label}</dt>
