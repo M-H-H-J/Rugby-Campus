@@ -27,7 +27,7 @@ export const articles: Article[] = [
 
 This guide is about **15s**, not 7s. NCR runs a lot of sevens; a side can be weak at 15s and strong at 7s in the same year. If sevens is your main path, ask coaches directly — and see our rankings guide for what to ask.
 
-I was lucky enough to be recruited to a US college program from Australia in 2019. I loved my time in the US, came back to coach the same program, and we won the NCR D1 National Championship. This guide is opinionated where it needs to be — not a flex list.
+I was recruited to a US college program from Australia in 2019. After finishing as a player, I came back to coach the same program and we won the 2023 NCR D1 National Championship. This guide is opinionated where it needs to be — not a flex list.
 
 **Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary\u2019s, and Lindenwood**. At the top of NCR D1 you\u2019ll often hear **St. Bonaventure, Queens, Brown, and Walsh**. Below that is a deep group of playoff-calibre sides, and a long tail of solid rugby environments where you can still get a proper season.
 
@@ -280,8 +280,8 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
     slug: "rugby-scholarships-explained",
     title: "Rugby Scholarships in the USA — What's Actually Available",
     metaTitle: "Rugby Scholarships in the USA Explained | Rugby Campus",
-    metaDescription: "Can you get a rugby scholarship to play in the USA? Here's what's actually available, which schools offer them, and how to apply.",
-    excerpt: "The truth about rugby scholarships in the US — which schools offer them, how much they're worth, and how to get one.",
+    metaDescription: "Can you get a rugby scholarship in the USA? Availability varies by school and program type — here's what to ask coaches and what to expect.",
+    excerpt: "Rugby scholarship availability varies widely. Some varsity programs may have limited athletic aid; many club programs rely on academic support. Ask each coach directly.",
     category: "Scholarships",
     publishedDate: "2026-03-15",
     readTime: "7 min read",
@@ -290,14 +290,38 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
   {
     id: 6,
     slug: "how-college-rugby-recruitment-works",
-    title: "How College Rugby Recruitment Works in the USA",
+    title: "How college rugby recruitment works",
     metaTitle: "How College Rugby Recruitment Works | Rugby Campus",
-    metaDescription: "A complete guide to the college rugby recruitment process in the USA — timelines, what coaches look for, and how to stand out.",
-    excerpt: "The recruitment process for college rugby isn't like other sports. Here's how it actually works and what you need to do.",
+    metaDescription: "How colleges fill their rugby rosters, why you don't need an agency, and when to reach out to coaches.",
+    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. You don't need an agency — an email with film is enough to get a look.",
     category: "Recruitment",
     publishedDate: "2026-03-25",
-    readTime: "9 min read",
-    content: "Coming soon — this article is being written with input from college rugby coaches and current players.",
+    readTime: "4 min read",
+    content: `
+Colleges can fill their rugby rosters in a multitude of ways:
+1. Through agencies that send them players who are interested.
+2. From direct outreach from prospecting rugby players who want to join the program.
+3. By directly recruiting a player.
+4. Walk-ons.
+
+You don't need an agency to join a team — an email with film is enough to get a look.
+
+In season, coaches are flat out — so it's better to reach out during the offseason.
+
+## US College Rugby
+
+Men's rugby isn't NCAA football. Some universities/colleges are considered club teams while others are varsity sports. That matters hugely as it influences your scholarship, the facilities, the staff and the money going into the program. Additionally there are two competing College Rugby governing bodies — CRAA and NCR.
+
+## What to do
+
+1. Shortlist the colleges that fit you.
+2. Draft an email — do your research about the college.
+3. Email the head coach (and assistant coaches) if you have access to their emails.
+
+Yes, you can apply to the university at the same time — but that won't move the needle. You typically want the coach vouching for you and they typically allocate resources to help you through the process.
+
+If you're international it's unlikely you'll be found unless you attend a "recruiting camp". In the USA, you may get lucky and be recruited — however, don't base your college future on luck. Take it into your own hands.
+`,
   },
 ];
 
