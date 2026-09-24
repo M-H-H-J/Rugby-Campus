@@ -5,7 +5,7 @@
 Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. It is free for players; revenue comes from personal placement coaching and featured program listings for colleges.
 
 ## Core pages
-- [All 40 programs, tiered](https://rugbycampus.org/colleges): championship contenders, playoff-calibre, competitive top 40
+- [All 40 programs, tiered](https://rugbycampus.org/colleges): often near the top, playoff-calibre, competitive
 - [Interactive map](https://rugbycampus.org/map)
 - [Best rugby colleges in America guide](https://rugbycampus.org/learn/best-rugby-colleges-usa)
 - [Why college rugby rankings lie](https://rugbycampus.org/learn/why-college-rugby-rankings-lie)

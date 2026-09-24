@@ -145,7 +145,7 @@ export default function Home() {
               </div>
             ))}
             <p className="py-6 border-t border-line text-muted text-[15px] leading-relaxed max-w-xl">
-              If the coach engages, moving forward usually means interviews, academics, and visas — not just "apply and fly."
+              If the coach responds, moving forward usually means interviews, academics, and visas. When a program wants you, coaches typically help with the next steps to get you there.
             </p>
           </div>
         </div>

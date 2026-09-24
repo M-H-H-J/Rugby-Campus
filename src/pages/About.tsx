@@ -22,22 +22,25 @@ export default function About() {
       <section className="mb-14">
         <div className="space-y-5 font-heading text-[17.5px] text-ink/85 leading-[1.75]">
           <p>
-            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check Niche for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream. Every conversation sounded like the best facilities, the best setup, the best everything.
+            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check <a href="https://www.niche.com" target="_blank" rel="noopener noreferrer" className="text-navy hover:text-navy-deep">Niche</a> for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream — every conversation made it sound like the best place to be.
           </p>
           <p>
-            What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over and play.
+            What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
           </p>
           <p>
-            I'm Hugh Johnston — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. I played in Rugby East against sides like Army, Navy, and Penn State, captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
+            I'm Hugh Johnston — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
           </p>
           <p>
-            When I was a coach, I did not sell the dream the way I had been sold it. We did not have the best facilities. We did have a strong culture. If you were coming for Instagram shots, it was not the place. If you wanted to play a high level of footy, it was. That honesty is the gap this site tries to fill — so you can check what programs actually look like before you commit.
+            When I was a coach, I did not sell the dream the way I had been sold it. We were a no-name college without the best facilities, but we had a strong culture. If you were coming for Instagram shots, it was not the place. If you wanted to play a high level of footy, it was. That honesty is the gap this site tries to fill.
           </p>
           <p>
-            Since coming home, players and parents keep asking the same questions. I used to send them an Excel of colleges after long conversations. This site is that list, properly built. If you go through an agency, that is fine — use this as a tool as well. Agencies vary: some are well connected, others less so. Use both.
+            Questions about a program, or something not right on the site? Email me. The best screening is still talking to coaches yourself — and visiting if you can. I never visited before I committed, and it still matters because you are moving there to live.
+          </p>
+          <p>
+            If you go through an agency, that is fine — use this site as well. Agencies vary; use both.
           </p>
         </div>
       </section>
@@ -47,7 +50,7 @@ export default function About() {
         <p className="kicker mb-4">The short version</p>
         <dl>
           {[
-            ['Player & captain', 'Notre Dame College — Rugby East, D1A then NCR D1'],
+            ['Player & captain', 'Notre Dame College — D1A, then NCR D1'],
             ['After college', 'PR7s and club rugby in Austin, Texas'],
             ['Coach', 'Notre Dame College Head Coach, 2023'],
           ].map(([label, value]) => (

@@ -468,7 +468,7 @@ export const colleges: College[] = [
     draftPicks: 0, playerCount: 40,
     coachName: "", coachEmail: "",
     rugbyProgramUrl: "https://www.scu.edu/recreation/clubsports/current/mens-rugby/", assistantCoaches: [],
-    description: "Santa Clara University combines a top-tier private education in the heart of Silicon Valley with a rising rugby program. The Broncos reached the D1A Challenger Cup semifinals in 2026, showing they belong at this level. Mild Bay Area weather means rugby all year round.",
+    description: "Santa Clara University combines a top-tier private education in the heart of Silicon Valley with a rising rugby program. The Broncos reached the D1A Challenger Cup semifinals in 2026, showing they belong at this level. Mild Bay Area climate.",
     enrollment: 5800, popularMajors: ["Business", "Engineering", "Computer Science", "Communication"],
     weatherSummary: "Mild summers, mild winters.",
     monthlyTemps: [{month:"Jan",hF:59,lF:42,hC:15,lC:6},{month:"Feb",hF:62,lF:44,hC:17,lC:7},{month:"Mar",hF:66,lF:46,hC:19,lC:8},{month:"Apr",hF:70,lF:48,hC:21,lC:9},{month:"May",hF:74,lF:51,hC:23,lC:11},{month:"Jun",hF:79,lF:55,hC:26,lC:13},{month:"Jul",hF:81,lF:57,hC:27,lC:14},{month:"Aug",hF:81,lF:57,hC:27,lC:14},{month:"Sep",hF:80,lF:56,hC:27,lC:13},{month:"Oct",hF:74,lF:51,hC:23,lC:11},{month:"Nov",hF:65,lF:45,hC:18,lC:7},{month:"Dec",hF:58,lF:41,hC:14,lC:5}],
