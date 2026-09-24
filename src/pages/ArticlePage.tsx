@@ -126,7 +126,7 @@ export default function ArticlePage() {
 
       {/* Article Content */}
       {isComingSoon ? (
-        <div className="border border-line rounded-lg p-10 text-center">
+        <div className="bg-white border border-line rounded-lg p-10 text-center">
           <h2 className="font-heading text-[24px] text-ink mb-2">Still being written</h2>
           <p className="text-muted text-[14px] mb-7 max-w-md mx-auto leading-relaxed">
             Leave your email and it'll land in your inbox the day it's published.

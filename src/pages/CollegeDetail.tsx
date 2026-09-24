@@ -57,14 +57,27 @@ export default function CollegeDetail() {
         <p className="text-muted text-[15px]">{college.location}</p>
       </header>
 
-      <div className="rounded-lg overflow-hidden mb-12 relative" style={{ maxHeight: 380 }}>
-        <img src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
-        {college.badges.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
-            <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
-          </div>
+      <figure className="mb-12">
+        <div className="rounded-lg overflow-hidden relative" style={{ maxHeight: 380 }}>
+          <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
+          {college.badges.length > 0 && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
+              <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
+            </div>
+          )}
+        </div>
+        {college.imageCredit && (
+          <figcaption className="text-[11px] text-faint mt-2">
+            {college.imageSourcePage ? (
+              <a href={college.imageSourcePage} target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">
+                {college.imageCredit}
+              </a>
+            ) : (
+              college.imageCredit
+            )}
+          </figcaption>
         )}
-      </div>
+      </figure>
 
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-7 space-y-12">
@@ -83,6 +96,9 @@ export default function CollegeDetail() {
                 </div>
               ))}
             </dl>
+            <p className="mt-3 text-[12px] text-faint leading-relaxed">
+              Varsity/Club labels come from university athletics pages or published designations where possible — verify with the school if unclear.
+            </p>
             {college.achievements.length > 0 && (
               <ul className="mt-5 space-y-2">
                 {college.achievements.map((a, i) => (
@@ -160,12 +176,18 @@ export default function CollegeDetail() {
               className="btn flex items-center justify-center gap-2 w-full py-3 border border-line text-ink rounded-md text-[13px] font-semibold hover:border-navy/40">
               University website <ExternalLink size={13} />
             </a>
+            {college.rugbyProgramUrl && (
+              <a href={college.rugbyProgramUrl} target="_blank" rel="noopener noreferrer"
+                className="btn flex items-center justify-center gap-2 w-full py-3 border border-line text-ink rounded-md text-[13px] font-semibold hover:border-navy/40">
+                Rugby program <ExternalLink size={13} />
+              </a>
+            )}
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
-              <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium hover:text-navy-deep">
-                Read how recruitment works
+              <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">
+                Read the guide
               </Link>{' '}
-              — or <Link href="/work-with-me" className="text-navy font-medium hover:text-navy-deep">work with me directly</Link>.
+              or <Link href="/map" className="text-navy font-medium hover:text-navy-deep">explore the map</Link>.
             </p>
           </div>
         </aside>
@@ -174,11 +196,11 @@ export default function CollegeDetail() {
       {others.length > 0 && (
         <section className="mt-20 pt-12 border-t border-line">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-[24px] text-ink">More {TIER_LABELS[college.tier].toLowerCase()}s</h2>
+            <h2 className="font-heading text-[24px] text-ink">More programs in this tier</h2>
             <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
-            {others.map((c) => <CollegeCard key={c.id} college={c} />)}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">
+            {others.map((c) => <CollegeCard key={c.id} college={c} variant="tool" />)}
           </div>
         </section>
       )}
