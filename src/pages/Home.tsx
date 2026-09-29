@@ -6,7 +6,14 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
 import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
-import { TIER_LABELS } from '@/data/colleges';
+import type { College } from '@/data/colleges';
+
+const FEATURED_SLUGS = [
+  'university-of-california-berkeley',
+  'brown-university',
+  'united-states-naval-academy',
+  'queens-university-of-charlotte',
+];
 
 export default function Home() {
   usePageMeta('', "Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who's been on both sides of recruitment.");
@@ -15,7 +22,9 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const featured = colleges.filter((c) => c.tier === 'championship').slice(0, 4);
+  const featured = FEATURED_SLUGS
+    .map((slug) => colleges.find((c) => c.slug === slug))
+    .filter((c): c is College => Boolean(c));
   const fullArticles = articles.filter((a) => !a.content.startsWith('Coming soon'));
   const [lead, ...rest] = fullArticles;
 
@@ -84,7 +93,7 @@ export default function Home() {
               <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">Top programs</h2>
             </div>
             <Link href="/colleges" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
-              All 40 programs <ArrowRight size={15} />
+              All {colleges.length} programs <ArrowRight size={15} />
             </Link>
           </div>
         </div>
@@ -106,7 +115,7 @@ export default function Home() {
                 <div className="flex-1 min-w-0">
                   <p className="kicker mb-2">{c.affiliation} · {c.conference}</p>
                   <h3 className="font-heading text-[26px] md:text-[32px] leading-[1.1] tracking-[-0.01em] text-ink group-hover:text-navy transition-colors mb-1">{c.name}</h3>
-                  <p className="text-[14px] md:text-[15px] text-muted">{c.location}{c.draftPicks >= 2 ? ` · ${c.draftPicks} MLR draft picks` : ''}</p>
+                  <p className="text-[14px] md:text-[15px] text-muted">{c.location}</p>
                 </div>
                 <ArrowRight size={20} className="text-line group-hover:text-navy transition-colors flex-shrink-0 hidden md:block" />
               </div>
@@ -115,7 +124,7 @@ export default function Home() {
         </div>
         <div className="max-w-7xl mx-auto px-5 pt-6 sm:hidden">
           <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
-            All 40 programs <ArrowRight size={15} />
+            All {colleges.length} programs <ArrowRight size={15} />
           </Link>
         </div>
       </section>

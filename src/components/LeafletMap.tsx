@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { College } from '@/data/colleges';
+import { TIER_COLORS } from '@/data/colleges';
 
-const navy = '#00458c';
-const gold = '#f2b600';
+const navy = TIER_COLORS.playoff;
 
 function makePin(color: string, size = 30) {
   const h = size * 1.3;
@@ -93,7 +93,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
 
     colleges.forEach((c) => {
       const marker = L.marker([c.lat, c.lng], {
-        icon: makePin(c.tier === 'championship' ? gold : navy, c.tier === 'championship' ? 32 : 28),
+        icon: makePin(TIER_COLORS[c.tier], c.tier === 'championship' ? 32 : 28),
       });
 
       const popupHtml = `

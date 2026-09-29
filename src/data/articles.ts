@@ -15,8 +15,8 @@ export const articles: Article[] = [
   {
     id: 1,
     slug: "best-rugby-colleges-usa",
-    title: "Best Rugby Colleges in America: The Top 40 Programs for 2026–27",
-    metaTitle: "Best Rugby Colleges in America (2026–27): Top 40 Programs | Rugby Campus",
+    title: "Best Rugby Colleges in America for 2026–27",
+    metaTitle: "Best Rugby Colleges in America (2026–27) | Rugby Campus",
     metaDescription: "The strongest US college rugby programs for 2026–27 across CRAA D1A and NCR D1 — how the system works, how to choose, and what to ask. Written for 15s.",
     excerpt: "The top programs in US college rugby for 2026–27 — who's strong right now, how CRAA and NCR differ, and how to pick a fit.",
     category: "College Guide",
@@ -31,7 +31,7 @@ I went through the US college rugby pathway as a recruit from Australia, then la
 
 **Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary's, and Lindenwood**. At the top of NCR D1 you'll often hear **St. Bonaventure, Queens, Brown, and Walsh**. Below that is a deep group of playoff-calibre sides, and a long tail of solid rugby environments where you can still get a proper season.
 
-On Rugby Campus we group programs rather than ranking them 1 to 40, because rankings shift and no single list agrees — Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
+On Rugby Campus we group programs rather than ranking them in a numbered list, because rankings shift and no single list agrees — Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
 
 **Method note:** We label a program **Varsity** or **Club** from university athletics pages or a published varsity designation where possible. If the current designation is unclear, verify it with the school or coach rather than treating an old label as permanent.
 

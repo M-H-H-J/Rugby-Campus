@@ -40,7 +40,6 @@ export default function Footer() {
           <div>
             <h4 className="text-[11px] font-semibold text-white/40 uppercase tracking-caps mb-3">Rugby resources</h4>
             {[
-              ['https://goffrugbyreport.com', 'Goff Rugby Report'],
               ['https://www.ncr.rugby', 'National Collegiate Rugby'],
               ['https://craa.rugby', 'CRAA'],
               ['https://www.majorleague.rugby', 'Major League Rugby'],
@@ -69,9 +68,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-5 flex flex-col sm:flex-row justify-between gap-3">
-          <p className="text-white/35 text-[11px]">© 2026 Rugby Campus.</p>
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/35 hover:text-white/60 text-[11px] transition-colors">{CONTACT_EMAIL}</a>
+        <div className="border-t border-white/10 pt-5 flex flex-col gap-3">
+          <p className="text-white/45 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
+          <div className="flex flex-col sm:flex-row justify-between gap-3">
+            <p className="text-white/35 text-[11px]">© 2026 Rugby Campus.</p>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/35 hover:text-white/60 text-[11px] transition-colors">{CONTACT_EMAIL}</a>
+          </div>
         </div>
       </div>
     </footer>

@@ -4,11 +4,12 @@ import { List } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import LeafletMap from '@/components/LeafletMap';
+import { TIER_DISCLAIMER, TIER_DOT_CLASS, TIER_LABELS, TIER_ORDER } from '@/data/colleges';
 
 const TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
 export default function MapPage() {
-  usePageMeta('Interactive College Map', 'Explore the top 40 US college rugby programs on an interactive map. Zoom to street level and open full program profiles.');
+  usePageMeta('Interactive College Map', 'Explore US college rugby programs on an interactive map. Zoom to street level and open full program profiles.');
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
   const [tab, setTab] = useState<(typeof TABS)[number]>('All');
@@ -51,15 +52,15 @@ export default function MapPage() {
       {/* Map with explicit height */}
       <div className="relative">
         <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 120px)" />
-        <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2" style={{ zIndex: 500 }}>
+        <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2 max-w-[280px]" style={{ zIndex: 500 }}>
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-[11px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-gold" /> Often near the top
-            </div>
-            <div className="flex items-center gap-2 text-[11px] text-muted">
-              <span className="w-2 h-2 rounded-full bg-navy" /> Playoff / Competitive
-            </div>
+            {TIER_ORDER.map((tier) => (
+              <div key={tier} className="flex items-center gap-2 text-[11px] text-muted">
+                <span className={`w-2 h-2 rounded-full ${TIER_DOT_CLASS[tier]}`} /> {TIER_LABELS[tier]}
+              </div>
+            ))}
           </div>
+          <p className="text-[11px] text-muted leading-relaxed mt-2 pt-2 border-t border-line">{TIER_DISCLAIMER}</p>
         </div>
       </div>
 

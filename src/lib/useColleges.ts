@@ -24,8 +24,10 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
     (async () => {
       const { data: rows, error } = await sb.from('colleges').select('*').order('name');
       if (!cancelled && !error && rows && rows.length > 0) {
-        setData(rows.map((r: Record<string, unknown>) => {
+        const seen = new Set<string>();
+        const mapped = rows.map((r: Record<string, unknown>) => {
           const slug = r.slug as string;
+          seen.add(slug);
           const local = bundledBySlug.get(slug);
           
           // Prefer bundled image fields when bundled has local campus photo
@@ -49,7 +51,8 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
             coachEmail: r.coach_email ?? r.coachEmail ?? '',
             draftPicks: r.draft_picks ?? r.draftPicks ?? 0,
             playerCount: r.player_count ?? r.playerCount ?? 0,
-            programType: r.program_type ?? r.programType ?? 'Club',
+            tier: local?.tier ?? r.tier,
+            programType: local?.programType ?? r.program_type ?? r.programType ?? 'Club',
             rugbyProgramUrl: r.rugby_program_url ?? r.rugbyProgramUrl ?? '',
             assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? [],
             imageUrl,
@@ -58,7 +61,9 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
             mapX: r.map_x ?? r.mapX,
             mapY: r.map_y ?? r.mapY,
           } as College;
-        }));
+        });
+        const extras = bundled.filter((c) => !seen.has(c.slug));
+        setData([...mapped, ...extras]);
         setSource('supabase');
       }
     })();

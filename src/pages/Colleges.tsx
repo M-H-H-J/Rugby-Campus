@@ -3,14 +3,13 @@ import { useLocation, Link } from 'wouter';
 import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { TIER_LABELS, SEASON_LABEL, Tier } from '@/data/colleges';
+import { TIER_LABELS, TIER_ORDER, TIER_DISCLAIMER, SEASON_LABEL, Tier } from '@/data/colleges';
 import CollegeCard from '@/components/CollegeCard';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
-const TIER_ORDER: Tier[] = ['championship', 'playoff', 'competitive'];
 
 export default function Colleges() {
-  usePageMeta('College Rugby Programs', 'The top 40 college rugby programs in the USA — CRAA D1A and NCR D1 — tiered on results, with coach contacts, conferences, and campus details.');
+  usePageMeta('College Rugby Programs', 'US college rugby programs across CRAA D1A and NCR D1, grouped into four tiers, with coach contacts, conferences, and campus details.');
   const { colleges } = useColleges();
   const [location] = useLocation();
 
@@ -91,6 +90,8 @@ export default function Colleges() {
           </div>
         </div>
       </div>
+
+      <p className="text-[12px] text-muted leading-relaxed mb-5 max-w-3xl">{TIER_DISCLAIMER}</p>
 
       {grouped.length === 0 ? (
         <div className="text-center py-16">

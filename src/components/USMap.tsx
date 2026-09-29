@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { US_NATION_PATH, US_BORDERS_PATH } from '@/data/us-map';
 import type { College } from '@/data/colleges';
-
-const navy = '#00458c';
-const gold = '#ffb700';
+import { TIER_COLORS } from '@/data/colleges';
 
 interface Props {
   colleges: College[];
@@ -44,8 +42,8 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
               onMouseLeave={() => interactive && setHover(null)}
               onClick={() => interactive && onSelect(c.slug)}
             >
-              {isHover && <circle cx={c.mapX} cy={c.mapY} r={r + 6} fill={c.tier === 'championship' ? gold : navy} opacity={0.2} />}
-              <circle cx={c.mapX} cy={c.mapY} r={r} fill={c.tier === 'championship' ? gold : navy} stroke="#fff" strokeWidth={2} opacity={isHover ? 1 : 0.9} />
+              {isHover && <circle cx={c.mapX} cy={c.mapY} r={r + 6} fill={TIER_COLORS[c.tier]} opacity={0.2} />}
+              <circle cx={c.mapX} cy={c.mapY} r={r} fill={TIER_COLORS[c.tier]} stroke="#fff" strokeWidth={2} opacity={isHover ? 1 : 0.9} />
               <circle cx={c.mapX} cy={c.mapY} r={r * 0.35} fill="#fff" opacity={0.95} />
             </g>
           );

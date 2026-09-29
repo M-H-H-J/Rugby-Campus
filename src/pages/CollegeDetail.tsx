@@ -36,7 +36,7 @@ export default function CollegeDetail() {
     ['MLR draft picks', college.draftPicks > 0 ? String(college.draftPicks) : '—'],
   ];
   const collegeFacts: [string, string][] = [
-    ['Enrollment', `${college.enrollment.toLocaleString()} students`],
+    ['Enrollment', college.enrollment > 0 ? `${college.enrollment.toLocaleString()} students` : 'TBC'],
     ['Location', college.location],
     ['State', college.state],
     ['Region', college.region],
@@ -58,8 +58,14 @@ export default function CollegeDetail() {
       </header>
 
       <figure className="mb-12">
-        <div className="rounded-lg overflow-hidden relative" style={{ maxHeight: 380 }}>
-          <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
+        <div className="rounded-lg overflow-hidden relative bg-line" style={{ maxHeight: 380 }}>
+          {college.imageUrl ? (
+            <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
+          ) : (
+            <div className="w-full h-[220px] flex items-center justify-center">
+              <span className="text-[13px] text-faint">{college.name}</span>
+            </div>
+          )}
           {college.badges.length > 0 && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
               <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
@@ -196,7 +202,7 @@ export default function CollegeDetail() {
       {others.length > 0 && (
         <section className="mt-20 pt-12 border-t border-line">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-[24px] text-ink">More programs in this tier</h2>
+            <h2 className="font-heading text-[24px] text-ink">More programs in the “{TIER_LABELS[college.tier]}” tier</h2>
             <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-8">

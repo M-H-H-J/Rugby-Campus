@@ -29,7 +29,7 @@ npm run dev      # local dev, localhost:5173
 npm run build    # tsc + vite build + prerender  ← must print BOTH success lines
 ```
 
-`npm run build` must end with `prerendered 54 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
+`npm run build` must end with `prerendered 62 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
 
 ## File map
 

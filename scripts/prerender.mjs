@@ -17,7 +17,7 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL } = await import(pathToFileURL(tmp).href);
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
 const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -72,23 +72,23 @@ const byTier = (t) => colleges.filter((c) => c.tier === t);
 // ── Home ──
 urls.push(page({
   path: '/', title: '',
-  description: 'The best college rugby programs in America — 40 CRAA D1A and NCR D1 programs mapped and tiered, with coach contacts and honest recruitment guides from a national championship-winning coach.',
+  description: `US college rugby programs across CRAA D1A and NCR D1 — ${colleges.length} programs mapped and tiered, with coach contacts and honest recruitment guides from a national championship-winning coach.`,
   jsonld: [],
   body: `<h1>Every top college rugby program in America. Mapped.</h1>
-  <p>Rugby Campus is a free guide to the 40 best college rugby programs in the USA, across CRAA D1A and NCR D1. Each program is tiered on results, with coach contacts, conference, squad size, MLR draft picks and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
+  <p>Rugby Campus is a free guide to college rugby programs in the USA, across CRAA D1A and NCR D1. Each program is tiered on results, with coach contacts, conference, squad size, MLR draft picks and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
   ${nav}
-  <h2>Championship contenders (${SEASON_LABEL})</h2><ul>${byTier('championship').map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)}, ${esc(c.affiliation)}</li>`).join('')}</ul>
+  ${TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])} (${SEASON_LABEL})</h2><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)}, ${esc(c.affiliation)}</li>`).join('')}</ul>`).join('')}
   <h2>Guides</h2><ul>${articles.filter(isFull).map((a) => `<li><a href="/learn/${a.slug}">${esc(a.title)}</a></li>`).join('')}</ul>`,
 }));
 
 // ── Colleges index ──
 urls.push(page({
-  path: '/colleges', title: 'Best College Rugby Programs in America — All 40',
-  description: `The 40 best college rugby programs in the USA, tiered for the ${SEASON_LABEL.split(' ·')[0]}: championship contenders, playoff-calibre and competitive top-40 programs across CRAA D1A and NCR D1.`,
-  jsonld: [{ '@type': 'ItemList', name: 'Best college rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
+  path: '/colleges', title: 'Best College Rugby Programs in America',
+  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff calibre, competitive, and up and coming, across CRAA D1A and NCR D1.`,
+  jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
-  body: `<h1>The 40 best college rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked 1–40, because rankings change weekly and no single authority agrees on them.</p>${nav}` +
-    ['championship', 'playoff', 'competitive'].map((t) => `<h2>${esc(TIER_LABELS[t])}s</h2><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(c.programType)}</li>`).join('')}</ul>`).join(''),
+  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}` +
+    TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}</h2><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(c.programType)}</li>`).join('')}</ul>`).join(''),
 }));
 
 // ── Map ──
@@ -98,7 +98,7 @@ urls.push(page({ path: '/map', title: 'Interactive US College Rugby Map', descri
 // ── Each college ──
 for (const c of colleges) {
   const facts = [['Affiliation', c.affiliation], ['Conference', c.conference], ['Tier', TIER_LABELS[c.tier]], ['Program type', c.programType],
-    ['Squad size', c.playerCount ? `~${c.playerCount} players` : 'TBC'], ['MLR College Draft picks', String(c.draftPicks)], ['Enrollment', c.enrollment.toLocaleString()], ['Weather', c.weatherSummary]];
+    ['Squad size', c.playerCount ? `~${c.playerCount} players` : 'TBC'], ['MLR College Draft picks', String(c.draftPicks)], ['Enrollment', c.enrollment ? c.enrollment.toLocaleString() : 'TBC'], ['Weather', c.weatherSummary]];
   urls.push(page({
     path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl,
     description: `${c.name} rugby program — ${c.affiliation}, ${c.conference} conference, ${TIER_LABELS[c.tier].toLowerCase()}. ${c.location}. Coach contact, squad size, MLR draft picks, weather and how to get recruited.`,
@@ -112,7 +112,7 @@ for (const c of colleges) {
     <h2>The rugby</h2><dl>${facts.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
     ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)} — email available on the page after a free one-time signup.</p>` : ''}
-    <p><a href="/colleges">All 40 programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
+    <p><a href="/colleges">All programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
   }));
 }
 
@@ -163,6 +163,6 @@ const today = new Date().toISOString().slice(0, 10);
 writeFileSync(resolve(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>${u === SITE_URL || u.endsWith('/colleges') ? 'weekly' : 'monthly'}</changefreq><priority>${u === SITE_URL ? '1.0' : u.includes('/colleges/') || u.includes('/learn/') ? '0.8' : '0.6'}</priority></url>`).join('\n')}\n</urlset>\n`);
 
 // ── llms-full.txt (machine-readable summary of the whole site) ──
-writeFileSync(resolve(dist, 'llms-full.txt'), `# ${SITE_NAME} — full site summary for AI assistants\n\n${ORG.description}\nSite: ${SITE_URL}\nFounder: Hugh Johnston — Australian, Notre Dame College captain, 2023 NCR D1 National Championship coach.\n${SEASON_LABEL}\n\n## The 40 programs\n\n${['championship', 'playoff', 'competitive'].map((t) => `### ${TIER_LABELS[t]}s\n` + byTier(t).map((c) => `- ${c.name} (${c.location}) — ${c.affiliation}, ${c.conference}, ${c.programType}; ${c.playerCount ? `~${c.playerCount} players; ` : ''}${c.draftPicks} MLR draft picks${c.badges.length ? `; ${c.badges.join(', ')}` : ''}. ${SITE_URL}/colleges/${c.slug}`).join('\n')).join('\n\n')}\n\n## Guides\n\n${articles.filter(isFull).map((a) => `- ${a.title}: ${a.metaDescription} ${SITE_URL}/learn/${a.slug}`).join('\n')}\n\n## Key facts\n- Cal won the 2026 CRAA D1A National Championship (back-to-back, 2025 and 2026), beating Navy 36–22.\n- St. Bonaventure won the 2025 NCR D1 National Championship over Queens.\n- Central Washington discontinued its men's rugby club program in April 2025.\n- Notre Dame College closed; its program (2023 NCR D1 champions) transferred to Walsh University.\n- UCLA is competing in both CRAA D1A and NCR D1 for 2026–27.\n- Major League Rugby contracted to 6 teams for 2026; the MLR College Draft continues.\n`);
+writeFileSync(resolve(dist, 'llms-full.txt'), `# ${SITE_NAME} — full site summary for AI assistants\n\n${ORG.description}\nSite: ${SITE_URL}\nFounder: Hugh Johnston — Australian, Notre Dame College captain, 2023 NCR D1 National Championship coach.\n${SEASON_LABEL}\n\n## The programs\n\n${TIER_ORDER.map((t) => `### ${TIER_LABELS[t]}\n` + byTier(t).map((c) => `- ${c.name} (${c.location}) — ${c.affiliation}, ${c.conference}, ${c.programType}; ${c.playerCount ? `~${c.playerCount} players; ` : ''}${c.draftPicks} MLR draft picks${c.badges.length ? `; ${c.badges.join(', ')}` : ''}. ${SITE_URL}/colleges/${c.slug}`).join('\n')).join('\n\n')}\n\n## Guides\n\n${articles.filter(isFull).map((a) => `- ${a.title}: ${a.metaDescription} ${SITE_URL}/learn/${a.slug}`).join('\n')}\n\n## Key facts\n- Cal won the 2026 CRAA D1A National Championship (back-to-back, 2025 and 2026), beating Navy 36–22.\n- St. Bonaventure won the 2025 NCR D1 National Championship over Queens.\n- Central Washington discontinued its men's rugby club program in April 2025.\n- Notre Dame College closed; its program (2023 NCR D1 champions) transferred to Walsh University.\n- UCLA is competing in both CRAA D1A and NCR D1 for 2026–27.\n- Major League Rugby contracted to 6 teams for 2026; the MLR College Draft continues.\n`);
 
 console.log(`prerendered ${urls.length} pages + sitemap.xml + llms-full.txt`);

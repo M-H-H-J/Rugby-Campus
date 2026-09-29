@@ -1,11 +1,11 @@
 # Rugby Campus
 
-> A free guide to US college rugby programs for aspiring players — the 40 best programs across CRAA D1A and NCR D1, mapped and tiered, with coach contacts and honest recruitment guides. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.
+> A free guide to US college rugby programs for aspiring players — CRAA D1A and NCR D1 programs, mapped and tiered, with coach contacts and honest recruitment guides. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.
 
 Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. It is free for players; revenue comes from personal placement coaching and featured program listings for colleges.
 
 ## Core pages
-- [All 40 programs, tiered](https://rugbycampus.org/colleges): often near the top, playoff-calibre, competitive
+- [All programs, tiered](https://rugbycampus.org/colleges): often near the top, playoff calibre, competitive, up and coming
 - [Interactive map](https://rugbycampus.org/map)
 - [Best rugby colleges in America guide](https://rugbycampus.org/learn/best-rugby-colleges-usa)
 - [Why college rugby rankings lie](https://rugbycampus.org/learn/why-college-rugby-rankings-lie)

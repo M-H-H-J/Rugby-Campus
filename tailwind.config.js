@@ -19,6 +19,10 @@ export default {
         line: '#e5e9ef',
         muted: '#5b6b7d',
         faint: '#8b98a8',
+        'tier-gold': '#ffb700',
+        'tier-navy': '#00458c',
+        'tier-slate': '#64748b',
+        'tier-teal': '#5b8a84',
       },
       borderRadius: {
         DEFAULT: '6px',
