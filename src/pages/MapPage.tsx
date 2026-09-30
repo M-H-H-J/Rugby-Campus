@@ -4,7 +4,8 @@ import { List } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import LeafletMap from '@/components/LeafletMap';
-import { TIER_DISCLAIMER, TIER_DOT_CLASS, TIER_LABELS, TIER_ORDER } from '@/data/colleges';
+import { TIER_DOT_CLASS, TIER_LABELS, TIER_ORDER } from '@/data/colleges';
+import TierNote from '@/components/TierNote';
 
 const TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
@@ -49,9 +50,13 @@ export default function MapPage() {
         </div>
       </div>
 
+      <div className="bg-paper px-4 py-2 border-b border-line">
+        <TierNote className="max-w-7xl mx-auto" />
+      </div>
+
       {/* Map with explicit height */}
       <div className="relative">
-        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 120px)" />
+        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 190px)" />
         <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2 max-w-[280px]" style={{ zIndex: 500 }}>
           <div className="space-y-1">
             {TIER_ORDER.map((tier) => (
@@ -60,7 +65,6 @@ export default function MapPage() {
               </div>
             ))}
           </div>
-          <p className="text-[11px] text-muted leading-relaxed mt-2 pt-2 border-t border-line">{TIER_DISCLAIMER}</p>
         </div>
       </div>
 

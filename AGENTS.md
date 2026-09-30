@@ -4,7 +4,7 @@ Read this before making any change. It exists so agents don't re-solve settled d
 
 ## What this is
 
-Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles the 40 best men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft picks, campus facts and monthly weather.
+Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles 48 men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft picks, campus facts and monthly weather.
 
 Built and owned by **Hugh Johnston** — Australian, recruited to Notre Dame College at 17, captained the side in Rugby East, played PR7s and club rugby in Austin TX, returned as head coach and won the **2023 NCR D1 National Championship** (33–10 over St. Bonaventure in Houston). Notre Dame College has since closed; the program transferred to Walsh University.
 
@@ -36,7 +36,7 @@ npm run build    # tsc + vite build + prerender  ← must print BOTH success lin
 ```
 src/
   config.ts                 Supabase keys, SITE_URL, CONTACT_EMAIL  ← never blank these
-  data/colleges.ts          the 40 programs (bundled fallback + source of truth for prerender)
+  data/colleges.ts          the 48 programs (bundled fallback + source of truth for prerender)
   data/articles.ts          long-form guides (markdown-ish strings)
   data/us-map.ts            baked albersUsa SVG path data — do not regenerate
   lib/supabase.ts           client, captureEmail(), submitContact()

@@ -72,7 +72,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
             ) : (
               <>
                 <p className="font-heading text-[24px] text-ink mb-2">Unlock coach emails</p>
-                <p className="text-muted text-[13.5px] leading-relaxed mb-6">One email unlocks coach contacts across all 40 colleges. Free, forever. No spam.</p>
+                <p className="text-muted text-[13.5px] leading-relaxed mb-6">One email unlocks coach contacts across every college. Free, forever. No spam.</p>
                 <form onSubmit={handleUnlock}>
                   <input
                     type="email" value={email} onChange={(e) => setEmail(e.target.value)}

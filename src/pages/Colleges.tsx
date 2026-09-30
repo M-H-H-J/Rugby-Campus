@@ -3,8 +3,9 @@ import { useLocation, Link } from 'wouter';
 import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { TIER_LABELS, TIER_ORDER, TIER_DISCLAIMER, SEASON_LABEL, Tier } from '@/data/colleges';
+import { TIER_LABELS, TIER_ORDER, SEASON_LABEL, Tier } from '@/data/colleges';
 import CollegeCard from '@/components/CollegeCard';
+import TierNote from '@/components/TierNote';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
@@ -53,6 +54,8 @@ export default function Colleges() {
         </Link>
       </div>
 
+      <TierNote className="mb-4 max-w-3xl" />
+
       {/* Filter bar — dense tool chrome */}
       <div className="sticky top-14 z-30 bg-paper -mx-4 px-4 border-b border-line mb-5">
         <div className="flex items-center gap-4 py-2">
@@ -90,8 +93,6 @@ export default function Colleges() {
           </div>
         </div>
       </div>
-
-      <p className="text-[12px] text-muted leading-relaxed mb-5 max-w-3xl">{TIER_DISCLAIMER}</p>
 
       {grouped.length === 0 ? (
         <div className="text-center py-16">
