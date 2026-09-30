@@ -268,12 +268,94 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
     slug: "how-to-play-rugby-college-usa",
     title: "How to Play Rugby in College in the USA",
     metaTitle: "How to Play Rugby in College in the USA | Rugby Campus",
-    metaDescription: "Step-by-step guide for domestic and international players looking to play college rugby in the United States.",
-    excerpt: "Everything you need to know about getting into a US college rugby program — from eligibility to contacting coaches.",
+    metaDescription: "Where to play rugby in America — CRAA, NCR, varsity vs club, and a clear path for domestic and international recruits. A pathway map, not a ranking.",
+    excerpt: "A pathway map for playing college rugby in the USA — where the programs sit, how internationals and US high school players get in, and what to do first.",
     category: "Getting Started",
-    publishedDate: "2026-03-10",
-    readTime: "8 min read",
-    content: "Coming soon — this article is being written with input from college rugby coaches and current players.",
+    publishedDate: "2026-09-30",
+    readTime: "6 min read",
+    content: `
+## This is a pathway map — not a ranking
+
+If you want to play rugby in college in the USA, you need a map of how the system works — not a list pretending one school is #1 forever. Written mainly for **17-year-olds overseas**, with a short section for US high school players too.
+
+I went through the pathway as a recruit from Australia, then later as a coach. Use this with [Best rugby colleges](/learn/best-rugby-colleges-usa), [Why rankings lie](/learn/why-college-rugby-rankings-lie), and [How recruitment works](/learn/how-college-rugby-recruitment-works). Tools to shortlist and email coaches — not placement guarantees.
+
+## Where to play rugby in America — the honest map
+
+A commonly cited estimate is **roughly 900** college rugby programs — treat that as an estimate, **not a hard census**. A few dozen sit at the top of the main national competitions. Rugby Campus curates about **48** of the stronger / more relevant ones so you can actually browse them.
+
+Two main governing bodies at the top:
+
+- **CRAA D1A** — spring 15s championship path.
+- **NCR D1** — fall 15s championship path.
+- Some schools sit lower or under both. For **2026–27, UCLA is doing both** (NCR fall, CRAA D1A spring).
+
+We do **not** publish a numbered ranking. Lists disagree — Goff, NCR, CRAA. See [why rankings lie](/learn/why-college-rugby-rankings-lie). “Where should I play” = fit (level, academics, cost, climate, coach, game time), not last week’s poll. Start on the [map](/map) and [colleges](/colleges); dig into [Best rugby colleges](/learn/best-rugby-colleges-usa) for who is strong right now.
+
+**Military academy caveat:** Army and Navy are excellent on the field. **If you are an international player, you generally cannot play for Army or Navy.** Factor that in early.
+
+## Domestic high school path (short)
+
+If you are already in the US system:
+
+- Shortlist programs that match your level and what you want academically.
+- Email coaches with position, size, film, and why them — do not wait to be “found.”
+- Visit if you can. Apply to the university on its own timeline; rugby interest and admission are related but not the same process.
+- Cold recruiting happens, but it is rare unless a coach has seen you at competition. Reach out anyway.
+
+Full detail on timing and emails: [How college rugby recruitment works](/learn/how-college-rugby-recruitment-works).
+
+## International path — what to do in order
+
+You will not get found sitting at home. Camps help some players; an agency can too (I used one). Direct email still works. Use an agency **and** this site if that is your path — Rugby Campus isn't against agencies.
+
+1. **Be honest about your level.** Top environment vs more game time; starter vs depth. That drives the shortlist.
+2. **Shortlist 5–8** from the [map](/map) and [colleges](/colleges) — level, location, majors, varsity/club.
+3. **Academics is a separate track.** Rules differ by country and school. Start early. This is not visa/immigration advice — confirm with each admissions / international office.
+4. **Film + one-pager.** Position, size, recent level, highlights. Keep it short.
+5. **Email coaches.** Off-season is better. Follow up once; don’t spam. See [recruitment](/learn/how-college-rugby-recruitment-works).
+6. **Visit if you can.** Costly; not everyone can — I didn’t. Video calls still help.
+7. **Institutional health check before you commit.** Small colleges can close; varsity is not forever. Read [When programs die](/learn/when-college-rugby-programs-die); ask the coach how secure the next four years look.
+
+## Varsity vs club, CRAA vs NCR
+
+Men’s college rugby is **not** NCAA football. Some programs are **varsity** under athletics; others are **club**. That matters for facilities, staff, funding, and often aid conversations — but varsity is not forever. See [When programs die](/learn/when-college-rugby-programs-die).
+
+Top of **D1A** is generally stronger than top of **NCR D1**; the middle overlaps. Structure and current strong names: [Best rugby colleges](/learn/best-rugby-colleges-usa) — this guide won’t duplicate that essay.
+
+We label Varsity / Club from university athletics pages or published designation where possible. If a label looks stale, verify with the school or coach.
+
+## Cost and aid (pointer only)
+
+US college costs vary widely. Some varsity programs **may have limited athletic aid** for rugby; many club programs lean on **academic aid** or other support. We won't say who offers what until coaches confirm it, program by program. Soft rules and what to ask: [Rugby scholarships explained](/learn/rugby-scholarships-explained). Ask each coach. Do not shortlist on money alone.
+
+## Using Rugby Campus end-to-end
+
+1. Browse the [map](/map) and filter on [colleges](/colleges).
+2. Open profiles — competition body, varsity/club, location, any aid note if present.
+3. Unlock / use the coach contact on the profile.
+4. Send a short email (position, size, highlights, why them).
+5. Read [How recruitment works](/learn/how-college-rugby-recruitment-works) before you spray-and-pray.
+
+That is the self-serve path. Agencies are fine if you use one; this site still helps you check the rugby side of any recommendation.
+
+## Frequently asked questions
+
+**Where should I play rugby in America?**
+Wherever the fit is real — competition level, academics, cost, climate, coach, and game time. Use the [map](/map) and [Best colleges](/learn/best-rugby-colleges-usa); ignore the idea that one poll decides your four years. See also [Why rankings lie](/learn/why-college-rugby-rankings-lie).
+
+**Can international students play US college rugby?**
+Yes. Programs recruit from Australia, New Zealand, the UK, Ireland, South Africa, and other nations. Email coaches directly. Army/Navy are generally closed to internationals. Agencies can help; I used one. Use an agency **and** this site if you want both.
+
+**How many college rugby programs are there?**
+Roughly **900** is a commonly cited estimate, not a hard census. A few dozen sit at the top across CRAA D1A and NCR D1. Rugby Campus focuses on about **48** curated programs.
+
+**Do I need to be scouted?**
+No. Cold recruiting is uncommon unless a coach has seen you. Take it into your own hands — film + short email is enough to get a look.
+
+**What should the first email say?**
+Who you are, position, size, a highlights link, and why that program. Research the college. Off-season timing helps. Details: [How college rugby recruitment works](/learn/how-college-rugby-recruitment-works).
+`,
   },
   {
     id: 5,
@@ -283,9 +365,90 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
     metaDescription: "Can you get a rugby scholarship in the USA? Availability varies by school and program type — here's what to ask coaches and what to expect.",
     excerpt: "Rugby scholarship availability varies widely. Some varsity programs may have limited athletic aid; many club programs rely on academic support. Ask each coach directly.",
     category: "Scholarships",
-    publishedDate: "2026-03-15",
-    readTime: "7 min read",
-    content: "Coming soon — this article is being written with input from college rugby coaches and current players.",
+    publishedDate: "2026-09-30",
+    readTime: "6 min read",
+    content: `
+## Yes — sometimes. It depends on the school.
+
+Can you get a rugby scholarship in the USA? **Sometimes.** Availability varies widely, and many programs do not publish clear offers on a website. Some varsity rugby schools **may have limited athletic aid**. At many others — especially club programs — players lean on **academic aid** or other support. Ask the coach.
+
+This guide explains the difference between athletic and academic help, why varsity vs club matters, how Rugby Campus treats “who offers,” and how to ask about money without inventing numbers. It is not a price list and not a placement pitch.
+
+I went through the pathway as a recruit and later as a coach.
+
+## Rugby is usually not an NCAA scholarship sport
+
+Men’s college rugby is **not** NCAA football. At most schools rugby is not an NCAA-sanctioned sport, so traditional NCAA athletic scholarships for rugby are uncommon. Aid, when it exists, often sits in a grey zone: varsity athletics budgets, funded club arrangements, or institutional / academic awards that have nothing to do with a rugby “scholarship” label.
+
+That grey zone is also why funding can change. Varsity today is not a forever guarantee — see [When college rugby programs die](/learn/when-college-rugby-programs-die).
+
+## Athletic aid vs academic aid vs other support
+
+Three buckets recruits mix up:
+
+- **Athletic / rugby aid** — tied to the roster or coach nomination. Some varsity programs **may have limited** support here. Do not assume a full ride.
+- **Academic / merit aid** — GPA, tests, country-specific awards, institutional packages. Often the real lever at club schools and at big publics.
+- **Other support** — housing help, campus jobs, alumni funds, payment plans. Ask. Do not invent program names or dollar amounts from blogs.
+
+We will not publish invented dollar ranges. If someone quotes a typical award size without a coach confirming it for *that* school, treat it as unverified.
+
+## Varsity vs club — why the label matters
+
+Varsity under athletics usually means more structure: staff, facilities, and sometimes a clearer path to ask about rugby-related aid. Club does **not** mean “no money” — academic aid may still be available. Neither label guarantees anything for four years.
+
+We mark **Varsity** / **Club** on [college profiles](/colleges) from university athletics pages or a published varsity designation where possible. If status looks unclear, verify with the school or coach. For why status can change, read [When programs die](/learn/when-college-rugby-programs-die).
+
+## How we treat “who offers” on this site
+
+**We don't publish a list of scholarship schools.**
+
+We're checking with coaches program by program. When a program confirms aid, its profile will say so. Until then:
+
+- Check each profile for an aid note. Most won't have one yet.
+- If there is no note, treat aid as **unknown** and ask the coach.
+- Do not trust competitor lists or old forum posts as gospel.
+
+Soft rule for now: some varsity programs **may have limited athletic aid**; academic aid **may be available** at many schools; ask each coach. As coaches confirm, profile notes will be added.
+
+## How to ask about money
+
+Not a full interview script — just themes. Full outreach timing sits in [How college rugby recruitment works](/learn/how-college-rugby-recruitment-works).
+
+- Build the rugby conversation first (who you are, film, fit). Money is usually a later thread, not the opener.
+- Ask clearly: **athletic rugby aid vs institutional / academic aid** — what exists for internationals or domestic students in your situation.
+- Ask what documents they need (transcripts, test scores, highlight reel).
+- Parents: ask about **total cost of attendance**, not only a rugby line item.
+- Get clarity in writing when something is offered. Verbal “we’ll look after you” is not a package.
+
+Agencies can help navigate packages; I used one. Direct email still works. Use an agency **and** this site if that is your path — Rugby Campus isn't against agencies.
+
+## Internationals — high-level only
+
+Aid rules can differ for international students. Confirm with admissions and the international office at each school. **This guide is not immigration or visa advice.** Do not plan your finances on a rumour that “all internationals get X.” Ask.
+
+Army and Navy are generally closed to international players for eligibility / academy reasons — separate from scholarships, but relevant if those jerseys were on your shortlist. See [Best rugby colleges](/learn/best-rugby-colleges-usa).
+
+## Shortlist on fit first — not aid alone
+
+Money matters. It should not be the only filter. A limited aid offer at a fragile school, or a big academic package at a program that is wrong for your level, can both go badly. Use the [map](/map) and [colleges](/colleges) for level, location, varsity/club, and coach contact. Pair with [How to play rugby in college in the USA](/learn/how-to-play-rugby-college-usa) for the pathway steps, and [Why rankings lie](/learn/why-college-rugby-rankings-lie) so you are not chasing last season’s number.
+
+## Frequently asked questions
+
+**Can you get a rugby scholarship in the USA?**
+Sometimes. Some varsity programs **may have limited athletic aid**; many club programs rely on academic support. Ask each coach. Availability varies and is often not published clearly.
+
+**Which schools offer rugby scholarships?**
+We will not publish a confident who-offers list until coaches verify. Check profiles for an aid note; if there isn't one, ask the coach. We're checking with coaches program by program, and when a program confirms aid its profile will say so.
+
+**Do big state schools give rugby scholarships?**
+Often rugby sits as club at large publics. Limited or no athletic rugby aid is common there; **academic aid may still be available**. Ask — do not assume either way.
+
+**Athletic scholarship vs academic scholarship?**
+Athletic / rugby aid is tied to the roster or coach. Academic aid is institutional. Many players use academic (or mixed) packages even when rugby aid is small or absent.
+
+**Do I need an agency to get aid?**
+Not necessarily. Many players start with a direct email and film. An agency is one option and can help with paperwork; I used one. Aid decisions come from the school and coach, not from an agency or a website list.
+`,
   },
   {
     id: 6,
