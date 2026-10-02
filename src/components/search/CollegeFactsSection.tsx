@@ -42,7 +42,7 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
           <dd className="font-medium text-ink text-right">{SAFETY_TEXT} <a href={SAFETY_URL} target="_blank" rel="noopener noreferrer" className="underline">Official report</a></dd>
         </div>
       </dl>
-      {f.intl_warning && <p className="mt-3 text-[13px] text-amber-900 bg-amber-50 border border-amber-200 rounded px-3 py-2">{f.intl_warning}</p>}
+      {f.intl_warning && <p className="mt-3 text-[13px] text-muted">⚠︎ {f.intl_warning}</p>}
       {f.majors_top && f.majors_top.length > 0 && (
         <p className="mt-4 text-[14px] text-muted leading-relaxed"><span className="text-ink font-medium">Biggest fields of study (share of degrees): </span>{f.majors_top.join(', ')}</p>
       )}

@@ -28,7 +28,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
 
   return (
     <>
-      <div className="bg-white border border-line rounded-lg p-6">
+      <div className="border-t border-ink pt-4">
         <p className="kicker mb-2">Head coach</p>
         <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'To be confirmed'}</p>
         <div className="pt-4 border-t border-line">
@@ -46,7 +46,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
               <Lock size={13} className="text-faint flex-shrink-0" />
               <span className="text-[14px] text-faint blur-[5px] select-none">coach@university.edu</span>
               <span className="btn ml-auto text-[12px] font-bold text-dark bg-gold px-3.5 py-2 rounded-md whitespace-nowrap">
-                Unlock email
+                Unlock coach email
               </span>
             </button>
           )}
