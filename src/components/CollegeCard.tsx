@@ -73,7 +73,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
         </h3>
         <p className="text-[13px] text-muted">
           {college.location} · {college.conference} · {college.programType}
-          {college.draftPicks >= 2 && <span className="text-gold-dark font-medium"> · {college.draftPicks} MLR picks</span>}
+          {college.draftPicks >= 1 && <span className="text-gold-dark font-medium"> · {college.draftPicks} MLR draftees</span>}
         </p>
       </article>
     </Link>

@@ -104,3 +104,39 @@ export function rugbyAidText(f: { rugby_aid: 'full' | 'partial' | 'none' | 'vari
 
 export const SAFETY_TEXT = 'Not scored yet. See the official campus safety report (US Dept of Education).';
 export const SAFETY_URL = 'https://ope.ed.gov/campussafety/';
+
+export const MLR_EXPLAINER = 'Being drafted gives an MLR club the rights to a player. It doesn\'t mean he signed or played. “Played” is a confirmed minimum from match records, so the true number could be a little higher.';
+export const MLR_SOURCES = 'MLR College Draft results, NARDB and Americas Rugby News, checked October 2026.';
+
+export function mlrSummary(c: {
+  draftPicks: number;
+  mlrPlayed: number | null;
+  mlrUnconfirmed: number;
+  mlrNoAppearance: number;
+  mlrNotYet: number;
+  mlrNote?: string;
+}) {
+  const drafted = c.draftPicks;
+  const played = c.mlrPlayed;
+  const unconfirmed = c.mlrUnconfirmed;
+  const draftedText = drafted === 0 ? 'None found' : String(drafted);
+  const playedText = drafted === 0 ? '—' : played === 0 || played == null ? 'None confirmed yet' : `${played} confirmed`;
+  const unconfirmedText = unconfirmed > 0 ? `${unconfirmed} not confirmed either way` : '';
+  const parts: string[] = [];
+  if (played != null && played > 0) parts.push(`${played} confirmed played`);
+  if (c.mlrNoAppearance > 0) parts.push(`${c.mlrNoAppearance} with no recorded appearance`);
+  if (unconfirmed > 0) parts.push(`${unconfirmed} not confirmed either way`);
+  if (c.mlrNotYet > 0) parts.push(`${c.mlrNotYet} from the 2026 class (no season played yet)`);
+  const breakdown = drafted > 0 && parts.length ? `Of the ${drafted} drafted: ${parts.join(', ')}.` : '';
+  return {
+    drafted,
+    played,
+    draftedText,
+    playedText,
+    unconfirmed,
+    unconfirmedText,
+    breakdown,
+    explainer: MLR_EXPLAINER,
+    sources: MLR_SOURCES,
+  };
+}

@@ -4,7 +4,7 @@ Read this before making any change. It exists so agents don't re-solve settled d
 
 ## What this is
 
-Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles 48 men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft picks, campus facts and monthly weather.
+Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles 48 men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft and playing numbers (drafted and played are counted separately), campus facts and monthly weather.
 
 Built and owned by **Hugh Johnston** — Australian, recruited to Notre Dame College at 17, captained the side in Rugby East, played PR7s and club rugby in Austin TX, returned as head coach and won the **2023 NCR D1 National Championship** (33–10 over St. Bonaventure in Houston). Notre Dame College has since closed; the program transferred to Walsh University.
 
@@ -105,7 +105,7 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 
 - Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff calibre, navy `#00458c`), `competitive` (Competitive, terracotta `#b5573a`), `emerging` (Up and coming, grey ring `#8b98a8`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
-- **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing.
+- **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
 - Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington discontinued its program April 2025 (deliberately excluded); UCLA moved D1A → NCR D1 for 2026–27; MLR contracted to 6 teams for 2026 but the College Draft continues.
 
 ## SEO / AI visibility

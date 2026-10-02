@@ -3,6 +3,7 @@ import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS } from '@/data/colleges';
+import { mlrSummary } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
 import CollegeCard from '@/components/CollegeCard';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
@@ -27,6 +28,7 @@ export default function CollegeDetail() {
   }
 
   const others = colleges.filter((c) => c.id !== college.id && c.tier === college.tier).slice(0, 3);
+  const mlr = mlrSummary(college);
 
   const programFacts: [string, string][] = [
     ['Affiliation', college.affiliation],
@@ -34,7 +36,9 @@ export default function CollegeDetail() {
     ['Tier', TIER_LABELS[college.tier]],
     ['Program type', college.programType],
     ['Squad size', college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC'],
-    ['MLR draft picks', college.draftPicks > 0 ? String(college.draftPicks) : '—'],
+    ['Drafted (2020–26)', mlr.draftedText],
+    ['Played at least one MLR match', mlr.playedText],
+    ...(mlr.unconfirmed > 0 ? [['Not confirmed either way', mlr.unconfirmedText] as [string, string]] : []),
   ];
   const collegeFacts: [string, string][] = [
     ['Enrollment', college.enrollment > 0 ? `${college.enrollment.toLocaleString()} students` : 'TBC'],
@@ -106,6 +110,14 @@ export default function CollegeDetail() {
             <p className="mt-3 text-[12px] text-faint leading-relaxed">
               Varsity/Club labels come from university athletics pages or published designations where possible — verify with the school if unclear.
             </p>
+            {mlr.drafted > 0 && (
+              <div className="mt-4 space-y-2 text-[13px] text-muted leading-relaxed">
+                {mlr.breakdown && <p>{mlr.breakdown}</p>}
+                {college.mlrNote && <p>{college.mlrNote}</p>}
+                <p>{mlr.explainer}</p>
+                <p className="text-[12px] text-faint">{mlr.sources}</p>
+              </div>
+            )}
             {college.achievements.length > 0 && (
               <ul className="mt-5 space-y-2">
                 {college.achievements.map((a, i) => (

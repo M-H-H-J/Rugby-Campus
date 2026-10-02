@@ -17,5 +17,5 @@ Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. I
 - [About](https://rugbycampus.org/about)
 
 ## Full data
-- [llms-full.txt](https://rugbycampus.org/llms-full.txt): every program with affiliation, conference, squad size and MLR draft picks
+- [llms-full.txt](https://rugbycampus.org/llms-full.txt): every program with affiliation, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately)
 - [sitemap.xml](https://rugbycampus.org/sitemap.xml)
