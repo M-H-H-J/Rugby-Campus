@@ -17,7 +17,7 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -102,12 +102,17 @@ function factsHtml(slug) {
   if (!f) return '';
   const cost = costText(f);
   const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}. ${cost.sub}`]];
-  if (f.setting) rows.push(['Campus setting', f.setting]);
-  if (f.enrollment_undergrad) rows.push(['Undergraduates', f.enrollment_undergrad.toLocaleString()]);
-  if (f.nearest_airport_iata) rows.push(['Nearest major international airport', `${f.nearest_airport_name} (${f.nearest_airport_iata}), about ${f.airport_distance_miles} miles`]);
-  if (f.climate_tag) rows.push(['Climate', f.climate_tag + (f.winter_avg_computed_f != null ? `, winter average about ${Math.round(f.winter_avg_computed_f)}°F` : '')]);
+  if (f.campus_feel && CAMPUS_FEEL_LABEL[f.campus_feel]) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
+  const band = sizeBand(f.enrollment_undergrad);
+  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates` : ''}`]);
+  for (const row of airportRows(f)) rows.push(row);
+  const climate = climateText(f);
+  if (climate) rows.push(['Climate', climate + (isVeryHot(f) ? `. ${VERY_HOT_LABEL}.` : '')]);
+  rows.push(['Rugby aid', rugbyAidText(f)]);
+  if (f.big_sport_tag) rows.push(['Athletics', f.big_sport_tag]);
   if (f.intl_warning) rows.push(['International students', f.intl_warning]);
   return `<h2>Cost, study and campus</h2><dl>${rows.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>` +
+    `<p><strong>Campus safety.</strong> ${esc(SAFETY_TEXT)} <a href="${esc(SAFETY_URL)}" rel="noopener noreferrer" target="_blank">Official campus safety report</a></p>` +
     (f.majors_top?.length ? `<p><strong>Biggest fields of study:</strong> ${f.majors_top.map(esc).join(', ')}</p>` : '');
 }
 

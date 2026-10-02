@@ -24,6 +24,10 @@ export interface CollegeFacts {
   climate_tag: 'Mild winters' | 'Has seasons' | 'Cold winters' | 'Hot' | null;
   freezing_nights_per_year: number | null;
   nearest_airport_iata: string | null; nearest_airport_name: string | null; airport_distance_miles: number | null;
+  campus_feel: 'city' | 'college_town' | 'suburb' | 'country' | null;
+  flights_airport_iata: string | null; flights_airport_name: string | null; flights_airport_miles: number | null; flights_airport_limited: boolean | null;
+  safety_clery: null;
+  rugby_aid: 'full' | 'partial' | 'none' | 'varies' | null;
   big_sport_tag: string | null;
   intl_admission_route: string | null; intl_warning: string | null;
   test_policy: string | null; acceptance_rate: number | null; graduation_rate_6yr: number | null;

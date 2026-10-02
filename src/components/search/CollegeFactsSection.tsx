@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
 import { loadFacts, type CollegeFacts } from '@/lib/search/facts';
 import { costText } from '@/lib/search/cost';
+import { CAMPUS_FEEL_LABEL, SAFETY_TEXT, SAFETY_URL, SIZE_LABEL, VERY_HOT_LABEL, airportRows, climateText, isVeryHot, rugbyAidText, sizeBand } from '@/lib/search/display';
 
-const SETTING: Record<string, string> = { city: 'City', suburb: 'Suburb', town: 'Town', rural: 'Rural' };
-const SIZE: Record<string, string> = { small: 'Small', medium: 'Medium', large: 'Large', very_large: 'Very large' };
 const hostOf = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return 'source'; } };
 
-/** Adds the search-backed facts (cost, majors, setting, size, airport, climate) to a college page. Renders nothing until data loads. */
+/** Adds the search-backed facts (cost, majors, campus, climate) to a college page. Renders nothing until data loads. */
 export default function CollegeFactsSection({ slug }: { slug: string }) {
   const [f, setF] = useState<CollegeFacts | null>(null);
   useEffect(() => { let off = false; loadFacts().then((x) => { if (!off) setF(x.colleges[slug] ?? null); }).catch(() => undefined); return () => { off = true; }; }, [slug]);
   if (!f) return null;
   const cost = costText(f);
+  const climate = climateText(f);
+  const band = sizeBand(f.enrollment_undergrad);
   const rows: [string, string][] = [];
-  if (f.setting) rows.push(['Campus setting', SETTING[f.setting] ?? f.setting]);
-  if (f.enrollment_undergrad) rows.push(['Size', `${SIZE[f.size_band ?? ''] ?? ''} · ${f.enrollment_undergrad.toLocaleString()} undergraduates`.replace(/^ · /, '')]);
-  if (f.nearest_airport_iata) rows.push(['Nearest major international airport', `${f.nearest_airport_name} (${f.nearest_airport_iata}), about ${f.airport_distance_miles} miles in a straight line`]);
-  if (f.climate_tag) rows.push(['Climate', `${f.climate_tag}${f.winter_avg_computed_f != null ? ` · winter average about ${Math.round(f.winter_avg_computed_f)}°F` : ''}${f.summer_high_f != null ? ` · summer highs about ${Math.round(f.summer_high_f)}°F` : ''}`]);
+  if (f.campus_feel) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
+  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates` : ''}`]);
+  rows.push(...airportRows(f));
+  rows.push(['Rugby aid', rugbyAidText(f)]);
   if (f.big_sport_tag) rows.push(['Athletics', f.big_sport_tag]);
   const srcs = Object.entries(f.prov).filter(([k]) => ['cost', 'majors_cip2', 'climate_tag', 'setting'].includes(k));
   return (
@@ -30,6 +31,16 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
         {rows.map(([l, v]) => (
           <div key={l} className="flex justify-between gap-6 py-3 border-b border-line text-[14px]"><dt className="text-muted">{l}</dt><dd className="font-medium text-ink text-right">{v}</dd></div>
         ))}
+        {climate && (
+          <div className="flex justify-between gap-6 py-3 border-b border-line text-[14px]">
+            <dt className="text-muted">Climate</dt>
+            <dd className="font-medium text-ink text-right">{climate}{isVeryHot(f) && <span className="block text-[12px] font-normal text-muted">{VERY_HOT_LABEL}</span>}</dd>
+          </div>
+        )}
+        <div className="flex justify-between gap-6 py-3 border-b border-line text-[14px]">
+          <dt className="text-muted">Campus safety</dt>
+          <dd className="font-medium text-ink text-right">{SAFETY_TEXT} <a href={SAFETY_URL} target="_blank" rel="noopener noreferrer" className="underline">Official report</a></dd>
+        </div>
       </dl>
       {f.intl_warning && <p className="mt-3 text-[13px] text-amber-900 bg-amber-50 border border-amber-200 rounded px-3 py-2">{f.intl_warning}</p>}
       {f.majors_top && f.majors_top.length > 0 && (
