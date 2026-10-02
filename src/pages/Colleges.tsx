@@ -3,12 +3,79 @@ import { useLocation, Link } from 'wouter';
 import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { TIER_LABELS, TIER_ORDER, SEASON_LABEL, Tier } from '@/data/colleges';
-import CollegeCard from '@/components/CollegeCard';
+import { TIER_LABELS, TIER_ORDER, SEASON_LABEL, Tier, type College } from '@/data/colleges';
+import TierDot from '@/components/TierDot';
 import TierNote from '@/components/TierNote';
 import CollegeSearch from '@/components/search/CollegeSearch';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
+
+const TIER_BLURB: Record<Tier, string> = {
+  championship: 'Programs that are often near the top.',
+  playoff: 'Playoff calibre.',
+  competitive: 'Competitive programs.',
+  emerging: 'Newer or rebuilding programs to keep an eye on.',
+};
+
+function TierSection({ tier, items }: { tier: Tier; items: College[] }) {
+  return (
+    <section className="mt-10 grid md:grid-cols-[11rem_1fr] gap-4 md:gap-10 border-t border-line pt-8">
+      <div>
+        <h2 className="font-heading text-[26px] leading-tight text-ink flex items-start gap-2">
+          <TierDot tier={tier} size="md" />
+          <span>{TIER_LABELS[tier]}</span>
+        </h2>
+        <p className="text-[12px] text-faint mt-2">{items.length}</p>
+        <p className="text-[13px] text-muted mt-2">{TIER_BLURB[tier]}</p>
+      </div>
+      {tier === 'championship' && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+          {items.map((c) => (
+            <Link key={c.id} href={`/colleges/${c.slug}`} className="group">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-3">
+                {c.imageUrl ? (
+                  <img src={c.imageUrl} alt={`${c.name} campus`} loading="lazy" className="card-img w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center px-3 text-[12px] text-faint">{c.name}</div>
+                )}
+              </div>
+              <h3 className="font-heading text-[20px] leading-snug text-ink group-hover:text-navy">{c.name}</h3>
+              <p className="text-[13px] text-muted mt-1">{c.location}</p>
+              <p className="text-[12px] text-faint mt-1">{c.conference}</p>
+            </Link>
+          ))}
+        </div>
+      )}
+      {tier === 'playoff' && (
+        <div className="overflow-x-auto">
+          <div className="min-w-[36rem] border-t border-ink">
+            <div className="grid grid-cols-4 gap-3 py-2 text-[11px] uppercase tracking-caps text-faint">
+              <span>Program</span><span>Location</span><span>Conference</span><span>Affiliation</span>
+            </div>
+            {items.map((c) => (
+              <Link key={c.id} href={`/colleges/${c.slug}`} className="grid grid-cols-4 gap-3 py-2.5 border-t border-line text-[14px] hover:text-navy">
+                <span className="font-medium text-ink">{c.name}</span>
+                <span className="text-muted">{c.location}</span>
+                <span className="text-muted">{c.conference}</span>
+                <span className="text-muted">{c.affiliation}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      {(tier === 'competitive' || tier === 'emerging') && (
+        <div className={tier === 'competitive' ? 'grid sm:grid-cols-2 gap-x-10' : 'grid sm:grid-cols-2 gap-x-10'}>
+          {items.map((c) => (
+            <Link key={c.id} href={`/colleges/${c.slug}`} className="block py-2.5 border-b border-line">
+              <span className="block text-[15px] text-ink font-medium">{c.name}</span>
+              <span className="text-[13px] text-muted">{c.location}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 
 export default function Colleges() {
   usePageMeta('College Rugby Programs', 'US college rugby programs across CRAA D1A and NCR D1, grouped into four tiers, with coach contacts, conferences, and campus details.');
@@ -62,7 +129,7 @@ export default function Colleges() {
       <TierNote className="mb-4 max-w-3xl" />
 
       {/* Filter bar — dense tool chrome */}
-      <div className="sticky top-14 z-30 bg-paper -mx-4 px-4 border-b border-line mb-5">
+      <div className="sticky top-14 z-30 bg-white -mx-4 px-4 border-b border-line mb-5">
         <div className="flex items-center gap-4 py-2">
           <div className="flex gap-4 -mb-px">
             {AFFILIATION_TABS.map((t) => (
@@ -106,16 +173,8 @@ export default function Colleges() {
             className="text-navy text-[13px] font-semibold hover:text-navy-deep">Clear all</button>
         </div>
       ) : (
-        grouped.map(({ tier, items }, gi) => (
-          <section key={tier} className={gi > 0 ? 'mt-8 pt-6 border-t border-line' : ''}>
-            <div className="flex items-baseline gap-2 mb-4">
-              <p className="kicker">{TIER_LABELS[tier]}</p>
-              <span className="text-[11px] text-faint">{items.length}</span>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-              {items.map((c) => <CollegeCard key={c.id} college={c} variant="tool" />)}
-            </div>
-          </section>
+        grouped.map(({ tier, items }) => (
+          <TierSection key={tier} tier={tier} items={items} />
         ))
       )}
     </div>

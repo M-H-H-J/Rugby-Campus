@@ -10,8 +10,8 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
   if (isToolCard) {
     return (
       <Link href={`/colleges/${college.slug}`}>
-        <article className="group cursor-pointer bg-white border border-line rounded-md overflow-hidden hover:border-navy/30 transition-colors">
-          <div className="relative overflow-hidden aspect-[16/10] bg-line">
+        <article className="group cursor-pointer">
+          <div className="relative overflow-hidden aspect-[4/3] rounded-lg bg-line mb-3">
             {college.imageUrl ? (
               <img
                 src={college.imageUrl}
@@ -25,7 +25,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
               </div>
             )}
           </div>
-          <div className="px-3 py-3">
+          <div>
             <p className="text-[10px] font-semibold uppercase tracking-caps text-navy mb-1">{college.affiliation}</p>
             <h3 className="font-heading text-[16px] leading-snug text-ink group-hover:text-navy transition-colors mb-1 line-clamp-1">
               {college.name}
@@ -73,7 +73,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
         </h3>
         <p className="text-[13px] text-muted">
           {college.location} · {college.conference} · {college.programType}
-          {college.draftPicks >= 1 && <span className="text-gold-dark font-medium"> · {college.draftPicks} MLR draftees</span>}
+          {college.draftPicks >= 1 && <span> · {college.draftPicks} MLR draftees</span>}
         </p>
       </article>
     </Link>
