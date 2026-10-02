@@ -35,141 +35,101 @@ export default function Home() {
     setSubscribed(true);
   };
 
+  const [hero, ...restFeatured] = featured;
+  const steps = [
+    { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference, and location. Game time at the right program beats a bench spot at a famous one.' },
+    { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
+    { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. Send a short email with your position, size, and highlights — that is enough to start the conversation.' },
+  ];
+
   return (
     <>
-      {/* ── Masthead band ── */}
-      <header className="border-b border-line">
-        <div className="max-w-7xl mx-auto px-5 py-8 md:py-12">
-          <p className="kicker mb-3">College Rugby USA</p>
-          <h1 className="font-heading text-[52px] md:text-[72px] lg:text-[88px] leading-[0.92] tracking-[-0.03em] text-ink max-w-4xl">
-            Every top program in America. Mapped.
-          </h1>
-        </div>
-      </header>
-
-      {/* ── Sentence search entry ── */}
-      <section className="border-b border-line bg-white">
-        <div className="max-w-7xl mx-auto px-5 py-5">
-          <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="flex flex-col sm:flex-row gap-2 max-w-3xl">
-            <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
-            <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Describe your ideal college: decent rugby, study maths, not freezing"
-              className="flex-1 bg-white border border-line rounded-md px-3 py-2.5 text-[14px] outline-none focus:border-navy placeholder:text-faint" />
-            <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
-          </form>
-        </div>
-      </section>
-
-      {/* ── MAP-FIRST HERO: the product ── */}
       <section className="border-b border-line">
-        <div className="max-w-7xl mx-auto px-5 py-6 md:py-10">
-          <div className="bg-white border border-line rounded-lg overflow-hidden">
-            <Link href="/map" className="block group cursor-pointer">
-              <USMap colleges={colleges} onSelect={() => navigate('/map')} height={520} interactive={false} />
+        <div className="max-w-7xl mx-auto px-5 py-8 md:py-14 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div>
+            <h1 className="font-heading text-[44px] md:text-[64px] leading-[0.95] tracking-[-0.03em] text-ink">
+              Every top program in America. Mapped.
+            </h1>
+            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-8 flex flex-col sm:flex-row sm:items-end gap-3">
+              <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
+              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Decent rugby, study maths, not freezing"
+                className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] outline-none placeholder:text-faint" />
+              <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
+            </form>
+            <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
+          </div>
+          <div>
+            <Link href="/map" className="block">
+              <USMap colleges={colleges} onSelect={() => navigate('/map')} height={420} interactive={false} />
             </Link>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-5 py-4 border-t border-line">
-              <div>
-                <p className="text-[13px] text-muted">
-                  <span className="font-semibold text-ink">{colleges.length} programs</span> across CRAA D1A and NCR D1 — click to explore
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <Link href="/map" className="btn inline-flex items-center gap-2 bg-navy text-white px-5 py-2.5 rounded-md text-[13px] font-semibold">
-                  Explore the map <ArrowRight size={14} />
-                </Link>
-                <Link href="/colleges" className="text-[13px] font-medium text-navy hover:text-navy-deep">
-                  View as list
-                </Link>
-              </div>
-            </div>
+            <Link href="/map" className="btn mt-4 inline-flex items-center gap-2 bg-navy text-white px-5 py-2.5 rounded-md text-[13px] font-semibold">
+              Explore the map <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Credential strip ── */}
-      <div className="border-b border-line bg-white">
-        <div className="max-w-7xl mx-auto px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-[13px] text-muted">
-            Built by <span className="text-ink font-medium">Hugh Johnston</span> — seen both sides of college rugby recruitment. Free for players.
+      <section className="border-b border-line">
+        <div className="max-w-7xl mx-auto px-5 py-12 md:py-16">
+          <p className="font-heading text-[32px] md:text-[44px] leading-[1.15] text-ink max-w-4xl">
+            Built by Hugh Johnston — seen both sides of college rugby recruitment. Free for players.
           </p>
-          <Link href="/about" className="text-[13px] font-medium text-navy hover:text-navy-deep">
-            About Hugh
-          </Link>
+          <Link href="/about" className="inline-block mt-4 text-[14px] font-medium text-navy">About Hugh</Link>
         </div>
-      </div>
+      </section>
 
-      {/* ── Top programs — large editorial rows ── */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-5">
           <div className="flex items-end justify-between mb-8">
-            <div>
-              <p className="kicker mb-3">2026–27 Season</p>
-              <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">Top programs</h2>
-            </div>
-            <Link href="/colleges" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
+            <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05]">Top programs</h2>
+            <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
               All {colleges.length} programs <ArrowRight size={15} />
             </Link>
           </div>
-        </div>
-        <div className="border-y border-line">
-          {featured.map((c, i) => (
-            <Link key={c.id} href={`/colleges/${c.slug}`} className={`block group cursor-pointer ${i > 0 ? 'border-t border-line' : ''}`}>
-              <div className="max-w-7xl mx-auto px-5 py-6 md:py-8 flex gap-6 md:gap-10 items-center">
-                <div className="w-24 md:w-36 flex-shrink-0">
-                  <div className="aspect-[4/3] rounded-md overflow-hidden bg-line">
-                    {c.imageUrl ? (
-                      <img src={c.imageUrl} alt={`${c.name} campus`} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-[11px] text-faint font-medium text-center px-2">{c.name}</span>
-                      </div>
-                    )}
-                  </div>
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {hero && (
+              <Link href={`/colleges/${hero.slug}`} className="group">
+                <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-4">
+                  {hero.imageUrl ? (
+                    <img src={hero.imageUrl} alt={`${hero.name} campus`} className="card-img w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[13px] text-faint">{hero.name}</div>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="kicker mb-2">{c.affiliation} · {c.conference}</p>
-                  <h3 className="font-heading text-[26px] md:text-[32px] leading-[1.1] tracking-[-0.01em] text-ink group-hover:text-navy transition-colors mb-1">{c.name}</h3>
-                  <p className="text-[14px] md:text-[15px] text-muted">{c.location}</p>
-                </div>
-                <ArrowRight size={20} className="text-line group-hover:text-navy transition-colors flex-shrink-0 hidden md:block" />
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="max-w-7xl mx-auto px-5 pt-6 sm:hidden">
-          <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
-            All {colleges.length} programs <ArrowRight size={15} />
-          </Link>
+                <h3 className="font-heading text-[32px] leading-tight text-ink group-hover:text-navy">{hero.name}</h3>
+                <p className="text-[15px] text-muted mt-1">{hero.location}</p>
+              </Link>
+            )}
+            <div className="border-t border-ink">
+              {restFeatured.map((c) => (
+                <Link key={c.id} href={`/colleges/${c.slug}`} className="block py-4 border-b border-line group">
+                  <h3 className="font-heading text-[22px] text-ink group-hover:text-navy">{c.name}</h3>
+                  <p className="text-[14px] text-muted">{c.location}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── How it works: editorial numbered list ── */}
-      <section className="bg-white">
+      <section className="border-t border-line">
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
-          <div className="max-w-2xl mb-12">
-            <p className="kicker mb-3">The Pathway</p>
-            <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em] mb-5">From anywhere to a US college</h2>
-            <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55]">
-              I've seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here's how it works.
-            </p>
-          </div>
-          <div className="border-t border-line">
-            {[
-              { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference, and location. Game time at the right program beats a bench spot at a famous one.' },
-              { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
-              { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. Send a short email with your position, size, and highlights — that is enough to start the conversation.' },
-            ].map((s, i) => (
-              <div key={s.n} className={`flex gap-6 md:gap-10 py-8 ${i > 0 ? 'border-t border-line' : ''}`}>
-                <span className="font-heading text-[56px] md:text-[72px] text-navy leading-none w-16 md:w-24 flex-shrink-0">{s.n}</span>
-                <div className="pt-2 md:pt-4">
-                  <h3 className="font-heading text-[22px] md:text-[26px] text-ink mb-2 tracking-[-0.01em]">{s.t}</h3>
-                  <p className="text-muted text-[15px] md:text-[16px] leading-relaxed max-w-xl">{s.d}</p>
-                </div>
+          <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] mb-4">From anywhere to a US college</h2>
+          <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-2xl mb-12">
+            I've seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here's how it works.
+          </p>
+          <div className="grid md:grid-cols-3 gap-10">
+            {steps.map((s) => (
+              <div key={s.n}>
+                <span className="font-heading text-[72px] md:text-[96px] leading-none text-navy">{s.n}</span>
+                <h3 className="font-heading text-[22px] text-ink mt-2 mb-2">{s.t}</h3>
+                <p className="text-muted text-[15px] leading-relaxed">{s.d}</p>
               </div>
             ))}
-            <p className="py-6 border-t border-line text-muted text-[15px] leading-relaxed max-w-xl">
-              If the coach responds, moving forward usually means interviews, academics, and visas. When a program wants you, coaches typically help with the next steps to get you there.
-            </p>
           </div>
+          <p className="mt-12 pt-6 border-t border-line text-muted text-[15px] leading-relaxed max-w-xl">
+            If the coach responds, moving forward usually means interviews, academics, and visas. When a program wants you, coaches typically help with the next steps to get you there.
+          </p>
         </div>
       </section>
 
@@ -212,7 +172,7 @@ export default function Home() {
       <section className="bg-dark">
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl">
-            <p className="kicker mb-4 text-gold">Stay Connected</p>
+            <p className="kicker mb-4 text-white/70">Stay Connected</p>
             <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Stay across it.</h2>
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows, and new guides — a short email, only when there's something worth sending.
