@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock, Check, Mail } from 'lucide-react';
+import { Check, Mail } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 
@@ -16,15 +16,22 @@ export default function Training() {
 
   const day = (title: string, exercises: string[]) => (
     <div>
-      <h3 className="font-body font-semibold text-[14px] text-ink mb-3">{title}</h3>
-      <ul className="space-y-2">
-        {exercises.map((ex, i) => (
-          <li key={i} className="text-[14px] text-ink/80 flex items-baseline gap-2.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0 translate-y-[-2px]" /> {ex}
-          </li>
+      <h3 className="font-heading text-[20px] text-ink mb-2">{title}</h3>
+      <ul className="border-t border-line">
+        {exercises.map((ex) => (
+          <li key={ex} className="py-2 border-b border-line text-[14px] text-ink">{ex}</li>
         ))}
       </ul>
     </div>
+  );
+
+  const locked = (title: string, exercises: string[]) => (
+    unlocked ? day(title, exercises) : (
+      <div className="border-t border-line pt-3">
+        <h3 className="font-heading text-[20px] text-ink">{title}</h3>
+        <p className="mt-2 text-[13px] text-muted">Unlock with your email</p>
+      </div>
+    )
   );
 
   return (
@@ -64,43 +71,53 @@ export default function Training() {
         </div>
 
         <div className="lg:col-span-8 grid sm:grid-cols-2 gap-8 lg:pl-8 lg:border-l lg:border-line">
-          {day('Day 1 — Upper push', ['Bench press — 4×6 @ 80%', 'Overhead press — 3×8', 'Incline DB press — 3×10', 'Tricep dips — 3×12', 'Face pulls — 3×15'])}
-          <div className="relative">
-            <div className={!unlocked ? 'blur-[5px] select-none' : ''}>
-              {day('Day 2 — Lower strength', ['Back squat — 4×5 @ 85%', 'Romanian deadlift — 3×8', 'Walking lunges — 3×12', 'Leg press — 3×10', 'Nordic curls — 3×6'])}
-            </div>
-            {!unlocked && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="inline-flex items-center gap-2 bg-white border border-line rounded-md px-4 py-2.5 text-[13px] font-medium text-ink">
-                  <Lock size={13} className="text-navy" /> Unlocks with your email
-                </span>
-              </div>
-            )}
-          </div>
-          <div className="relative">
-            <div className={!unlocked ? 'blur-[5px] select-none' : ''}>
-              {day('Day 3 — Upper pull', ['Weighted pull-ups — 4×6', 'Barbell row — 4×8', 'Face pulls — 3×15', 'Hammer curls — 3×12', 'Rear delt flyes — 3×15'])}
-            </div>
-            {!unlocked && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="inline-flex items-center gap-2 bg-white border border-line rounded-md px-4 py-2.5 text-[13px] font-medium text-ink">
-                  <Lock size={13} className="text-navy" /> Unlocks with your email
-                </span>
-              </div>
-            )}
-          </div>
-          <div className="relative">
-            <div className={!unlocked ? 'blur-[5px] select-none' : ''}>
-              {day('Day 4 — Lower power', ['Trap bar deadlift — 4×5 @ 80%', 'Box jumps — 4×5', 'Split squats — 3×8 each', 'Calf raises — 3×15', 'Plank holds — 3×45s'])}
-            </div>
-            {!unlocked && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="inline-flex items-center gap-2 bg-white border border-line rounded-md px-4 py-2.5 text-[13px] font-medium text-ink">
-                  <Lock size={13} className="text-navy" /> Unlocks with your email
-                </span>
-              </div>
-            )}
-          </div>
+          {day('Day 1 — Upper', [
+            '1A Rotational med ball throw — 3×4 each side',
+            '1B Clap push-ups — 3×4',
+            '2A DB incline bench — 4×6',
+            '2B DB seal row — 3×6',
+            '3A Underhand lat pulldown — 4×8',
+            '3B Weighted push-ups — 3×10',
+            '3C Cable crunch — 3×10',
+            '4A Single-leg kneeling DB shoulder press — 3×8 each side',
+            '4B Weighted ITY — 3×5 each side',
+            '4C Cable curl + cable extension — 3×12 each side',
+            '5 Neck isometrics — 3×10 seconds each side',
+          ])}
+          {locked('Day 2 — Lower', [
+            '1A Trap bar speed shrugs — 3×6',
+            '1B Seated box jumps — 3×4',
+            '1C Lateral bounds — 3×3 each side',
+            '2A Barbell back squat — 4×6',
+            '2B Banded terminal knee extension — 3×12 each side',
+            '3A Barbell single-leg hip thrust — 3×6 each side',
+            '3B Nordics — 3×4',
+            '3C Seated calf raise — 3×12',
+            '4A Banded marches — 2×12 each side',
+            '4B Leg extensions — 2×(10 each side + 10)',
+          ])}
+          {locked('Day 3 — Upper', [
+            '1A Med ball bench throw — 3×6',
+            '1B Pallof rotation — 3×12 each side',
+            '2A Barbell bench press — 4×6',
+            '2B Single-arm DB row — 4×6 each side',
+            '3A Weighted pull-ups — 4×8',
+            '3B Half-kneeling landmine press — 3×8 each side',
+            '3C DB farmer’s carry — 3×40 m',
+            '4A DB lateral raise — 3×12–15',
+            '4B Skullcrushers — 2×12',
+          ])}
+          {locked('Day 4 — Lower', [
+            '1A Hang high pull — 3×5',
+            '1B Double broad jumps — 3×2',
+            '1C Pogos — 2×10',
+            '2A Trap bar deadlift — 4×5',
+            '2B Copenhagen holds — 3×30 seconds each side',
+            '3A Barbell Romanian deadlift — 3×8',
+            '3B Stability ball hamstring curl — 3×12',
+            '4A Goblet side lunge — 3×8 each side',
+            '4B Calf raise + tib raise — 3×20 each side',
+          ])}
         </div>
       </section>
 
@@ -108,7 +125,7 @@ export default function Training() {
       <section className="bg-dark rounded-lg overflow-hidden">
         <div className="grid lg:grid-cols-12 gap-10 p-8 md:p-12">
           <div className="lg:col-span-7">
-            <p className="kicker mb-3 text-gold">Paid coaching</p>
+            <p className="kicker mb-3 text-white/70">Paid coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
               Paid one-on-one coaching for college rugby prep
             </h2>
@@ -122,7 +139,7 @@ export default function Training() {
                 'Regular check-ins and adjustments as needed',
               ].map((p, i) => (
                 <li key={i} className="flex items-start gap-3 text-[14px] text-white/75">
-                  <Check size={15} className="text-gold mt-[3px] flex-shrink-0" /> {p}
+                  <Check size={15} className="text-white/70 mt-[3px] flex-shrink-0" /> {p}
                 </li>
               ))}
             </ul>
@@ -138,7 +155,7 @@ export default function Training() {
               { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments as needed.' },
             ].map((s, i) => (
               <div key={s.n} className={`flex gap-5 py-4 ${i > 0 ? 'border-t border-white/10' : ''}`}>
-                <span className="font-heading text-[26px] text-gold leading-none">{s.n}</span>
+                <span className="font-heading text-[26px] text-white/80 leading-none">{s.n}</span>
                 <div>
                   <p className="text-white text-[14px] font-semibold mb-1">{s.t}</p>
                   <p className="text-white/45 text-[13px] leading-relaxed">{s.d}</p>
