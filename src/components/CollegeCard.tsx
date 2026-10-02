@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import type { College } from '@/data/colleges';
-import { TIER_DOT_CLASS, TIER_LABELS } from '@/data/colleges';
+import { TIER_LABELS } from '@/data/colleges';
+import TierDot from '@/components/TierDot';
 
 export default function CollegeCard({ college, variant = 'tool' }: { college: College; variant?: 'tool' | 'editorial' }) {
   const topBadge = college.badges[0];
@@ -31,7 +32,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
             </h3>
             <p className="text-[12px] text-muted line-clamp-1">{college.location}</p>
             <p className="flex items-center gap-1.5 text-[11px] text-faint mt-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT_CLASS[college.tier]}`} />
+              <TierDot tier={college.tier} size="sm" />
               {TIER_LABELS[college.tier]}
             </p>
           </div>
@@ -63,7 +64,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
           )}
         </div>
         <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-caps text-faint mb-1.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${TIER_DOT_CLASS[college.tier]}`} />
+          <TierDot tier={college.tier} size="sm" />
           {TIER_LABELS[college.tier]}
           <span className="normal-case tracking-normal font-normal text-faint">· {college.affiliation}</span>
         </p>

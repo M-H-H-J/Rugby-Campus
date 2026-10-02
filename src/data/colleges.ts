@@ -32,15 +32,22 @@ export const TIER_ORDER: Tier[] = [
 export const TIER_COLORS: Record<Tier, string> = {
   championship: '#ffb700',
   playoff: '#00458c',
-  competitive: '#64748b',
-  emerging: '#5b8a84',
+  competitive: '#b5573a',
+  emerging: '#8b98a8',
+};
+
+export const TIER_HOLLOW: Record<Tier, boolean> = {
+  championship: false,
+  playoff: false,
+  competitive: false,
+  emerging: true,
 };
 
 export const TIER_DOT_CLASS: Record<Tier, string> = {
   championship: 'bg-tier-gold',
   playoff: 'bg-tier-navy',
-  competitive: 'bg-tier-slate',
-  emerging: 'bg-tier-teal',
+  competitive: 'bg-tier-terra',
+  emerging: 'bg-white border-2 border-faint',
 };
 
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";

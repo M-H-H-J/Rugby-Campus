@@ -2,18 +2,18 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { College } from '@/data/colleges';
-import { TIER_COLORS } from '@/data/colleges';
+import { TIER_COLORS, TIER_HOLLOW } from '@/data/colleges';
 
 const navy = TIER_COLORS.playoff;
 
-function makePin(color: string, size = 30) {
+function makePin(color: string, size = 30, hollow = false) {
   const h = size * 1.3;
+  const mark = hollow
+    ? `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="#fff" stroke="${color}" stroke-width="2.5"/>`
+    : `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}" stroke="white" stroke-width="1.5"/><circle cx="14" cy="14" r="5" fill="white"/>`;
   return L.divIcon({
     className: '',
-    html: `<svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}" stroke="white" stroke-width="1.5"/>
-      <circle cx="14" cy="14" r="5" fill="white"/>
-    </svg>`,
+    html: `<svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">${mark}</svg>`,
     iconSize: [size, h],
     iconAnchor: [size / 2, h],
     popupAnchor: [0, -h + 4],
@@ -93,7 +93,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
 
     colleges.forEach((c) => {
       const marker = L.marker([c.lat, c.lng], {
-        icon: makePin(TIER_COLORS[c.tier], c.tier === 'championship' ? 32 : 28),
+        icon: makePin(TIER_COLORS[c.tier], c.tier === 'championship' ? 32 : 28, TIER_HOLLOW[c.tier]),
       });
 
       const popupHtml = `

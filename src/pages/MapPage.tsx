@@ -4,7 +4,8 @@ import { List } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import LeafletMap from '@/components/LeafletMap';
-import { TIER_DOT_CLASS, TIER_LABELS, TIER_ORDER } from '@/data/colleges';
+import { TIER_LABELS, TIER_ORDER } from '@/data/colleges';
+import TierDot from '@/components/TierDot';
 import TierNote from '@/components/TierNote';
 
 const TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
@@ -61,7 +62,7 @@ export default function MapPage() {
           <div className="space-y-1">
             {TIER_ORDER.map((tier) => (
               <div key={tier} className="flex items-center gap-2 text-[11px] text-muted">
-                <span className={`w-2 h-2 rounded-full ${TIER_DOT_CLASS[tier]}`} /> {TIER_LABELS[tier]}
+                <TierDot tier={tier} /> {TIER_LABELS[tier]}
               </div>
             ))}
           </div>

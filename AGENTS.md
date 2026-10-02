@@ -103,7 +103,7 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 
 ## Data rules
 
-- Programs are grouped into three **tiers** — `championship`, `playoff`, `competitive` — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
+- Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff calibre, navy `#00458c`), `competitive` (Competitive, terracotta `#b5573a`), `emerging` (Up and coming, grey ring `#8b98a8`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
 - **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing.
 - Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington discontinued its program April 2025 (deliberately excluded); UCLA moved D1A → NCR D1 for 2026–27; MLR contracted to 6 teams for 2026 but the College Draft continues.

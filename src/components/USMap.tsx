@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { US_NATION_PATH, US_BORDERS_PATH } from '@/data/us-map';
 import type { College } from '@/data/colleges';
-import { TIER_COLORS } from '@/data/colleges';
+import { TIER_COLORS, TIER_HOLLOW } from '@/data/colleges';
 
 interface Props {
   colleges: College[];
@@ -43,8 +43,8 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
               onClick={() => interactive && onSelect(c.slug)}
             >
               {isHover && <circle cx={c.mapX} cy={c.mapY} r={r + 6} fill={TIER_COLORS[c.tier]} opacity={0.2} />}
-              <circle cx={c.mapX} cy={c.mapY} r={r} fill={TIER_COLORS[c.tier]} stroke="#fff" strokeWidth={2} opacity={isHover ? 1 : 0.9} />
-              <circle cx={c.mapX} cy={c.mapY} r={r * 0.35} fill="#fff" opacity={0.95} />
+              <circle cx={c.mapX} cy={c.mapY} r={r} fill={TIER_HOLLOW[c.tier] ? '#fff' : TIER_COLORS[c.tier]} stroke={TIER_HOLLOW[c.tier] ? TIER_COLORS.emerging : '#fff'} strokeWidth={TIER_HOLLOW[c.tier] ? 2.5 : 2} opacity={isHover ? 1 : 0.9} />
+              {!TIER_HOLLOW[c.tier] && <circle cx={c.mapX} cy={c.mapY} r={r * 0.35} fill="#fff" opacity={0.95} />}
             </g>
           );
         })}
