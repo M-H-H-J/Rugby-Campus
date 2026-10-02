@@ -103,7 +103,7 @@ From now on, any change you push to GitHub redeploys automatically.
 
 ## What's already built in (nothing to do)
 
-- 40 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
+- 48 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
 - Interactive OpenStreetMap with street-level zoom
 - Email capture on 4 touchpoints, all writing to your database
 - 3 full articles + 3 "notify me" stubs (each stub also captures emails)

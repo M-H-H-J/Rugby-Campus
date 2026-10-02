@@ -62,9 +62,12 @@ h1, h2, h3 {
 }
 .email-blurred:hover { filter: blur(3px); }
 
-/* Leaflet popup — match brand */
+/* Leaflet popup — hairline card, minimal shadow (map OS chrome exception) */
 .leaflet-popup-content-wrapper {
   border-radius: 8px !important;
-  box-shadow: 0 8px 28px rgba(7, 27, 51, 0.18) !important;
+  box-shadow: 0 4px 16px rgba(7, 27, 51, 0.10) !important;
+  border: 1px solid #e5e9ef !important;
 }
+.leaflet-popup-content { margin: 12px 14px !important; }
 .leaflet-container { font-family: 'Libre Franklin', sans-serif !important; }
+.leaflet-popup-tip { display: none !important; }

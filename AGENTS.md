@@ -4,7 +4,7 @@ Read this before making any change. It exists so agents don't re-solve settled d
 
 ## What this is
 
-Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles the 40 best men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft picks, campus facts and monthly weather.
+Rugby Campus is a free discovery site for aspiring rugby players who want to play at a US college. It profiles 48 men's college rugby programs in America across CRAA D1A and NCR D1, on an interactive map, with coach contacts, conference, squad size, MLR draft and playing numbers (drafted and played are counted separately), campus facts and monthly weather.
 
 Built and owned by **Hugh Johnston** — Australian, recruited to Notre Dame College at 17, captained the side in Rugby East, played PR7s and club rugby in Austin TX, returned as head coach and won the **2023 NCR D1 National Championship** (33–10 over St. Bonaventure in Houston). Notre Dame College has since closed; the program transferred to Walsh University.
 
@@ -29,14 +29,14 @@ npm run dev      # local dev, localhost:5173
 npm run build    # tsc + vite build + prerender  ← must print BOTH success lines
 ```
 
-`npm run build` must end with `prerendered 54 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
+`npm run build` must end with `prerendered 62 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
 
 ## File map
 
 ```
 src/
   config.ts                 Supabase keys, SITE_URL, CONTACT_EMAIL  ← never blank these
-  data/colleges.ts          the 40 programs (bundled fallback + source of truth for prerender)
+  data/colleges.ts          the 48 programs (bundled fallback + source of truth for prerender)
   data/articles.ts          long-form guides (markdown-ish strings)
   data/us-map.ts            baked albersUsa SVG path data — do not regenerate
   lib/supabase.ts           client, captureEmail(), submitContact()
@@ -46,6 +46,9 @@ src/
                             LeafletMap, USMap, CoachEmailUnlock, ContactForm
   pages/                    Home, Map, Colleges, CollegeDetail, Learn,
                             ArticlePage, Training, About, WorkWithMe, ForCoaches
+api/                        Vercel functions: search-parse (sentence -> JSON filters, rate limits, $ cap), shortlist-email. See .env.example
+src/lib/search/             filter schema, matcher, cost text, facts loader (+ __tests__). The model NEVER writes answers; it only fills the filter schema
+src/data/collegeSearchFacts.json  generated from rugby-campus-search/college-search-data.json; do not hand-edit
 scripts/prerender.mjs       post-build: static HTML per route + JSON-LD + sitemap + llms-full.txt
 scripts/data-entry.ts       bundles TS data for the prerender script
 public/                     logo.png, logo-white.png, icon.png, favicons,
@@ -54,9 +57,17 @@ vercel.json                 SPA rewrites + asset caching
 supabase-setup.sql          full schema + all 40 rows + idempotent updates
 ```
 
+## Sentence search rules
+
+1. **Nothing removes a college.** Every filter is soft. A match is a green pill, a miss is amber, an unknown is grey and never counts against a college. Results are grouped into 'Fits everything you picked' and 'Close, but not everything'.
+2. Cost is always shown with: "Before scholarships. Ask the coach what's available."
+3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
+4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.
+5. Default model is `gemini-3.1-flash-lite`, set in `api/_lib/llm.ts`. No env var needed. Cost is about US$0.0005 per search.
+
 ## Do not break these
 
-1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug.
+1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug. The rewrite excludes `/api/` on purpose.
 2. **`scripts/prerender.mjs`** — it is the entire SEO and AI-visibility layer. If you change routes or data shape, update this script in the same change.
 3. **`public/robots.txt`** currently contains `Disallow: /` **on purpose** — the site is deliberately private pre-launch. Never "fix" this. Going public is a manual step by Hugh (swap in `robots.public.txt`).
 4. **`src/config.ts`** — contains live Supabase values. Never commit blank strings over them. The anon key is public-by-design and protected by RLS; that is not a leak.
@@ -92,9 +103,9 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 
 ## Data rules
 
-- Programs are grouped into three **tiers** — `championship`, `playoff`, `competitive` — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
+- Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff calibre, navy `#00458c`), `competitive` (Competitive, terracotta `#b5573a`), `emerging` (Up and coming, grey ring `#8b98a8`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
-- **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing.
+- **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
 - Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington discontinued its program April 2025 (deliberately excluded); UCLA moved D1A → NCR D1 for 2026–27; MLR contracted to 6 teams for 2026 but the College Draft continues.
 
 ## SEO / AI visibility

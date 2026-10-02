@@ -21,7 +21,7 @@ export default function ForCoaches() {
         <div className="lg:col-span-7">
           <h2 className="font-heading text-[26px] text-ink mb-6">Three ways to work with Rugby Campus</h2>
           {[
-            ['Verify your profile — free', 'Check your coach details, conference, squad size and description. Send corrections and they go live within a day. This costs nothing and it\u2019s the single most useful thing you can do.'],
+            ['Verify your profile — free', "Check your coach details, conference, squad size and description. Send corrections and they go live within a day. This costs nothing and it's the single most useful thing you can do."],
             ['Featured program', 'Highlighted placement across the map, the colleges index and relevant guides, plus a richer profile: photos, a video, what you look for in a recruit, and a direct enquiry button that lands in your inbox. Annual.'],
             ['Recruit pipeline', 'I speak with international players and families every week. When one fits your program, I make the introduction — warm, pre-qualified, with a highlight reel. No fee to the player.'],
           ].map(([t, d], i) => (
@@ -35,7 +35,7 @@ export default function ForCoaches() {
           ))}
         </div>
         <aside className="lg:col-span-5">
-          <div className="lg:sticky lg:top-24 border border-line rounded-lg p-7">
+          <div className="lg:sticky lg:top-24 border-t border-ink pt-5">
             <p className="kicker mb-3">Who's looking</p>
             <ul className="space-y-3">
               {[
@@ -54,7 +54,7 @@ export default function ForCoaches() {
 
       <section id="enquire" className="scroll-mt-24 bg-dark rounded-lg p-8 md:p-12 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
-          <p className="kicker mb-3 text-gold">Get in touch</p>
+          <p className="kicker mb-3 text-white/70">Get in touch</p>
           <h2 className="font-heading text-[28px] text-white leading-tight mb-4">Verify, feature, or just say hello</h2>
           <p className="text-white/55 text-[14.5px] leading-relaxed">
             Tell me which program you coach and what you'd like — corrections, a featured listing, or recruits. I'll come back to you personally.

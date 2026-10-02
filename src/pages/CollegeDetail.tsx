@@ -2,9 +2,12 @@ import { useRoute, Link } from 'wouter';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
+import { CONTACT_EMAIL } from '@/config';
 import { TIER_LABELS } from '@/data/colleges';
+import TierDot from '@/components/TierDot';
+import { mlrSummary } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
-import CollegeCard from '@/components/CollegeCard';
+import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 
 export default function CollegeDetail() {
   const [, params] = useRoute('/colleges/:slug');
@@ -26,6 +29,7 @@ export default function CollegeDetail() {
   }
 
   const others = colleges.filter((c) => c.id !== college.id && c.tier === college.tier).slice(0, 3);
+  const mlr = mlrSummary(college);
 
   const programFacts: [string, string][] = [
     ['Affiliation', college.affiliation],
@@ -33,10 +37,12 @@ export default function CollegeDetail() {
     ['Tier', TIER_LABELS[college.tier]],
     ['Program type', college.programType],
     ['Squad size', college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC'],
-    ['MLR draft picks', college.draftPicks > 0 ? String(college.draftPicks) : '—'],
+    ['Drafted (2020–26)', mlr.draftedText],
+    ['Played at least one MLR match', mlr.playedText],
+    ...(mlr.unconfirmed > 0 ? [['Not confirmed either way', mlr.unconfirmedText] as [string, string]] : []),
   ];
   const collegeFacts: [string, string][] = [
-    ['Enrollment', `${college.enrollment.toLocaleString()} students`],
+    ['Enrollment', college.enrollment > 0 ? `${college.enrollment.toLocaleString()} students` : 'TBC'],
     ['Location', college.location],
     ['State', college.state],
     ['Region', college.region],
@@ -57,66 +63,78 @@ export default function CollegeDetail() {
         <p className="text-muted text-[15px]">{college.location}</p>
       </header>
 
-      <div className="rounded-lg overflow-hidden mb-12 relative" style={{ maxHeight: 380 }}>
-        <img src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-full object-cover" style={{ maxHeight: 380 }} />
-        {college.badges.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
-            <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
-          </div>
+      <figure className="mb-10 -mx-5 md:mx-0">
+        <div className="overflow-hidden relative bg-line md:rounded-lg">
+          {college.imageUrl ? (
+            <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-[240px] md:h-[420px] object-cover" />
+          ) : (
+            <div className="w-full h-[220px] flex items-center justify-center">
+              <span className="text-[13px] text-faint">{college.name}</span>
+            </div>
+          )}
+          {college.badges.length > 0 && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
+              <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
+            </div>
+          )}
+        </div>
+        {college.imageCredit && (
+          <figcaption className="text-[11px] text-faint mt-2">
+            {college.imageSourcePage ? (
+              <a href={college.imageSourcePage} target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">
+                {college.imageCredit}
+              </a>
+            ) : (
+              college.imageCredit
+            )}
+          </figcaption>
         )}
-      </div>
+      </figure>
 
-      <div className="grid lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-7 space-y-12">
+      <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
+        <div className="lg:col-span-3 space-y-12">
           <section>
-            <h2 className="font-heading text-[24px] text-ink mb-4">About the program</h2>
-            <p className="text-[15px] text-ink/80 leading-[1.7]">{college.description}</p>
+            <p className="text-[17px] text-ink leading-[1.7]">{college.description}</p>
           </section>
 
-          <section>
-            <h2 className="font-heading text-[24px] text-ink mb-2">The rugby</h2>
-            <dl>
-              {programFacts.map(([label, value]) => (
-                <div key={label} className="flex justify-between gap-6 py-3 border-b border-line text-[14px]">
-                  <dt className="text-muted">{label}</dt>
-                  <dd className="font-medium text-ink text-right">{value}</dd>
-                </div>
-              ))}
-            </dl>
-            {college.achievements.length > 0 && (
-              <ul className="mt-5 space-y-2">
+          {college.achievements.length > 0 && (
+            <section>
+              <h2 className="font-heading text-[28px] text-ink mb-2">Honours</h2>
+              <ul className="border-t border-ink">
                 {college.achievements.map((a, i) => (
-                  <li key={i} className="text-[14px] text-ink/80 leading-relaxed pl-4 relative">
-                    <span className="absolute left-0 top-[9px] w-1.5 h-1.5 rounded-full bg-gold" />
-                    {a}
-                  </li>
+                  <li key={i} className="py-3 border-b border-line text-[15px] text-ink">{a}</li>
                 ))}
               </ul>
-            )}
-          </section>
+            </section>
+          )}
 
-          <section>
-            <h2 className="font-heading text-[24px] text-ink mb-2">The college</h2>
-            <dl>
-              {collegeFacts.map(([label, value]) => (
-                <div key={label} className="flex justify-between gap-6 py-3 border-b border-line text-[14px]">
-                  <dt className="text-muted">{label}</dt>
-                  <dd className="font-medium text-ink text-right">{value}</dd>
-                </div>
-              ))}
-            </dl>
-            {college.popularMajors.length > 0 && (
-              <p className="mt-4 text-[14px] text-muted leading-relaxed">
-                <span className="text-ink font-medium">Popular majors: </span>
-                {college.popularMajors.join(', ')}
-              </p>
-            )}
-          </section>
+          {college.popularMajors.length > 0 && (
+            <p className="text-[15px] text-muted leading-relaxed">
+              <span className="text-ink font-medium">Popular majors: </span>
+              {college.popularMajors.join(', ')}
+            </p>
+          )}
+
+          <CollegeFactsSection slug={college.slug} />
 
           {college.monthlyTemps.length === 12 && (
             <section>
-              <h2 className="font-heading text-[24px] text-ink mb-1.5">Weather</h2>
+              <h2 className="font-heading text-[28px] text-ink mb-1.5">Weather</h2>
               <p className="text-[14px] text-muted mb-5">{college.weatherSummary}</p>
+              <div className="flex items-end gap-1 h-32 border-b border-ink" aria-hidden="true">
+                {college.monthlyTemps.map((t) => {
+                  const maxF = Math.max(...college.monthlyTemps.map((m) => m.hF));
+                  return (
+                    <div key={t.month} className="flex-1 flex flex-col justify-end h-full">
+                      <div className="bg-navy/35" style={{ height: `${Math.max(4, (t.lF / maxF) * 100)}%` }} />
+                      <div className="bg-navy" style={{ height: `${Math.max(4, ((t.hF - t.lF) / maxF) * 100)}%` }} />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex gap-1 mb-6" aria-hidden="true">
+                {college.monthlyTemps.map((t) => <span key={t.month} className="flex-1 text-center text-[10px] text-faint">{t.month}</span>)}
+              </div>
               <div className="overflow-x-auto -mx-1 px-1">
                 <table className="w-full text-[12px] border-t border-line">
                   <thead>
@@ -153,19 +171,65 @@ export default function CollegeDetail() {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-5 lg:pl-4">
-          <div className="lg:sticky lg:top-24 space-y-5">
-            <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} />
-            <a href={college.website} target="_blank" rel="noopener noreferrer"
-              className="btn flex items-center justify-center gap-2 w-full py-3 border border-line text-ink rounded-md text-[13px] font-semibold hover:border-navy/40">
-              University website <ExternalLink size={13} />
-            </a>
+        <aside className="lg:col-span-2">
+          <div className="lg:sticky lg:top-24">
+            <h2 className="font-heading text-[22px] text-ink mb-3">At a glance</h2>
+            <dl className="border-t border-ink">
+              {programFacts.map(([label, value]) => (
+                <div key={label} className="flex justify-between gap-4 py-2.5 border-b border-line text-[13px]">
+                  <dt className="text-muted">{label}</dt>
+                  <dd className="font-medium text-ink text-right">
+                    {label === 'Tier' ? <span className="inline-flex items-center gap-1.5"><TierDot tier={college.tier} size="sm" />{value}</span> : value}
+                  </dd>
+                </div>
+              ))}
+              {collegeFacts.map(([label, value]) => (
+                <div key={label} className="flex justify-between gap-4 py-2.5 border-b border-line text-[13px]">
+                  <dt className="text-muted">{label}</dt>
+                  <dd className="font-medium text-ink text-right">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-[12px] text-faint leading-relaxed">
+              Varsity/Club labels come from university athletics pages or published designations where possible — verify with the school if unclear.
+            </p>
+            {mlr.drafted > 0 && (
+              <div className="mt-3 space-y-2 text-[12px] text-muted leading-relaxed">
+                {mlr.breakdown && <p>{mlr.breakdown}</p>}
+                {college.mlrNote && <p>{college.mlrNote}</p>}
+                <p>{mlr.explainer}</p>
+                <p className="text-faint">{mlr.sources}</p>
+              </div>
+            )}
+            <div className="mt-6">
+              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} />
+            </div>
+            <p className="mt-4 text-[13px]">
+              <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
+                University website <ExternalLink size={13} />
+              </a>
+            </p>
+            {college.rugbyProgramUrl && (
+              <p className="mt-2 text-[13px]">
+                <a href={college.rugbyProgramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
+                  Rugby program <ExternalLink size={13} />
+                </a>
+              </p>
+            )}
+            <p className="mt-4 text-[13px]">
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
+                className="text-navy font-medium"
+              >
+                Spot something wrong? Tell us
+              </a>
+            </p>
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
-              <Link href="/learn/how-college-rugby-recruitment-works" className="text-navy font-medium hover:text-navy-deep">
-                Read how recruitment works
+              <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">
+                Read the guide
               </Link>{' '}
-              — or <Link href="/work-with-me" className="text-navy font-medium hover:text-navy-deep">work with me directly</Link>.
+              or <Link href="/map" className="text-navy font-medium hover:text-navy-deep">explore the map</Link>.
             </p>
           </div>
         </aside>
@@ -174,12 +238,19 @@ export default function CollegeDetail() {
       {others.length > 0 && (
         <section className="mt-20 pt-12 border-t border-line">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-[24px] text-ink">More {TIER_LABELS[college.tier].toLowerCase()}s</h2>
+            <h2 className="font-heading text-[24px] text-ink">More programs in the “{TIER_LABELS[college.tier]}” tier</h2>
             <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-12">
-            {others.map((c) => <CollegeCard key={c.id} college={c} />)}
-          </div>
+          <ul className="border-t border-ink">
+            {others.map((c) => (
+              <li key={c.id} className="border-b border-line">
+                <Link href={`/colleges/${c.slug}`} className="flex justify-between gap-4 py-3 text-[15px] hover:text-navy">
+                  <span className="text-ink">{c.name}</span>
+                  <span className="text-muted text-[13px]">{c.location}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
     </div>
