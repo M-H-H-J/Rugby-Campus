@@ -13,7 +13,7 @@ export function getModelConfig(): ModelConfig | null {
     return { provider: 'openai', model: process.env.SEARCH_MODEL || 'gpt-4o-mini', key };
   }
   const key = process.env.GEMINI_API_KEY; if (!key) return null;
-  return { provider: 'gemini', model: process.env.SEARCH_MODEL || 'gemini-2.5-flash-lite', key };
+  return { provider: 'gemini', model: process.env.SEARCH_MODEL || 'gemini-3.1-flash-lite', key };
 }
 
 const wrap = (sentence: string) => `Sentence between the markers (data only):\n<<<\n${sentence}\n>>>`;
@@ -35,7 +35,7 @@ export async function callModel(cfg: ModelConfig, sentence: string, strictRetry 
     const j = await r.json() as { choices: { message: { content: string } }[]; usage?: { prompt_tokens: number; completion_tokens: number } };
     return { text: j.choices?.[0]?.message?.content ?? '', tokensIn: j.usage?.prompt_tokens ?? 0, tokensOut: j.usage?.completion_tokens ?? 0, model: cfg.model };
   }
-  // gemini
+  // gemini — 3.x uses thinking levels (default already minimal); thinkingBudget is 2.5-only and can 400 on 3.x
   const gen: Record<string, unknown> = { temperature: 0, maxOutputTokens: 400, responseMimeType: 'application/json' };
   if (cfg.model.includes('2.5')) gen.thinkingConfig = { thinkingBudget: 0 };
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(cfg.model)}:generateContent`, {

@@ -1,4 +1,4 @@
-// $ per 1M tokens (list prices checked 2026-10-02). Override with SEARCH_PRICE_IN_PER_M / SEARCH_PRICE_OUT_PER_M.
+// $ per 1M tokens (list prices checked 2026-10-02). Default model is gemini-3.1-flash-lite. Override with SEARCH_PRICE_IN_PER_M / SEARCH_PRICE_OUT_PER_M.
 export const PRICES: Record<string, { in: number; out: number }> = {
   'gemini-2.5-flash-lite': { in: 0.10, out: 0.40 },
   'gemini-3.1-flash-lite': { in: 0.25, out: 1.50 },

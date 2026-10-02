@@ -63,6 +63,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 2. Cost is always shown with: "Before scholarships. Ask the coach what's available."
 3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
 4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.
+5. Default model is `gemini-3.1-flash-lite`, set in `api/_lib/llm.ts`. No env var needed. Cost is about US$0.0005 per search.
 
 ## Do not break these
 

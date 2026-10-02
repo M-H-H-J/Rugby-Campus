@@ -52,7 +52,7 @@ describe('odd inputs', () => {
   });
   it('model returns garbage twice -> friendly message, empty filters', async () => {
     const llm = await import('../../api/_lib/llm');
-    const spy = vi.spyOn(llm, 'callModel').mockResolvedValue({ text: 'sure! here are some colleges', tokensIn: 900, tokensOut: 20, model: 'gemini-2.5-flash-lite' });
+    const spy = vi.spyOn(llm, 'callModel').mockResolvedValue({ text: 'sure! here are some colleges', tokensIn: 900, tokensOut: 20, model: 'gemini-3.1-flash-lite' });
     const r = await search('warm place'); expect(spy).toHaveBeenCalledTimes(2); spy.mockRestore();
     expect(r.body.ok).toBe(false); expect(r.body.reason).toBe('model_failed'); expect(r.body.message).toMatch(/reword|filters/i);
   });
@@ -94,7 +94,31 @@ describe('monthly cap + configuration', () => {
     const { costMicros, capMicros } = await import('../../api/_lib/pricing');
     expect(capMicros()).toBe(10_000_000);
     expect(costMicros('gemini-2.5-flash-lite', 1000, 100)).toBe(Math.ceil(1000 * 0.10 + 100 * 0.40));
+    expect(costMicros('gemini-3.1-flash-lite', 1000, 100)).toBe(Math.ceil(1000 * 0.25 + 100 * 1.50));
     expect(costMicros('gpt-4o-mini', 1000, 100)).toBe(Math.ceil(1000 * 0.15 + 100 * 0.60));
+  });
+  it('defaults to gemini-3.1-flash-lite when the key is set and SEARCH_MODEL is unset', async () => {
+    const saved = { mock: process.env.SEARCH_MOCK, model: process.env.SEARCH_MODEL, key: process.env.GEMINI_API_KEY };
+    delete process.env.SEARCH_MOCK; delete process.env.SEARCH_MODEL;
+    process.env.GEMINI_API_KEY = 'test-key';
+    const { getModelConfig } = await import('../../api/_lib/llm');
+    expect(getModelConfig()?.model).toBe('gemini-3.1-flash-lite');
+    if (saved.mock === undefined) delete process.env.SEARCH_MOCK; else process.env.SEARCH_MOCK = saved.mock;
+    if (saved.model === undefined) delete process.env.SEARCH_MODEL; else process.env.SEARCH_MODEL = saved.model;
+    if (saved.key === undefined) delete process.env.GEMINI_API_KEY; else process.env.GEMINI_API_KEY = saved.key;
+  });
+  it('sends thinkingBudget only for Gemini 2.5, not for 3.1', async () => {
+    const { callModel } = await import('../../api/_lib/llm');
+    const bodies: { generationConfig?: { thinkingConfig?: unknown } }[] = [];
+    const spy = vi.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
+      bodies.push(JSON.parse(String((init as RequestInit).body)));
+      return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: '{}' }] } }], usageMetadata: { promptTokenCount: 1, candidatesTokenCount: 1 } }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    });
+    await callModel({ provider: 'gemini', model: 'gemini-3.1-flash-lite', key: 'k' }, 'warm');
+    await callModel({ provider: 'gemini', model: 'gemini-2.5-flash-lite', key: 'k' }, 'warm');
+    spy.mockRestore();
+    expect(bodies[0].generationConfig?.thinkingConfig).toBeUndefined();
+    expect(bodies[1].generationConfig?.thinkingConfig).toEqual({ thinkingBudget: 0 });
   });
   it('no API key / no persistent store -> AI search stays off (503 not_configured), site still works via chips', async () => {
     mockEnv(); delete process.env.SEARCH_MOCK; delete process.env.GEMINI_API_KEY; delete process.env.OPENAI_API_KEY;
