@@ -46,6 +46,9 @@ src/
                             LeafletMap, USMap, CoachEmailUnlock, ContactForm
   pages/                    Home, Map, Colleges, CollegeDetail, Learn,
                             ArticlePage, Training, About, WorkWithMe, ForCoaches
+api/                        Vercel functions: search-parse (sentence -> JSON filters, rate limits, $ cap), shortlist-email. See .env.example
+src/lib/search/             filter schema, matcher, cost text, facts loader (+ __tests__). The model NEVER writes answers; it only fills the filter schema
+src/data/collegeSearchFacts.json  generated from rugby-campus-search/college-search-data.json; do not hand-edit
 scripts/prerender.mjs       post-build: static HTML per route + JSON-LD + sitemap + llms-full.txt
 scripts/data-entry.ts       bundles TS data for the prerender script
 public/                     logo.png, logo-white.png, icon.png, favicons,
@@ -54,9 +57,16 @@ vercel.json                 SPA rewrites + asset caching
 supabase-setup.sql          full schema + all 40 rows + idempotent updates
 ```
 
+## Sentence search rules
+
+1. Only these can REMOVE a college: state, region, control, setting, division, size band, and only when the value is KNOWN to miss. Unknown/null never excludes (shown as "unverified" or "Ask the coach").
+2. Cost is always shown with: "Before scholarships. Ask the coach what's available."
+3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
+4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.
+
 ## Do not break these
 
-1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug.
+1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug. The rewrite excludes `/api/` on purpose.
 2. **`scripts/prerender.mjs`** — it is the entire SEO and AI-visibility layer. If you change routes or data shape, update this script in the same change.
 3. **`public/robots.txt`** currently contains `Disallow: /` **on purpose** — the site is deliberately private pre-launch. Never "fix" this. Going public is a manual step by Hugh (swap in `robots.public.txt`).
 4. **`src/config.ts`** — contains live Supabase values. Never commit blank strings over them. The anon key is public-by-design and protected by RLS; that is not a leak.

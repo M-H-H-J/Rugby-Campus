@@ -6,6 +6,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS, TIER_ORDER, SEASON_LABEL, Tier } from '@/data/colleges';
 import CollegeCard from '@/components/CollegeCard';
 import TierNote from '@/components/TierNote';
+import CollegeSearch from '@/components/search/CollegeSearch';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
@@ -17,6 +18,11 @@ export default function Colleges() {
   const initialQ = useMemo(() => {
     const m = window.location.search.match(/[?&]q=([^&]*)/);
     return m ? decodeURIComponent(m[1]) : '';
+  }, [location]);
+
+  const initialFind = useMemo(() => {
+    const m = window.location.search.match(/[?&]find=([^&]*)/);
+    try { return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')).slice(0, 300) : ''; } catch { return ''; }
   }, [location]);
 
   const [search, setSearch] = useState(initialQ);
@@ -53,6 +59,8 @@ export default function Colleges() {
           <MapIcon size={14} /> Map
         </Link>
       </div>
+
+      <CollegeSearch colleges={colleges} initialSentence={initialFind} />
 
       <TierNote className="mb-4 max-w-3xl" />
 

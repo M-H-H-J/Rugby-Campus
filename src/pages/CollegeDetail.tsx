@@ -5,6 +5,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS } from '@/data/colleges';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
 import CollegeCard from '@/components/CollegeCard';
+import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 
 export default function CollegeDetail() {
   const [, params] = useRoute('/colleges/:slug');
@@ -134,6 +135,8 @@ export default function CollegeDetail() {
               </p>
             )}
           </section>
+
+          <CollegeFactsSection slug={college.slug} />
 
           {college.monthlyTemps.length === 12 && (
             <section>

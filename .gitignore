@@ -3,3 +3,4 @@ dist
 .prerender-data.mjs
 .DS_Store
 *.log
+.search-eval-handler.mjs

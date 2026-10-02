@@ -9,7 +9,7 @@ export function getSupabase(): SupabaseClient | null {
   return client;
 }
 
-export type EmailSource = 'coach_unlock' | 'training_program' | 'newsletter' | 'article_notify';
+export type EmailSource = 'coach_unlock' | 'training_program' | 'newsletter' | 'article_notify' | 'search_shortlist';
 
 /** Store a captured email. Falls back to console logging when Supabase isn't configured yet. */
 export async function captureEmail(email: string, source: EmailSource): Promise<boolean> {

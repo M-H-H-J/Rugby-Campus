@@ -17,7 +17,8 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText } = await import(pathToFileURL(tmp).href);
+const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
 const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -95,6 +96,21 @@ urls.push(page({
 urls.push(page({ path: '/map', title: 'Interactive US College Rugby Map', description: 'Every top college rugby program in the USA on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.', jsonld: [],
   body: `<h1>Interactive college rugby map</h1><p>All ${colleges.length} programs across the United States.</p>${nav}<ul>${colleges.map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a>, ${esc(c.location)}</li>`).join('')}</ul>` }));
 
+// Cost / study / campus facts from the search data (same numbers the college page shows)
+function factsHtml(slug) {
+  const f = searchFacts[slug];
+  if (!f) return '';
+  const cost = costText(f);
+  const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}. ${cost.sub}`]];
+  if (f.setting) rows.push(['Campus setting', f.setting]);
+  if (f.enrollment_undergrad) rows.push(['Undergraduates', f.enrollment_undergrad.toLocaleString()]);
+  if (f.nearest_airport_iata) rows.push(['Nearest major international airport', `${f.nearest_airport_name} (${f.nearest_airport_iata}), about ${f.airport_distance_miles} miles`]);
+  if (f.climate_tag) rows.push(['Climate', f.climate_tag + (f.winter_avg_computed_f != null ? `, winter average about ${Math.round(f.winter_avg_computed_f)}°F` : '')]);
+  if (f.intl_warning) rows.push(['International students', f.intl_warning]);
+  return `<h2>Cost, study and campus</h2><dl>${rows.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>` +
+    (f.majors_top?.length ? `<p><strong>Biggest fields of study:</strong> ${f.majors_top.map(esc).join(', ')}</p>` : '');
+}
+
 // ── Each college ──
 for (const c of colleges) {
   const facts = [['Affiliation', c.affiliation], ['Conference', c.conference], ['Tier', TIER_LABELS[c.tier]], ['Program type', c.programType],
@@ -110,6 +126,7 @@ for (const c of colleges) {
     body: `<h1>${esc(c.name)} Rugby</h1><p><strong>${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(TIER_LABELS[c.tier])}</strong><br>${esc(c.location)}</p><p>${esc(c.description)}</p>
     ${c.badges.length ? `<p><strong>${c.badges.map(esc).join(' · ')}</strong></p>` : ''}
     <h2>The rugby</h2><dl>${facts.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    ${factsHtml(c.slug)}
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
     ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)} — email available on the page after a free one-time signup.</p>` : ''}
     <p><a href="/colleges">All programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
