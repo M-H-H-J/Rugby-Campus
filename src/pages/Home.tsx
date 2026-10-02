@@ -48,7 +48,7 @@ export default function Home() {
       </header>
 
       {/* ── Sentence search entry ── */}
-      <section className="border-b border-line bg-paper">
+      <section className="border-b border-line bg-white">
         <div className="max-w-7xl mx-auto px-5 py-5">
           <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="flex flex-col sm:flex-row gap-2 max-w-3xl">
             <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>

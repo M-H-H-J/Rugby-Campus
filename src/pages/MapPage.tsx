@@ -27,7 +27,7 @@ export default function MapPage() {
   return (
     <div>
       {/* Tight header bar */}
-      <div className="border-b border-line bg-paper">
+      <div className="border-b border-line bg-white">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <h1 className="font-heading text-[20px] md:text-[24px] text-ink">Map</h1>
@@ -51,7 +51,7 @@ export default function MapPage() {
         </div>
       </div>
 
-      <div className="bg-paper px-4 py-2 border-b border-line">
+      <div className="bg-white px-4 py-2 border-b border-line">
         <TierNote className="max-w-7xl mx-auto" />
       </div>
 
@@ -70,7 +70,7 @@ export default function MapPage() {
       </div>
 
       {/* Attribution */}
-      <div className="border-t border-line bg-paper px-4 py-2">
+      <div className="border-t border-line bg-white px-4 py-2">
         <p className="text-[11px] text-faint">Map © OpenStreetMap contributors</p>
       </div>
     </div>
