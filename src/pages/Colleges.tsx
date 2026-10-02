@@ -19,7 +19,7 @@ const TIER_BLURB: Record<Tier, string> = {
 
 function TierSection({ tier, items }: { tier: Tier; items: College[] }) {
   return (
-    <section className="mt-10 grid md:grid-cols-[11rem_1fr] gap-4 md:gap-10 border-t border-line pt-8">
+    <section className="mt-10 grid md:grid-cols-[11rem_1fr] gap-4 md:gap-10 border-t border-line pt-8 min-w-0">
       <div>
         <h2 className="font-heading text-[26px] leading-tight text-ink flex items-start gap-2">
           <TierDot tier={tier} size="md" />
@@ -47,7 +47,7 @@ function TierSection({ tier, items }: { tier: Tier; items: College[] }) {
         </div>
       )}
       {tier === 'playoff' && (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-w-0">
           <div className="min-w-[36rem] border-t border-ink">
             <div className="grid grid-cols-4 gap-3 py-2 text-[11px] uppercase tracking-caps text-faint">
               <span>Program</span><span>Location</span><span>Conference</span><span>Affiliation</span>
@@ -130,7 +130,7 @@ export default function Colleges() {
 
       {/* Filter bar — dense tool chrome */}
       <div className="sticky top-14 z-30 bg-white -mx-4 px-4 border-b border-line mb-5">
-        <div className="flex items-center gap-4 py-2">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 py-2">
           <div className="flex gap-4 -mb-px">
             {AFFILIATION_TABS.map((t) => (
               <button key={t} onClick={() => setTab(t)}
@@ -141,7 +141,7 @@ export default function Colleges() {
               </button>
             ))}
           </div>
-          <div className="flex items-center flex-1 gap-2">
+          <div className="flex flex-wrap items-center flex-1 min-w-0 gap-2">
             <div className="flex items-center max-w-[180px] bg-white border border-line rounded-md px-2 focus-within:border-navy transition-colors">
               <Search size={12} className="text-faint flex-shrink-0" />
               <input
