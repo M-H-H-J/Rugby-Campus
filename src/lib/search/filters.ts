@@ -2,7 +2,7 @@
 // IMPORTANT: no '@/' alias imports in this file (the api/ functions import it by relative path).
 import { z } from 'zod';
 
-export const FILTER_VERSION = 2;
+export const FILTER_VERSION = 3;
 export const MAX_SENTENCE_CHARS = 300;
 
 export const STATE_CODES = [
@@ -10,12 +10,11 @@ export const STATE_CODES = [
 ] as const;
 export const REGIONS = ['northeast', 'midwest', 'south', 'west'] as const;            // US Census regions
 export const CONTROLS = ['public', 'private_nonprofit'] as const;
-export const SETTINGS = ['city', 'suburb', 'town', 'rural'] as const;
+export const SETTINGS = ['city', 'college_town', 'suburb', 'country'] as const;       // campus feel
 export const DIVISIONS = ['d1', 'd2', 'd3', 'naia'] as const;
-export const SIZE_BANDS = ['small', 'medium', 'large', 'very_large'] as const;       // undergrad <3k, 3-9.9k, 10-24.9k, 25k+
-export const FOOTBALL_LEVELS = ['fbs', 'fcs', 'd2', 'd3', 'naia', 'none'] as const;
-export const CLIMATES = ['mild_winters', 'has_seasons', 'cold_winters', 'hot'] as const;
-export const RELIGIONS = ['none_only', 'catholic', 'christian_other', 'any'] as const;
+export const SIZE_BANDS = ['small', 'medium', 'big'] as const;                        // under 3,000 / 3,000–14,999 / 15,000+
+export const CLIMATES = ['warm_winters', 'cool_winters', 'cold_winters'] as const;
+export const RELIGIONS = ['none_only', 'religious', 'catholic', 'christian_other', 'any'] as const;
 export const RUGBY_TIERS = ['championship', 'playoff', 'competitive', 'emerging'] as const;
 export const RUGBY_PROGRAMS = ['varsity', 'club'] as const;
 export const RESIDENCIES = ['in_state', 'out_of_state', 'international'] as const;
@@ -42,10 +41,9 @@ export const MAJOR_FIELDS: Record<string, { label: string; cip2: string[] }> = {
 export const MAJOR_KEYS = Object.keys(MAJOR_FIELDS);
 
 export const EXAMPLE_PROMPTS = [
-  'decent rugby, study maths, not freezing',
-  'big public university, engineering, somewhere warm',
-  'small Catholic college near a city, under $60k',
-  'D1 school in the north-east, business',
+  'Decent rugby, study maths, not freezing',
+  'Big university, engineering, somewhere warm',
+  'Small college near a city, under US$60k a year',
 ];
 
 // ---- tolerant zod schema: unknown array values are dropped rather than failing the whole parse ----
@@ -58,15 +56,13 @@ export const FilterSchema = z.object({
   version: z.number().optional(),
   residency: enumOrNull(RESIDENCIES),
   home_state: z.preprocess((v) => (typeof v === 'string' && (STATE_CODES as readonly string[]).includes(v.toUpperCase().trim()) ? v.toUpperCase().trim() : null), z.enum(STATE_CODES).nullable()),
-  // HARD filters (only these can drop a college, and only on a known, clear miss)
+  // Every filter is soft. A miss only changes pill colour and order. Unknown never excludes.
   states: z.preprocess((v) => (Array.isArray(v) ? v.map((x) => String(x).toUpperCase().trim()).filter((x) => (STATE_CODES as readonly string[]).includes(x)) : []), z.array(z.enum(STATE_CODES)).max(12)),
   regions: enumList(REGIONS),
   control: enumList(CONTROLS),
   setting: enumList(SETTINGS),
   division: enumList(DIVISIONS),
   size_band: enumList(SIZE_BANDS),
-  // SOFT filters (rank + label only, never exclude)
-  football_level: enumList(FOOTBALL_LEVELS),
   conference: z.preprocess((v) => (Array.isArray(v) ? v.map((x) => String(x).slice(0, 60).trim()).filter(Boolean).slice(0, 4) : []), z.array(z.string()).max(4)),
   max_cost_usd_per_year: z.preprocess((v) => (typeof v === 'number' && isFinite(v) && v > 0 && v < 1_000_000 ? Math.round(v) : null), z.number().nullable()),
   religion: enumOrNull(RELIGIONS),
@@ -78,8 +74,7 @@ export const FilterSchema = z.object({
 });
 export type Filters = z.infer<typeof FilterSchema>;
 
-export const HARD_KEYS = ['states', 'regions', 'control', 'setting', 'division', 'size_band'] as const;
-export const SOFT_KEYS = ['football_level', 'conference', 'max_cost_usd_per_year', 'religion', 'climate', 'majors', 'rugby_tier', 'rugby_program'] as const;
+export const FILTER_KEYS = ['states', 'regions', 'control', 'setting', 'division', 'size_band', 'conference', 'max_cost_usd_per_year', 'religion', 'climate', 'majors', 'rugby_tier', 'rugby_program'] as const;
 
 export function emptyFilters(): Filters {
   return FilterSchema.parse({});
@@ -89,7 +84,7 @@ export function parseFilters(raw: unknown): Filters | null {
   return r.success ? { ...r.data, version: FILTER_VERSION } : null;
 }
 export function hasAnyFilter(f: Filters): boolean {
-  return [...HARD_KEYS, ...SOFT_KEYS].some((k) => {
+  return FILTER_KEYS.some((k) => {
     const v = f[k as keyof Filters];
     return Array.isArray(v) ? v.length > 0 : v !== null && v !== undefined;
   });

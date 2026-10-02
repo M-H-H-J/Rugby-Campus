@@ -11,7 +11,7 @@
     "mathematics"
    ],
    "climate": [
-    "mild_winters"
+    "warm_winters"
    ]
   }
  ],
@@ -34,14 +34,13 @@
     "public"
    ],
    "size_band": [
-    "large",
-    "very_large"
+    "big"
    ],
    "majors": [
     "engineering"
    ],
    "climate": [
-    "mild_winters"
+    "warm_winters"
    ]
   }
  ],
@@ -104,7 +103,7 @@
   "a college town in the midwest, varsity rugby",
   {
    "setting": [
-    "town"
+    "college_town"
    ],
    "regions": [
     "midwest"
@@ -116,7 +115,7 @@
   "rural, small, nursing",
   {
    "setting": [
-    "rural"
+    "country"
    ],
    "size_band": [
     "small"
@@ -129,24 +128,17 @@
  [
   "big football school, sports science",
   {
-   "football_level": [
-    "fbs"
-   ],
    "majors": [
     "sport_exercise"
    ],
    "size_band": [
-    "large",
-    "very_large"
+    "big"
    ]
   }
  ],
  [
   "no football, d1, in a big city",
   {
-   "football_level": [
-    "none"
-   ],
    "division": [
     "d1"
    ],
@@ -171,8 +163,7 @@
   "sunny and hot, desert is fine, psychology",
   {
    "climate": [
-    "mild_winters",
-    "hot"
+    "warm_winters"
    ],
    "majors": [
     "psychology"
@@ -183,7 +174,7 @@
   "four seasons, private, business",
   {
    "climate": [
-    "has_seasons"
+    "cool_winters"
    ],
    "control": [
     "private_nonprofit"
@@ -258,7 +249,7 @@
     "south"
    ],
    "climate": [
-    "mild_winters"
+    "warm_winters"
    ]
   }
  ],
@@ -316,9 +307,6 @@
   {
    "states": [
     "CO"
-   ],
-   "football_level": [
-    "fbs"
    ]
   }
  ],
@@ -333,8 +321,7 @@
     "business"
    ],
    "size_band": [
-    "large",
-    "very_large"
+    "big"
    ]
   }
  ],
@@ -350,7 +337,7 @@
   "no snow please, cs and coding",
   {
    "climate": [
-    "mild_winters"
+    "warm_winters"
    ],
    "majors": [
     "computer_science"
@@ -361,7 +348,7 @@
   "university in a college town, d1, under $70k",
   {
    "setting": [
-    "town"
+    "college_town"
    ],
    "division": [
     "d1"

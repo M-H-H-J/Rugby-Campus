@@ -7,7 +7,7 @@ const STATE_BY_NAME: Record<string, string> = { alabama:'AL',arizona:'AZ',califo
 export function mockParse(sentence: string): Record<string, unknown> {
   const s = ' ' + sentence.toLowerCase() + ' ';
   const has = (...w: string[]) => w.some((x) => s.includes(x));
-  const out: Record<string, unknown> = { residency: null, home_state: null, states: [], regions: [], control: [], setting: [], division: [], size_band: [], football_level: [], conference: [], max_cost_usd_per_year: null, religion: null, climate: [], majors: [], rugby_tier: [], rugby_program: null, unparsed: [] };
+  const out: Record<string, unknown> = { residency: null, home_state: null, states: [], regions: [], control: [], setting: [], division: [], size_band: [], conference: [], max_cost_usd_per_year: null, religion: null, climate: [], majors: [], rugby_tier: [], rugby_program: null, unparsed: [] };
   const push = (k: string, ...v: string[]) => { for (const x of v) if (!(out[k] as string[]).includes(x)) (out[k] as string[]).push(x); };
   if (has('ignore your instructions', 'ignore previous', 'system prompt')) { push('unparsed', sentence.slice(0, 80)); return out; }
   if (has('australia', 'overseas', 'international', 'sydney', 'from the uk', 'new zealand')) out.residency = 'international';
@@ -19,24 +19,25 @@ export function mockParse(sentence: string): Record<string, unknown> {
   if (has('public')) push('control', 'public');
   if (has('private', 'catholic')) push('control', 'private_nonprofit');
   if (has('big city', 'in a city')) push('setting', 'city');
-  if (has('near a city', 'leafy')) push('setting', 'suburb');
-  if (has('college town')) push('setting', 'town');
-  if (has('rural', 'countryside')) push('setting', 'rural');
+  if (has('near a city', 'leafy', 'suburb')) push('setting', 'suburb');
+  if (has('college town')) push('setting', 'college_town');
+  if (has('rural', 'countryside', 'small town')) push('setting', 'country');
   if (has(' d1', 'division 1', 'division i ')) push('division', 'd1');
   if (has(' d2')) push('division', 'd2');
   if (has(' d3')) push('division', 'd3');
   if (has('naia')) push('division', 'naia');
-  if (has(' big ', 'huge', 'large')) push('size_band', 'large', 'very_large');
+  if (has(' big ', 'huge', 'large')) push('size_band', 'big');
   if (has('small', 'tight-knit')) push('size_band', 'small');
-  if (has('no football')) push('football_level', 'none'); else if (has('football school', 'fbs')) push('football_level', 'fbs');
-  const cost = s.match(/(?:under|below|max|up to|less than)\s*\$?\s*(\d{2,3})\s*k/) || s.match(/\$\s*(\d{2,3})\s*k/);
+  if (has('football')) push('unparsed', 'football');
+  const cost = s.match(/(?:under|below|max|up to|less than)\s*(?:us)?\$?\s*(\d{2,3})\s*k/) || s.match(/\$\s*(\d{2,3})\s*k/);
   if (cost) out.max_cost_usd_per_year = Number(cost[1]) * 1000;
   const cost2 = s.match(/(?:under|below|up to)\s*\$\s*(\d{4,6})/); if (cost2) out.max_cost_usd_per_year = Number(cost2[1]);
   if (has('cheap')) push('unparsed', 'cheap');
-  if (has('not religious', 'secular')) out.religion = 'none_only'; else if (has('catholic')) out.religion = 'catholic';
-  if (has('not freezing', 'warm', 'sunny', 'no snow', 'mild winter')) push('climate', 'mild_winters');
-  if (has('desert', ' hot')) push('climate', 'hot');
-  if (has('four seasons', 'some snow')) push('climate', 'has_seasons');
+  if (has('not religious', 'secular')) out.religion = 'none_only';
+  else if (has('religious college', 'religious school')) out.religion = 'religious';
+  else if (has('catholic')) out.religion = 'catholic';
+  if (has('not freezing', 'warm', 'sunny', 'no snow', 'mild winter', 'desert', ' hot')) push('climate', 'warm_winters');
+  if (has('four seasons', 'some snow')) push('climate', 'cool_winters');
   if (has('cold is fine', 'snow is fine', 'love snow')) push('climate', 'cold_winters');
   if (has('math', 'stats')) push('majors', 'mathematics');
   if (has('engineer')) push('majors', 'engineering');

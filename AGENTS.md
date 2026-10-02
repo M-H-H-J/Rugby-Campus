@@ -59,7 +59,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 
 ## Sentence search rules
 
-1. Only these can REMOVE a college: state, region, control, setting, division, size band, and only when the value is KNOWN to miss. Unknown/null never excludes (shown as "unverified" or "Ask the coach").
+1. **Nothing removes a college.** Every filter is soft. A match is a green pill, a miss is amber, an unknown is grey and never counts against a college. Results are grouped into 'Fits everything you picked' and 'Close, but not everything'.
 2. Cost is always shown with: "Before scholarships. Ask the coach what's available."
 3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
 4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.

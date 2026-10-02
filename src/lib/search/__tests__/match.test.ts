@@ -4,6 +4,7 @@ import type { CollegeFacts, FactsFile } from '../facts';
 import { emptyFilters, parseFilters } from '../filters';
 import { search, evaluate } from '../match';
 import { costText, costFor, COST_DISCLAIMER } from '../cost';
+import { climateBand, isVeryHot, sizeBand } from '../display';
 
 const F = (facts as unknown as FactsFile).colleges;
 const base = (o: Record<string, unknown>) => parseFilters({ ...emptyFilters(), ...o })!;
@@ -35,8 +36,8 @@ describe('facts file', () => {
 
 describe('unknown NEVER excludes', () => {
   it('a hard filter on a null value is "unknown", not a miss', () => {
-    const c = clone(); c['life-university'].setting = null;
-    const r = search(c, base({ setting: ['rural'] }));
+    const c = clone(); c['life-university'].campus_feel = null;
+    const r = search(c, base({ setting: ['country'] }));
     const life = r.results.find((x) => x.slug === 'life-university')!;
     expect(life).toBeTruthy();
     expect(life.hardMisses.length).toBe(0);
@@ -54,7 +55,7 @@ describe('unknown NEVER excludes', () => {
     expect(byu.softMisses.length).toBe(0);
   });
   it('soft filters never drop a college', () => {
-    const r = search(F, base({ climate: ['hot'], majors: ['agriculture_environment'], football_level: ['fbs'], religion: 'none_only', max_cost_usd_per_year: 5000 }));
+    const r = search(F, base({ climate: ['warm_winters'], majors: ['agriculture_environment'], religion: 'none_only', max_cost_usd_per_year: 5000 }));
     expect(r.results.length).toBe(48);
   });
   it('null conference is unverified, not a miss', () => {
@@ -70,32 +71,48 @@ describe('unknown NEVER excludes', () => {
   });
 });
 
-describe('hard filters + closest match', () => {
-  it('drops only on a clear miss', () => {
-    const r = search(F, base({ states: ['CA'] }));
-    expect(r.usedClosest).toBe(false);
-    expect(r.results.every((x) => F[x.slug].state === 'CA')).toBe(true);
-    expect(r.results.length).toBeGreaterThanOrEqual(5);
+describe('soft filters never hide a college', () => {
+  it('every college stays in the results', () => {
+    const r = search(F, base({ states: ['CA'], setting: ['country'], climate: ['cold_winters'] }));
+    expect(r.results.length).toBe(48);
+    expect(r.fitsAll.every((x) => x.checks.every((c) => c.status !== 'miss'))).toBe(true);
+    const misses = r.close.map((x) => x.checks.filter((c) => c.status === 'miss').length);
+    expect([...misses].sort((a, b) => a - b)).toEqual(misses);
   });
-  it('falls back to closest matches with an explanation and relax hint', () => {
-    const r = search(F, base({ states: ['WY'], setting: ['rural'] }));
-    expect(r.exactCount).toBe(0);
-    expect(r.usedClosest).toBe(true);
-    expect(r.results.length).toBeGreaterThan(0);
-    expect(r.results.every((x) => x.closest && x.hardMisses.length > 0)).toBe(true);
-    expect(r.message).toMatch(/closest/i);
-    expect(r.relaxHint).not.toBeNull();
+  it('where fits by state or region', () => {
+    const r = search(F, base({ states: ['CA'], regions: ['west'] }));
+    const cal = r.fitsAll.find((x) => x.slug === 'university-of-california-berkeley');
+    const utah = r.fitsAll.find((x) => x.slug === 'university-of-utah');
+    expect(cal).toBeTruthy();
+    expect(utah).toBeTruthy();
+    expect(r.close.some((x) => F[x.slug].state === 'NY')).toBe(true);
   });
   it('no filters = not active', () => {
     const r = search(F, emptyFilters());
     expect(r.active).toBe(false);
     expect(r.results.length).toBe(48);
   });
-  it('size band + control + region work together', () => {
-    const r = search(F, base({ control: ['public'], regions: ['west'], size_band: ['very_large'] }));
-    for (const x of r.results.filter((y) => !y.closest)) {
-      expect(F[x.slug].control).toBe('public'); expect(F[x.slug].region_census).toBe('West'); expect(F[x.slug].size_band).toBe('very_large');
+  it('bundle counts for size, climate and campus feel', () => {
+    const sizes = { small: 0, medium: 0, big: 0 };
+    const climates = { warm_winters: 0, cool_winters: 0, cold_winters: 0 };
+    const feels = { city: 0, college_town: 0, suburb: 0, country: 0 };
+    for (const c of Object.values(F)) {
+      const s = sizeBand(c.enrollment_undergrad); if (s) sizes[s]++;
+      const b = climateBand(c.winter_avg_computed_f); if (b) climates[b]++;
+      if (c.campus_feel) feels[c.campus_feel]++;
     }
+    expect(sizes).toEqual({ small: 16, medium: 18, big: 14 });
+    expect(climates).toEqual({ warm_winters: 15, cool_winters: 23, cold_winters: 10 });
+    expect(feels).toEqual({ city: 20, college_town: 9, suburb: 15, country: 4 });
+  });
+  it('flags very hot summers at Grand Canyon and Arizona, not Cal', () => {
+    expect(isVeryHot(F['grand-canyon-university'])).toBe(true);
+    expect(isVeryHot(F['university-of-arizona'])).toBe(true);
+    expect(isVeryHot(F['university-of-california-berkeley'])).toBe(false);
+  });
+  it('shows Aid: ask the coach when a budget is set', () => {
+    const r = search(F, base({ max_cost_usd_per_year: 60000 }));
+    expect(r.results.every((x) => x.unknowns.some((u) => u.label === 'Aid: ask the coach'))).toBe(true);
   });
 });
 
@@ -138,10 +155,10 @@ describe('majors, climate, tiers', () => {
   });
   it('climate bands follow the written rule', () => {
     const e = (slug: string, climate: string) => evaluate(slug, F[slug], base({ climate: [climate] }))[0].status;
-    expect(e('university-of-california-los-angeles-ucla', 'mild_winters')).toBe('match');
-    expect(e('grand-canyon-university', 'hot')).toBe('match');
+    expect(e('university-of-california-los-angeles-ucla', 'warm_winters')).toBe('match');
+    expect(e('grand-canyon-university', 'warm_winters')).toBe('match');
     expect(e('university-of-st-thomas-minnesota', 'cold_winters')).toBe('match');
-    expect(e('university-of-st-thomas-minnesota', 'mild_winters')).toBe('miss');
+    expect(e('university-of-st-thomas-minnesota', 'warm_winters')).toBe('miss');
   });
   it('conference aliases', () => {
     expect(evaluate('x', F['university-of-utah'], base({ conference: ['Big 12'] }))[0].status).toBe('match');

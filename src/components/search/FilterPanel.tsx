@@ -1,7 +1,7 @@
-import { CLIMATES, CONTROLS, DIVISIONS, FOOTBALL_LEVELS, MAJOR_FIELDS, REGIONS, RELIGIONS, RESIDENCIES, RUGBY_TIERS, SETTINGS, SIZE_BANDS, STATE_CODES, type Filters } from '@/lib/search/filters';
+import { CLIMATES, CONTROLS, DIVISIONS, MAJOR_FIELDS, REGIONS, RELIGIONS, RESIDENCIES, RUGBY_TIERS, SETTINGS, SIZE_BANDS, STATE_CODES, type Filters } from '@/lib/search/filters';
 import { filterLabel, stateName } from '@/lib/search/match';
 
-type ListKey = 'regions' | 'control' | 'setting' | 'division' | 'size_band' | 'football_level' | 'climate' | 'rugby_tier' | 'majors' | 'states';
+type ListKey = 'regions' | 'control' | 'setting' | 'division' | 'size_band' | 'climate' | 'rugby_tier' | 'majors' | 'states';
 
 function Chip({ on, children, onClick }: { on: boolean; children: React.ReactNode; onClick: () => void }) {
   return (
@@ -47,9 +47,8 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
       <Group title="Climate" hint="winters from NOAA 1991-2020 averages">{CLIMATES.map((c) => <Chip key={c} on={filters.climate.includes(c)} onClick={() => toggle('climate', c)}>{L.climate([c])}</Chip>)}</Group>
       <Group title="Study" hint="broad fields">{Object.entries(MAJOR_FIELDS).map(([k, v]) => <Chip key={k} on={filters.majors.includes(k)} onClick={() => toggle('majors', k)}>{v.label}</Chip>)}</Group>
       <Group title="Rugby level">{RUGBY_TIERS.map((c) => <Chip key={c} on={filters.rugby_tier.includes(c)} onClick={() => toggle('rugby_tier', c)}>{L.rugby_tier([c])}</Chip>)}</Group>
-      <Group title="Football">{FOOTBALL_LEVELS.map((c) => <Chip key={c} on={filters.football_level.includes(c)} onClick={() => toggle('football_level', c)}>{L.football_level([c])}</Chip>)}</Group>
       <Group title="Religion">
-        {RELIGIONS.filter((r) => r !== 'any').map((r) => <Chip key={r} on={filters.religion === r} onClick={() => onChange({ ...filters, religion: filters.religion === r ? null : r })}>{({ none_only: 'Not religious', catholic: 'Catholic', christian_other: 'Other Christian' } as Record<string, string>)[r]}</Chip>)}
+        {RELIGIONS.filter((r) => r !== 'any').map((r) => <Chip key={r} on={filters.religion === r} onClick={() => onChange({ ...filters, religion: filters.religion === r ? null : r })}>{({ none_only: 'Not religious', religious: 'Religious college', catholic: 'Catholic', christian_other: 'Other Christian' } as Record<string, string>)[r]}</Chip>)}
       </Group>
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-caps text-faint mb-1.5">Budget per year <span className="normal-case tracking-normal font-normal">· before scholarships</span></p>

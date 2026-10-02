@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import type { College } from '@/data/colleges';
-import { EXAMPLE_PROMPTS, HARD_KEYS, emptyFilters, hasAnyFilter, type Filters } from '@/lib/search/filters';
+import { EXAMPLE_PROMPTS, emptyFilters, hasAnyFilter, type Filters } from '@/lib/search/filters';
 import { describeFilters, search as runSearch, type Result } from '@/lib/search/match';
 import { parseSentence } from '@/lib/search/client';
 import { useFacts } from '@/lib/search/useFacts';
@@ -44,11 +44,11 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
   const outcome = useMemo(() => (facts ? runSearch(facts, filters) : null), [facts, filters]);
   const chips = describeFilters(filters);
   const active = !!outcome?.active;
-  const hasHard = HARD_KEYS.some((k) => { const v = filters[k as keyof Filters]; return Array.isArray(v) ? v.length > 0 : v != null; });
 
   const dropChip = (key: string) => {
     const f = { ...filters } as Record<string, unknown>;
-    f[key] = Array.isArray(f[key]) ? [] : null;
+    if (key === 'where') { f.states = []; f.regions = []; }
+    else f[key] = Array.isArray(f[key]) ? [] : null;
     setFilters(f as unknown as Filters);
   };
   const toggleUnique = (slug: string) => setPicked((p) => (p.includes(slug) ? p.filter((s) => s !== slug) : [...p, slug].slice(0, 12)));
@@ -81,7 +81,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
       <div className="mt-3 flex flex-wrap items-center gap-2">
         {lastSentence && chips.length > 0 && <span className="text-[12px] text-muted">How we read your sentence:</span>}
         {chips.map((c) => (
-          <span key={c.key} className={`inline-flex items-center gap-1 text-[12px] rounded-full px-2.5 py-1 border ${c.hard ? 'bg-navy/5 border-navy/30 text-navy' : 'bg-white border-line text-ink'}`} title={c.hard ? 'Must-have: can remove colleges' : 'Nice-to-have: only changes the order'}>
+          <span key={c.key} className="inline-flex items-center gap-1 text-[12px] rounded-full px-2.5 py-1 border bg-white border-line text-ink">
             {c.label}
             <button type="button" onClick={() => dropChip(c.key)} aria-label={`Remove ${c.label}`} className="text-faint hover:text-ink"><X size={11} /></button>
           </span>
@@ -96,8 +96,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
 
       {active && outcome && (
         <div className="mt-5" aria-live="polite">
-          {outcome.message && <p className="text-[13px] text-amber-900 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mb-4">{outcome.message}</p>}
-          {!outcome.usedClosest && <p className="text-[12px] text-faint mb-3">{hasHard ? `${outcome.exactCount} ${outcome.exactCount === 1 ? 'college fits' : 'colleges fit'} your must-haves.` : `No must-haves picked, so all ${outcome.exactCount} programs are shown, best matches first.`} <span className="text-muted">✓ fits · ✗ doesn't fit · ? we couldn't verify it, so it stays in.</span></p>}
+          <p className="text-[12px] text-faint mb-3">{outcome.fitsAllCount === 0 ? 'Nothing fits every one of your picks. These are the closest.' : `${outcome.fitsAllCount} fit everything you picked.`} <span className="text-muted">✓ fits · ✗ doesn't fit · ? we couldn't verify it, so it stays in.</span></p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {shown.map((r) => {
               const c = bySlug.get(r.slug); const f = facts?.[r.slug];

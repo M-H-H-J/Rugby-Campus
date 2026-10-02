@@ -1,8 +1,9 @@
 // Pure matching engine. No AI, no network. Answers come only from our stored facts.
-// RULE: an unknown/null value NEVER excludes a college. Only HARD filters can drop a college, and only on a clear miss of a known value.
+// RULE: nothing removes a college. A miss is an amber pill. Unknown is grey and never counts against a college.
 import type { CollegeFacts } from './facts';
-import { HARD_KEYS, MAJOR_FIELDS, type Filters } from './filters';
+import { MAJOR_FIELDS, type Filters } from './filters';
 import { costFor, usd } from './cost';
+import { CAMPUS_FEEL_LABEL, CLIMATE_LABEL, SIZE_LABEL, climateBand, fToC, isVeryHot, sizeBand } from './display';
 
 export type Status = 'match' | 'miss' | 'unknown';
 export interface Check {
@@ -24,25 +25,19 @@ export interface Result {
   closest: boolean;       // true when shown only because too few colleges fit every hard filter
 }
 export interface SearchOutcome {
-  active: boolean;        // any filter set at all
-  results: Result[];      // best first
-  exactCount: number;     // colleges passing every hard filter
-  usedClosest: boolean;
-  message: string | null; // plain-English line shown above results
-  relaxHint: { key: string; label: string; wouldAdd: number } | null;
+  active: boolean;
+  results: Result[];      // fitsAll, then close
+  fitsAll: Result[];
+  close: Result[];
+  fitsAllCount: number;
 }
-export const MIN_EXACT = 3;
-export const MAX_CLOSEST_TOTAL = 6;
 
 const TIER_RANK: Record<string, number> = { championship: 0, playoff: 1, competitive: 2, emerging: 3 };
 
 const DIV: Record<string, string> = { ncaa_d1: 'd1', ncaa_d2: 'd2', ncaa_d3: 'd3', naia: 'naia' };
 const DIV_LABEL: Record<string, string> = { d1: 'NCAA D1', d2: 'NCAA D2', d3: 'NCAA D3', naia: 'NAIA' };
 const CONTROL_LABEL: Record<string, string> = { public: 'Public', private_nonprofit: 'Private' };
-const SETTING_LABEL: Record<string, string> = { city: 'City', suburb: 'Suburb', town: 'Town', rural: 'Rural' };
-const SIZE_LABEL: Record<string, string> = { small: 'Small (<3k)', medium: 'Medium (3-10k)', large: 'Large (10-25k)', very_large: 'Very large (25k+)' };
-const FB_LABEL: Record<string, string> = { fbs: 'FBS football', fcs: 'FCS football', d2: 'D2 football', d3: 'D3 football', naia: 'NAIA football', none: 'No football' };
-const CLIMATE_LABEL: Record<string, string> = { mild_winters: 'Mild winters', has_seasons: 'Has seasons', cold_winters: 'Cold winters', hot: 'Hot' };
+const SETTING_LABEL = CAMPUS_FEEL_LABEL;
 const TIER_LABEL: Record<string, string> = { championship: 'Often near the top', playoff: 'Playoff calibre', competitive: 'Competitive', emerging: 'Up and coming' };
 const STATE_NAMES: Record<string, string> = { AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'Washington DC',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming' };
 export const stateName = (c: string) => STATE_NAMES[c] ?? c;
@@ -51,11 +46,10 @@ export const filterLabel = {
   states: (v: string[]) => v.map(stateName).join(' / '),
   regions: (v: string[]) => v.map((x) => x[0].toUpperCase() + x.slice(1)).join(' / '),
   control: (v: string[]) => v.map((x) => CONTROL_LABEL[x] ?? x).join(' / '),
-  setting: (v: string[]) => v.map((x) => SETTING_LABEL[x] ?? x).join(' / '),
+  setting: (v: string[]) => v.map((x) => SETTING_LABEL[x as keyof typeof SETTING_LABEL] ?? x).join(' / '),
   division: (v: string[]) => v.map((x) => DIV_LABEL[x] ?? x).join(' / '),
-  size_band: (v: string[]) => v.map((x) => SIZE_LABEL[x] ?? x).join(' / '),
-  football_level: (v: string[]) => v.map((x) => FB_LABEL[x] ?? x).join(' / '),
-  climate: (v: string[]) => v.map((x) => CLIMATE_LABEL[x] ?? x).join(' / '),
+  size_band: (v: string[]) => v.map((x) => SIZE_LABEL[x as keyof typeof SIZE_LABEL] ?? x).join(' / '),
+  climate: (v: string[]) => v.map((x) => CLIMATE_LABEL[x as keyof typeof CLIMATE_LABEL] ?? x).join(' / '),
   majors: (v: string[]) => v.map((x) => MAJOR_FIELDS[x]?.label ?? x).join(' / '),
   rugby_tier: (v: string[]) => v.map((x) => TIER_LABEL[x] ?? x).join(' / '),
 };
@@ -79,46 +73,36 @@ function confMatches(want: string, have: string | null): boolean {
   return false;
 }
 
-function climateOf(c: CollegeFacts): Set<string> | null {
-  if (c.winter_avg_computed_f == null) return null;
-  const s = new Set<string>();
-  const w = c.winter_avg_computed_f;
-  if (w >= 45) s.add('mild_winters'); else if (w >= 30) s.add('has_seasons'); else s.add('cold_winters');
-  if (c.summer_high_f != null && c.summer_high_f >= 95) s.add('hot');
-  return s;
-}
 
 /** Evaluate one college against the filters. */
 export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
   const out: Check[] = [];
   const push = (x: Check) => out.push(x);
 
-  // ---------- HARD ----------
-  if (f.states.length) {
-    push(c.state ? (f.states.includes(c.state as never) ? { key: 'states', hard: true, status: 'match', label: stateName(c.state) } : { key: 'states', hard: true, status: 'miss', label: `Not in ${filterLabel.states(f.states)}`, detail: `It is in ${stateName(c.state)}.` }) : { key: 'states', hard: true, status: 'unknown', label: 'State unverified' });
-  }
-  if (f.regions.length) {
-    const r = c.region_census?.toLowerCase();
-    push(r ? (f.regions.includes(r as never) ? { key: 'regions', hard: true, status: 'match', label: `${c.region_census} US` } : { key: 'regions', hard: true, status: 'miss', label: `Not ${filterLabel.regions(f.regions)}`, detail: `It is in the ${c.region_census}.` }) : { key: 'regions', hard: true, status: 'unknown', label: 'Region unverified' });
+  if (f.states.length || f.regions.length) {
+    const region = c.region_census?.toLowerCase() ?? '';
+    const stateHit = !!c.state && f.states.includes(c.state as never);
+    const regionHit = !!region && f.regions.includes(region as never);
+    const asked = [f.states.length ? filterLabel.states(f.states) : '', f.regions.length ? `${filterLabel.regions(f.regions)} US` : ''].filter(Boolean).join(' or ');
+    if (!c.state && !region) push({ key: 'where', hard: false, status: 'unknown', label: 'Location unverified' });
+    else if (stateHit || regionHit) push({ key: 'where', hard: false, status: 'match', label: stateHit ? stateName(c.state) : `${c.region_census} US` });
+    else push({ key: 'where', hard: false, status: 'miss', label: `Not in ${asked}`, detail: `It is in ${c.state ? stateName(c.state) : 'an unknown state'}.` });
   }
   if (f.control.length) {
     const v = c.control === 'private_forprofit' ? null : c.control;
-    push(v ? (f.control.includes(v as never) ? { key: 'control', hard: true, status: 'match', label: CONTROL_LABEL[v] } : { key: 'control', hard: true, status: 'miss', label: `${CONTROL_LABEL[v]} (not ${filterLabel.control(f.control)})` }) : { key: 'control', hard: true, status: 'unknown', label: 'Type unverified' });
+    push(v ? (f.control.includes(v as never) ? { key: 'control', hard: false, status: 'match', label: CONTROL_LABEL[v] } : { key: 'control', hard: false, status: 'miss', label: `${CONTROL_LABEL[v]} (not ${filterLabel.control(f.control)})` }) : { key: 'control', hard: false, status: 'unknown', label: 'Type unverified' });
   }
   if (f.setting.length) {
-    push(c.setting ? (f.setting.includes(c.setting) ? { key: 'setting', hard: true, status: 'match', label: SETTING_LABEL[c.setting] } : { key: 'setting', hard: true, status: 'miss', label: `${SETTING_LABEL[c.setting]} setting`, detail: `Campus is classed as ${c.setting}, you asked for ${filterLabel.setting(f.setting).toLowerCase()}.` }) : { key: 'setting', hard: true, status: 'unknown', label: 'Setting unverified' });
+    const feel = c.campus_feel;
+    push(feel ? (f.setting.includes(feel) ? { key: 'setting', hard: false, status: 'match', label: SETTING_LABEL[feel] } : { key: 'setting', hard: false, status: 'miss', label: SETTING_LABEL[feel], detail: `You asked for ${filterLabel.setting(f.setting).toLowerCase()}.` }) : { key: 'setting', hard: false, status: 'unknown', label: 'Campus feel unverified' });
   }
   if (f.division.length) {
     const d = c.athletics_division ? DIV[c.athletics_division] : null;
-    push(d ? (f.division.includes(d as never) ? { key: 'division', hard: true, status: 'match', label: DIV_LABEL[d] } : { key: 'division', hard: true, status: 'miss', label: `${DIV_LABEL[d]} (not ${filterLabel.division(f.division)})` }) : { key: 'division', hard: true, status: 'unknown', label: 'Division unverified' });
+    push(d ? (f.division.includes(d as never) ? { key: 'division', hard: false, status: 'match', label: DIV_LABEL[d] } : { key: 'division', hard: false, status: 'miss', label: `${DIV_LABEL[d]} (not ${filterLabel.division(f.division)})` }) : { key: 'division', hard: false, status: 'unknown', label: 'Division unverified' });
   }
   if (f.size_band.length) {
-    push(c.size_band ? (f.size_band.includes(c.size_band) ? { key: 'size_band', hard: true, status: 'match', label: SIZE_LABEL[c.size_band] } : { key: 'size_band', hard: true, status: 'miss', label: `${SIZE_LABEL[c.size_band]}`, detail: `About ${c.enrollment_undergrad?.toLocaleString() ?? '?'} undergraduates.` }) : { key: 'size_band', hard: true, status: 'unknown', label: 'Size unverified' });
-  }
-
-  // ---------- SOFT ----------
-  if (f.football_level.length) {
-    push(c.football_level ? (f.football_level.includes(c.football_level) ? { key: 'football_level', hard: false, status: 'match', label: FB_LABEL[c.football_level] } : { key: 'football_level', hard: false, status: 'miss', label: FB_LABEL[c.football_level] }) : { key: 'football_level', hard: false, status: 'unknown', label: 'Football level unverified' });
+    const band = sizeBand(c.enrollment_undergrad);
+    push(band ? (f.size_band.includes(band) ? { key: 'size_band', hard: false, status: 'match', label: SIZE_LABEL[band] } : { key: 'size_band', hard: false, status: 'miss', label: SIZE_LABEL[band], detail: `About ${c.enrollment_undergrad?.toLocaleString() ?? '?'} undergraduates.` }) : { key: 'size_band', hard: false, status: 'unknown', label: 'Size unverified' });
   }
   if (f.conference.length) {
     const hay = [c.athletics_conference, c.football_conference];
@@ -136,6 +120,7 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
     else if (cv.amount > max) push({ key: 'max_cost_usd_per_year', hard: false, status: 'miss', label: `${usd(cv.amount - max)} over budget`, gap: cv.amount - max, detail: `${usd(cv.amount)} per year${cv.kind === 'tuition' ? ' (tuition & fees only, so the true cost is higher)' : ''}, before scholarships. Ask the coach what's available.` });
     else if (cv.kind === 'tuition') push({ key: 'max_cost_usd_per_year', hard: false, status: 'unknown', label: 'Total cost unverified', detail: `Tuition & fees ${usd(cv.amount)} fits, but room and board are not in our figure.` });
     else push({ key: 'max_cost_usd_per_year', hard: false, status: 'match', label: `${usd(cv.amount)} / yr`, detail: 'Before scholarships. Ask the coach what\'s available.' });
+    if (c.rugby_aid == null) push({ key: 'rugby_aid', hard: false, status: 'unknown', label: 'Aid: ask the coach', detail: "Rugby recruits often get some aid. The coach can tell you what's possible." });
   }
   if (f.religion && f.religion !== 'any') {
     const g = c.religion_group;
@@ -144,16 +129,21 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
       if (g === 'none') push({ key: 'religion', hard: false, status: 'match', label: 'Not religious' });
       else if (g === 'none_formal') push({ key: 'religion', hard: false, status: 'unknown', label: 'Religious roots, no formal control', detail: c.religious_affiliation ?? undefined });
       else push({ key: 'religion', hard: false, status: 'miss', label: c.religious_affiliation ?? 'Religious' });
+    } else if (f.religion === 'religious') {
+      if (g === 'catholic' || g === 'christian_other' || g === 'other') push({ key: 'religion', hard: false, status: 'match', label: c.religious_affiliation ?? 'Religious' });
+      else if (g === 'none_formal') push({ key: 'religion', hard: false, status: 'unknown', label: 'Religious roots, no formal control', detail: c.religious_affiliation ?? undefined });
+      else push({ key: 'religion', hard: false, status: 'miss', label: 'Not religious' });
     } else if (f.religion === 'catholic') push(g === 'catholic' ? { key: 'religion', hard: false, status: 'match', label: 'Catholic' } : { key: 'religion', hard: false, status: 'miss', label: g === 'none' ? 'Not religious' : (c.religious_affiliation ?? 'Other') });
     else if (f.religion === 'christian_other') push(g === 'christian_other' ? { key: 'religion', hard: false, status: 'match', label: c.religious_affiliation ?? 'Christian' } : { key: 'religion', hard: false, status: 'miss', label: g === 'none' ? 'Not religious' : (c.religious_affiliation ?? 'Other') });
   }
   if (f.climate.length) {
-    const cs = climateOf(c);
-    if (!cs) push({ key: 'climate', hard: false, status: 'unknown', label: 'Climate unverified' });
+    const band = climateBand(c.winter_avg_computed_f);
+    if (!band || c.winter_avg_computed_f == null) push({ key: 'climate', hard: false, status: 'unknown', label: 'Climate unverified' });
     else {
-      const hit = f.climate.some((x) => cs.has(x));
-      const t = `${c.climate_tag ?? ''}${c.winter_avg_computed_f != null ? ` (winter avg ${Math.round(c.winter_avg_computed_f)}°F)` : ''}`;
-      push(hit ? { key: 'climate', hard: false, status: 'match', label: c.climate_tag ?? 'Climate', detail: t } : { key: 'climate', hard: false, status: 'miss', label: c.climate_tag ?? 'Other climate', detail: t });
+      const winter = Math.round(c.winter_avg_computed_f);
+      const label = `${CLIMATE_LABEL[band]} (${winter}°F / ${fToC(winter)}°C)`;
+      push(f.climate.includes(band) ? { key: 'climate', hard: false, status: 'match', label } : { key: 'climate', hard: false, status: 'miss', label });
+      if (isVeryHot(c) && f.climate.includes('warm_winters')) push({ key: 'very_hot', hard: false, status: 'unknown', label: 'Very hot summers', detail: 'Summer highs of 95°F (35°C) or more.' });
     }
   }
   if (f.majors.length) {
@@ -184,65 +174,33 @@ function toResult(slug: string, c: CollegeFacts, f: Filters): Result {
 const byRank = (a: Result, b: Result, facts: Record<string, CollegeFacts>) =>
   b.score - a.score || (TIER_RANK[facts[a.slug].rugby_tier ?? 'emerging'] ?? 9) - (TIER_RANK[facts[b.slug].rugby_tier ?? 'emerging'] ?? 9) || facts[a.slug].name.localeCompare(facts[b.slug].name);
 
-export function activeHardKeys(f: Filters): (typeof HARD_KEYS)[number][] {
-  return HARD_KEYS.filter((k) => (f[k] as unknown[]).length > 0);
-}
+const missCount = (r: Result) => r.checks.filter((x) => x.status === 'miss').length;
 
 export function search(facts: Record<string, CollegeFacts>, f: Filters): SearchOutcome {
-  const slugs = Object.keys(facts);
-  const all = slugs.map((s) => toResult(s, facts[s], f));
-  const anyCheck = all.some((r) => r.checks.length > 0);
-  if (!anyCheck) {
-    return { active: false, results: all.sort((a, b) => byRank(a, b, facts)), exactCount: all.length, usedClosest: false, message: null, relaxHint: null };
-  }
-  const exact = all.filter((r) => r.hardMisses.length === 0).sort((a, b) => byRank(a, b, facts));
-  let results = exact;
-  let usedClosest = false;
-  let message: string | null = null;
-  let relaxHint: SearchOutcome['relaxHint'] = null;
-  const hardKeys = activeHardKeys(f);
-  if (exact.length < MIN_EXACT) {
-    usedClosest = true;
-    const need = Math.max(0, MAX_CLOSEST_TOTAL - exact.length);
-    const near = all.filter((r) => r.hardMisses.length > 0)
-      .sort((a, b) => a.hardMisses.length - b.hardMisses.length || byRank(a, b, facts))
-      .slice(0, need).map((r) => ({ ...r, closest: true }));
-    results = [...exact, ...near];
-    const want = hardKeys.map((k) => `${k === 'states' ? 'state' : k === 'regions' ? 'region' : k === 'size_band' ? 'size' : k}: ${(filterLabel as Record<string, (v: string[]) => string>)[k](f[k] as string[])}`).join(', ');
-    message = exact.length === 0
-      ? `Nothing in our list fits every one of your must-haves (${want}). These are the closest. What didn't fit is shown on each card.`
-      : `Only ${exact.length} of our ${slugs.length} colleges fit everything (${want}). The rest are the closest matches. What didn't fit is shown on each card.`;
-    // which single hard filter, if relaxed, brings in the most colleges?
-    let best: { key: string; wouldAdd: number } | null = null;
-    for (const k of hardKeys) {
-      const relaxed = { ...f, [k]: [] } as Filters;
-      const n = slugs.filter((s) => toResult(s, facts[s], relaxed).hardMisses.length === 0).length - exact.length;
-      if (n > 0 && (!best || n > best.wouldAdd)) best = { key: k, wouldAdd: n };
-    }
-    if (best) {
-      const lab = (filterLabel as Record<string, (v: string[]) => string>)[best.key](f[best.key as keyof Filters] as string[]);
-      relaxHint = { key: best.key, label: lab, wouldAdd: best.wouldAdd };
-      message += ` Dropping "${lab}" would add ${best.wouldAdd} more.`;
-    }
-  }
-  return { active: true, results, exactCount: exact.length, usedClosest, message, relaxHint };
+  const all = Object.keys(facts).map((s) => toResult(s, facts[s], f));
+  const active = all.some((r) => r.checks.length > 0);
+  const fitsAll = all.filter((r) => missCount(r) === 0).sort((a, b) => byRank(a, b, facts));
+  const close = all.filter((r) => missCount(r) > 0).sort((a, b) => missCount(a) - missCount(b) || byRank(a, b, facts));
+  const idle = all.sort((a, b) => byRank(a, b, facts));
+  return { active, fitsAll, close, fitsAllCount: fitsAll.length, results: active ? [...fitsAll, ...close] : idle };
 }
 
-export function describeFilters(f: Filters): { key: string; label: string; hard: boolean }[] {
-  const o: { key: string; label: string; hard: boolean }[] = [];
-  if (f.states.length) o.push({ key: 'states', label: filterLabel.states(f.states), hard: true });
-  if (f.regions.length) o.push({ key: 'regions', label: filterLabel.regions(f.regions) + ' US', hard: true });
-  if (f.control.length) o.push({ key: 'control', label: filterLabel.control(f.control), hard: true });
-  if (f.setting.length) o.push({ key: 'setting', label: filterLabel.setting(f.setting), hard: true });
-  if (f.division.length) o.push({ key: 'division', label: filterLabel.division(f.division), hard: true });
-  if (f.size_band.length) o.push({ key: 'size_band', label: filterLabel.size_band(f.size_band), hard: true });
-  if (f.football_level.length) o.push({ key: 'football_level', label: filterLabel.football_level(f.football_level), hard: false });
-  if (f.conference.length) o.push({ key: 'conference', label: f.conference.join(' / '), hard: false });
-  if (f.max_cost_usd_per_year != null) o.push({ key: 'max_cost_usd_per_year', label: 'Up to ' + usd(f.max_cost_usd_per_year) + '/yr', hard: false });
-  if (f.religion && f.religion !== 'any') o.push({ key: 'religion', label: ({ none_only: 'Not religious', catholic: 'Catholic', christian_other: 'Other Christian' } as Record<string, string>)[f.religion], hard: false });
-  if (f.climate.length) o.push({ key: 'climate', label: filterLabel.climate(f.climate), hard: false });
-  if (f.majors.length) o.push({ key: 'majors', label: filterLabel.majors(f.majors), hard: false });
-  if (f.rugby_tier.length) o.push({ key: 'rugby_tier', label: filterLabel.rugby_tier(f.rugby_tier), hard: false });
-  if (f.rugby_program) o.push({ key: 'rugby_program', label: f.rugby_program === 'varsity' ? 'Varsity rugby' : 'Club rugby', hard: false });
+export function describeFilters(f: Filters): { key: string; label: string }[] {
+  const o: { key: string; label: string }[] = [];
+  if (f.states.length || f.regions.length) {
+    const parts = [f.states.length ? filterLabel.states(f.states) : '', f.regions.length ? `${filterLabel.regions(f.regions)} US` : ''].filter(Boolean);
+    o.push({ key: 'where', label: parts.join(' or ') });
+  }
+  if (f.control.length) o.push({ key: 'control', label: filterLabel.control(f.control) });
+  if (f.setting.length) o.push({ key: 'setting', label: filterLabel.setting(f.setting) });
+  if (f.division.length) o.push({ key: 'division', label: filterLabel.division(f.division) });
+  if (f.size_band.length) o.push({ key: 'size_band', label: filterLabel.size_band(f.size_band) });
+  if (f.conference.length) o.push({ key: 'conference', label: f.conference.join(' / ') });
+  if (f.max_cost_usd_per_year != null) o.push({ key: 'max_cost_usd_per_year', label: 'Up to ' + usd(f.max_cost_usd_per_year) + '/yr' });
+  if (f.religion && f.religion !== 'any') o.push({ key: 'religion', label: ({ none_only: 'Not religious', religious: 'Religious college', catholic: 'Catholic', christian_other: 'Other Christian' } as Record<string, string>)[f.religion] });
+  if (f.climate.length) o.push({ key: 'climate', label: filterLabel.climate(f.climate) });
+  if (f.majors.length) o.push({ key: 'majors', label: filterLabel.majors(f.majors) });
+  if (f.rugby_tier.length) o.push({ key: 'rugby_tier', label: filterLabel.rugby_tier(f.rugby_tier) });
+  if (f.rugby_program) o.push({ key: 'rugby_program', label: f.rugby_program === 'varsity' ? 'Varsity rugby' : 'Club rugby' });
   return o;
 }
