@@ -50,11 +50,8 @@ export default function Colleges() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
       {/* Header row */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-        <div className="flex items-baseline gap-3">
-          <h1 className="font-heading text-[22px] md:text-[26px] text-ink">Programs</h1>
-          <span className="text-[13px] text-faint">{SEASON_LABEL}</span>
-        </div>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+        <p className="text-[13px] text-muted">{SEASON_LABEL}</p>
         <Link href="/map" className="btn inline-flex items-center gap-1.5 self-start md:self-auto bg-white border border-line text-ink px-3 py-1.5 rounded-md text-[12px] font-medium hover:border-navy/30">
           <MapIcon size={14} /> Map
         </Link>
