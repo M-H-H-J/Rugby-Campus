@@ -2,6 +2,7 @@ import { useRoute, Link } from 'wouter';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
+import { CONTACT_EMAIL } from '@/config';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import { mlrSummary } from '@/lib/search/display';
@@ -215,6 +216,14 @@ export default function CollegeDetail() {
                 </a>
               </p>
             )}
+            <p className="mt-4 text-[13px]">
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
+                className="text-navy font-medium"
+              >
+                Spot something wrong? Tell us
+              </a>
+            </p>
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
               <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">

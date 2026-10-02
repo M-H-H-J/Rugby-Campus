@@ -136,6 +136,7 @@ for (const c of colleges) {
     ${c.badges.length ? `<p><strong>${c.badges.map(esc).join(' · ')}</strong></p>` : ''}
     <h2>The rugby</h2><dl>${facts.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>
     ${mlr.drafted > 0 ? `<p>${esc(mlr.breakdown)}${c.mlrNote ? ` ${esc(c.mlrNote)}` : ''} ${esc(mlr.explainer)}</p><p>${esc(mlr.sources)}</p>` : ''}
+    <p><a href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${c.name}`)}&amp;body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${c.slug}:\n\n`)}">Spot something wrong? Tell us</a></p>
     ${factsHtml(c.slug)}
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
     ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)} — email available on the page after a free one-time signup.</p>` : ''}

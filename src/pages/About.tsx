@@ -86,6 +86,7 @@ export default function About() {
           </a>{' '}
           — I reply personally.
         </p>
+        <p className="mt-3 text-[14px] text-muted">Rugby Campus is a free tool. We don't represent players or take commission.</p>
       </section>
 
       <div className="flex items-center justify-between py-6 border-t border-line">

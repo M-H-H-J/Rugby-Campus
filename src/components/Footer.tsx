@@ -54,7 +54,7 @@ export default function Footer() {
             <h4 className="text-[11px] font-semibold text-white/40 uppercase tracking-caps mb-3">Stay connected</h4>
             <p className="text-white/45 text-xs mb-3">Program updates and recruitment tips.</p>
             {done ? (
-              <p className="inline-flex items-center gap-1.5 text-green-400 text-xs"><Check size={13} /> Subscribed</p>
+              <p className="inline-flex items-center gap-1.5 text-white text-xs"><Check size={13} /> Subscribed</p>
             ) : (
               <form onSubmit={subscribe} className="flex gap-1.5">
                 <input
@@ -68,6 +68,7 @@ export default function Footer() {
           </div>
         </div>
 
+        <p className="text-white/45 text-[12px] mb-4">Rugby Campus is a free tool. We don't represent players or take commission.</p>
         <div className="border-t border-white/10 pt-5 flex flex-col gap-3">
           <p className="text-white/45 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
           <div className="flex flex-col sm:flex-row justify-between gap-3">
