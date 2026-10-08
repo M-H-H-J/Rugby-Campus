@@ -21,6 +21,7 @@ export default {
         'tier-gold': '#ffb700',
         'tier-navy': '#00458c',
         'tier-terra': '#b5573a',
+        'tier-grey': '#8b98a8',
       },
       borderRadius: {
         DEFAULT: '6px',

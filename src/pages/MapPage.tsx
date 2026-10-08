@@ -51,13 +51,9 @@ export default function MapPage() {
         </div>
       </div>
 
-      <div className="bg-white px-4 py-2 border-b border-line">
-        <TierNote className="max-w-7xl mx-auto" />
-      </div>
-
       {/* Map with explicit height */}
       <div className="relative">
-        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 190px)" />
+        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 150px)" />
         <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2 max-w-[280px]" style={{ zIndex: 500 }}>
           <div className="space-y-1">
             {TIER_ORDER.map((tier) => (
@@ -67,6 +63,10 @@ export default function MapPage() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="bg-white px-4 py-2 border-t border-line">
+        <TierNote className="max-w-7xl mx-auto" />
       </div>
 
       {/* Attribution */}

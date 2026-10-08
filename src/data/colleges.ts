@@ -46,14 +46,14 @@ export const TIER_HOLLOW: Record<Tier, boolean> = {
   championship: false,
   playoff: false,
   competitive: false,
-  emerging: true,
+  emerging: false,
 };
 
 export const TIER_DOT_CLASS: Record<Tier, string> = {
   championship: 'bg-tier-gold',
   playoff: 'bg-tier-navy',
   competitive: 'bg-tier-terra',
-  emerging: 'bg-white border-2 border-faint',
+  emerging: 'bg-tier-grey',
 };
 
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";
