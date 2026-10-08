@@ -102,8 +102,8 @@ describe('soft filters never hide a college', () => {
       if (c.campus_feel) feels[c.campus_feel]++;
     }
     expect(sizes).toEqual({ small: 16, medium: 18, big: 14 });
-    expect(climates).toEqual({ warm_winters: 15, cool_winters: 23, cold_winters: 10 });
-    expect(feels).toEqual({ city: 20, college_town: 9, suburb: 15, country: 4 });
+    expect(climates).toEqual({ warm_winters: 16, cool_winters: 23, cold_winters: 9 });
+    expect(feels).toEqual({ city: 19, college_town: 9, suburb: 16, country: 4 });
   });
   it('flags very hot summers at Grand Canyon and Arizona, not Cal', () => {
     expect(isVeryHot(F['grand-canyon-university'])).toBe(true);
@@ -157,8 +157,10 @@ describe('majors, climate, tiers', () => {
     const e = (slug: string, climate: string) => evaluate(slug, F[slug], base({ climate: [climate] }))[0].status;
     expect(e('university-of-california-los-angeles-ucla', 'warm_winters')).toBe('match');
     expect(e('grand-canyon-university', 'warm_winters')).toBe('match');
-    expect(e('university-of-st-thomas-minnesota', 'cold_winters')).toBe('match');
-    expect(e('university-of-st-thomas-minnesota', 'warm_winters')).toBe('miss');
+    expect(e('dartmouth-college', 'cold_winters')).toBe('match');
+    expect(e('dartmouth-college', 'warm_winters')).toBe('miss');
+    expect(e('st-thomas-university-florida', 'warm_winters')).toBe('match');
+    expect(e('st-thomas-university-florida', 'cold_winters')).toBe('miss');
   });
   it('conference aliases', () => {
     expect(evaluate('x', F['university-of-utah'], base({ conference: ['Big 12'] }))[0].status).toBe('match');
