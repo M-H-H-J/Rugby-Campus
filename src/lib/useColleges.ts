@@ -5,18 +5,28 @@ import { getSupabase } from '@/lib/supabase';
 // Lookup bundled data by slug for merging with Supabase
 const bundledBySlug = new Map(bundled.map((c) => [c.slug, c]));
 
-/** Bundle wins for MLR facts and for the description (the repo is the source of truth for both). */
+/** Programs that left the list. Their old Supabase rows are hidden until Hugh deletes them with the SQL block. */
+export const RETIRED_SLUGS: ReadonlySet<string> = new Set(['university-of-st-thomas-minnesota']);
+
+export function dropRetired<T extends { slug?: unknown }>(rows: T[]): T[] {
+  return rows.filter((r) => !RETIRED_SLUGS.has(String(r.slug)));
+}
+
+/** Bundle wins for MLR facts, the description, league labels, badges and honours (the repo is the source of truth for all of them). */
 export function preferBundledMlr(
-  remote: { badges?: unknown; description?: unknown; draft_picks?: unknown; draftPicks?: unknown },
+  remote: { badges?: unknown; description?: unknown; draft_picks?: unknown; draftPicks?: unknown; affiliation?: unknown; conference?: unknown; achievements?: unknown },
   local: College | undefined,
 ) {
   const remoteBadges = Array.isArray(remote.badges)
     ? remote.badges.filter((b): b is string => typeof b === 'string' && !/MLR/i.test(b))
     : null;
-  const bundledBadge = local?.badges.find((b) => /MLR/i.test(b));
-  const badges = remoteBadges
-    ? (bundledBadge ? [...remoteBadges, bundledBadge] : remoteBadges)
-    : (local?.badges ?? []);
+  // Badges and honours were fact-checked in the repo (Oct 2026): the bundle wins whenever it has the program.
+  const badges = local ? local.badges : (remoteBadges ?? []);
+  const achievements = local
+    ? local.achievements
+    : (Array.isArray(remote.achievements) ? remote.achievements.filter((a): a is string => typeof a === 'string') : []);
+  const affiliation = local?.affiliation ?? (typeof remote.affiliation === 'string' ? remote.affiliation : '');
+  const conference = local?.conference ?? (typeof remote.conference === 'string' ? remote.conference : '');
   // Descriptions were rewritten in the repo (Oct 2026, facts only). The repo wins whenever it has the program;
   // Supabase is only used for programs that aren't in the bundle.
   const remoteDesc = typeof remote.description === 'string' ? remote.description : '';
@@ -31,6 +41,9 @@ export function preferBundledMlr(
     mlrNotYet: local?.mlrNotYet ?? 0,
     ...(local?.mlrNote ? { mlrNote: local.mlrNote } : {}),
     badges,
+    achievements,
+    affiliation,
+    conference,
     description,
   };
 }
@@ -53,9 +66,10 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
     let cancelled = false;
     (async () => {
       const { data: rows, error } = await sb.from('colleges').select('*').order('name');
-      if (!cancelled && !error && rows && rows.length > 0) {
+      const live = rows ? dropRetired(rows as Record<string, unknown>[]) : [];
+      if (!cancelled && !error && live.length > 0) {
         const seen = new Set<string>();
-        const mapped = rows.map((r: Record<string, unknown>) => {
+        const mapped = live.map((r: Record<string, unknown>) => {
           const slug = r.slug as string;
           seen.add(slug);
           const local = bundledBySlug.get(slug);
