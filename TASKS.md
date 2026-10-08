@@ -4,9 +4,9 @@ Priority order. Each task states its own definition of done.
 Read AGENTS.md first.
 
 ## 1. Pre-launch verification (blocking go-live)
-- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 62 pages + sitemap.xml + llms-full.txt".
+- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 61 pages + sitemap.xml + llms-full.txt" (61 with 47 programs).
 - [ ] Confirm `vercel.json` exists and contains the SPA rewrite.
-- [ ] Confirm `public/robots.txt` still contains `Disallow: /`.
+- [ ] Confirm `public/robots.txt` allows crawlers and lists the sitemap (public since Oct 2026).
 - [ ] Open every route in dev and confirm no console errors:
       / /map /colleges /learn /training /about /work-with-me /for-coaches
       plus one college page and one article page.

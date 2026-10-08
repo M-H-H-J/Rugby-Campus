@@ -52,7 +52,7 @@ src/data/collegeSearchFacts.json  generated from rugby-campus-search/college-sea
 scripts/prerender.mjs       post-build: static HTML per route + JSON-LD + sitemap + llms-full.txt
 scripts/data-entry.ts       bundles TS data for the prerender script
 public/                     logo.png, logo-white.png, icon.png, favicons,
-                            robots.txt (currently BLOCKING), robots.public.txt, llms.txt
+                            robots.txt (public: allows crawlers, lists the sitemap), llms.txt
 vercel.json                 SPA rewrites + asset caching
 supabase-setup.sql          full schema + all 40 rows + idempotent updates
 ```
@@ -69,7 +69,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 
 1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug. The rewrite excludes `/api/` on purpose.
 2. **`scripts/prerender.mjs`** — it is the entire SEO and AI-visibility layer. If you change routes or data shape, update this script in the same change.
-3. **`public/robots.txt`** currently contains `Disallow: /` **on purpose** — the site is deliberately private pre-launch. Never "fix" this. Going public is a manual step by Hugh (swap in `robots.public.txt`).
+3. **`public/robots.txt`** is public since the Oct 2026 launch fixes (allows all crawlers, AI crawlers named, sitemap listed). Don't change it back to `Disallow: /` unless Hugh asks.
 4. **`src/config.ts`** — contains live Supabase values. Never commit blank strings over them. The anon key is public-by-design and protected by RLS; that is not a leak.
 5. **`src/data/us-map.ts`** — pre-projected path data. Don't regenerate or "optimise".
 6. **npm audit warnings** — build-tooling only, not shipped to users. Do not run `npm audit fix`; it breaks the build.
@@ -103,9 +103,9 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 
 ## Data rules
 
-- Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff calibre, navy `#00458c`), `competitive` (Competitive, terracotta `#b5573a`), `emerging` (Up and coming, grey ring `#8b98a8`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
+- Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff caliber, navy `#00458c`), `competitive` (Competitive, terracotta `#b5573a`), `emerging` (Up and coming, grey ring `#8b98a8`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
-- **Never invent** coach names, emails, records, scholarship claims or draft numbers. 12 programs have empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
+- **Never invent** coach names, emails, records, scholarship claims or draft numbers. Some programs have an empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
 - Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington discontinued its program April 2025 (deliberately excluded); UCLA is dual NCR D1 / CRAA D1A for 2026–27; Iona University (NCR D1AA) was dropped from the curated list in Oct 2026; St. Thomas University (Miami Gardens, Florida; CRAA D1A Independent, 2025 D1AA champions) replaced the University of St. Thomas (Minnesota) in Oct 2026, whose team plays lower-level NCR (Northern Lights); MLR contracted to 6 teams for 2026 but the College Draft continues.
 
 ## SEO / AI visibility
@@ -116,10 +116,10 @@ Every route is prerendered to real HTML with unique title, meta description, can
 
 ## Current state
 
-Deployed to Vercel, **private** (robots blocked), custom domain not yet attached.
+Deployed to Vercel; robots.txt is public (launch, Oct 2026); custom domain not yet attached.
 
 Open work, roughly in priority order:
-1. Fill the 12 empty coach records (Hugh is verifying; do not invent).
+1. Fill the empty coach records (Hugh is verifying; do not invent). SETUP-GUIDE.md lists them.
 2. Replace 40 Unsplash stock images with correctly-attributed Wikimedia Commons campus photos, or Hugh's own photography.
 3. Write the three stub guides in `articles.ts` (they currently start with "Coming soon" — that prefix is how the UI detects stubs).
 4. Women's rugby: `gender` field exists on every record and in the schema; the Colleges page has a disabled "Women's — soon" toggle. Enabling means adding rows with `gender: 'womens'` and activating the toggle.
