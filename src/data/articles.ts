@@ -41,7 +41,7 @@ American college rugby has two main governing bodies at the top level. Learning 
 
 **CRAA D1A** (College Rugby Association of America) runs a **spring** 15s championship playoff. In 2026, Cal beat Navy in the final in Indianapolis and went back-to-back. Western Washington won the 2025–26 D1AA title and moved up to D1A for 2026–27, and St. Thomas University (Florida), the 2025 D1AA champions, is in its second D1A season.
 
-**NCR D1** (National Collegiate Rugby) runs a **fall** 15s championship. St. Bonaventure won the 2025 title over Queens. Walsh University — which inherited the Notre Dame College program that won the 2023 title — is a consistent contender. For **2026–27, UCLA has moved from CRAA D1A to NCR D1**, where it plays as an independent.
+**NCR D1** (National Collegiate Rugby) runs a **fall** 15s championship. St. Bonaventure won the 2025 title over Queens. Walsh University — which inherited the Notre Dame College program that won the 2023 title — is a consistent contender. For **2026–27, UCLA plays both NCR D1 and CRAA D1A**.
 
 Honest strength take: the very top of D1A is generally stronger than the top of NCR D1. The middle of both divisions is closer than people think. That is all — no guesses about who "develops faster" on which bench.
 
@@ -55,7 +55,7 @@ Honest strength take: the very top of D1A is generally stronger than the top of 
 
 **D2** covers a broad range of club-level programs. Rugby may be less intense; many sit at strong academic schools and offer a good balance of rugby and study.
 
-Some schools compete under one body, some under both, and the landscape keeps evolving. UCLA moving from CRAA D1A to NCR D1 for 2026–27 is the clearest recent example.
+Some schools compete under one body, some under both, and the landscape keeps evolving. UCLA playing both NCR D1 and CRAA D1A in 2026–27 is the clearest current example.
 
 ## Top D1A programs
 
@@ -117,7 +117,7 @@ Best always changes — teams rotate. Right now, **Cal** is the best 15s college
 We will not publish a confident "who offers" list until verified with coaches. Soft rule: some varsity rugby schools **may have limited** athletic aid for rugby; many club programs rely on academic aid. Ask each coach.
 
 **What is the difference between D1A and NCR D1?**
-CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship under a separate governing body. Top of D1A is generally stronger; the middle overlaps. Programs can compete under one or both, and they switch: UCLA moved from CRAA D1A to NCR D1 for 2026–27.
+CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship under a separate governing body. Top of D1A is generally stronger; the middle overlaps. Programs can compete under one or both — UCLA is doing both in 2026–27.
 
 **Can international students play college rugby in the USA?**
 Yes. Programs recruit from Australia, New Zealand, the UK, Ireland, South Africa, and other nations. You can email coaches directly — every Rugby Campus profile includes a coach contact. Agencies can help and are often expensive; I used one. Use an agency **and** this site if that is your path. Do not treat this tool as anti-agency.
@@ -282,13 +282,13 @@ I went through the pathway as a recruit from Australia, then later as a coach. U
 
 ## Where to play rugby in America — the honest map
 
-A commonly cited estimate is **roughly 900** college rugby programs — treat that as an estimate, **not a hard census**. A few dozen sit at the top of the main national competitions. Rugby Campus curates about **48** of the stronger / more relevant ones so you can actually browse them.
+A commonly cited estimate is **roughly 900** college rugby programs — treat that as an estimate, **not a hard census**. A few dozen sit at the top of the main national competitions. Rugby Campus curates about **47** of the stronger / more relevant ones so you can actually browse them.
 
 Two main governing bodies at the top:
 
 - **CRAA D1A** — spring 15s championship path.
 - **NCR D1** — fall 15s championship path.
-- Some schools sit lower or under both. For **2026–27, UCLA moved from CRAA D1A to NCR D1** (a fall season).
+- Some schools sit lower or under both. For **2026–27, UCLA is doing both** (NCR D1 and CRAA D1A).
 
 We do **not** publish a numbered ranking. Lists disagree — Goff, NCR, CRAA. See [why rankings lie](/learn/why-college-rugby-rankings-lie). “Where should I play” = fit (level, academics, cost, climate, coach, game time), not last week’s poll. Start on the [map](/map) and [colleges](/colleges); dig into [Best rugby colleges](/learn/best-rugby-colleges-usa) for who is strong right now.
 
@@ -348,7 +348,7 @@ Wherever the fit is real — competition level, academics, cost, climate, coach,
 Yes. Programs recruit from Australia, New Zealand, the UK, Ireland, South Africa, and other nations. Email coaches directly. Army/Navy are generally closed to internationals. Agencies can help; I used one. Use an agency **and** this site if you want both.
 
 **How many college rugby programs are there?**
-Roughly **900** is a commonly cited estimate, not a hard census. A few dozen sit at the top across CRAA D1A and NCR D1. Rugby Campus focuses on about **48** curated programs.
+Roughly **900** is a commonly cited estimate, not a hard census. A few dozen sit at the top across CRAA D1A and NCR D1. Rugby Campus focuses on about **47** curated programs.
 
 **Do I need to be scouted?**
 No. Cold recruiting is uncommon unless a coach has seen you. Take it into your own hands — film + short email is enough to get a look.

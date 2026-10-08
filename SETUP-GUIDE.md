@@ -103,7 +103,7 @@ From now on, any change you push to GitHub redeploys automatically.
 
 ## What's already built in (nothing to do)
 
-- 48 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
+- 47 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
 - Interactive OpenStreetMap with street-level zoom
 - Email capture on 4 touchpoints, all writing to your database
 - 3 full articles + 3 "notify me" stubs (each stub also captures emails)
@@ -118,11 +118,11 @@ Ask Cursor's AI chat (Cmd+L): *"this project won't start, here's the error: [pas
 
 ## Part 5 — 2026–27 data update (do this once)
 
-The season rollover changed some data (UCLA moved to NCR D1; Western Washington replaces AIC). Your Supabase database still has the old rows, and the live site reads from Supabase first. To sync:
+The season rollover changed some data (UCLA is dual NCR D1 / CRAA, the same idea as Indiana; Western Washington replaces AIC). Your Supabase database still has the old rows, and the live site reads from Supabase first. To sync:
 
 1. Supabase → SQL Editor → paste the whole of `supabase-setup.sql` again → Run.
    It's safe to re-run: existing rows are skipped, the update section at the bottom applies the changes.
-2. Refresh the site. UCLA now shows NCR D1 and Western Washington appears in the Pacific Northwest.
+2. Refresh the site. UCLA now shows as dual NCR D1 / CRAA and Western Washington appears in the Pacific Northwest.
 
 ## Part 6 — Going public (when you're ready)
 
