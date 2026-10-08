@@ -578,3 +578,15 @@ update colleges set coach_name='Maxwell Hamilton', coach_email='mhamilton@wheeli
 update colleges set conference='Independent', coach_name='Frank McKinney', coach_email='' where slug='wingate-university';
 update colleges set coach_name='Pete Malcolm', coach_email='' where slug='the-ohio-state-university';
 update colleges set coach_name='Adam Roberts', coach_email='' where slug='western-washington-university';
+
+-- ── Correction UCLA/Iona 2026-10-07 (drop Iona; UCLA dual; Kutztown Jeff Duke; Cal Poly personal email; Queens confirm; safe to re-run). HUGH ONLY: run in the Supabase SQL Editor after the PR is merged, after the walkthrough and follow-up blocks above. ──
+-- 1. Remove Iona from the live directory (NCR D1AA; out of the curated top-level list).
+delete from colleges where slug='iona-university';
+-- 2. UCLA is dual NCR D1 and CRAA D1A (same label pattern as Indiana).
+update colleges set affiliation='NCR D1 / CRAA dual', description='UCLA plays both NCR Division 1 and CRAA D1A for 2026–27. In 2025–26 it played CRAA D1A, going 5–2 in the southern half of the California Conference. Home games are at Wallis Annenberg Stadium, and the team runs through UCLA Club Sports.' where slug='university-of-california-los-angeles-ucla';
+-- 3. Kutztown head coach stays Jeff Duke. Live email was blank — leave blank (do not invent).
+update colleges set coach_name='Jeff Duke', coach_email='' where slug='kutztown-university';
+-- 4. Cal Poly: keep the personal sbcglobal email already on the live row.
+update colleges set coach_email='ob13@sbcglobal.net' where slug='california-polytechnic-state-university';
+-- 5. Queens: confirm Tyree Reed.
+update colleges set coach_name='Tyree Reed', coach_email='reedt2@queens.edu' where slug='queens-university-of-charlotte';
