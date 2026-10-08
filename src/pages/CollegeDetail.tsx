@@ -121,20 +121,6 @@ export default function CollegeDetail() {
             <section>
               <h2 className="font-heading text-[28px] text-ink mb-1.5">Weather</h2>
               <p className="text-[14px] text-muted mb-5">{college.weatherSummary}</p>
-              <div className="flex items-end gap-1 h-32 border-b border-ink" aria-hidden="true">
-                {college.monthlyTemps.map((t) => {
-                  const maxF = Math.max(...college.monthlyTemps.map((m) => m.hF));
-                  return (
-                    <div key={t.month} className="flex-1 flex flex-col justify-end h-full">
-                      <div className="bg-navy/35" style={{ height: `${Math.max(4, (t.lF / maxF) * 100)}%` }} />
-                      <div className="bg-navy" style={{ height: `${Math.max(4, ((t.hF - t.lF) / maxF) * 100)}%` }} />
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex gap-1 mb-6" aria-hidden="true">
-                {college.monthlyTemps.map((t) => <span key={t.month} className="flex-1 text-center text-[10px] text-faint">{t.month}</span>)}
-              </div>
               <div className="overflow-x-auto -mx-1 px-1">
                 <table className="w-full text-[12px] border-t border-line">
                   <thead>
@@ -191,7 +177,14 @@ export default function CollegeDetail() {
               ))}
             </dl>
             <p className="mt-3 text-[12px] text-faint leading-relaxed">
-              Varsity/Club labels come from university athletics pages or published designations where possible — verify with the school if unclear.
+              Program type is our best reading of each school's own pages and could be wrong.{' '}
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
+                className="text-navy font-medium"
+              >
+                Tell us
+              </a>
+              .
             </p>
             {mlr.drafted > 0 && (
               <div className="mt-3 space-y-2 text-[12px] text-muted leading-relaxed">
@@ -204,7 +197,7 @@ export default function CollegeDetail() {
             <div className="mt-6">
               <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} />
             </div>
-            <p className="mt-4 text-[13px]">
+            <p className="mt-5 text-[13px]">
               <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
                 University website <ExternalLink size={13} />
               </a>

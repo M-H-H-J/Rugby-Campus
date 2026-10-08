@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Mail, Lock, X, Check } from 'lucide-react';
+import { Lock, X, Check } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 
 const STORAGE_KEY = 'rc_unlocked';
@@ -33,12 +33,12 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
         <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'To be confirmed'}</p>
         <div className="pt-4 border-t border-line">
           {unlocked ? (
-            <div className="flex items-center gap-2">
-              <Mail size={14} className="text-faint flex-shrink-0" />
+            <div className="rounded-md border border-navy/25 bg-navy/[0.04] px-3 py-3">
+              <p className="text-[11px] uppercase tracking-caps text-faint">Coach email</p>
               {coachEmail ? (
-                <a href={`mailto:${coachEmail}`} className="text-navy text-[14px] font-medium hover:text-navy-deep break-all">{coachEmail}</a>
+                <a href={`mailto:${coachEmail}`} className="text-[15px] font-semibold text-navy break-all">{coachEmail}</a>
               ) : (
-                <span className="text-faint text-[13px] italic">Email being verified — check back soon</span>
+                <span className="text-[15px] font-semibold text-navy">Email being verified — check back soon</span>
               )}
             </div>
           ) : (
@@ -72,7 +72,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
             ) : (
               <>
                 <p className="font-heading text-[24px] text-ink mb-2">Unlock coach emails</p>
-                <p className="text-muted text-[13.5px] leading-relaxed mb-6">One email unlocks coach contacts across every college. Free, forever. No spam.</p>
+                <p className="text-muted text-[13.5px] leading-relaxed mb-6">One email unlocks coach contacts across every college. No spam.</p>
                 <form onSubmit={handleUnlock}>
                   <input
                     type="email" value={email} onChange={(e) => setEmail(e.target.value)}
