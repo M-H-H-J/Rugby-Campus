@@ -20,12 +20,21 @@ describe('preferBundledMlr', () => {
     expect(merged.description).toBe(life.description);
   });
 
-  it('leaves a description alone when it does not quote a draft count', () => {
+  it('always uses the bundled description when the program is in the bundle', () => {
     const merged = preferBundledMlr({
       draft_picks: 8,
       badges: [],
-      description: 'A short campus note with no draft mention.',
+      description: 'An old Supabase description with excellent facilities.',
     }, life);
-    expect(merged.description).toBe('A short campus note with no draft mention.');
+    expect(merged.description).toBe(life.description);
+  });
+
+  it('falls back to the Supabase description for a program that is not bundled', () => {
+    const merged = preferBundledMlr({
+      draft_picks: 0,
+      badges: [],
+      description: 'A short campus note.',
+    }, undefined);
+    expect(merged.description).toBe('A short campus note.');
   });
 });

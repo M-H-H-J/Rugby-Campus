@@ -5,7 +5,7 @@ import { getSupabase } from '@/lib/supabase';
 // Lookup bundled data by slug for merging with Supabase
 const bundledBySlug = new Map(bundled.map((c) => [c.slug, c]));
 
-/** Bundle wins for MLR facts until Hugh runs the corrected SQL. */
+/** Bundle wins for MLR facts and for the description (the repo is the source of truth for both). */
 export function preferBundledMlr(
   remote: { badges?: unknown; description?: unknown; draft_picks?: unknown; draftPicks?: unknown },
   local: College | undefined,
@@ -17,10 +17,10 @@ export function preferBundledMlr(
   const badges = remoteBadges
     ? (bundledBadge ? [...remoteBadges, bundledBadge] : remoteBadges)
     : (local?.badges ?? []);
+  // Descriptions were rewritten in the repo (Oct 2026, facts only). The repo wins whenever it has the program;
+  // Supabase is only used for programs that aren't in the bundle.
   const remoteDesc = typeof remote.description === 'string' ? remote.description : '';
-  const description = local && /MLR draft picks|draft picks|MLR draft/i.test(remoteDesc)
-    ? local.description
-    : (remoteDesc || local?.description || '');
+  const description = local?.description || remoteDesc || '';
   const remoteDraft = typeof remote.draft_picks === 'number' ? remote.draft_picks
     : typeof remote.draftPicks === 'number' ? remote.draftPicks : 0;
   return {
