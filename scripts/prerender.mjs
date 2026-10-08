@@ -179,7 +179,7 @@ for (const [path, title, description, body] of [
   ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
     `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby — from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org — I reply personally.</p>${nav}`],
   ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching for athletes heading to US college rugby.',
-    `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and one-on-one coaching for athletes heading to US college rugby. Coaching is a paid service.</p>${nav}`],
+    `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and one-on-one coaching (strength, conditioning and speed work) for athletes heading to US college rugby. Coaching is a paid service.</p>${nav}`],
   ['/work-with-me', 'About Hugh & Rugby Campus', 'This page has moved. See the About page for Hugh Johnston\u2019s background and contact.',
     `<h1>This page has moved</h1><p>Looking for Hugh? Head to <a href="/about">About</a>.</p>${nav}`],
   ['/for-coaches', 'For College Coaches — Feature Your Program', 'Put your college rugby program in front of international recruits. Featured placements, verified profiles and direct enquiries from qualified players.',

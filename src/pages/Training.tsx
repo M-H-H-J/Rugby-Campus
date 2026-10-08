@@ -18,9 +18,17 @@ export default function Training() {
     <div>
       <h3 className="font-heading text-[20px] text-ink mb-2">{title}</h3>
       <ul className="border-t border-line">
-        {exercises.map((ex) => (
-          <li key={ex} className="py-2 border-b border-line text-[14px] text-ink">{ex}</li>
-        ))}
+        {exercises.map((ex) => {
+          const g = parseInt(ex, 10);
+          const token = ex.match(/^\d+[A-Z]?/)?.[0] ?? '';
+          const rest = token ? ex.slice(token.length).replace(/^\s/, '') : ex;
+          return (
+            <li key={ex} className={`py-2 border-b border-line text-[14px] text-ink px-2 ${g % 2 === 1 ? 'bg-navy/[0.06]' : 'bg-white'}`}>
+              {token ? <span className="inline-block w-8 font-semibold">{token}</span> : null}
+              {rest}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -40,12 +48,12 @@ export default function Training() {
         <p className="kicker mb-2">Training</p>
         <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink mb-4">Arrive ready to compete</h1>
         <p className="text-muted text-[15px] leading-relaxed">
-          US college rugby can be physical. Below is a free four-day strength sample — your email unlocks days two through four. Paid one-on-one coaching is a separate path; enquire via email if you want a program built around you.
+          US college rugby can be physical. Below is a free four-day strength sample — your email unlocks days two through four.
         </p>
       </header>
 
-      {/* Free sample */}
-      <section className="grid lg:grid-cols-12 gap-10 mb-20">
+      {/* Free sample — Day 1 only on the right */}
+      <section className="grid lg:grid-cols-12 gap-10 mb-10">
         <div className="lg:col-span-4">
           <p className="kicker mb-2">Free sample</p>
           <h2 className="font-heading text-[26px] text-ink leading-tight mb-3">Off-season strength block</h2>
@@ -54,7 +62,7 @@ export default function Training() {
           </p>
           {unlocked ? (
             <p className="inline-flex items-center gap-2 text-[14px] text-navy font-medium">
-              <Check size={16} /> Unlocked — the full program is on its way.
+              <Check size={16} /> Unlocked. Days 2–4 are open below.
             </p>
           ) : (
             <form onSubmit={handleUnlock} className="space-y-3 max-w-xs">
@@ -70,7 +78,7 @@ export default function Training() {
           )}
         </div>
 
-        <div className="lg:col-span-8 grid sm:grid-cols-2 gap-8 lg:pl-8 lg:border-l lg:border-line">
+        <div className="lg:col-span-8 lg:pl-8 lg:border-l lg:border-line">
           {day('Day 1 — Upper', [
             '1A Rotational med ball throw — 3×4 each side',
             '1B Clap push-ups — 3×4',
@@ -84,6 +92,55 @@ export default function Training() {
             '4C Cable curl + cable extension — 3×12 each side',
             '5 Neck isometrics — 3×10 seconds each side',
           ])}
+        </div>
+      </section>
+
+      {/* Coaching — paid service, inline after Day 1 */}
+      <section className="bg-dark rounded-lg overflow-hidden mb-10">
+        <div className="grid lg:grid-cols-12 gap-10 p-6 md:p-10">
+          <div className="lg:col-span-7">
+            <p className="kicker mb-3 text-white/70">Paid coaching</p>
+            <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
+              Paid one-on-one coaching for college rugby
+            </h2>
+            <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
+              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Email to enquire about fit and pricing.
+            </p>
+            <ul className="space-y-2.5 mb-8">
+              {[
+                'Programming built for you, not a template',
+                'Strength, conditioning (on and off feet) and speed work for your position',
+                'Regular check-ins and adjustments as needed',
+              ].map((p, i) => (
+                <li key={i} className="flex items-start gap-3 text-[14px] text-white/75">
+                  <Check size={15} className="text-white/70 mt-[3px] flex-shrink-0" /> {p}
+                </li>
+              ))}
+            </ul>
+            <a href="mailto:training@rugbycampus.org?subject=Coaching%20enquiry" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+              <Mail size={15} /> Enquire about coaching
+            </a>
+          </div>
+          <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
+            <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
+            {[
+              { n: '1', t: 'Intro chat', d: 'Your goals, your level, your season. No obligation.' },
+              { n: '2', t: 'Your program', d: 'Built for your position and what you want.' },
+              { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments as needed.' },
+            ].map((s, i) => (
+              <div key={s.n} className={`flex gap-5 py-4 ${i > 0 ? 'border-t border-white/10' : ''}`}>
+                <span className="font-heading text-[26px] text-white/80 leading-none">{s.n}</span>
+                <div>
+                  <p className="text-white text-[14px] font-semibold mb-1">{s.t}</p>
+                  <p className="text-white/45 text-[13px] leading-relaxed">{s.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid sm:grid-cols-2 gap-8">
           {locked('Day 2 — Lower', [
             '1A Trap bar speed shrugs — 3×6',
             '1B Seated box jumps — 3×4',
@@ -118,52 +175,6 @@ export default function Training() {
             '4A Goblet side lunge — 3×8 each side',
             '4B Calf raise + tib raise — 3×20 each side',
           ])}
-        </div>
-      </section>
-
-      {/* Coaching — paid service */}
-      <section className="bg-dark rounded-lg overflow-hidden">
-        <div className="grid lg:grid-cols-12 gap-10 p-8 md:p-12">
-          <div className="lg:col-span-7">
-            <p className="kicker mb-3 text-white/70">Paid coaching</p>
-            <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
-              Paid one-on-one coaching for college rugby prep
-            </h2>
-            <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. Email to enquire about fit and pricing.
-            </p>
-            <ul className="space-y-2.5 mb-8">
-              {[
-                'Programming built for you, not a template',
-                'Position-specific strength, speed, and conditioning',
-                'Regular check-ins and adjustments as needed',
-              ].map((p, i) => (
-                <li key={i} className="flex items-start gap-3 text-[14px] text-white/75">
-                  <Check size={15} className="text-white/70 mt-[3px] flex-shrink-0" /> {p}
-                </li>
-              ))}
-            </ul>
-            <a href="mailto:training@rugbycampus.org?subject=Coaching%20enquiry" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
-              <Mail size={15} /> Enquire about coaching
-            </a>
-          </div>
-          <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
-            <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
-            {[
-              { n: '1', t: 'Intro chat', d: 'Your goals, your level, your season. No obligation.' },
-              { n: '2', t: 'Your program', d: 'Built for your position and what you want.' },
-              { n: '3', t: 'Ongoing support', d: 'Check-ins and adjustments as needed.' },
-            ].map((s, i) => (
-              <div key={s.n} className={`flex gap-5 py-4 ${i > 0 ? 'border-t border-white/10' : ''}`}>
-                <span className="font-heading text-[26px] text-white/80 leading-none">{s.n}</span>
-                <div>
-                  <p className="text-white text-[14px] font-semibold mb-1">{s.t}</p>
-                  <p className="text-white/45 text-[13px] leading-relaxed">{s.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
     </div>
   );
