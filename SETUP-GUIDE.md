@@ -136,4 +136,4 @@ The season rollover changed some data (UCLA moved to NCR D1; Western Washington 
 ## Coach data gaps (fill these first)
 
 These 12 programs have no head coach on file. Fix them in Supabase → Table Editor → colleges → `coach_name` / `coach_email`:
-Dartmouth, Notre Dame, Ohio State, Marian, Michigan, St. Thomas (MN), Southern Nazarene, Santa Clara, San Diego, Utah, Walsh, Western Washington.
+Dartmouth, Notre Dame, Ohio State, Marian, Michigan, Southern Nazarene, Santa Clara, San Diego, Utah, Walsh, Western Washington.

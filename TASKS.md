@@ -46,8 +46,8 @@ Done when: no article content begins with "Coming soon" and the build prerenders
 
 ## 5. 2026–27 season preview article
 New article covering: Cal chasing a third straight D1A title, Navy's rematch
-arc, new D1A entrants (St. Thomas, Santa Clara, San Diego, Utah, Western
-Washington), UCLA's move to NCR D1, and the NCR race after St. Bonaventure's
+arc, new D1A entrants (Western Washington, up from D1AA; St. Thomas
+University (Florida) is in its second D1A season), UCLA's move to NCR D1, and the NCR race after St. Bonaventure's
 2025 title. Verify every claim against goffrugbyreport.com before writing.
 Done when: published, prerendered, and linked from /learn and the homepage.
 

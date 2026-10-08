@@ -1,4 +1,4 @@
-// scripts/apply-redesign-facts.mjs  (one-off, safe to re-run)
+// scripts/apply-redesign-facts.mjs  (one-off, already applied 2026-10-02; DON'T re-run: St. Thomas (Minnesota) has since been replaced by St. Thomas (Florida), which this script doesn't know)
 // Adds to src/data/collegeSearchFacts.json:
 //   campus_feel                      city | college_town | suburb | country   (from the NCES locale code, plus 6 hand overrides)
 //   flights_airport_iata/name/miles  nearest airport with scheduled passenger flights (FAA CY2025 commercial-service list)
