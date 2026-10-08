@@ -54,7 +54,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
 
   return (
     <div className="space-y-4">
-      <p className="text-[13px] text-muted">Nothing here hides a college. It only changes the colour of the notes on each card and the order.</p>
+      <p className="text-[13px] text-muted">These won't remove any colleges. They just move the best matches to the top and show how each one fits.</p>
 
       <div>
         <p className="text-[13px] font-medium text-ink mb-2">{budgetLabel}</p>

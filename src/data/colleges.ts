@@ -56,6 +56,14 @@ export const TIER_DOT_CLASS: Record<Tier, string> = {
   emerging: 'bg-tier-grey',
 };
 
+/** The one-line description shown under each tier heading. Edit the words here. */
+export const TIER_SUBLINE: Record<Tier, string> = {
+  championship: 'Regularly in the hunt for national titles.',
+  playoff: 'Competing in the playoffs most seasons.',
+  competitive: 'Solid programs that are in the hunt for playoff spots.',
+  emerging: 'Building fast, with room to grow and a chance to help shape the program.',
+};
+
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";
 
 export const SEASON_LABEL = '2026–27 season · tiers based on final 2025–26 results and early-season rankings';

@@ -87,7 +87,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
           </span>
         ))}
       </p>
-      <p className="text-[12px] text-muted mt-3">We save what you type, never your name, email or IP address. Please don't add personal details.</p>
+      <p className="text-[12px] text-muted mt-3">We keep the words you type, without your name or email, to improve this tool. Please don't include personal details.</p>
       {note && <p role="status" className="mt-3 text-[13px] text-ink">{note.text}</p>}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -104,7 +104,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
         </button>
       </div>
       {lastSentence && filters.unparsed.length > 0 && <p className="mt-2 text-[12px] text-muted">We couldn't use: {filters.unparsed.map((u) => `"${u}"`).join(', ')}.</p>}
-      {panelOpen && <div className="mt-4"><FilterPanel filters={filters} onChange={setFilters} /></div>}
+      {panelOpen && <div className="mt-4 rounded-lg bg-navy/[0.04] border border-line p-4 md:p-5"><FilterPanel filters={filters} onChange={setFilters} /></div>}
 
       {active && outcome && (
         <div className="mt-8" aria-live="polite">

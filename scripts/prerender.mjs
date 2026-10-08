@@ -17,7 +17,7 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, TIER_ORDER, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -88,8 +88,8 @@ urls.push(page({
   description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff calibre, competitive, and up and coming, across CRAA D1A and NCR D1.`,
   jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
-  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}` +
-    TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}</h2><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(c.programType)}</li>`).join('')}</ul>`).join(''),
+  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>All ${colleges.length} compete at the top level of US college rugby.</p>` +
+    TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}</h2><p>${esc(TIER_SUBLINE[t])}</p><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(c.programType)}</li>`).join('')}</ul>`).join(''),
 }));
 
 // ── Map ──
