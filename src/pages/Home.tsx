@@ -1,29 +1,33 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Search, ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
-import CollegeCard from '@/components/CollegeCard';
 import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
+import type { College } from '@/data/colleges';
+
+const FEATURED_SLUGS = [
+  'university-of-california-berkeley',
+  'brown-university',
+  'united-states-naval-academy',
+  'queens-university-of-charlotte',
+];
 
 export default function Home() {
-  usePageMeta('', 'Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from a national championship-winning coach.');
+  usePageMeta('', "Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who's been on both sides of recruitment.");
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
-  const [query, setQuery] = useState('');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [find, setFind] = useState('');
 
-  const featured = colleges.filter((c) => c.tier === 'championship').slice(0, 3);
+  const featured = FEATURED_SLUGS
+    .map((slug) => colleges.find((c) => c.slug === slug))
+    .filter((c): c is College => Boolean(c));
   const fullArticles = articles.filter((a) => !a.content.startsWith('Coming soon'));
   const [lead, ...rest] = fullArticles;
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate(query.trim() ? `/colleges?q=${encodeURIComponent(query.trim())}` : '/colleges');
-  };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,132 +35,122 @@ export default function Home() {
     setSubscribed(true);
   };
 
+  const [hero, ...restFeatured] = featured;
+  const steps = [
+    { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference and location. There are so many programs out there, so make sure you find the right one for you.' },
+    { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
+    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact; where we couldn't confirm one, we say so. Send a short email with your position, size, and highlights — that is enough to start the conversation." },
+  ];
+
   return (
     <>
-      {/* ── Hero: editorial, left-aligned, map as the object ── */}
       <section className="border-b border-line">
-        <div className="max-w-6xl mx-auto px-5 pt-12 md:pt-20 pb-12 md:pb-16 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          <div className="lg:col-span-5">
-            <h1 className="font-heading text-[42px] md:text-[54px] leading-[1.04] text-ink mb-5">
-              Every top college rugby program in America. Mapped.
+        <div className="max-w-7xl mx-auto px-5 py-8 md:py-14 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div>
+            <h1 className="font-heading text-[44px] md:text-[64px] leading-[0.95] tracking-[-0.03em] text-ink">
+              Every top program in America. Mapped.
             </h1>
-            <p className="text-muted text-[15px] leading-relaxed mb-8 max-w-md">
-              40 programs across CRAA D1A and NCR D1 — tiered on results, with coach contacts and straight answers on how recruitment actually works.
-            </p>
-
-            <form onSubmit={handleSearch} className="max-w-md mb-5">
-              <div className="flex items-center border border-line rounded-md focus-within:border-navy transition-colors bg-white">
-                <Search size={17} className="text-faint ml-4 flex-shrink-0" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search a college, city, or state"
-                  className="flex-1 px-3 py-3.5 text-[14px] outline-none bg-transparent placeholder:text-faint min-w-0"
-                />
-                <button type="submit" className="btn bg-navy text-white text-[13px] font-semibold px-5 py-2.5 rounded-md m-1.5">
-                  Search
-                </button>
-              </div>
+            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-8 flex flex-col sm:flex-row sm:items-end gap-3">
+              <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
+              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+                className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] outline-none placeholder:text-faint" />
+              <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
-
-            <p className="text-[13px] text-faint">
-              Built by the coach who won the 2023 NCR D1 national title. Free for players.
-            </p>
+            <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
           </div>
-
-          <div className="lg:col-span-7">
-            <Link href="/map" aria-label="Open the interactive map">
-              <div className="group cursor-pointer border border-line rounded-lg overflow-hidden bg-[#fafbfc] hover:border-navy/30 transition-colors">
-                <USMap colleges={colleges} onSelect={() => navigate('/map')} height={430} interactive={false} />
-                <div className="flex items-center justify-between px-5 py-3 border-t border-line bg-white">
-                  <span className="text-[13px] text-muted">{colleges.length} programs, coast to coast</span>
-                  <span className="text-[13px] font-semibold text-navy inline-flex items-center gap-1.5">
-                    Open the interactive map <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </div>
-              </div>
+          <div>
+            <Link href="/map" className="block">
+              <USMap colleges={colleges} onSelect={() => navigate('/map')} height={420} interactive={false} />
+            </Link>
+            <Link href="/map" className="btn mt-4 inline-flex items-center gap-2 bg-navy text-white px-5 py-2.5 rounded-md text-[13px] font-semibold">
+              Explore the map <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Championship contenders ── */}
-      <section className="max-w-6xl mx-auto px-5 py-14 md:py-20">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <p className="kicker mb-2">2025–26 season</p>
-            <h2 className="font-heading text-[28px] md:text-[32px] text-ink leading-tight">The championship contenders</h2>
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-5">
+          <div className="flex items-end justify-between mb-8">
+            <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05]">Top programs</h2>
+            <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
+              All {colleges.length} programs <ArrowRight size={15} />
+            </Link>
           </div>
-          <Link href="/colleges" className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy hover:text-navy-deep transition-colors mb-1">
-            All 40 programs <ArrowRight size={14} />
-          </Link>
-        </div>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
-          {featured.map((c) => <CollegeCard key={c.id} college={c} />)}
-        </div>
-        <div className="mt-8 sm:hidden">
-          <Link href="/colleges" className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy">
-            All 40 programs <ArrowRight size={14} />
-          </Link>
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            {hero && (
+              <Link href={`/colleges/${hero.slug}`} className="group">
+                <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-4">
+                  {hero.imageUrl ? (
+                    <img src={hero.imageUrl} alt={`${hero.name} campus`} className="card-img w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[13px] text-faint">{hero.name}</div>
+                  )}
+                </div>
+                <h3 className="font-heading text-[32px] leading-tight text-ink group-hover:text-navy">{hero.name}</h3>
+                <p className="text-[15px] text-muted mt-1">{hero.location}</p>
+              </Link>
+            )}
+            <div className="border-t border-ink">
+              {restFeatured.map((c) => (
+                <Link key={c.slug} href={`/colleges/${c.slug}`} className="block py-4 border-b border-line group">
+                  <h3 className="font-heading text-[22px] text-ink group-hover:text-navy">{c.name}</h3>
+                  <p className="text-[14px] text-muted">{c.location}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── How it works: editorial numbered list ── */}
-      <section className="border-y border-line bg-[#fafbfc]">
-        <div className="max-w-6xl mx-auto px-5 py-14 md:py-20 grid lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-4">
-            <p className="kicker mb-2">The pathway</p>
-            <h2 className="font-heading text-[28px] md:text-[32px] text-ink leading-tight mb-4">From anywhere in the world to a US squad</h2>
-            <p className="text-muted text-[14px] leading-relaxed max-w-sm">
-              No agency required. This is the same process I used as a 17-year-old from Australia — and later ran from the other side as a head coach.
-            </p>
-          </div>
-          <div className="lg:col-span-8">
-            {[
-              { n: '1', t: 'Find programs that fit', d: 'Browse the map and the tiers. Match your level honestly — game time at the right program beats a bench spot at a famous one.' },
-              { n: '2', t: 'Email the coach yourself', d: 'Every profile has the coach\u2019s contact. A short, direct email with your position, size, and highlights is all it takes. Coaches answer players.' },
-              { n: '3', t: 'Apply and get over there', d: 'The guides cover applications, visas, scholarships, and what to expect when you land. If you want hands-on help, that\u2019s what I do.' },
-            ].map((s, i) => (
-              <div key={s.n} className={`flex gap-6 py-6 ${i > 0 ? 'border-t border-line' : ''}`}>
-                <span className="font-heading text-[34px] text-navy leading-none w-10 flex-shrink-0">{s.n}</span>
-                <div>
-                  <h3 className="font-body font-semibold text-[15px] text-ink mb-1.5">{s.t}</h3>
-                  <p className="text-muted text-[14px] leading-relaxed max-w-xl">{s.d}</p>
-                </div>
+      <section className="border-t border-line">
+        <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
+          <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] mb-4">From anywhere to a US college</h2>
+          <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-2xl mb-12">
+            I've seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here's how it works.
+          </p>
+          <div className="grid md:grid-cols-3 gap-10">
+            {steps.map((s) => (
+              <div key={s.n}>
+                <span className="font-heading text-[72px] md:text-[96px] leading-none text-navy">{s.n}</span>
+                <h3 className="font-heading text-[22px] text-ink mt-2 mb-2">{s.t}</h3>
+                <p className="text-muted text-[15px] leading-relaxed">{s.d}</p>
               </div>
             ))}
           </div>
+          <p className="mt-12 pt-6 border-t border-line text-muted text-[15px] leading-relaxed max-w-xl">
+            If the coach responds, moving forward usually means interviews, academics, and visas. When a program wants you, coaches typically help with the next steps to get you there.
+          </p>
         </div>
       </section>
 
-      {/* ── Reading: 1 featured + rest stacked ── */}
+      {/* ── Reading: editorial list ── */}
       {lead && (
-        <section className="max-w-6xl mx-auto px-5 py-14 md:py-20">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <p className="kicker mb-2">Honest guides</p>
-              <h2 className="font-heading text-[28px] md:text-[32px] text-ink leading-tight">How it really works over here</h2>
+        <section className="border-t border-line">
+          <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="kicker mb-3">Honest Guides</p>
+                <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">How it works</h2>
+              </div>
+              <Link href="/learn" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
+                All guides <ArrowRight size={15} />
+              </Link>
             </div>
-            <Link href="/learn" className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy hover:text-navy-deep transition-colors mb-1">
-              All guides <ArrowRight size={14} />
-            </Link>
-          </div>
 
-          <div className="grid lg:grid-cols-12 gap-10">
-            <Link href={`/learn/${lead.slug}`} className="lg:col-span-7 group cursor-pointer">
-              <p className="kicker mb-3 text-gold-dark">{lead.category}</p>
-              <h3 className="font-heading text-[26px] md:text-[30px] leading-[1.15] text-ink group-hover:text-navy transition-colors mb-3">
-                {lead.title}
-              </h3>
-              <p className="text-muted text-[15px] leading-relaxed mb-4 max-w-xl">{lead.excerpt}</p>
-              <span className="text-[13px] text-faint">{lead.readTime}</span>
-            </Link>
-            <div className="lg:col-span-5 lg:border-l lg:border-line lg:pl-10">
-              {rest.map((a, i) => (
-                <Link key={a.id} href={`/learn/${a.slug}`} className={`block group cursor-pointer py-5 ${i > 0 ? 'border-t border-line' : 'lg:pt-0'}`}>
-                  <p className="kicker mb-2 text-gold-dark">{a.category}</p>
-                  <h4 className="font-heading text-[19px] leading-snug text-ink group-hover:text-navy transition-colors mb-1.5">{a.title}</h4>
+            <div className="border-t border-line">
+              <Link href={`/learn/${lead.slug}`} className="block group cursor-pointer py-8 border-b border-line">
+                <p className="kicker mb-3">{lead.category}</p>
+                <h3 className="font-heading text-[28px] md:text-[36px] leading-[1.1] tracking-[-0.01em] text-ink group-hover:text-navy transition-colors mb-3 max-w-3xl">
+                  {lead.title}
+                </h3>
+                <p className="font-heading text-[17px] md:text-[19px] text-muted leading-[1.55] mb-3 max-w-2xl">{lead.excerpt}</p>
+                <span className="text-[13px] text-faint">{lead.readTime}</span>
+              </Link>
+              {rest.slice(0, 2).map((a) => (
+                <Link key={a.id} href={`/learn/${a.slug}`} className="block group cursor-pointer py-6 border-b border-line">
+                  <p className="kicker mb-2">{a.category}</p>
+                  <h4 className="font-heading text-[22px] md:text-[26px] leading-snug text-ink group-hover:text-navy transition-colors mb-1">{a.title}</h4>
                   <span className="text-[13px] text-faint">{a.readTime}</span>
                 </Link>
               ))}
@@ -165,28 +159,27 @@ export default function Home() {
         </section>
       )}
 
-      {/* ── Newsletter: navy band ── */}
+      {/* ── Newsletter: dark band with gold CTA ── */}
       <section className="bg-dark">
-        <div className="max-w-6xl mx-auto px-5 py-14 md:py-16 grid lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-6">
-            <h2 className="font-heading text-[26px] md:text-[30px] text-white leading-tight mb-2">The season is starting. Stay across it.</h2>
-            <p className="text-white/50 text-[14px] leading-relaxed max-w-md">
+        <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
+          <div className="max-w-2xl">
+            <p className="kicker mb-4 !text-white/80">Stay Connected</p>
+            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Stay across it.</h2>
+            <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows, and new guides — a short email, only when there's something worth sending.
             </p>
-          </div>
-          <div className="lg:col-span-6">
             {subscribed ? (
-              <p className="inline-flex items-center gap-2 text-[14px] text-white font-medium">
-                <Check size={16} className="text-gold" /> You're on the list. Welcome aboard.
+              <p className="inline-flex items-center gap-2 text-[15px] text-white font-medium">
+                <Check size={18} className="text-gold" /> You're on the list. Welcome aboard.
               </p>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-3 max-w-md lg:ml-auto">
+              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md">
                 <input
                   type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
-                  className="flex-1 min-w-0 px-4 py-3 rounded-md bg-white/10 border border-white/15 text-white text-[14px] outline-none placeholder:text-white/40 focus:border-white/40 transition-colors"
+                  className="flex-1 min-w-0 px-4 py-3.5 rounded-md bg-white/10 border border-white/15 text-white text-[15px] outline-none placeholder:text-white/40 focus:border-white/40 transition-colors"
                 />
-                <button type="submit" className="btn bg-gold text-dark px-5 py-3 rounded-md text-[13px] font-bold whitespace-nowrap">
+                <button type="submit" className="btn bg-gold text-dark px-6 py-3.5 rounded-md text-[14px] font-bold whitespace-nowrap">
                   Subscribe
                 </button>
               </form>

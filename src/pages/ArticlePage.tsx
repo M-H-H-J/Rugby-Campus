@@ -33,7 +33,7 @@ function renderContent(content: string) {
         <ul key={`list-${i}`} className="space-y-2 my-4">
           {items.map((item, j) => (
             <li key={j} className="flex items-start gap-3 font-heading text-[17.5px] text-ink/85 leading-[1.7]">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold mt-[11px] flex-shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-navy mt-[11px] flex-shrink-0" />
               <span dangerouslySetInnerHTML={{ __html: formatInline(item) }} />
             </li>
           ))}
@@ -117,7 +117,7 @@ export default function ArticlePage() {
 
       {/* Article Header */}
       <header className="mb-10">
-        <p className="kicker mb-3 text-gold-dark">{article.category} · {article.readTime}</p>
+        <p className="kicker mb-3">{article.category} · {article.readTime}</p>
         <h1 className="font-heading text-[34px] md:text-[44px] text-ink leading-[1.08] mb-5">{article.title}</h1>
         <p className="font-heading text-[19px] text-muted leading-[1.6]">{article.excerpt}</p>
       </header>
@@ -126,7 +126,7 @@ export default function ArticlePage() {
 
       {/* Article Content */}
       {isComingSoon ? (
-        <div className="border border-line rounded-lg p-10 text-center">
+        <div className="border-t border-line pt-8">
           <h2 className="font-heading text-[24px] text-ink mb-2">Still being written</h2>
           <p className="text-muted text-[14px] mb-7 max-w-md mx-auto leading-relaxed">
             Leave your email and it'll land in your inbox the day it's published.
@@ -156,7 +156,7 @@ export default function ArticlePage() {
               <Link key={a.id} href={`/learn/${a.slug}`}>
                 <div className="group flex items-center justify-between py-5 border-b border-line cursor-pointer">
                   <div>
-                    <p className="kicker text-gold-dark mb-1">{a.category}</p>
+                    <p className="kicker mb-1">{a.category}</p>
                     <h3 className="font-heading text-[18px] text-ink group-hover:text-navy transition-colors leading-snug">{a.title}</h3>
                   </div>
                   <ArrowRight size={16} className="text-faint group-hover:text-navy transition-colors flex-shrink-0 ml-6" />

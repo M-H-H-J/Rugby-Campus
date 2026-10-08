@@ -18,3 +18,15 @@ export function usePageMeta(title: string, description?: string) {
     ogTitle.content = title ? `${title} — ${SITE_NAME}` : SITE_NAME;
   }, [title, description]);
 }
+
+/** Adds <meta name="robots" content="noindex"> while active (e.g. the "College not found" page). */
+export function useNoindex(active: boolean) {
+  useEffect(() => {
+    if (!active) return;
+    const el = document.createElement('meta');
+    el.name = 'robots';
+    el.content = 'noindex';
+    document.head.appendChild(el);
+    return () => { el.remove(); };
+  }, [active]);
+}
