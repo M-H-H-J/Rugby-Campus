@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 
@@ -45,21 +45,6 @@ export default function About() {
         </div>
       </section>
 
-      <section className="mb-14">
-        <p className="kicker mb-3">Interview</p>
-        <p className="font-heading text-[17.5px] text-ink/85 leading-[1.75] mb-4">
-          Oct 2021 — junior-year interview, raw reaction; NCR commented tagging Jeremy Treece.
-        </p>
-        <a
-          href="https://www.facebook.com/reel/387400322983754"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy hover:text-navy-deep"
-        >
-          Watch the interview <ExternalLink size={14} />
-        </a>
-      </section>
-
       {/* Credentials — rule rows, not boxes */}
       <section className="mb-14">
         <p className="kicker mb-4">The short version</p>
@@ -86,7 +71,6 @@ export default function About() {
           </a>{' '}
           — I reply personally.
         </p>
-        <p className="mt-3 text-[14px] text-muted">Rugby Campus is a free tool. We don't represent players or take commission.</p>
       </section>
 
       <div className="flex items-center justify-between py-6 border-t border-line">

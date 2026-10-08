@@ -41,7 +41,7 @@ export const MAJOR_FIELDS: Record<string, { label: string; cip2: string[] }> = {
 export const MAJOR_KEYS = Object.keys(MAJOR_FIELDS);
 
 export const EXAMPLE_PROMPTS = [
-  'Decent rugby, study maths, not freezing',
+  'Study engineering, competitive rugby, mild winters',
   'Big university, engineering, somewhere warm',
   'Small college near a city, under US$60k a year',
 ];

@@ -37,7 +37,7 @@ export default function Home() {
 
   const [hero, ...restFeatured] = featured;
   const steps = [
-    { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference, and location. Game time at the right program beats a bench spot at a famous one.' },
+    { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference and location. There are so many programs out there, so make sure you find the right one for you.' },
     { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
     { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. Send a short email with your position, size, and highlights — that is enough to start the conversation.' },
   ];
@@ -52,7 +52,7 @@ export default function Home() {
             </h1>
             <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-8 flex flex-col sm:flex-row sm:items-end gap-3">
               <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
-              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Decent rugby, study maths, not freezing"
+              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Study engineering, competitive rugby, mild winters"
                 className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] outline-none placeholder:text-faint" />
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
@@ -66,15 +66,6 @@ export default function Home() {
               Explore the map <ArrowRight size={14} />
             </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="border-b border-line">
-        <div className="max-w-7xl mx-auto px-5 py-12 md:py-16">
-          <p className="font-heading text-[32px] md:text-[44px] leading-[1.15] text-ink max-w-4xl">
-            Built by Hugh Johnston — seen both sides of college rugby recruitment. Free for players.
-          </p>
-          <Link href="/about" className="inline-block mt-4 text-[14px] font-medium text-navy">About Hugh</Link>
         </div>
       </section>
 

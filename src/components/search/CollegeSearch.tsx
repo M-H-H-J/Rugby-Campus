@@ -75,7 +75,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
       <p className="text-[15px] text-muted mb-5">Tell us in your own words. We'll find the programs that fit.</p>
       <form onSubmit={(e) => { e.preventDefault(); void run(sentence); }} className="flex flex-col sm:flex-row sm:items-end gap-3">
         <input value={sentence} onChange={(e) => setSentence(e.target.value.slice(0, 300))} maxLength={300} aria-label="Describe your ideal college"
-          placeholder="Decent rugby, study maths, not freezing" className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] md:text-[26px] outline-none placeholder:text-faint" />
+          placeholder="Study engineering, competitive rugby, mild winters" className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] md:text-[26px] outline-none placeholder:text-faint" />
         <button disabled={busy || sentence.trim().length < 3} className="btn bg-gold text-dark px-5 py-2.5 rounded-md text-[14px] font-bold disabled:opacity-60">{busy ? 'Reading…' : 'Find colleges'}</button>
       </form>
       <p className="mt-4 text-[13px] text-muted">

@@ -68,7 +68,6 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="text-white/45 text-[12px] mb-4">Rugby Campus is a free tool. We don't represent players or take commission.</p>
         <div className="border-t border-white/10 pt-5 flex flex-col gap-3">
           <p className="text-white/45 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
           <div className="flex flex-col sm:flex-row justify-between gap-3">
