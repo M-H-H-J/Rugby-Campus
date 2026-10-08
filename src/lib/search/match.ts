@@ -38,7 +38,7 @@ const DIV: Record<string, string> = { ncaa_d1: 'd1', ncaa_d2: 'd2', ncaa_d3: 'd3
 const DIV_LABEL: Record<string, string> = { d1: 'NCAA D1', d2: 'NCAA D2', d3: 'NCAA D3', naia: 'NAIA' };
 const CONTROL_LABEL: Record<string, string> = { public: 'Public', private_nonprofit: 'Private' };
 const SETTING_LABEL = CAMPUS_FEEL_LABEL;
-const TIER_LABEL: Record<string, string> = { championship: 'Often near the top', playoff: 'Playoff calibre', competitive: 'Competitive', emerging: 'Up and coming' };
+const TIER_LABEL: Record<string, string> = { championship: 'Often near the top', playoff: 'Playoff caliber', competitive: 'Competitive', emerging: 'Up and coming' };
 const STATE_NAMES: Record<string, string> = { AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'Washington DC',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming' };
 export const stateName = (c: string) => STATE_NAMES[c] ?? c;
 
@@ -120,7 +120,7 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
     else if (cv.amount > max) push({ key: 'max_cost_usd_per_year', hard: false, status: 'miss', label: `${usd(cv.amount - max)} over budget`, gap: cv.amount - max, detail: `${usd(cv.amount)} per year${cv.kind === 'tuition' ? ' (tuition & fees only, so the true cost is higher)' : ''}, before scholarships. Ask the coach what's available.` });
     else if (cv.kind === 'tuition') push({ key: 'max_cost_usd_per_year', hard: false, status: 'unknown', label: 'Total cost unverified', detail: `Tuition & fees ${usd(cv.amount)} fits, but room and board are not in our figure.` });
     else push({ key: 'max_cost_usd_per_year', hard: false, status: 'match', label: `${usd(cv.amount)} / yr`, detail: 'Before scholarships. Ask the coach what\'s available.' });
-    if (c.rugby_aid == null) push({ key: 'rugby_aid', hard: false, status: 'unknown', label: 'Aid: ask the coach', detail: "Rugby recruits often get some aid. The coach can tell you what's possible." });
+    if (c.rugby_aid == null) push({ key: 'rugby_aid', hard: false, status: 'unknown', label: 'Aid: ask the coach', detail: "Rugby aid varies by school and is often limited or none, so ask the coach what's available." });
   }
   if (f.religion && f.religion !== 'any') {
     const g = c.religion_group;

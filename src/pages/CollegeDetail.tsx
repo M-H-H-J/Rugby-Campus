@@ -1,11 +1,11 @@
 import { useRoute, Link } from 'wouter';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
-import { usePageMeta } from '@/lib/usePageMeta';
+import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
-import { mlrSummary } from '@/lib/search/display';
+import { climateFromTemps, mlrSummary, weatherSentence } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 
@@ -18,6 +18,8 @@ export default function CollegeDetail() {
     college ? `${college.name} Rugby` : 'College Not Found',
     college ? `${college.name} rugby — ${college.affiliation}, ${college.conference}. Coach contact, program details, and how to get recruited.` : undefined
   );
+  // Unknown or retired slug: keep this "not found" page out of search engines.
+  useNoindex(!college);
 
   if (!college) {
     return (
@@ -28,7 +30,7 @@ export default function CollegeDetail() {
     );
   }
 
-  const others = colleges.filter((c) => c.id !== college.id && c.tier === college.tier).slice(0, 3);
+  const others = colleges.filter((c) => c.slug !== college.slug && c.tier === college.tier).slice(0, 3);
   const mlr = mlrSummary(college);
 
   const programFacts: [string, string][] = [
@@ -42,7 +44,6 @@ export default function CollegeDetail() {
     ...(mlr.unconfirmed > 0 ? [['Not confirmed either way', mlr.unconfirmedText] as [string, string]] : []),
   ];
   const collegeFacts: [string, string][] = [
-    ['Enrollment', college.enrollment > 0 ? `${college.enrollment.toLocaleString()} students` : 'TBC'],
     ['Location', college.location],
     ['State', college.state],
     ['Region', college.region],
@@ -99,7 +100,7 @@ export default function CollegeDetail() {
 
           {college.achievements.length > 0 && (
             <section>
-              <h2 className="font-heading text-[28px] text-ink mb-2">Honours</h2>
+              <h2 className="font-heading text-[28px] text-ink mb-2">Honors</h2>
               <ul className="border-t border-ink">
                 {college.achievements.map((a, i) => (
                   <li key={i} className="py-3 border-b border-line text-[15px] text-ink">{a}</li>
@@ -120,7 +121,7 @@ export default function CollegeDetail() {
           {college.monthlyTemps.length === 12 && (
             <section>
               <h2 className="font-heading text-[28px] text-ink mb-1.5">Weather</h2>
-              <p className="text-[14px] text-muted mb-5">{college.weatherSummary}</p>
+              <p className="text-[14px] text-muted mb-5">{weatherSentence(climateFromTemps(college.monthlyTemps) ?? { winter_avg_computed_f: null, summer_high_f: null })}</p>
               <div className="overflow-x-auto -mx-1 px-1">
                 <table className="w-full text-[12px] border-t border-line">
                   <thead>
@@ -151,7 +152,7 @@ export default function CollegeDetail() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-[11px] text-faint mt-2.5">Average high / low. °C shown large, °F below.</p>
+              <p className="text-[11px] text-faint mt-2.5">Average high / low. °C shown large, °F below. NOAA 1991–2020 normals, nearest full weather station.</p>
             </section>
           )}
         </div>
@@ -243,7 +244,7 @@ export default function CollegeDetail() {
           </div>
           <ul className="border-t border-ink">
             {others.map((c) => (
-              <li key={c.id} className="border-b border-line">
+              <li key={c.slug} className="border-b border-line">
                 <Link href={`/colleges/${c.slug}`} className="flex justify-between gap-4 py-3 text-[15px] hover:text-navy">
                   <span className="text-ink">{c.name}</span>
                   <span className="text-muted text-[13px]">{c.location}</span>

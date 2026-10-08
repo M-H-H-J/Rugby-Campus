@@ -8,13 +8,13 @@ export type ClimateBand = 'warm_winters' | 'cool_winters' | 'cold_winters';
 
 export function climateBand(winterF: number | null): ClimateBand | null {
   if (winterF == null || Number.isNaN(winterF)) return null;
-  if (winterF >= 40) return 'warm_winters';
+  if (winterF >= 45) return 'warm_winters';
   if (winterF >= 30) return 'cool_winters';
   return 'cold_winters';
 }
 
 export const CLIMATE_LABEL: Record<ClimateBand, string> = {
-  warm_winters: 'Warm winters',
+  warm_winters: 'Mild winters',
   cool_winters: 'Cool winters',
   cold_winters: 'Cold, snowy winters',
 };
@@ -26,8 +26,8 @@ export const CLIMATE_HINT: Record<ClimateBand, string> = {
 };
 
 export const CLIMATE_RANGE: Record<ClimateBand, string> = {
-  warm_winters: '≥40°F (≥4.5°C)',
-  cool_winters: '30–39.9°F (−1 to 4.5°C)',
+  warm_winters: '≥45°F (≥7°C)',
+  cool_winters: '30–44.9°F (−1 to 7°C)',
   cold_winters: 'under 30°F (under −1°C)',
 };
 
@@ -48,6 +48,40 @@ export function isVeryHot(f: { summer_high_f: number | null }): boolean {
 }
 
 export const VERY_HOT_LABEL = 'Very hot summers';
+
+// ONE climate rule for the whole site: the stats chip, the search pills, the Weather sentence and the
+// monthly table all use climateBand() (winters) and summerLabel() (summers). Thresholds match the
+// "climate_tag" definition in collegeSearchFacts.json: mild winters >= 45°F, cool 30–44.9°F, cold < 30°F.
+export function summerLabel(summerF: number): string {
+  if (summerF >= 95) return VERY_HOT_LABEL;
+  if (summerF >= 85) return 'Hot summers';
+  if (summerF >= 75) return 'Warm summers';
+  return 'Mild summers';
+}
+
+const WINTER_PHRASE: Record<ClimateBand, string> = { warm_winters: 'mild winters', cool_winters: 'cool winters', cold_winters: 'cold, snowy winters' };
+
+/** "Hot summers, cool winters." Built from numbers, never typed by hand. */
+export function weatherSentence(f: { winter_avg_computed_f: number | null; summer_high_f: number | null }): string {
+  const band = climateBand(f.winter_avg_computed_f);
+  if (!band) return '';
+  const winter = WINTER_PHRASE[band];
+  if (f.summer_high_f == null) return winter[0].toUpperCase() + winter.slice(1) + '.';
+  return `${summerLabel(f.summer_high_f)}, ${winter}.`;
+}
+
+/** Winter average (Dec–Feb mean of high and low) and summer high (Jun–Aug mean high) from a 12-month table. */
+export function climateFromTemps(temps: { month: string; hF: number; lF: number }[]): { winter_avg_computed_f: number; summer_high_f: number } | null {
+  if (!Array.isArray(temps) || temps.length !== 12) return null;
+  const by = new Map(temps.map((t) => [t.month, t]));
+  const w = ['Dec', 'Jan', 'Feb'].map((m) => by.get(m));
+  const s = ['Jun', 'Jul', 'Aug'].map((m) => by.get(m));
+  if ([...w, ...s].some((t) => !t)) return null;
+  return {
+    winter_avg_computed_f: w.reduce((a, t) => a + (t!.hF + t!.lF) / 2, 0) / 3,
+    summer_high_f: s.reduce((a, t) => a + t!.hF, 0) / 3,
+  };
+}
 export const VERY_HOT_DETAIL = 'Summer highs of 95°F (35°C) or more.';
 
 export type SizeBand = 'small' | 'medium' | 'big';

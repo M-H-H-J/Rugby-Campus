@@ -9,7 +9,7 @@ interface Props {
   dark?: boolean;
 }
 
-export default function ContactForm({ type, submitLabel = 'Send enquiry', messagePlaceholder = 'Tell me a bit about your situation', dark }: Props) {
+export default function ContactForm({ type, submitLabel = 'Send inquiry', messagePlaceholder = 'Tell me a bit about your situation', dark }: Props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');

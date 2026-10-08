@@ -32,11 +32,11 @@ export default function USMap({ colleges, onSelect, height = 560, interactive = 
         {/* Pins — larger for visibility */}
         {colleges.map((c) => {
           if (c.mapX == null || c.mapY == null) return null;
-          const isHover = hover?.id === c.id;
+          const isHover = hover?.slug === c.slug;
           const r = c.tier === 'championship' ? 9 : 7;
           return (
             <g
-              key={c.id}
+              key={c.slug}
               style={{ cursor: interactive ? 'pointer' : 'default' }}
               onMouseEnter={(e) => { if (!interactive) return; setHover(c); const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect(); setPos({ x: ((c.mapX! / 960) * rect.width), y: ((c.mapY! / 600) * rect.height) }); }}
               onMouseLeave={() => interactive && setHover(null)}

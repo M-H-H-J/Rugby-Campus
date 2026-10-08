@@ -4,7 +4,7 @@ import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 
 export default function Training() {
-  usePageMeta('Rugby Training', 'A free sample strength block, plus paid individualised coaching for players preparing for US college rugby.');
+  usePageMeta('Rugby Training', 'A free sample strength block, plus paid individualized coaching for players preparing for US college rugby.');
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 
@@ -99,12 +99,12 @@ export default function Training() {
       <section className="bg-dark rounded-lg overflow-hidden mb-10">
         <div className="grid lg:grid-cols-12 gap-10 p-6 md:p-10">
           <div className="lg:col-span-7">
-            <p className="kicker mb-3 text-white/70">Paid coaching</p>
+            <p className="kicker mb-3 !text-white/80">Paid coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
               Paid one-on-one coaching for college rugby
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Email to enquire about fit and pricing.
+              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Email to ask about fit and pricing.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[
@@ -117,12 +117,12 @@ export default function Training() {
                 </li>
               ))}
             </ul>
-            <a href="mailto:training@rugbycampus.org?subject=Coaching%20enquiry" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
-              <Mail size={15} /> Enquire about coaching
+            <a href="mailto:training@rugbycampus.org?subject=Coaching%20inquiry" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
+              <Mail size={15} /> Inquire about coaching
             </a>
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
-            <p className="text-white/40 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
+            <p className="text-white/70 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
             {[
               { n: '1', t: 'Intro chat', d: 'Your goals, your level, your season. No obligation.' },
               { n: '2', t: 'Your program', d: 'Built for your position and what you want.' },
@@ -132,7 +132,7 @@ export default function Training() {
                 <span className="font-heading text-[26px] text-white/80 leading-none">{s.n}</span>
                 <div>
                   <p className="text-white text-[14px] font-semibold mb-1">{s.t}</p>
-                  <p className="text-white/45 text-[13px] leading-relaxed">{s.d}</p>
+                  <p className="text-white/70 text-[13px] leading-relaxed">{s.d}</p>
                 </div>
               </div>
             ))}

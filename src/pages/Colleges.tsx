@@ -25,7 +25,7 @@ function PhotoGrid({ items }: { items: College[] }) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 min-w-0">
       {items.map((c) => (
-        <Link key={c.id} href={`/colleges/${c.slug}`} className="group">
+        <Link key={c.slug} href={`/colleges/${c.slug}`} className="group">
           <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-3">
             {c.imageUrl ? (
               <img src={c.imageUrl} alt={`${c.name} campus`} loading="lazy" className="card-img w-full h-full object-cover" />
@@ -46,7 +46,7 @@ function ProgramList({ items }: { items: College[] }) {
   return (
     <div className="grid sm:grid-cols-2 gap-x-10 min-w-0">
       {items.map((c) => (
-        <Link key={c.id} href={`/colleges/${c.slug}`} className="block py-2.5 border-b border-line min-w-0">
+        <Link key={c.slug} href={`/colleges/${c.slug}`} className="block py-2.5 border-b border-line min-w-0">
           <span className="block text-[15px] text-ink font-medium break-words">{c.name}</span>
           <span className="text-[13px] text-muted">{c.location} · {c.conference}</span>
         </Link>

@@ -75,7 +75,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
       <p className="text-[15px] text-muted mb-5">Tell us in your own words. We'll find the programs that fit.</p>
       <form onSubmit={(e) => { e.preventDefault(); void run(sentence); }} className="flex flex-col sm:flex-row sm:items-end gap-3">
         <input value={sentence} onChange={(e) => setSentence(e.target.value.slice(0, 300))} maxLength={300} aria-label="Describe your ideal college"
-          placeholder="Study engineering, competitive rugby, mild winters" className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] md:text-[26px] outline-none placeholder:text-faint" />
+          placeholder="Engineering, good rugby, mild winters" className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] md:text-[26px] outline-none placeholder:text-faint" />
         <button disabled={busy || sentence.trim().length < 3} className="btn bg-gold text-dark px-5 py-2.5 rounded-md text-[14px] font-bold disabled:opacity-60">{busy ? 'Reading…' : 'Find colleges'}</button>
       </form>
       <p className="mt-4 text-[13px] text-muted">
@@ -123,7 +123,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
           )}
           {!showAll && list.length > PAGE && <button type="button" onClick={() => setShowAll(true)} className="mt-4 text-[13px] font-semibold text-navy">Show all {list.length}</button>}
           <p className="mt-4 text-[12px] text-muted">✓ fits · ✗ doesn't fit · ? we couldn't verify it, so it stays in.</p>
-          <p className="mt-2 text-[11px] text-faint max-w-2xl">Costs are yearly, before scholarships. Rugby recruits usually receive some aid, so ask the coach what's available. Data from US government sources and school pages, checked October 2026. Always confirm with the college.</p>
+          <p className="mt-2 text-[11px] text-faint max-w-2xl">Costs are yearly, before scholarships. Rugby aid varies by school and is often limited or none, so ask the coach what's available. Data from US government sources and school pages, checked October 2026. Always confirm with the college.</p>
           <ShortlistEmail slugs={picked.length ? picked : list.filter((r) => !r.closest).slice(0, 6).map((r) => r.slug)} sentence={lastSentence} />
         </div>
       )}

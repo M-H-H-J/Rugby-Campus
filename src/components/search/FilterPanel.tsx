@@ -83,7 +83,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
             </Chip>
           ))}
         </div>
-        <p className="text-[12px] text-faint mt-2">No residency picked: we use the higher out-of-state price at public universities. Rugby recruits often get some aid. Ask the coach what's possible.</p>
+        <p className="text-[12px] text-faint mt-2">No residency picked: we use the higher out-of-state price at public universities. Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
       </div>
 
       <Group title="Where in the US" hint="Not sure? Leave it blank.">
@@ -117,7 +117,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
       <Group title="Winters">
         {CLIMATES.map((c) => (
           <Chip key={c} title={CLIMATE_HINT[c]} on={filters.climate.includes(c)} onClick={() => toggle('climate', c)}>
-            {c === 'warm_winters' ? `Warm winters ${CLIMATE_RANGE[c]}` : c === 'cool_winters' ? `Cool ${CLIMATE_RANGE[c]}` : `Cold/snowy ${CLIMATE_RANGE[c]}`}
+            {c === 'warm_winters' ? `Mild winters ${CLIMATE_RANGE[c]}` : c === 'cool_winters' ? `Cool ${CLIMATE_RANGE[c]}` : `Cold/snowy ${CLIMATE_RANGE[c]}`}
           </Chip>
         ))}
       </Group>

@@ -3,7 +3,11 @@
     { "source": "/colleges/university-of-st-thomas-minnesota", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
     { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true }
   ],
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
+  "rewrites": [
+    { "source": "/colleges/iona-university", "destination": "/api/gone" },
+    { "source": "/colleges/iona-university/", "destination": "/api/gone" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
   "headers": [
     { "source": "/(.*)\\.(png|ico|svg|jpg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }

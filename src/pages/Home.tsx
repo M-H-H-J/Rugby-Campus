@@ -39,7 +39,7 @@ export default function Home() {
   const steps = [
     { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference and location. There are so many programs out there, so make sure you find the right one for you.' },
     { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
-    { n: '3', t: 'Email the coach', d: 'Every profile has a coach contact. Send a short email with your position, size, and highlights — that is enough to start the conversation.' },
+    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact; where we couldn't confirm one, we say so. Send a short email with your position, size, and highlights — that is enough to start the conversation." },
   ];
 
   return (
@@ -52,8 +52,8 @@ export default function Home() {
             </h1>
             <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-8 flex flex-col sm:flex-row sm:items-end gap-3">
               <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
-              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Study engineering, competitive rugby, mild winters"
-                className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[22px] outline-none placeholder:text-faint" />
+              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+                className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] outline-none placeholder:text-faint" />
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
             <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
@@ -93,7 +93,7 @@ export default function Home() {
             )}
             <div className="border-t border-ink">
               {restFeatured.map((c) => (
-                <Link key={c.id} href={`/colleges/${c.slug}`} className="block py-4 border-b border-line group">
+                <Link key={c.slug} href={`/colleges/${c.slug}`} className="block py-4 border-b border-line group">
                   <h3 className="font-heading text-[22px] text-ink group-hover:text-navy">{c.name}</h3>
                   <p className="text-[14px] text-muted">{c.location}</p>
                 </Link>
@@ -163,7 +163,7 @@ export default function Home() {
       <section className="bg-dark">
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl">
-            <p className="kicker mb-4 text-white/70">Stay Connected</p>
+            <p className="kicker mb-4 !text-white/80">Stay Connected</p>
             <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Stay across it.</h2>
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows, and new guides — a short email, only when there's something worth sending.

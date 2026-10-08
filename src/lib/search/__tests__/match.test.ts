@@ -102,7 +102,7 @@ describe('soft filters never hide a college', () => {
       if (c.campus_feel) feels[c.campus_feel]++;
     }
     expect(sizes).toEqual({ small: 16, medium: 17, big: 14 });
-    expect(climates).toEqual({ warm_winters: 16, cool_winters: 22, cold_winters: 9 });
+    expect(climates).toEqual({ warm_winters: 10, cool_winters: 28, cold_winters: 9 });
     expect(feels).toEqual({ city: 19, college_town: 9, suburb: 15, country: 4 });
   });
   it('flags very hot summers at Grand Canyon and Arizona, not Cal', () => {
@@ -161,6 +161,10 @@ describe('majors, climate, tiers', () => {
     expect(e('dartmouth-college', 'warm_winters')).toBe('miss');
     expect(e('st-thomas-university-florida', 'warm_winters')).toBe('match');
     expect(e('st-thomas-university-florida', 'cold_winters')).toBe('miss');
+    // 44°F winters are cool, not mild (Queens, Belmont Abbey, Life).
+    expect(e('queens-university-of-charlotte', 'warm_winters')).toBe('miss');
+    expect(e('queens-university-of-charlotte', 'cool_winters')).toBe('match');
+    expect(e('life-university', 'warm_winters')).toBe('miss');
   });
   it('conference aliases', () => {
     expect(evaluate('x', F['university-of-utah'], base({ conference: ['Big 12'] }))[0].status).toBe('match');

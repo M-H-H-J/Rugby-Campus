@@ -15,11 +15,11 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
   const band = sizeBand(f.enrollment_undergrad);
   const rows: [string, string][] = [];
   if (f.campus_feel) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
-  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates` : ''}`]);
+  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates (IPEDS)` : ''}`]);
   rows.push(...airportRows(f));
   rows.push(['Rugby aid', rugbyAidText(f)]);
   if (f.big_sport_tag) rows.push(['Athletics', f.big_sport_tag]);
-  const srcs = Object.entries(f.prov).filter(([k]) => ['cost', 'majors_cip2', 'climate_tag', 'setting'].includes(k));
+  const srcs = Object.entries(f.prov).filter(([k]) => ['cost', 'majors_cip2', 'climate_tag', 'size_band'].includes(k));
   return (
     <section aria-label="Cost, majors and campus facts">
       <h2 className="font-heading text-[24px] text-ink mb-2">Cost, study and campus</h2>

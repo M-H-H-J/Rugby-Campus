@@ -17,7 +17,7 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -85,7 +85,7 @@ urls.push(page({
 // ── Colleges index ──
 urls.push(page({
   path: '/colleges', title: 'Best College Rugby Programs in America',
-  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff calibre, competitive, and up and coming, across CRAA D1A and NCR D1.`,
+  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff caliber, competitive, and up and coming, across CRAA D1A and NCR D1.`,
   jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
   body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>All ${colleges.length} compete at the top level of US college rugby.</p>` +
@@ -104,7 +104,7 @@ function factsHtml(slug) {
   const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}. ${cost.sub}`]];
   if (f.campus_feel && CAMPUS_FEEL_LABEL[f.campus_feel]) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
   const band = sizeBand(f.enrollment_undergrad);
-  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates` : ''}`]);
+  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates (IPEDS)` : ''}`]);
   for (const row of airportRows(f)) rows.push(row);
   const climate = climateText(f);
   if (climate) rows.push(['Climate', climate + (isVeryHot(f) ? `. ${VERY_HOT_LABEL}.` : '')]);
@@ -123,7 +123,7 @@ for (const c of colleges) {
     ['Squad size', c.playerCount ? `~${c.playerCount} players` : 'TBC'],
     ['Drafted in the MLR College Draft (2020–26)', mlr.draftedText],
     ['Played at least one MLR match (confirmed)', mlr.playedText],
-    ['Enrollment', c.enrollment ? c.enrollment.toLocaleString() : 'TBC'], ['Weather', c.weatherSummary]];
+    ...(climateFromTemps(c.monthlyTemps) ? [['Weather', weatherSentence(climateFromTemps(c.monthlyTemps))]] : [])];
   urls.push(page({
     path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl,
     description: `${c.name} rugby program — ${c.affiliation}, ${c.conference} conference, ${TIER_LABELS[c.tier].toLowerCase()}. ${c.location}. Coach contact, squad size, MLR draft and playing numbers, weather and how to get recruited.`,
@@ -179,11 +179,11 @@ for (const a of articles) {
 for (const [path, title, description, body] of [
   ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
     `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby — from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org — I reply personally.</p>${nav}`],
-  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus individualised coaching for athletes heading to US college rugby.',
+  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus individualized coaching for athletes heading to US college rugby.',
     `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and one-on-one coaching (strength, conditioning and speed work) for athletes heading to US college rugby. Coaching is a paid service.</p>${nav}`],
   ['/work-with-me', 'About Hugh & Rugby Campus', 'This page has moved. See the About page for Hugh Johnston\u2019s background and contact.',
     `<h1>This page has moved</h1><p>Looking for Hugh? Head to <a href="/about">About</a>.</p>${nav}`],
-  ['/for-coaches', 'For College Coaches — Feature Your Program', 'Put your college rugby program in front of international recruits. Featured placements, verified profiles and direct enquiries from qualified players.',
+  ['/for-coaches', 'For College Coaches — Feature Your Program', 'Put your college rugby program in front of international recruits. Featured placements, verified profiles and direct inquiries from qualified players.',
     `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is where international recruits research US college rugby. Coaches can claim and verify their profile, and feature their program to qualified players.</p>${nav}`],
 ]) urls.push(page({ path, title, description, jsonld: [], body }));
 

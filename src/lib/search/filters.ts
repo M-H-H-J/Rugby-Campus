@@ -24,7 +24,7 @@ export const MAJOR_FIELDS: Record<string, { label: string; cip2: string[] }> = {
   engineering: { label: 'Engineering', cip2: ['14', '15'] },
   business: { label: 'Business', cip2: ['52'] },
   computer_science: { label: 'Computer science & IT', cip2: ['11'] },
-  mathematics: { label: 'Maths & statistics', cip2: ['27'] },
+  mathematics: { label: 'Math & statistics', cip2: ['27'] },
   biology: { label: 'Biology', cip2: ['26'] },
   physical_sciences: { label: 'Physical sciences', cip2: ['40'] },
   health: { label: 'Health & nursing', cip2: ['51'] },

@@ -91,9 +91,11 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
 
           return {
             ...r,
+            id: local?.id ?? r.id,
             popularMajors: r.popular_majors ?? r.popularMajors ?? [],
-            monthlyTemps: r.monthly_temps ?? r.monthlyTemps ?? [],
-            weatherSummary: r.weather_summary ?? r.weatherSummary ?? '',
+            // Weather tables come from NOAA in the repo (Oct 2026). The repo wins when it has a full table.
+            monthlyTemps: local?.monthlyTemps?.length === 12 ? local.monthlyTemps : (r.monthly_temps ?? r.monthlyTemps ?? []),
+            weatherSummary: local?.monthlyTemps?.length === 12 ? local.weatherSummary : (r.weather_summary ?? r.weatherSummary ?? ''),
             coachName: r.coach_name ?? r.coachName ?? '',
             coachEmail: r.coach_email ?? r.coachEmail ?? '',
             ...preferBundledMlr(r, local),
