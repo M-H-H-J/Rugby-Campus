@@ -67,10 +67,15 @@ describe('preferBundledMlr', () => {
     expect(merged.achievements).toEqual(['A sourced title']);
   });
 
-  it('hides the retired Minnesota row and bundles St. Thomas (Florida) instead', () => {
-    const rows = [{ slug: 'university-of-st-thomas-minnesota' }, { slug: 'life-university' }];
+  it('hides retired Minnesota and Iona rows; UCLA is dual', () => {
+    const rows = [
+      { slug: 'university-of-st-thomas-minnesota' },
+      { slug: 'iona-university' },
+      { slug: 'life-university' },
+    ];
     expect(dropRetired(rows).map((r) => r.slug)).toEqual(['life-university']);
-    expect(colleges.some((c) => c.slug === 'university-of-st-thomas-minnesota')).toBe(false);
-    expect(colleges.find((c) => c.slug === 'st-thomas-university-florida')?.affiliation).toBe('CRAA D1A');
+    expect(colleges).toHaveLength(47);
+    expect(colleges.some((c) => c.slug === 'iona-university')).toBe(false);
+    expect(colleges.find((c) => c.slug === 'university-of-california-los-angeles-ucla')?.affiliation).toBe('NCR D1 / CRAA dual');
   });
 });

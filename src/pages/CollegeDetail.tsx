@@ -197,6 +197,13 @@ export default function CollegeDetail() {
             <div className="mt-6">
               <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} />
             </div>
+            {college.recruitmentFormUrl && (
+              <p className="mt-2 text-[13px]">
+                <a href={college.recruitmentFormUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
+                  Recruitment form <ExternalLink size={13} />
+                </a>
+              </p>
+            )}
             <p className="mt-5 text-[13px]">
               <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
                 University website <ExternalLink size={13} />

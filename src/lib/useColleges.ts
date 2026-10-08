@@ -6,7 +6,10 @@ import { getSupabase } from '@/lib/supabase';
 const bundledBySlug = new Map(bundled.map((c) => [c.slug, c]));
 
 /** Programs that left the list. Their old Supabase rows are hidden until Hugh deletes them with the SQL block. */
-export const RETIRED_SLUGS: ReadonlySet<string> = new Set(['university-of-st-thomas-minnesota']);
+export const RETIRED_SLUGS: ReadonlySet<string> = new Set([
+  'university-of-st-thomas-minnesota',
+  'iona-university',
+]);
 
 export function dropRetired<T extends { slug?: unknown }>(rows: T[]): T[] {
   return rows.filter((r) => !RETIRED_SLUGS.has(String(r.slug)));
@@ -98,6 +101,7 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
             tier: local?.tier ?? r.tier,
             programType: local?.programType ?? r.program_type ?? r.programType ?? 'Club',
             rugbyProgramUrl: r.rugby_program_url ?? r.rugbyProgramUrl ?? '',
+            recruitmentFormUrl: local?.recruitmentFormUrl ?? '',
             assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? [],
             imageUrl,
             imageCredit,
