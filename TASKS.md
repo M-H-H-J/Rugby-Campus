@@ -4,9 +4,9 @@ Priority order. Each task states its own definition of done.
 Read AGENTS.md first.
 
 ## 1. Pre-launch verification (blocking go-live)
-- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 54 pages + sitemap.xml + llms-full.txt".
+- [ ] Run `npm run build`; confirm it prints "✓ built" AND "prerendered 61 pages + sitemap.xml + llms-full.txt" (61 with 47 programs).
 - [ ] Confirm `vercel.json` exists and contains the SPA rewrite.
-- [ ] Confirm `public/robots.txt` still contains `Disallow: /`.
+- [ ] Confirm `public/robots.txt` allows crawlers and lists the sitemap (public since Oct 2026).
 - [ ] Open every route in dev and confirm no console errors:
       / /map /colleges /learn /training /about /work-with-me /for-coaches
       plus one college page and one article page.
@@ -46,8 +46,8 @@ Done when: no article content begins with "Coming soon" and the build prerenders
 
 ## 5. 2026–27 season preview article
 New article covering: Cal chasing a third straight D1A title, Navy's rematch
-arc, new D1A entrants (St. Thomas, Santa Clara, San Diego, Utah, Western
-Washington), UCLA's move to NCR D1, and the NCR race after St. Bonaventure's
+arc, new D1A entrants (Western Washington, up from D1AA; St. Thomas
+University (Florida) is in its second D1A season), UCLA dual NCR D1 / CRAA D1A, and the NCR race after St. Bonaventure's
 2025 title. Verify every claim against goffrugbyreport.com before writing.
 Done when: published, prerendered, and linked from /learn and the homepage.
 

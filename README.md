@@ -86,7 +86,12 @@ Open `src/data/colleges.ts` and add a new object to the array:
   homeField: "Field Name",
   achievements: ["Achievement 1", "Achievement 2"],
   competitionLevel: "D1A",
-  mlrDraftees: 0,                  // You'll populate this
+  draftPicks: 0,                   // drafted in the MLR College Draft 2020–26
+  mlrPlayed: null,                 // confirmed played >= 1 MLR match; null = no draftees
+  mlrUnconfirmed: 0,               // drafted, played-or-not not confirmed either way
+  mlrNoAppearance: 0,              // drafted, no recorded MLR appearance
+  mlrNotYet: 0,                    // drafted in 2026, no season played yet
+  mlrNote: undefined,              // optional, e.g. Walsh includes Notre Dame College picks
   enrollment: 10000,
   acceptanceRate: 50.0,
   tuition: 30000,

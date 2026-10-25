@@ -2,18 +2,18 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { College } from '@/data/colleges';
+import { TIER_COLORS, TIER_HOLLOW } from '@/data/colleges';
 
-const navy = '#00458c';
-const gold = '#f2b600';
+const navy = TIER_COLORS.playoff;
 
-function makePin(color: string, size = 30) {
+function makePin(color: string, size = 30, hollow = false) {
   const h = size * 1.3;
+  const mark = hollow
+    ? `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="#fff" stroke="${color}" stroke-width="2.5"/>`
+    : `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}" stroke="white" stroke-width="1.5"/><circle cx="14" cy="14" r="5" fill="white"/>`;
   return L.divIcon({
     className: '',
-    html: `<svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}" stroke="white" stroke-width="1.5"/>
-      <circle cx="14" cy="14" r="5" fill="white"/>
-    </svg>`,
+    html: `<svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">${mark}</svg>`,
     iconSize: [size, h],
     iconAnchor: [size / 2, h],
     popupAnchor: [0, -h + 4],
@@ -50,15 +50,15 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
-    // Resilience: if OSM tiles fail (rate-limits, outages), fall back to CARTO's OSM-based tiles
     let tileErrors = 0;
     osm.on('tileerror', () => {
       tileErrors += 1;
       if (tileErrors === 4) {
         map.removeLayer(osm);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-          maxZoom: 19, subdomains: 'abcd',
+          maxZoom: 19,
+          subdomains: 'abcd',
         }).addTo(map);
       }
     });
@@ -93,21 +93,15 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
 
     colleges.forEach((c) => {
       const marker = L.marker([c.lat, c.lng], {
-        icon: makePin(c.tier === 'championship' ? gold : navy, c.tier === 'championship' ? 32 : 28),
+        icon: makePin(TIER_COLORS[c.tier], c.tier === 'championship' ? 32 : 28, TIER_HOLLOW[c.tier]),
       });
 
       const popupHtml = `
-        <div style="font-family:'Libre Franklin',sans-serif;min-width:200px;padding:4px 2px">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
-            <span style="font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:13px;color:#071B33;line-height:1.25">${c.name}</span>
-            
-          </div>
-          <div style="font-size:11px;color:#9ca3af;margin-bottom:8px">${c.location}</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-            <span style="font-size:10px;font-weight:600;background:#f3f4f6;color:#4b5563;padding:2px 7px;border-radius:5px">${c.affiliation}</span>
-            ${c.draftPicks > 0 ? `<span style="font-size:10px;font-weight:700;background:rgba(255,183,0,0.15);color:#9a6e00;padding:2px 7px;border-radius:5px">${c.draftPicks} MLR picks</span>` : ''}
-          </div>
-          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:10px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View full profile →</button>
+        <div style="font-family:'Libre Franklin',sans-serif;min-width:190px">
+          <p style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:#00458c;margin:0 0 4px">${c.affiliation}</p>
+          <p style="font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:14px;color:#071B33;line-height:1.25;margin:0 0 2px">${c.name}</p>
+          <p style="font-size:11px;color:#5b6b7d;margin:0 0 10px">${c.location}</p>
+          <button data-slug="${c.slug}" style="width:100%;text-align:center;font-size:13px;font-weight:600;background:${navy};color:white;padding:9px 12px;border-radius:6px;border:none;cursor:pointer;font-family:inherit">View profile · Coach contact</button>
         </div>
       `;
 
@@ -129,5 +123,5 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
     }
   }, [colleges]);
 
-  return <div ref={ref} style={{ width: '100%', height, background: '#e8edf2' }} />;
+  return <div ref={ref} style={{ width: '100%', height, minHeight: 400, background: '#f3f4f6' }} />;
 }

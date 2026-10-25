@@ -4,10 +4,10 @@ that must not be broken. Follow it exactly.
 
 Hard rules, repeated here because they are the most commonly violated:
 
-1. public/robots.txt contains "Disallow: /" ON PURPOSE. The site is private
-   pre-launch. Never change it.
+1. public/robots.txt is PUBLIC since the Oct 2026 launch (allows crawlers,
+   lists the sitemap). Never change it back to "Disallow: /" unless Hugh asks.
 2. `npm run build` must end with BOTH "✓ built" and
-   "prerendered 54 pages + sitemap.xml + llms-full.txt". If the prerender line
+   "prerendered 61 pages + sitemap.xml + llms-full.txt" (61 with 47 programs). If the prerender line
    is missing, the build is broken. Never delete scripts/prerender.mjs.
 3. Never blank the Supabase values in src/config.ts.
 4. Never run `npm audit fix`.

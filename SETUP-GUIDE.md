@@ -32,11 +32,11 @@ Supabase gives you a spreadsheet-style dashboard to edit colleges and view every
    - Region: pick **US East** (closest to your users)
 3. Wait ~2 minutes while it provisions
 
-### 2.2 Create the tables and load all 40 colleges
+### 2.2 Create the tables (first-time setup only — already done for the live site)
 1. In the left sidebar, click **SQL Editor**
 2. Open the file `supabase-setup.sql` from this folder in any text editor
 3. Copy ALL of it, paste into the SQL Editor, click **Run**
-4. You should see "Success". That one click created 3 tables and loaded all 40 colleges.
+4. You should see "Success". That one click created 3 tables and loaded the original 40 colleges. **Never run the whole file again on the live database** — use the dated blocks in Part 5.
 
 ### 2.3 Connect the website
 1. In Supabase: **Project Settings (gear icon) → API**
@@ -103,7 +103,7 @@ From now on, any change you push to GitHub redeploys automatically.
 
 ## What's already built in (nothing to do)
 
-- 40 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
+- 47 colleges, tiered by final 2025–26 results, CRAA D1A + NCR D1
 - Interactive OpenStreetMap with street-level zoom
 - Email capture on 4 touchpoints, all writing to your database
 - 3 full articles + 3 "notify me" stubs (each stub also captures emails)
@@ -116,18 +116,23 @@ Ask Cursor's AI chat (Cmd+L): *"this project won't start, here's the error: [pas
 
 ---
 
-## Part 5 — 2026–27 data update (do this once)
+## Part 5 — 2026–27 data update (do this once, after the PR is merged)
 
-The season rollover changed some data (UCLA moved to NCR D1; Western Washington replaces AIC). Your Supabase database still has the old rows, and the live site reads from Supabase first. To sync:
+Your Supabase database still has the old rows. **Do not paste the whole of `supabase-setup.sql`** — the top half fails on a database that already exists ("policy … already exists") and nothing runs. Run only the three dated blocks at the bottom, one at a time, in this order:
 
-1. Supabase → SQL Editor → paste the whole of `supabase-setup.sql` again → Run.
-   It's safe to re-run: existing rows are skipped, the update section at the bottom applies the changes.
-2. Refresh the site. UCLA now shows NCR D1 and Western Washington appears in the Pacific Northwest.
+1. Supabase → SQL Editor → New query. In `supabase-setup.sql`, copy from the line starting `-- ── Walkthrough fixes 2026-10-06` down to the line just before `-- ── Follow-up fixes 2026-10-06`. Paste → **Run** → you should see "Success".
+2. New query. Copy from `-- ── Follow-up fixes 2026-10-06` down to the line just before `-- ── Correction UCLA/Iona 2026-10-07`. Paste → **Run** → "Success".
+3. New query. Copy from `-- ── Correction UCLA/Iona 2026-10-07` to the end of the file. Paste → **Run** → "Success".
+
+Each block is safe to run twice. If one shows an error, stop and send the error text — don't run the next block.
+
+Then refresh the site: 47 programs, UCLA shows dual NCR D1 / CRAA, St. Thomas (Florida) is in, Iona is gone.
+
+Weather tables and the weather sentence now come from the repo (NOAA), so the `weather_summary` and `monthly_temps` columns in Supabase no longer change what the site shows for these 47 programs.
 
 ## Part 6 — Going public (when you're ready)
 
-1. In the `public` folder, delete `robots.txt` and rename `robots.public.txt` to `robots.txt`. Push.
-   (The public version explicitly welcomes Google, Bing, GPTBot, ClaudeBot and PerplexityBot, and points them at your sitemap.)
+1. Done already: `public/robots.txt` now lets Google, Bing, GPTBot, ClaudeBot and PerplexityBot in, and points them at your sitemap (launch-fixes paste, Oct 2026).
 2. Vercel → Settings → Domains → add `rugbycampus.org` → add the DNS records at Cloudflare.
 3. Google Search Console → add property → verify via DNS → Sitemaps → submit `https://rugbycampus.org/sitemap.xml`.
 4. Bing Webmaster Tools → same (this is what ChatGPT search reads). You can import straight from Search Console.
@@ -135,5 +140,9 @@ The season rollover changed some data (UCLA moved to NCR D1; Western Washington 
 
 ## Coach data gaps (fill these first)
 
-These 12 programs have no head coach on file. Fix them in Supabase → Table Editor → colleges → `coach_name` / `coach_email`:
-Dartmouth, Notre Dame, Ohio State, Marian, Michigan, St. Thomas (MN), Southern Nazarene, Santa Clara, San Diego, Utah, Walsh, Western Washington.
+After the three SQL blocks, these 12 programs show no head coach (the page says "To be confirmed"):
+
+- **In Supabase** (fix in Table Editor → colleges → `coach_name` / `coach_email`): Arkansas State, Indiana, Ohio State, Utah, Western Washington.
+- **Not in Supabase yet** (ask Cursor to add the coach in `src/data/colleges.ts`): Aquinas, Colorado State, Cal State Long Beach, CU Boulder, Fordham, Indiana Tech, Rio Grande.
+
+Indiana: the repo has Luke Gross but the live row is blank, so the site shows blank. Decide which is right.

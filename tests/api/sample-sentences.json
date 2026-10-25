@@ -1,0 +1,359 @@
+[
+ [
+  "decent rugby, study maths, not freezing",
+  {
+   "rugby_tier": [
+    "championship",
+    "playoff",
+    "competitive"
+   ],
+   "majors": [
+    "mathematics"
+   ],
+   "climate": [
+    "warm_winters"
+   ]
+  }
+ ],
+ [
+  "top rugby and engineering",
+  {
+   "rugby_tier": [
+    "championship",
+    "playoff"
+   ],
+   "majors": [
+    "engineering"
+   ]
+  }
+ ],
+ [
+  "big public university, engineering, somewhere warm",
+  {
+   "control": [
+    "public"
+   ],
+   "size_band": [
+    "big"
+   ],
+   "majors": [
+    "engineering"
+   ],
+   "climate": [
+    "warm_winters"
+   ]
+  }
+ ],
+ [
+  "I'm from Sydney, public uni in Texas under $55k, engineering",
+  {
+   "residency": "international",
+   "states": [
+    "TX"
+   ],
+   "control": [
+    "public"
+   ],
+   "max_cost_usd_per_year": 55000,
+   "majors": [
+    "engineering"
+   ]
+  }
+ ],
+ [
+  "small catholic college near a city, under $60k",
+  {
+   "control": [
+    "private_nonprofit"
+   ],
+   "size_band": [
+    "small"
+   ],
+   "setting": [
+    "suburb"
+   ],
+   "religion": "catholic",
+   "max_cost_usd_per_year": 60000
+  }
+ ],
+ [
+  "D1 school in the north-east, business",
+  {
+   "division": [
+    "d1"
+   ],
+   "regions": [
+    "northeast"
+   ],
+   "majors": [
+    "business"
+   ]
+  }
+ ],
+ [
+  "somewhere in california, not religious",
+  {
+   "states": [
+    "CA"
+   ],
+   "religion": "none_only"
+  }
+ ],
+ [
+  "a college town in the midwest, varsity rugby",
+  {
+   "setting": [
+    "college_town"
+   ],
+   "regions": [
+    "midwest"
+   ],
+   "rugby_program": "varsity"
+  }
+ ],
+ [
+  "rural, small, nursing",
+  {
+   "setting": [
+    "country"
+   ],
+   "size_band": [
+    "small"
+   ],
+   "majors": [
+    "health"
+   ]
+  }
+ ],
+ [
+  "big football school, sports science",
+  {
+   "majors": [
+    "sport_exercise"
+   ],
+   "size_band": [
+    "big"
+   ]
+  }
+ ],
+ [
+  "no football, d1, in a big city",
+  {
+   "division": [
+    "d1"
+   ],
+   "setting": [
+    "city"
+   ]
+  }
+ ],
+ [
+  "computer science in virginia or maryland",
+  {
+   "majors": [
+    "computer_science"
+   ],
+   "states": [
+    "MD",
+    "VA"
+   ]
+  }
+ ],
+ [
+  "sunny and hot, desert is fine, psychology",
+  {
+   "climate": [
+    "warm_winters"
+   ],
+   "majors": [
+    "psychology"
+   ]
+  }
+ ],
+ [
+  "four seasons, private, business",
+  {
+   "climate": [
+    "cool_winters"
+   ],
+   "control": [
+    "private_nonprofit"
+   ],
+   "majors": [
+    "business"
+   ]
+  }
+ ],
+ [
+  "snow is fine, d2",
+  {
+   "climate": [
+    "cold_winters"
+   ],
+   "division": [
+    "d2"
+   ]
+  }
+ ],
+ [
+  "naia school in ohio",
+  {
+   "division": [
+    "naia"
+   ],
+   "states": [
+    "OH"
+   ]
+  }
+ ],
+ [
+  "club rugby is fine, pre-med, west coast",
+  {
+   "rugby_program": "club",
+   "majors": [
+    "health"
+   ],
+   "regions": [
+    "west"
+   ]
+  }
+ ],
+ [
+  "up to $40k a year, public",
+  {
+   "max_cost_usd_per_year": 40000,
+   "control": [
+    "public"
+   ]
+  }
+ ],
+ [
+  "international student, michigan, secular",
+  {
+   "residency": "international",
+   "states": [
+    "MI"
+   ],
+   "religion": "none_only"
+  }
+ ],
+ [
+  "good rugby in the south, warm",
+  {
+   "rugby_tier": [
+    "championship",
+    "playoff",
+    "competitive"
+   ],
+   "regions": [
+    "south"
+   ],
+   "climate": [
+    "warm_winters"
+   ]
+  }
+ ],
+ [
+  "best rugby, any major",
+  {
+   "rugby_tier": [
+    "championship",
+    "playoff"
+   ]
+  }
+ ],
+ [
+  "stats and maths, leafy campus",
+  {
+   "majors": [
+    "mathematics"
+   ],
+   "setting": [
+    "suburb"
+   ]
+  }
+ ],
+ [
+  "a small private d3 college in new york",
+  {
+   "size_band": [
+    "small"
+   ],
+   "control": [
+    "private_nonprofit"
+   ],
+   "division": [
+    "d3"
+   ],
+   "states": [
+    "NY"
+   ]
+  }
+ ],
+ [
+  "cheap",
+  {
+   "unparsed": [
+    "cheap"
+   ]
+  }
+ ],
+ [
+  "i want to play rugby",
+  {}
+ ],
+ [
+  "colorado, football school",
+  {
+   "states": [
+    "CO"
+   ]
+  }
+ ],
+ [
+  "indiana or illinois, business, large",
+  {
+   "states": [
+    "IL",
+    "IN"
+   ],
+   "majors": [
+    "business"
+   ],
+   "size_band": [
+    "big"
+   ]
+  }
+ ],
+ [
+  "kinesiology near the coast",
+  {
+   "majors": [
+    "sport_exercise"
+   ]
+  }
+ ],
+ [
+  "no snow please, cs and coding",
+  {
+   "climate": [
+    "warm_winters"
+   ],
+   "majors": [
+    "computer_science"
+   ]
+  }
+ ],
+ [
+  "university in a college town, d1, under $70k",
+  {
+   "setting": [
+    "college_town"
+   ],
+   "division": [
+    "d1"
+   ],
+   "max_cost_usd_per_year": 70000
+  }
+ ]
+]

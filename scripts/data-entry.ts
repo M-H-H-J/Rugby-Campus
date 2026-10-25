@@ -1,3 +1,5 @@
-export { colleges, TIER_LABELS, SEASON_LABEL } from '@/data/colleges';
+export { colleges, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL } from '@/data/colleges';
 export { articles } from '@/data/articles';
 export { SITE_URL, SITE_NAME, CONTACT_EMAIL } from '@/config';
+export { costText } from '@/lib/search/cost';
+export { climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } from '@/lib/search/display';
