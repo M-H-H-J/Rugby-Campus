@@ -12,7 +12,14 @@ export function getSupabase(): SupabaseClient | null {
 export type EmailSource = 'coach_unlock' | 'training_program' | 'newsletter' | 'article_notify' | 'search_shortlist';
 
 /** Store a captured email. Falls back to console logging when Supabase isn't configured yet. */
-export async function captureEmail(email: string, source: EmailSource): Promise<boolean> {
+/** Fire-and-forget POST to one of our /api functions. Never throws, never awaited by the form. */
+function ping(path: string, body: Record<string, unknown>): void {
+  try { void fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, website: '' }), keepalive: true }).catch(() => {}); } catch { /* ignore */ }
+}
+
+export async function captureEmail(email: string, source: EmailSource, opts: { article?: string } = {}): Promise<boolean> {
+  // search_shortlist gets its own email from /api/shortlist-email; every other box gets a short thank-you.
+  if (source !== 'search_shortlist') ping('/api/welcome-email', { email, source, article: opts.article });
   const sb = getSupabase();
   if (!sb) {
     console.info(`[RugbyCampus] email captured (no DB configured): ${email} — ${source}`);
@@ -29,6 +36,7 @@ export async function captureEmail(email: string, source: EmailSource): Promise<
 export interface ContactMessage { name: string; email: string; type: string; message: string; }
 
 export async function submitContact(msg: ContactMessage): Promise<boolean> {
+  ping('/api/contact', { ...msg });
   const sb = getSupabase();
   if (!sb) {
     console.info('[RugbyCampus] contact (no DB configured):', msg);

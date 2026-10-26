@@ -14,7 +14,7 @@ export default function ShortlistEmail({ slugs, sentence }: { slugs: string[]; s
     if (hp) { setState('done'); setMsg('Saved.'); return; } // honeypot
     void captureEmail(email.trim().toLowerCase(), 'search_shortlist'); // same table + path as the newsletter box
     const r = await sendShortlist(email, slugs, sentence, hp);
-    if (r.ok) { setState('done'); setMsg(r.emailed ? 'Sent. Check your inbox (and spam).' : 'Saved. We will email this shortlist to you.'); } else { setState('error'); setMsg(r.message ?? 'Something went wrong. Please try again.'); }
+    if (r.ok) { setState('done'); setMsg(r.emailed ? 'Sent. Check your inbox (and spam).' : "Saved. We couldn't email it just now, so screenshot your list to keep it."); } else { setState('error'); setMsg(r.message ?? 'Something went wrong. Please try again.'); }
   };
   return (
     <section className="mt-8 border-t border-line pt-5 max-w-xl" aria-label="Email me this shortlist">

@@ -2,11 +2,11 @@
 // Saves the visitor's email + shortlist. No gating, no double opt-in (Hugh's decision). Optionally emails the list via Resend.
 import { clientIp, hashed, readBody, send, type Req, type Res } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
+import { sendMail, SITE } from './_lib/mail.js';
 import { cleanSentence, stripPII } from '../src/lib/search/filters.js';
 
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 const SLUG_RE = /^[a-z0-9-]{3,80}$/;
-const SITE = process.env.SITE_URL || 'https://rugbycampus.org';
 
 export default async function handler(req: Req, res: Res) {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false }); }
@@ -26,7 +26,8 @@ export default async function handler(req: Req, res: Res) {
   }
 
   const sbUrl = process.env.SUPABASE_URL, sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const sink = (process.env.SHORTLIST_SINK || 'console').toLowerCase();
+  // Default: Supabase when its server keys are present, otherwise the console. SHORTLIST_SINK=console forces the console.
+  const sink = (process.env.SHORTLIST_SINK || (sbUrl && sbKey ? 'supabase' : 'console')).toLowerCase();
   let saved = false;
   if (sink === 'supabase' && sbUrl && sbKey) {
     const h = { apikey: sbKey, Authorization: `Bearer ${sbKey}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' };
@@ -38,13 +39,9 @@ export default async function handler(req: Req, res: Res) {
     console.log('SHORTLIST ' + JSON.stringify({ t: new Date().toISOString(), slugs, sentence, email_hash: hashed(email) })); // never log the address itself
   }
 
-  let emailed = false;
-  if (process.env.RESEND_API_KEY && process.env.SHORTLIST_FROM) {
-    const rows = slugs.map((s) => `<li><a href="${SITE}/colleges/${s}">${s.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')}</a></li>`).join('');
-    const html = `<p>Here is the shortlist you asked for from Rugby Campus:</p><ul>${rows}</ul><p>Costs on the site are before scholarships. Ask the coach what's available. Always confirm details with the school.</p><p>Rugby Campus · ${SITE}</p>`;
-    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(6000),
-      body: JSON.stringify({ from: process.env.SHORTLIST_FROM, to: [email], subject: 'Your Rugby Campus shortlist', html }) }).catch(() => null);
-    emailed = !!r && r.ok;
-  }
+  const title = (s: string) => s.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+  const list = slugs.map((s) => `- ${title(s)}: ${SITE}/colleges/${s}`).join('\n');
+  const emailed = await sendMail({ to: email, subject: 'Your Rugby Campus shortlist', idempotencyKey: 'shortlist:' + hashed(email + '|' + slugs.join(',')),
+    text: `Here are the colleges you picked:\n\n${list}\n\nCosts on the site are before any scholarship, so ask each coach what's on offer. Then email the coaches directly. A short note with your position, your highlights and your grades does more than you'd think. I've been the player sending those emails and the coach reading them.\n\nHugh, Rugby Campus` });
   return send(res, 200, { ok: true, emailed, saved });
 }

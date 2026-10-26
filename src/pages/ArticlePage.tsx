@@ -79,12 +79,12 @@ function ArticleMeta({ title, description }: { title: string; description: strin
   return null;
 }
 
-function NotifyForm() {
+function NotifyForm({ article }: { article: string }) {
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
-  if (done) return <p className="text-navy text-[14px] font-medium">You're on the list — we'll email you when it's live.</p>;
+  if (done) return <p className="text-navy text-[14px] font-medium">You're on the list. We'll email you when there's something worth sending.</p>;
   return (
-    <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={async (e) => { e.preventDefault(); await captureEmail(email, 'article_notify'); setDone(true); }}>
+    <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={async (e) => { e.preventDefault(); await captureEmail(email, 'article_notify', { article }); setDone(true); }}>
       <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" className="flex-1 px-4 py-3 rounded-md border border-line text-[14px] outline-none focus:border-navy transition-colors" />
       <button type="submit" className="btn px-5 py-3 bg-navy text-white rounded-md text-[13px] font-semibold whitespace-nowrap">Notify me</button>
     </form>
@@ -129,9 +129,9 @@ export default function ArticlePage() {
         <div className="border-t border-line pt-8">
           <h2 className="font-heading text-[24px] text-ink mb-2">Still being written</h2>
           <p className="text-muted text-[14px] mb-7 max-w-md mx-auto leading-relaxed">
-            Leave your email and it'll land in your inbox the day it's published.
+            Leave your email and we'll email you when there's something worth sending.
           </p>
-          <NotifyForm />
+          <NotifyForm article={article.title} />
         </div>
       ) : (
         <article className="prose-custom">
