@@ -27,7 +27,7 @@ export const TIER_LABELS: Record<Tier, string> = {
   championship: 'Often near the top',
   playoff: 'Playoff caliber',
   competitive: 'Competitive',
-  emerging: 'Up and coming',
+  emerging: 'Rounding out the best',
 };
 
 export const TIER_ORDER: Tier[] = [
@@ -63,7 +63,7 @@ export const TIER_SUBLINE: Record<Tier, string> = {
   championship: 'Regularly in the hunt for national titles.',
   playoff: 'Competing in the playoffs most seasons.',
   competitive: 'Solid programs that are in the hunt for playoff spots.',
-  emerging: 'Building fast, with room to grow and a chance to help shape the program.',
+  emerging: 'A chance to help shape the program.',
 };
 
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";
@@ -350,7 +350,7 @@ export const colleges: College[] = [
     id: 19, slug: "queens-university-of-charlotte", name: "Queens University of Charlotte",
     location: "Charlotte, North Carolina", state: "North Carolina", region: "south",
     lat: 35.2019, lng: -80.8414, mapX: 763.5, mapY: 357.1,
-    affiliation: "NCR D1", conference: "ARC", tier: "championship", programType: "Varsity",
+    affiliation: "NCR D1", conference: "ARC", tier: "playoff", programType: "Varsity",
     draftPicks: 4, mlrPlayed: 0, mlrUnconfirmed: 1, mlrNoAppearance: 3, mlrNotYet: 0, playerCount: 49,
     coachName: "Tyree Reed", coachEmail: "reedt2@queens.edu",
     rugbyProgramUrl: "https://queensathletics.com/sports/mens-rugby",

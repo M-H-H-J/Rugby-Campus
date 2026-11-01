@@ -28,16 +28,16 @@ export default function About() {
             What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
           </p>
           <p>
-            I'm Hugh Johnston — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
+            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong> — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
           </p>
           <p>
-            When I was a coach, I did not sell the dream the way I had been sold it. We were a no-name college without the best facilities, but we had a strong culture. If you were coming for Instagram shots, it was not the place. If you wanted to play a high level of footy, it was. That honesty is the gap this site tries to fill.
+            Being on both sides of recruiting calls, I was conscious that the decision potential athletes were about to make was a crucial one in their life. I was honest, upfront about Notre Dame College. We were a no-name college, without the best facilities, but we had a tight-knit group of boys from all across the world who all wanted to win. That honesty is some of the gap this site tries to fill.
           </p>
           <p>
-            Questions about a program, or something not right on the site? Email me. The best screening is still talking to coaches yourself — and visiting if you can. I never visited before I committed, and it still matters because you are moving there to live.
+            Questions about a program, or something not right on the site? Email me. The best screening is still talking to coaches yourself — and visiting if you can. I never visited before I committed though, and it's okay if you can't.
           </p>
           <p>
             If you go through an agency, that is fine — use this site as well. Agencies vary; use both.
@@ -68,8 +68,7 @@ export default function About() {
           Questions about a program? Something not right on the site?{' '}
           <a href={`mailto:${CONTACT_EMAIL}`} className="text-navy font-medium hover:text-navy-deep transition-colors">
             Email me
-          </a>{' '}
-          — I reply personally.
+          </a>.
         </p>
       </section>
 

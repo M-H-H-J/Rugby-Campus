@@ -85,7 +85,7 @@ urls.push(page({
 // ── Colleges index ──
 urls.push(page({
   path: '/colleges', title: 'Best College Rugby Programs in America',
-  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff caliber, competitive, and up and coming, across CRAA D1A and NCR D1.`,
+  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff caliber, competitive, and rounding out the best, across CRAA D1A and NCR D1.`,
   jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
   body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>All ${colleges.length} compete at the top level of US college rugby.</p>` +

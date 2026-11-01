@@ -6,6 +6,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, Tier, type College } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import CollegeSearch from '@/components/search/CollegeSearch';
+import TierNoticeModal from '@/components/TierNoticeModal';
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
@@ -13,7 +14,8 @@ function TierHeading({ tier, count }: { tier: Tier; count: number }) {
   return (
     <div className="min-w-0">
       <h2 className="font-heading text-[26px] leading-tight text-ink flex items-start gap-2 min-w-0 break-words">
-        <span className="mt-2 shrink-0"><TierDot tier={tier} size="md" /></span>
+        {/* Same height as the first line of the heading, so the dot sits at the middle of the word even if the label wraps */}
+        <span className="flex items-center h-[32px] shrink-0"><TierDot tier={tier} size="md" /></span>
         <span className="min-w-0 break-words">{TIER_LABELS[tier]}</span>
       </h2>
       <p className="text-[13px] text-muted mt-2">{TIER_SUBLINE[tier]} <span className="text-faint">{count} programs</span></p>
@@ -94,6 +96,7 @@ export default function Colleges() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
+      <TierNoticeModal />
       {/* Header row */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
         <p className="text-[13px] text-muted">{SEASON_LABEL}</p>

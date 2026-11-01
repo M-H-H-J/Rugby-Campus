@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Check, Mail } from 'lucide-react';
+import { Check } from 'lucide-react';
+import CoachingEnquiry from '@/components/CoachingEnquiry';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 
@@ -104,7 +105,7 @@ export default function Training() {
               Paid one-on-one coaching for college rugby
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Email to ask about fit and pricing.
+              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Send an enquiry to ask about fit and pricing.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[
@@ -117,9 +118,7 @@ export default function Training() {
                 </li>
               ))}
             </ul>
-            <a href="mailto:training@rugbycampus.org?subject=Coaching%20inquiry" className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
-              <Mail size={15} /> Inquire about coaching
-            </a>
+            <CoachingEnquiry />
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
             <p className="text-white/70 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>

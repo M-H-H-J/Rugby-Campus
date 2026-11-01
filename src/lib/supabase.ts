@@ -46,3 +46,22 @@ export async function submitContact(msg: ContactMessage): Promise<boolean> {
   if (error) { console.error('submitContact failed:', error.message); return false; }
   return true;
 }
+
+
+export interface CoachingEnquiry { firstName: string; lastName: string; age: string; location: string; position: string; email: string; whatsapp: string; website?: string }
+
+/** Paid-coaching form. Emails Hugh via /api/coaching-enquiry and saves a copy to the existing contacts table (type 'coaching'). True if either worked. */
+export async function submitCoachingEnquiry(q: CoachingEnquiry): Promise<boolean> {
+  const mailed = fetch('/api/coaching-enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(q) })
+    .then(async (r) => r.ok && (await r.json().catch(() => ({}))).notified === true)
+    .catch(() => false);
+  const sb = getSupabase();
+  const saved = sb && !q.website
+    ? sb.from('contacts').insert({
+      name: `${q.firstName} ${q.lastName}`, email: q.email, type: 'coaching',
+      message: `Age: ${q.age}\nWhere they live: ${q.location}\nPosition: ${q.position}\nWhatsApp: ${q.whatsapp}`,
+    }).then(({ error }) => !error, () => false)
+    : Promise.resolve(false);
+  const [a, b] = await Promise.all([mailed, saved]);
+  return a || b;
+}

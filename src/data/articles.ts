@@ -25,11 +25,11 @@ export const articles: Article[] = [
     content: `
 ## The best college rugby programs in America, 2026–27
 
-This guide is about **15s**, not 7s. NCR runs a lot of sevens; a side can be weak at 15s and strong at 7s in the same year. If sevens is your main path, ask coaches directly — and see our rankings guide for what to ask.
+This guide is about **15s**, not 7s. NCR runs a lot of sevens; it's not uncommon to see a side struggle in 15s and be elite at 7s. If you want to play high-level 7s, ask coaches directly about their 7s program and schedule.
 
 I went through the US college rugby pathway as a recruit from Australia, then later as a coach. This guide is opinionated where it needs to be.
 
-**Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary's, and Lindenwood**. At the top of NCR D1 are **St. Bonaventure, Queens, and Brown**. Below that is a deep group of playoff-caliber sides (Walsh, Dartmouth, Wheeling and Kutztown in NCR D1), and a long tail of solid rugby environments where you can still get a proper season.
+**Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary's, and Lindenwood**. At the top of NCR D1 are **St. Bonaventure and Brown**. Below that is a deep group of playoff-caliber sides (Queens, Walsh, Dartmouth, Wheeling and Kutztown in NCR D1), and a long tail of solid rugby environments where you can still get a proper season.
 
 On Rugby Campus we group programs rather than ranking them in a numbered list, because rankings shift and no single list agrees — Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
 
@@ -111,7 +111,7 @@ Ready to look? Start with the [map](/map).
 ## Frequently asked questions
 
 **What is the best rugby college in America?**
-Best always changes — teams rotate. Right now, **Cal** is the best 15s college rugby program in America: back-to-back CRAA D1A titles in 2025 and 2026. Navy, Life, Saint Mary's, and Lindenwood sit with them in the top conversation. In NCR D1, St. Bonaventure, Queens and Brown are the names at the top.
+Best always changes — teams rotate. Right now, **Cal** is the best 15s college rugby program in America: back-to-back CRAA D1A titles in 2025 and 2026. Navy, Life, Saint Mary's, and Lindenwood sit with them in the top conversation. In NCR D1, St. Bonaventure and Brown are the names at the top.
 
 **Which US universities offer rugby scholarships?**
 We will not publish a confident "who offers" list until verified with coaches. Soft rule: some varsity rugby schools **may have limited** athletic aid for rugby; many club programs rely on academic aid. Ask each coach.
@@ -146,13 +146,13 @@ Let me tell you about one college rugby program over a few seasons. In year one 
 
 **Key idea up front: programs move in cycles.** That is the piece most rankings miss.
 
-That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I captained, but that senior group had gone and we were poor. Senior year was better. After I graduated I moved into the head coaching role. In 2023 we won the **NCR D1 National Championship**. We only lost one game that year — to Navy.
+That program was Notre Dame College. I went through the full cycle there. As a freshman I was under a very good senior group — I was injured (shoulder surgery), then COVID hit. By the time I was properly back I captained, but that senior group had gone and we were poor. My senior year was better, however, we still missed the playoffs. After I graduated I moved into the head coaching role. In 2023 we won the **NCR D1 National Championship**. We only lost one game that year — to Navy. A lot of that roster had been freshmen in the year we went 1–7. They stuck around, and by the time they were juniors they were all much better players.
 
 If you had ranked that program from any single season, you would have drawn the wrong conclusion about the next twelve months. That is the problem with rankings.
 
 ## Nobody actually agrees on the rankings
 
-There is no single authority. **Goff Rugby Report** publishes rankings — read Goff; it is one of the best regular sources of college rugby news. **NCR** publishes power rankings. **CRAA** publishes rankings for its side of the sport too. They regularly disagree. That is normal — not a scandal.
+There is no single authority. **Goff Rugby Report** publishes rankings — read Goff; it is one of the best regular sources of college rugby news. **NCR** publishes power rankings. **CRAA** publishes rankings for its side of the sport too. They regularly disagree.
 
 None of them is being dishonest. In a sport with limited crossover games between conferences, rankings are partly opinion. When a team in one conference and a team in another have played zero common opponents, ordering them is an educated guess.
 
@@ -198,7 +198,7 @@ Ask the coach: **does this program do sevens?** NCR generally runs a **longer se
 
 **Your realistic playing time.** Be honest about where you are.
 
-Rankings are a photograph of last season. You are choosing the next four years. Look at the film, not the photo.
+Rankings are a photograph of last season. You are choosing the next four years.
 `.trim(),
   },
   {
@@ -219,8 +219,6 @@ In late 2023 Notre Dame College's rugby program was at the sharp end of NCR D1. 
 The program that had climbed hard over a decade, shaped a lot of lives including mine, did not lose because of results on the field. The ground disappeared under it.
 
 **Silver lining:** the program transferred to **Walsh University** in **North Canton, Ohio**. Many players and a lot of the culture carried across. Walsh is a legitimate NCR D1 side now — find them on the [map](/map). If you had committed to NDC in mid-2024, you learned the hard version of a real American higher-ed risk: small colleges can close, and rugby goes with them.
-
-Two programs that were **known if you play rugby** disappeared in a short window. One of them was mine. Here's what happened — and how to protect yourself.
 
 ## Central Washington: varsity discontinued; club restart
 
