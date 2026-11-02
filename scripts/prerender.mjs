@@ -17,7 +17,7 @@ await build({
   bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
   alias: { '@': resolve(root, 'src') },
 });
-const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -35,9 +35,12 @@ const WEBSITE = {
   potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/colleges?q={search_term_string}` }, 'query-input': 'required name=search_term_string' },
 };
 
+// Social apps (WhatsApp, Facebook) often ignore a short path like /college-images/x.jpg, so always give a full address.
+const absUrl = (u) => (!u ? `${SITE_URL}/logo.png` : /^https?:\/\//i.test(u) ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`);
+
 function page({ path, title, description, jsonld, body, image }) {
   const url = `${SITE_URL}${path}`;
-  const fullTitle = path === '/' ? `${SITE_NAME} — Best Rugby Colleges in America, Mapped` : `${title} — ${SITE_NAME}`;
+  const fullTitle = path === '/' ? `${SITE_NAME} | Best Rugby Colleges in America, Mapped` : `${title} | ${SITE_NAME}`;
   const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': [ORG, WEBSITE, ...jsonld] });
   const head = `
     <title>${esc(fullTitle)}</title>
@@ -46,7 +49,7 @@ function page({ path, title, description, jsonld, body, image }) {
     <meta property="og:title" content="${esc(fullTitle)}" />
     <meta property="og:description" content="${esc(description)}" />
     <meta property="og:url" content="${url}" />
-    <meta property="og:image" content="${image || `${SITE_URL}/logo.png`}" />
+    <meta property="og:image" content="${absUrl(image)}" />
     <meta property="og:type" content="${path.startsWith('/learn/') ? 'article' : 'website'}" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">${ld}</script>`;
@@ -73,7 +76,7 @@ const byTier = (t) => colleges.filter((c) => c.tier === t);
 // ── Home ──
 urls.push(page({
   path: '/', title: '',
-  description: `US college rugby programs across CRAA D1A and NCR D1 — ${colleges.length} programs mapped and tiered, with coach contacts and honest recruitment guides from a national championship-winning coach.`,
+  description: `US college rugby programs across CRAA D1A and NCR D1. ${colleges.length} programs mapped and tiered, with coach contacts and recruitment guides from a national championship-winning coach. Free, and you don't need an agency.`,
   jsonld: [],
   body: `<h1>Every top college rugby program in America. Mapped.</h1>
   <p>Rugby Campus is a free guide to college rugby programs in the USA, across CRAA D1A and NCR D1. Each program is tiered on results, with coach contacts, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately), and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
@@ -112,7 +115,7 @@ function factsHtml(slug) {
   if (f.big_sport_tag) rows.push(['Athletics', f.big_sport_tag]);
   if (f.intl_warning) rows.push(['International students', f.intl_warning]);
   return `<h2>Cost, study and campus</h2><dl>${rows.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>` +
-    `<p><strong>Campus safety.</strong> ${esc(SAFETY_TEXT)} <a href="${esc(SAFETY_URL)}" rel="noopener noreferrer" target="_blank">Official campus safety report</a></p>` +
+    `<p><strong>Campus safety.</strong> <a href="${esc(SAFETY_URL)}" rel="noopener noreferrer" target="_blank">${esc(SAFETY_TEXT)}</a> (US Department of Education).</p>` +
     (f.majors_top?.length ? `<p><strong>Biggest fields of study:</strong> ${f.majors_top.map(esc).join(', ')}</p>` : '');
 }
 
@@ -126,27 +129,27 @@ for (const c of colleges) {
     ...(climateFromTemps(c.monthlyTemps) ? [['Weather', weatherSentence(climateFromTemps(c.monthlyTemps))]] : [])];
   urls.push(page({
     path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl,
-    description: `${c.name} rugby program — ${c.affiliation}, ${c.conference} conference, ${TIER_LABELS[c.tier].toLowerCase()}. ${c.location}. Coach contact, squad size, MLR draft and playing numbers, weather and how to get recruited.`,
+    description: `${c.name} rugby program: ${c.affiliation}, ${c.conference} conference, ${TIER_LABELS[c.tier].toLowerCase()}. ${c.location}. Coach contact, squad size, MLR draft and playing numbers, weather and how to get recruited.`,
     jsonld: [{ '@type': 'CollegeOrUniversity', name: c.name, url: c.website, address: { '@type': 'PostalAddress', addressLocality: c.location.split(',')[0], addressRegion: c.state, addressCountry: 'US' },
-      geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng }, image: c.imageUrl,
+      geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng }, image: absUrl(c.imageUrl),
       department: { '@type': 'SportsTeam', name: `${c.name} Rugby`, sport: 'Rugby Union', memberOf: { '@type': 'SportsOrganization', name: c.affiliation },
         ...(c.coachName ? { coach: { '@type': 'Person', name: c.coachName } } : {}) } },
       { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Colleges', item: `${SITE_URL}/colleges` }, { '@type': 'ListItem', position: 2, name: c.name, item: `${SITE_URL}/colleges/${c.slug}` }] }],
     body: `<h1>${esc(c.name)} Rugby</h1><p><strong>${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(TIER_LABELS[c.tier])}</strong><br>${esc(c.location)}</p><p>${esc(c.description)}</p>
-    ${c.badges.length ? `<p><strong>${c.badges.map(esc).join(' · ')}</strong></p>` : ''}
+    ${visibleBadges(c.badges).length ? `<p><strong>${visibleBadges(c.badges).map(esc).join(' · ')}</strong></p>` : ''}
     <h2>The rugby</h2><dl>${facts.map(([k, v]) => `<dt><strong>${esc(k)}</strong></dt><dd>${esc(v)}</dd>`).join('')}</dl>
     ${mlr.drafted > 0 ? `<p>${esc(mlr.breakdown)}${c.mlrNote ? ` ${esc(c.mlrNote)}` : ''} ${esc(mlr.explainer)}</p><p>${esc(mlr.sources)}</p>` : ''}
     <p><a href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${c.name}`)}&amp;body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${c.slug}:\n\n`)}">Spot something wrong? Tell us</a></p>
     ${factsHtml(c.slug)}
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
-    ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)} — email available on the page after a free one-time signup.</p>` : ''}
+    ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)}. Email available on the page after a free one-time signup.</p>` : ''}
     ${c.recruitmentFormUrl ? `<p><a href="${esc(c.recruitmentFormUrl)}" rel="noopener noreferrer" target="_blank">Recruitment form</a></p>` : ''}
     <p><a href="/colleges">All programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
   }));
 }
 
 // ── Learn + articles ──
-urls.push(page({ path: '/learn', title: 'College Rugby Guides', description: 'Honest guides on US college rugby: the best programs, how recruitment works, why rankings mislead, scholarships, and what happens when programs die.', jsonld: [],
+urls.push(page({ path: '/learn', title: 'College Rugby Guides', description: 'Guides on US college rugby: the best programs, how recruitment works, why rankings mislead, scholarships, and what happens when programs die.', jsonld: [],
   body: `<h1>How US college rugby really works</h1>${nav}<ul>${articles.map((a) => `<li><a href="/learn/${a.slug}">${esc(a.title)}</a>${isFull(a) ? '' : ' (coming soon)'}</li>`).join('')}</ul>` }));
 
 const inline = (t) => esc(t).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -177,14 +180,14 @@ for (const a of articles) {
 
 // ── Static pages ──
 for (const [path, title, description, body] of [
-  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston — Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
-    `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby — from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org — I reply personally.</p>${nav}`],
-  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus individualized coaching for athletes heading to US college rugby.',
-    `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and one-on-one coaching (strength, conditioning and speed work) for athletes heading to US college rugby. Coaching is a paid service.</p>${nav}`],
+  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
+    `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby, from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org.</p>${nav}`],
+  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.',
+    `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and paid one-on-one coaching (strength, conditioning and speed work) for high-school players getting ready to leave home for US college rugby.</p>${nav}`],
   ['/work-with-me', 'About Hugh & Rugby Campus', 'This page has moved. See the About page for Hugh Johnston\u2019s background and contact.',
     `<h1>This page has moved</h1><p>Looking for Hugh? Head to <a href="/about">About</a>.</p>${nav}`],
-  ['/for-coaches', 'For College Coaches — Feature Your Program', 'Put your college rugby program in front of international recruits. Featured placements, verified profiles and direct inquiries from qualified players.',
-    `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is where international recruits research US college rugby. Coaches can claim and verify their profile, and feature their program to qualified players.</p>${nav}`],
+  ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.',
+    `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is a free guide to US college rugby for international players and their parents. Coaches can verify their profile for free, or ask about a featured listing (always labelled Featured).</p>${nav}`],
 ]) urls.push(page({ path, title, description, jsonld: [], body }));
 
 // ── sitemap.xml ──

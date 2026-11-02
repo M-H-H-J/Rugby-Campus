@@ -3,7 +3,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
 
 export default function Learn() {
-  usePageMeta('College Rugby Guides', 'Guides on how US college rugby works — structure, programs, rankings, and what to know before you commit.');
+  usePageMeta('College Rugby Guides', 'Guides on how US college rugby works: structure, programs, rankings, and what to know before you commit.');
   const full = articles.filter((a) => !a.content.startsWith('Coming soon'));
   const stubs = articles.filter((a) => a.content.startsWith('Coming soon'));
 

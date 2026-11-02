@@ -1,12 +1,13 @@
-import { useState, useMemo, useEffect } from 'react';
+import { lazy, Suspense, useState, useMemo, useEffect } from 'react';
 import { useLocation, Link } from 'wouter';
 import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, Tier, type College } from '@/data/colleges';
+import { TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, TIER_GUIDE_NOTE, Tier, type College } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
-import CollegeSearch from '@/components/search/CollegeSearch';
-import TierNoticeModal from '@/components/TierNoticeModal';
+
+// The search box and its data load after the page has appeared.
+const CollegeSearch = lazy(() => import('@/components/search/CollegeSearch'));
 
 const AFFILIATION_TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
@@ -96,16 +97,21 @@ export default function Colleges() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
-      <TierNoticeModal />
-      {/* Header row */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
-        <p className="text-[13px] text-muted">{SEASON_LABEL}</p>
-        <Link href="/map" className="btn inline-flex items-center gap-1.5 self-start md:self-auto bg-white border border-line text-ink px-3 py-1.5 rounded-md text-[12px] font-medium hover:border-navy/30">
+      {/* Heading row */}
+      <div className="flex items-start justify-between gap-3 mb-6">
+        <div className="min-w-0">
+          <h1 className="font-heading text-[30px] md:text-[38px] leading-[1.05] text-ink">Colleges</h1>
+          <p className="mt-2 text-[14px] text-ink/80">{TIER_GUIDE_NOTE}</p>
+          <p className="mt-1 text-[12px] text-faint">{SEASON_LABEL}</p>
+        </div>
+        <Link href="/map" className="btn inline-flex items-center gap-1.5 shrink-0 bg-white border border-line text-ink px-3 py-1.5 rounded-md text-[12px] font-medium hover:border-navy/30">
           <MapIcon size={14} /> Map
         </Link>
       </div>
 
-      <CollegeSearch colleges={colleges} initialSentence={initialFind} />
+      <Suspense fallback={<div className="min-h-[120px]" aria-hidden />}>
+        <CollegeSearch colleges={colleges} initialSentence={initialFind} />
+      </Suspense>
 
       {/* Filter bar — dense tool chrome */}
       <div className="sticky top-14 z-30 bg-white -mx-4 px-4 border-b border-line mb-5">
@@ -155,14 +161,11 @@ export default function Colleges() {
         <>
           <p className="text-[15px] text-ink mb-2">All {colleges.length} compete at the top level of US college rugby.</p>
           {grouped.filter((g) => g.tier === 'championship').map(({ tier, items }) => (
-            <section key={tier} className="mt-6 grid md:grid-cols-[14rem_1fr] gap-4 md:gap-10 border-t border-line pt-8 min-w-0">
+            <section key={tier} className="mt-8 grid md:grid-cols-[14rem_1fr] gap-4 md:gap-10 border-t border-line pt-8 min-w-0">
               <TierHeading tier={tier} count={items.length} />
               <PhotoGrid items={items} />
             </section>
           ))}
-          {grouped.some((g) => g.tier === 'championship') && grouped.some((g) => g.tier !== 'championship') && (
-            <h2 className="font-heading text-[22px] text-ink mt-14 mb-2">More programs worth a look</h2>
-          )}
           {grouped.filter((g) => g.tier !== 'championship').map(({ tier, items }) => (
             <section key={tier} className="mt-8 grid md:grid-cols-[14rem_1fr] gap-4 md:gap-10 border-t border-line pt-8 min-w-0">
               <TierHeading tier={tier} count={items.length} />

@@ -6,26 +6,17 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
 import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
-import type { College } from '@/data/colleges';
-
-const FEATURED_SLUGS = [
-  'university-of-california-berkeley',
-  'brown-university',
-  'united-states-naval-academy',
-  'queens-university-of-charlotte',
-];
+import { pickTopPrograms } from '@/lib/topPrograms';
 
 export default function Home() {
-  usePageMeta('', "Every top college rugby program in America — mapped, tiered, and explained. Coach contacts and honest recruitment guides from someone who's been on both sides of recruitment.");
+  usePageMeta('', "Every top college rugby program in America, mapped, tiered and explained. Free. Coach contacts and recruitment guides from someone who's been on both sides of recruitment.");
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [find, setFind] = useState('');
 
-  const featured = FEATURED_SLUGS
-    .map((slug) => colleges.find((c) => c.slug === slug))
-    .filter((c): c is College => Boolean(c));
+  const featured = pickTopPrograms(colleges);
   const fullArticles = articles.filter((a) => !a.content.startsWith('Coming soon'));
   const [lead, ...rest] = fullArticles;
 
@@ -38,8 +29,8 @@ export default function Home() {
   const [hero, ...restFeatured] = featured;
   const steps = [
     { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference and location. There are so many programs out there, so make sure you find the right one for you.' },
-    { n: '2', t: 'Prepare your outreach', d: 'Build a short highlight reel and write a one-page profile with your position, size, and playing history.' },
-    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact; where we couldn't confirm one, we say so. Send a short email with your position, size, and highlights — that is enough to start the conversation." },
+    { n: '2', t: 'Build your highlight reel', d: 'Put together a short highlight reel and a one-page profile of who you are as a player.' },
+    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact. Where we couldn't confirm one, we say so. Where a program has its own recruitment form, use that first. Then send a short email with a link to your reel. That is enough to start the conversation." },
   ];
 
   return (
@@ -50,7 +41,11 @@ export default function Home() {
             <h1 className="font-heading text-[44px] md:text-[64px] leading-[0.95] tracking-[-0.03em] text-ink">
               Every top program in America. Mapped.
             </h1>
-            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-8 flex flex-col sm:flex-row sm:items-end gap-3">
+            <p className="mt-5 font-heading text-[22px] md:text-[26px] leading-snug text-ink">Free. You don't need an agency.</p>
+            <p className="mt-2 text-[14px] text-muted">
+              Built by <Link href="/about" className="text-navy font-medium underline underline-offset-2">Hugh Johnston</Link>, 2023 NCR D1 national championship coach.
+            </p>
+            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">
               <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
               <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Engineering, good rugby, mild winters"
                 className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] outline-none placeholder:text-faint" />
@@ -107,7 +102,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] mb-4">From anywhere to a US college</h2>
           <p className="font-heading text-[18px] md:text-[20px] text-muted leading-[1.55] max-w-2xl mb-12">
-            I've seen this from both sides — as a recruit trying to get in, and as a coach recruiting players. Here's how it works.
+            I've seen this from both sides, as a recruit trying to get in and as a coach recruiting players.
           </p>
           <div className="grid md:grid-cols-3 gap-10">
             {steps.map((s) => (
@@ -130,8 +125,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="kicker mb-3">Honest Guides</p>
-                <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">How it works</h2>
+                <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05] tracking-[-0.02em]">Guides</h2>
               </div>
               <Link href="/learn" className="hidden sm:inline-flex items-center gap-2 text-[14px] font-semibold text-navy hover:text-navy-deep transition-colors">
                 All guides <ArrowRight size={15} />
@@ -163,10 +157,10 @@ export default function Home() {
       <section className="bg-dark">
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl">
-            <p className="kicker mb-4 !text-white/80">Stay Connected</p>
-            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Stay across it.</h2>
+            <p className="kicker mb-4 !text-white/80">New guides by email</p>
+            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Get new guides.</h2>
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
-              Program updates, recruitment windows, and new guides — a short email, only when there's something worth sending.
+              Program updates, recruitment windows and new guides. A short email, only when there's something worth sending.
             </p>
             {subscribed ? (
               <p className="inline-flex items-center gap-2 text-[15px] text-white font-medium">

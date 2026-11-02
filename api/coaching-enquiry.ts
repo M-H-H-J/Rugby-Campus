@@ -24,6 +24,6 @@ export default async function handler(req: Req, res: Res) {
   const notified = await sendMail({ to: HELLO, replyTo: email, idempotencyKey: key + ':n', subject: `Coaching enquiry: ${full}`,
     text: `Name: ${full}\nAge: ${age}\nWhere they live: ${location}\nPosition: ${position}\nEmail: ${email}\nWhatsApp: ${whatsapp}\n\nHit Reply to answer them directly.` });
   const replied = await sendMail({ to: email, idempotencyKey: key + ':r', subject: 'Thanks for your coaching enquiry',
-    text: `Hi ${firstName},\n\nThanks — I'll be in touch on WhatsApp or email to set up an intro chat.\n\nHugh, Rugby Campus` });
+    text: `Hi ${firstName},\n\nThanks. I'll be in touch on WhatsApp or email to set up an intro chat.\n\nHugh, Rugby Campus` });
   return send(res, 200, { ok: true, notified, replied });
 }

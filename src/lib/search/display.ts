@@ -119,7 +119,7 @@ type AirportFacts = {
 export function airportRows(f: AirportFacts): [string, string][] {
   const rows: [string, string][] = [];
   if (f.nearest_airport_iata) {
-    rows.push(['Nearest major airport', `${f.nearest_airport_name} (${f.nearest_airport_iata}), about ${f.airport_distance_miles} miles in a straight line, not driving distance`]);
+    rows.push(['Nearest major airport', `${f.nearest_airport_name} (${f.nearest_airport_iata}), about ${f.airport_distance_miles} miles in a straight line`]);
   }
   if (f.flights_airport_iata && f.flights_airport_iata !== f.nearest_airport_iata) {
     const limited = f.flights_airport_limited ? ' · only a few flights a day at most' : '';
@@ -136,10 +136,10 @@ export function rugbyAidText(f: { rugby_aid: 'full' | 'partial' | 'none' | 'vari
   return 'Ask the coach';
 }
 
-export const SAFETY_TEXT = 'Not scored yet. See the official campus safety report (US Dept of Education).';
+export const SAFETY_TEXT = 'See the official campus safety report';
 export const SAFETY_URL = 'https://ope.ed.gov/campussafety/';
 
-export const MLR_EXPLAINER = 'Being drafted gives an MLR club the rights to a player. It doesn\'t mean he signed or played. “Played” is a confirmed minimum from match records, so the true number could be a little higher.';
+export const MLR_EXPLAINER = 'Being drafted gives an MLR club the rights to a player. It doesn\'t mean he signed or played. “Played” counts only appearances confirmed in match records, so the real number may be higher.';
 export const MLR_SOURCES = 'MLR College Draft results, NARDB and Americas Rugby News, checked October 2026.';
 
 export function mlrSummary(c: {
@@ -159,7 +159,8 @@ export function mlrSummary(c: {
   const parts: string[] = [];
   if (played != null && played > 0) parts.push(`${played} confirmed played`);
   if (c.mlrNoAppearance > 0) parts.push(`${c.mlrNoAppearance} with no recorded appearance`);
-  if (unconfirmed > 0) parts.push(`${unconfirmed} not confirmed either way`);
+  // When no one is confirmed as having played, the Played row already says "None confirmed yet": don't say it twice.
+  if (unconfirmed > 0 && (played ?? 0) > 0) parts.push(`${unconfirmed} not confirmed either way`);
   if (c.mlrNotYet > 0) parts.push(`${c.mlrNotYet} from the 2026 class (no season played yet)`);
   const breakdown = drafted > 0 && parts.length ? `Of the ${drafted} drafted: ${parts.join(', ')}.` : '';
   return {
@@ -173,4 +174,9 @@ export function mlrSummary(c: {
     explainer: MLR_EXPLAINER,
     sources: MLR_SOURCES,
   };
+}
+
+/** Badges for display. The MLR draft count is its own row on the page, so it is not repeated as a badge. */
+export function visibleBadges(badges: string[]): string[] {
+  return badges.filter((b) => !/drafted into MLR/i.test(b));
 }

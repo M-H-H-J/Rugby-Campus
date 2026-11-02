@@ -5,7 +5,7 @@ import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 
 export default function Training() {
-  usePageMeta('Rugby Training', 'A free sample strength block, plus paid individualized coaching for players preparing for US college rugby.');
+  usePageMeta('Rugby Training', 'A free sample strength block, plus paid one-on-one coaching for high-school players getting ready for US college rugby.');
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
 
@@ -49,7 +49,7 @@ export default function Training() {
         <p className="kicker mb-2">Training</p>
         <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink mb-4">Arrive ready to compete</h1>
         <p className="text-muted text-[15px] leading-relaxed">
-          US college rugby can be physical. Below is a free four-day strength sample — your email unlocks days two through four.
+          College rugby is a step up physically. Turn up ready. Below is a free four-day strength sample. Your email unlocks days two through four.
         </p>
       </header>
 
@@ -59,7 +59,7 @@ export default function Training() {
           <p className="kicker mb-2">Free sample</p>
           <h2 className="font-heading text-[26px] text-ink leading-tight mb-3">Off-season strength block</h2>
           <p className="text-muted text-[14px] leading-relaxed mb-6">
-            Four days from an off-season strength block — upper/lower split. Day one is open; your email unlocks days two through four.
+            Four days from an off-season strength block, upper/lower split. Day one is open; your email unlocks days two through four.
           </p>
           {unlocked ? (
             <p className="inline-flex items-center gap-2 text-[14px] text-navy font-medium">
@@ -80,7 +80,7 @@ export default function Training() {
         </div>
 
         <div className="lg:col-span-8 lg:pl-8 lg:border-l lg:border-line">
-          {day('Day 1 — Upper', [
+          {day('Day 1: Upper', [
             '1A Rotational med ball throw — 3×4 each side',
             '1B Clap push-ups — 3×4',
             '2A DB incline bench — 4×6',
@@ -102,10 +102,10 @@ export default function Training() {
           <div className="lg:col-span-7">
             <p className="kicker mb-3 !text-white/80">Paid coaching</p>
             <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
-              Paid one-on-one coaching for college rugby
+              Paid one-on-one coaching before you leave for college
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">
-              I take on a small number of athletes one-on-one. This is paid coaching. Your program is built around your position, what you want out of the season, and your rugby season timeline — with regular check-ins and adjustments. It's not just gym work: it covers conditioning on and off your feet, and speed work. Send an enquiry to ask about fit and pricing.
+              I take on a small number of athletes one-on-one. This is paid coaching, built for high-school players getting ready to leave home for college rugby. Parents are welcome to enquire for their son or daughter. Your program is built around your position, what you want out of the season, and your rugby season timeline, with regular check-ins and adjustments. It covers strength, conditioning on and off your feet, and speed work. Send an enquiry to ask about fit and pricing.
             </p>
             <ul className="space-y-2.5 mb-8">
               {[
@@ -140,7 +140,7 @@ export default function Training() {
       </section>
 
       <section className="grid sm:grid-cols-2 gap-8">
-          {locked('Day 2 — Lower', [
+          {locked('Day 2: Lower', [
             '1A Trap bar speed shrugs — 3×6',
             '1B Seated box jumps — 3×4',
             '1C Lateral bounds — 3×3 each side',
@@ -152,7 +152,7 @@ export default function Training() {
             '4A Banded marches — 2×12 each side',
             '4B Leg extensions — 2×(10 each side + 10)',
           ])}
-          {locked('Day 3 — Upper', [
+          {locked('Day 3: Upper', [
             '1A Med ball bench throw — 3×6',
             '1B Pallof rotation — 3×12 each side',
             '2A Barbell bench press — 4×6',
@@ -163,7 +163,7 @@ export default function Training() {
             '4A DB lateral raise — 3×12–15',
             '4B Skullcrushers — 2×12',
           ])}
-          {locked('Day 4 — Lower', [
+          {locked('Day 4: Lower', [
             '1A Hang high pull — 3×5',
             '1B Double broad jumps — 3×2',
             '1C Pogos — 2×10',

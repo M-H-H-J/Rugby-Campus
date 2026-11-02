@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Check } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
-import { CONTACT_EMAIL } from '@/config';
+import { CONTACT_EMAIL, MONEY_LINE } from '@/config';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -51,8 +51,8 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 className="text-[11px] font-semibold text-white/40 uppercase tracking-caps mb-3">Stay connected</h4>
-            <p className="text-white/45 text-xs mb-3">Program updates and recruitment tips.</p>
+            <h4 className="text-[11px] font-semibold text-white/40 uppercase tracking-caps mb-3">New guides by email</h4>
+            <p className="text-white/45 text-xs mb-3">Get new guides and program updates. A short email, only when there is something worth sending.</p>
             {done ? (
               <p className="inline-flex items-center gap-1.5 text-white text-xs"><Check size={13} /> Subscribed</p>
             ) : (
@@ -70,6 +70,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-5 flex flex-col gap-3">
           <p className="text-white/45 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
+          <p className="text-white/45 text-[11px] leading-relaxed">{MONEY_LINE}</p>
           <div className="flex flex-col sm:flex-row justify-between gap-3">
             <p className="text-white/35 text-[11px]">© 2026 Rugby Campus.</p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/35 hover:text-white/60 text-[11px] transition-colors">{CONTACT_EMAIL}</a>

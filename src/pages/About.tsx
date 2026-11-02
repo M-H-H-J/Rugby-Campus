@@ -4,7 +4,7 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 
 export default function About() {
-  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists — a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
+  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">
       <header className="mb-10">
@@ -13,7 +13,7 @@ export default function About() {
           The resource I needed at 17.
         </h1>
         <p className="font-heading text-[19px] text-muted leading-[1.6]">
-          Rugby Campus is a free guide to US college rugby — programs, levels, and how recruitment actually works.
+          Rugby Campus is a free guide to US college rugby: programs, levels, and how recruitment actually works.
         </p>
       </header>
 
@@ -22,13 +22,13 @@ export default function About() {
       <section className="mb-14">
         <div className="space-y-5 font-heading text-[17.5px] text-ink/85 leading-[1.75]">
           <p>
-            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check <a href="https://www.niche.com" target="_blank" rel="noopener noreferrer" className="text-navy hover:text-navy-deep">Niche</a> for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream — every conversation made it sound like the best place to be.
+            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check <a href="https://www.niche.com" target="_blank" rel="noopener noreferrer" className="text-navy hover:text-navy-deep">Niche</a> for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream. Every conversation made it sound like the best place to be.
           </p>
           <p>
-            What I needed was a clear list of colleges — where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
+            What I needed was a clear list of colleges: where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
           </p>
           <p>
-            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong> — an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
+            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong>, an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
@@ -37,10 +37,10 @@ export default function About() {
             Being on both sides of recruiting calls, I was conscious that the decision potential athletes were about to make was a crucial one in their life. I was honest, upfront about Notre Dame College. We were a no-name college, without the best facilities, but we had a tight-knit group of boys from all across the world who all wanted to win. That honesty is some of the gap this site tries to fill.
           </p>
           <p>
-            Questions about a program, or something not right on the site? Email me. The best screening is still talking to coaches yourself — and visiting if you can. I never visited before I committed though, and it's okay if you can't.
+            The best screening is still talking to coaches yourself, and visiting if you can. I never visited before I committed though, and it's okay if you can't.
           </p>
           <p>
-            If you go through an agency, that is fine — use this site as well. Agencies vary; use both.
+            If you go through an agency, that is fine. Use this site as well.
           </p>
         </div>
       </section>
@@ -50,9 +50,9 @@ export default function About() {
         <p className="kicker mb-4">The short version</p>
         <dl>
           {[
-            ['Player & captain', 'Notre Dame College — D1A, then NCR D1'],
+            ['Player & captain', 'Notre Dame College (D1A, then NCR D1)'],
             ['After college', 'PR7s and club rugby in Austin, Texas'],
-            ['Coach', 'Notre Dame College Head Coach, 2023'],
+            ['Coach', 'Notre Dame College Head Coach, 2023 NCR D1 national champions'],
           ].map(([label, value]) => (
             <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-6 py-4 border-b border-line">
               <dt className="text-[13px] text-faint sm:pt-0.5">{label}</dt>

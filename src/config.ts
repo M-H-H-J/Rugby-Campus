@@ -9,4 +9,6 @@ export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 export const CONTACT_EMAIL = 'hello@rugbycampus.org';
 export const SITE_URL = 'https://rugbycampus.org';
 export const SITE_NAME = 'Rugby Campus';
+/** Shown in the footer on every page. Keep it true: only mention paid listings once they exist, and always label them. */
+export const MONEY_LINE = 'How the site makes money: free for players. Colleges may pay for a featured listing, and it will always be labelled Featured.';
 export const SITE_TAGLINE = 'Find Your Rugby College in the USA';

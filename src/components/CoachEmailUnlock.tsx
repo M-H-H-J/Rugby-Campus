@@ -1,15 +1,35 @@
 import { useState, useEffect } from 'react';
-import { Lock, X, Check } from 'lucide-react';
+import { Lock, X, Check, ExternalLink } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
+import { COACH_EMAIL_TIPS, coachEmailBody, coachEmailSubject } from '@/data/coachEmailTemplate';
 
 const STORAGE_KEY = 'rc_unlocked';
 
-export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName: string; coachEmail: string }) {
+function EmailTemplate({ collegeName, open }: { collegeName: string; open: boolean }) {
+  const [copied, setCopied] = useState(false);
+  const text = `Subject: ${coachEmailSubject(collegeName)}\n\n${coachEmailBody(collegeName)}`;
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* clipboard blocked: the text is selectable */ }
+  };
+  return (
+    <details open={open} className="mt-3 rounded-md border border-line px-3 py-2.5 text-[13px] text-muted">
+      <summary className="cursor-pointer font-medium text-ink">How to email a coach</summary>
+      <ul className="mt-2 list-disc pl-4 space-y-1 leading-relaxed">
+        {COACH_EMAIL_TIPS.map((t) => <li key={t}>{t}</li>)}
+      </ul>
+      <pre className="mt-3 whitespace-pre-wrap font-body text-[12.5px] leading-relaxed text-ink bg-navy/[0.04] rounded-md p-3">{text}</pre>
+      <button type="button" onClick={copy} className="mt-2 text-navy font-medium underline underline-offset-2">{copied ? 'Copied' : 'Copy this template'}</button>
+    </details>
+  );
+}
+
+export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFormUrl, collegeName }: { coachName: string; coachEmail: string; recruitmentFormUrl?: string; collegeName: string }) {
   const [unlocked, setUnlocked] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [justUnlocked, setJustUnlocked] = useState(false);
 
   useEffect(() => {
     try { if (localStorage.getItem(STORAGE_KEY) === 'true') setUnlocked(true); } catch { /* private mode */ }
@@ -22,6 +42,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
     try { localStorage.setItem(STORAGE_KEY, 'true'); } catch { /* private mode */ }
     setBusy(false);
     setUnlocked(true);
+    setJustUnlocked(true);
     setDone(true);
     setTimeout(() => { setShowModal(false); setDone(false); }, 1400);
   };
@@ -31,6 +52,15 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
       <div className="border-t border-ink pt-4">
         <p className="kicker mb-2">Head coach</p>
         <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'To be confirmed'}</p>
+        {recruitmentFormUrl && (
+          <div className="mb-4 rounded-md border border-navy/25 bg-navy/[0.04] px-3 py-3">
+            <p className="text-[11px] uppercase tracking-caps text-faint">Start here</p>
+            <a href={recruitmentFormUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[15px] font-semibold text-navy">
+              Recruitment form <ExternalLink size={14} />
+            </a>
+            <p className="mt-1 text-[12px] text-muted">This program has its own form. Use it before you email.</p>
+          </div>
+        )}
         <div className="pt-4 border-t border-line">
           {unlocked ? (
             <div className="rounded-md border border-navy/25 bg-navy/[0.04] px-3 py-3">
@@ -38,8 +68,9 @@ export default function CoachEmailUnlock({ coachName, coachEmail }: { coachName:
               {coachEmail ? (
                 <a href={`mailto:${coachEmail}`} className="text-[15px] font-semibold text-navy break-all">{coachEmail}</a>
               ) : (
-                <span className="text-[15px] font-semibold text-navy">Email being verified — check back soon</span>
+                <span className="text-[15px] font-semibold text-navy">Email being verified. Check back soon.</span>
               )}
+              <EmailTemplate collegeName={collegeName} open={justUnlocked} />
             </div>
           ) : (
             <button onClick={() => setShowModal(true)} className="w-full flex items-center gap-2.5 group text-left">

@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'wouter';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Home from '@/pages/Home';
-import MapPage from '@/pages/MapPage';
-import Colleges from '@/pages/Colleges';
-import CollegeDetail from '@/pages/CollegeDetail';
-import Learn from '@/pages/Learn';
-import ArticlePage from '@/pages/ArticlePage';
-import Training from '@/pages/Training';
-import About from '@/pages/About';
-import ForCoaches from '@/pages/ForCoaches';
+import { Analytics } from '@vercel/analytics/react';
+
+// Every page except Home loads when it is first visited, so the map library, search and guides
+// do not slow down the first load on a phone.
+const MapPage = lazy(() => import('@/pages/MapPage'));
+const Colleges = lazy(() => import('@/pages/Colleges'));
+const CollegeDetail = lazy(() => import('@/pages/CollegeDetail'));
+const Learn = lazy(() => import('@/pages/Learn'));
+const ArticlePage = lazy(() => import('@/pages/ArticlePage'));
+const Training = lazy(() => import('@/pages/Training'));
+const About = lazy(() => import('@/pages/About'));
+const ForCoaches = lazy(() => import('@/pages/ForCoaches'));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -26,6 +30,7 @@ export default function App() {
       <ScrollToTop />
       <Navigation />
       <main className="flex-1 pt-14">
+        <Suspense fallback={<div className="min-h-[60vh]" aria-hidden />}>
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/map" component={MapPage} />
@@ -44,8 +49,11 @@ export default function App() {
             </div>
           </Route>
         </Switch>
+        </Suspense>
       </main>
       <Footer />
+      {/* Vercel Web Analytics: page views only, no cookies. It starts counting once Web Analytics is switched on for the project in Vercel. */}
+      <Analytics />
     </div>
   );
 }

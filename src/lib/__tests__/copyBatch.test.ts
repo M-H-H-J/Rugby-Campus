@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { colleges, TIER_LABELS, TIER_SUBLINE } from '@/data/colleges';
 import { articles } from '@/data/articles';
-import { TIER_NOTICE_KEY, dismissTierNotice, shouldShowTierNotice } from '@/lib/tierNotice';
 import facts from '@/data/collegeSearchFacts.json';
 
 const body = (slug: string) => articles.find((a) => a.slug === slug)!.content;
@@ -16,7 +15,7 @@ describe('copy batch, 2 Nov 2026', () => {
   });
   it('the fourth tier is "Rounding out the best", with no "Up and coming" left anywhere in the guides', () => {
     expect(TIER_LABELS.emerging).toBe('Rounding out the best');
-    expect(TIER_SUBLINE.emerging).toBe('A chance to help shape the program.');
+    expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
     expect(articles.map((a) => a.content).join('\n')).not.toMatch(/up and coming|up & coming/i);
   });
   it('guide edits are in', () => {
@@ -28,16 +27,5 @@ describe('copy batch, 2 Nov 2026', () => {
     expect(lies).not.toContain('not a scandal');
     expect(lies).not.toContain('Look at the film');
     expect(body('when-college-rugby-programs-die')).not.toContain('Two programs that were **known if you play rugby**');
-  });
-  it('first-visit tier pop-up shows once, and survives blocked storage', () => {
-    const mem: Record<string, string> = {};
-    const store = { getItem: (k: string) => mem[k] ?? null, setItem: (k: string, v: string) => { mem[k] = v; } };
-    expect(shouldShowTierNotice(store)).toBe(true);
-    dismissTierNotice(store);
-    expect(mem[TIER_NOTICE_KEY]).toBe('1');
-    expect(shouldShowTierNotice(store)).toBe(false);
-    const blocked = { getItem: () => { throw new Error('blocked'); }, setItem: () => { throw new Error('blocked'); } };
-    expect(shouldShowTierNotice(blocked)).toBe(true);
-    expect(() => dismissTierNotice(blocked)).not.toThrow();
   });
 });

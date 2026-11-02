@@ -5,7 +5,7 @@ import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
-import { climateFromTemps, mlrSummary, weatherSentence } from '@/lib/search/display';
+import { climateFromTemps, mlrSummary, visibleBadges, weatherSentence } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 
@@ -16,7 +16,7 @@ export default function CollegeDetail() {
 
   usePageMeta(
     college ? `${college.name} Rugby` : 'College Not Found',
-    college ? `${college.name} rugby — ${college.affiliation}, ${college.conference}. Coach contact, program details, and how to get recruited.` : undefined
+    college ? `${college.name} rugby: ${college.affiliation}, ${college.conference}. Coach contact, program details, and how to get recruited.` : undefined
   );
   // Unknown or retired slug: keep this "not found" page out of search engines.
   useNoindex(!college);
@@ -41,13 +41,11 @@ export default function CollegeDetail() {
     ['Squad size', college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC'],
     ['Drafted (2020–26)', mlr.draftedText],
     ['Played at least one MLR match', mlr.playedText],
-    ...(mlr.unconfirmed > 0 ? [['Not confirmed either way', mlr.unconfirmedText] as [string, string]] : []),
   ];
   const collegeFacts: [string, string][] = [
     ['Location', college.location],
-    ['State', college.state],
-    ['Region', college.region],
   ];
+  const badges = visibleBadges(college.badges);
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 md:py-12">
@@ -73,9 +71,9 @@ export default function CollegeDetail() {
               <span className="text-[13px] text-faint">{college.name}</span>
             </div>
           )}
-          {college.badges.length > 0 && (
+          {badges.length > 0 && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
-              <p className="text-white text-[13px] font-medium">{college.badges.join('  ·  ')}</p>
+              <p className="text-white text-[13px] font-medium">{badges.join('  ·  ')}</p>
             </div>
           )}
         </div>
@@ -92,8 +90,9 @@ export default function CollegeDetail() {
         )}
       </figure>
 
-      <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
-        <div className="lg:col-span-3 space-y-12">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
+        {/* min-w-0: lets the 12-month weather table scroll inside its own box instead of widening the page on phones */}
+        <div className="lg:col-span-3 min-w-0 space-y-12">
           <section>
             <p className="text-[17px] text-ink leading-[1.7]">{college.description}</p>
           </section>
@@ -107,13 +106,6 @@ export default function CollegeDetail() {
                 ))}
               </ul>
             </section>
-          )}
-
-          {college.popularMajors.length > 0 && (
-            <p className="text-[15px] text-muted leading-relaxed">
-              <span className="text-ink font-medium">Popular majors: </span>
-              {college.popularMajors.join(', ')}
-            </p>
           )}
 
           <CollegeFactsSection slug={college.slug} />
@@ -158,7 +150,7 @@ export default function CollegeDetail() {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-2">
+        <aside className="lg:col-span-2 min-w-0">
           <div className="lg:sticky lg:top-24">
             <h2 className="font-heading text-[22px] text-ink mb-3">At a glance</h2>
             <dl className="border-t border-ink">
@@ -178,7 +170,7 @@ export default function CollegeDetail() {
               ))}
             </dl>
             <p className="mt-3 text-[12px] text-faint leading-relaxed">
-              Program type is our best reading of each school's own pages and could be wrong.{' '}
+              Program type comes from each school's own pages. Something wrong?{' '}
               <a
                 href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
                 className="text-navy font-medium"
@@ -196,15 +188,8 @@ export default function CollegeDetail() {
               </div>
             )}
             <div className="mt-6">
-              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} />
+              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} recruitmentFormUrl={college.recruitmentFormUrl} collegeName={college.name} />
             </div>
-            {college.recruitmentFormUrl && (
-              <p className="mt-2 text-[13px]">
-                <a href={college.recruitmentFormUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
-                  Recruitment form <ExternalLink size={13} />
-                </a>
-              </p>
-            )}
             <p className="mt-5 text-[13px]">
               <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
                 University website <ExternalLink size={13} />

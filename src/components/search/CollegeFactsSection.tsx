@@ -39,15 +39,12 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
         )}
         <div className="flex justify-between gap-6 py-3 border-b border-line text-[14px]">
           <dt className="text-muted">Campus safety</dt>
-          <dd className="font-medium text-ink text-right">{SAFETY_TEXT} <a href={SAFETY_URL} target="_blank" rel="noopener noreferrer" className="underline">Official report</a></dd>
+          <dd className="font-medium text-ink text-right"><a href={SAFETY_URL} target="_blank" rel="noopener noreferrer" className="underline">{SAFETY_TEXT}</a><span className="block text-[12px] font-normal text-muted">US Department of Education</span></dd>
         </div>
       </dl>
       {f.intl_warning && <p className="mt-3 text-[13px] text-muted">⚠︎ {f.intl_warning}</p>}
       {f.majors_top && f.majors_top.length > 0 && (
-        <p className="mt-4 text-[14px] text-muted leading-relaxed"><span className="text-ink font-medium">Biggest fields of study (share of degrees): </span>{f.majors_top.join(', ')}</p>
-      )}
-      {f.majors_programs && f.majors_programs.length > 0 && (
-        <p className="mt-2 text-[14px] text-muted leading-relaxed"><span className="text-ink font-medium">Largest programs: </span>{f.majors_programs.slice(0, 6).map(([n]) => n).join(', ')}</p>
+        <p className="mt-4 text-[14px] text-muted leading-relaxed"><span className="text-ink font-medium">Biggest fields of study: </span>{f.majors_top.join(', ')}</p>
       )}
       <p className="mt-3 text-[11px] text-faint leading-relaxed">
         Sources:{' '}

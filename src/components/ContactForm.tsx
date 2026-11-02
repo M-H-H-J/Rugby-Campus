@@ -31,7 +31,7 @@ export default function ContactForm({ type, submitLabel = 'Send inquiry', messag
   if (done) {
     return (
       <p className={`inline-flex items-center gap-2 text-[14px] font-medium ${dark ? 'text-white' : 'text-navy'}`}>
-        <Check size={16} className={dark ? 'text-gold' : ''} /> Got it — I'll reply personally within two days.
+        <Check size={16} className={dark ? 'text-gold' : ''} /> Got it. I'll reply personally within two days.
       </p>
     );
   }

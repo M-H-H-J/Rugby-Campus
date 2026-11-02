@@ -2,9 +2,10 @@ import { Link } from 'wouter';
 import type { College } from '@/data/colleges';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
+import { visibleBadges } from '@/lib/search/display';
 
 export default function CollegeCard({ college, variant = 'tool' }: { college: College; variant?: 'tool' | 'editorial' }) {
-  const topBadge = college.badges[0];
+  const topBadge = visibleBadges(college.badges)[0];
   const isToolCard = variant === 'tool';
 
   if (isToolCard) {

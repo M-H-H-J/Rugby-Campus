@@ -41,7 +41,7 @@ export const TIER_COLORS: Record<Tier, string> = {
   championship: '#ffb700',
   playoff: '#00458c',
   competitive: '#b5573a',
-  emerging: '#8b98a8',
+  emerging: '#0f766e', // teal: clearly different from gold, navy and terracotta (white-on-teal contrast 5.5:1)
 };
 
 export const TIER_HOLLOW: Record<Tier, boolean> = {
@@ -55,7 +55,7 @@ export const TIER_DOT_CLASS: Record<Tier, string> = {
   championship: 'bg-tier-gold',
   playoff: 'bg-tier-navy',
   competitive: 'bg-tier-terra',
-  emerging: 'bg-tier-grey',
+  emerging: 'bg-tier-teal',
 };
 
 /** The one-line description shown under each tier heading. Edit the words here. */
@@ -63,8 +63,11 @@ export const TIER_SUBLINE: Record<Tier, string> = {
   championship: 'Regularly in the hunt for national titles.',
   playoff: 'Competing in the playoffs most seasons.',
   competitive: 'Solid programs that are in the hunt for playoff spots.',
-  emerging: 'A chance to help shape the program.',
+  emerging: 'Earlier game time, and a say in where the program goes.',
 };
+
+/** One-line note under the Colleges heading. */
+export const TIER_GUIDE_NOTE = 'Tiers are a guide, based on recent seasons. Every program has strong years and quieter ones.';
 
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";
 
