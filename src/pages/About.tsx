@@ -2,19 +2,25 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
+import HughPhoto from '@/components/HughPhoto';
 
 export default function About() {
   usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">
-      <header className="mb-10">
-        <p className="kicker mb-3">About</p>
-        <h1 className="font-heading text-[36px] md:text-[46px] text-ink leading-[1.06] mb-5">
-          The resource I needed at 17.
-        </h1>
-        <p className="font-heading text-[19px] text-muted leading-[1.6]">
-          Rugby Campus is a free guide to US college rugby: programs, levels, and how recruitment actually works.
-        </p>
+      <header className="mb-10 grid md:grid-cols-[1fr_220px] gap-6 md:gap-10 items-start">
+        <div className="order-2 md:order-1">
+          <p className="kicker mb-3">About</p>
+          <h1 className="font-heading text-[36px] md:text-[46px] text-ink leading-[1.06] mb-5">
+            The resource I needed at 17.
+          </h1>
+          <p className="font-heading text-[19px] text-muted leading-[1.6]">
+            Rugby Campus is a free guide to US college rugby: programs, levels, and how recruitment actually works.
+          </p>
+        </div>
+        <div className="order-1 md:order-2 w-32 md:w-full rounded-lg overflow-hidden bg-line">
+          <HughPhoto photo="headshot" sizes="(min-width: 768px) 220px, 128px" eager />
+        </div>
       </header>
 
       <hr className="border-line mb-10" />
@@ -33,6 +39,9 @@ export default function About() {
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
           </p>
+          <figure className="!my-8 rounded-lg overflow-hidden bg-line">
+            <HughPhoto photo="coachShirt" sizes="(min-width: 768px) 720px, 100vw" />
+          </figure>
           <p>
             Being on both sides of recruiting calls, I was conscious that the decision potential athletes were about to make was a crucial one in their life. I was honest, upfront about Notre Dame College. We were a no-name college, without the best facilities, but we had a tight-knit group of boys from all across the world who all wanted to win. That honesty is some of the gap this site tries to fill.
           </p>

@@ -28,7 +28,7 @@ const ORG = {
   '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: SITE_NAME, url: SITE_URL,
   logo: `${SITE_URL}/logo.png`, email: CONTACT_EMAIL,
   description: 'A free guide to US college rugby programs for aspiring players, built by a national championship-winning college coach.',
-  founder: { '@type': 'Person', name: 'Hugh Johnston', jobTitle: 'Founder', description: '2023 NCR D1 National Championship-winning head coach, Notre Dame College' },
+  founder: { '@type': 'Person', name: 'Hugh Johnston', jobTitle: 'Founder', image: `${SITE_URL}/images/hugh/hugh-johnston-headshot-og.jpg`, description: '2023 NCR D1 National Championship-winning head coach, Notre Dame College' },
 };
 const WEBSITE = {
   '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: SITE_URL, name: SITE_NAME, publisher: { '@id': `${SITE_URL}/#org` },
@@ -179,16 +179,16 @@ for (const a of articles) {
 }
 
 // ── Static pages ──
-for (const [path, title, description, body] of [
+for (const [path, title, description, body, image] of [
   ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
-    `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby, from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org.</p>${nav}`],
+    `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby, from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org.</p>${nav}`, '/images/hugh/hugh-johnston-headshot-og.jpg'],
   ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.',
     `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and paid one-on-one coaching (strength, conditioning and speed work) for high-school players getting ready to leave home for US college rugby.</p>${nav}`],
   ['/work-with-me', 'About Hugh & Rugby Campus', 'This page has moved. See the About page for Hugh Johnston\u2019s background and contact.',
     `<h1>This page has moved</h1><p>Looking for Hugh? Head to <a href="/about">About</a>.</p>${nav}`],
   ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.',
     `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is a free guide to US college rugby for international players and their parents. Coaches can verify their profile for free, or ask about a featured listing (always labelled Featured).</p>${nav}`],
-]) urls.push(page({ path, title, description, jsonld: [], body }));
+]) urls.push(page({ path, title, description, jsonld: [], body, image }));
 
 // ── sitemap.xml ──
 const today = new Date().toISOString().slice(0, 10);

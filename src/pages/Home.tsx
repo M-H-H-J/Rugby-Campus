@@ -7,6 +7,8 @@ import { articles } from '@/data/articles';
 import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
 import { pickTopPrograms } from '@/lib/topPrograms';
+import HughPhoto from '@/components/HughPhoto';
+import { HUGH_PHOTOS } from '@/lib/hughPhotos';
 
 export default function Home() {
   usePageMeta('', "Every top college rugby program in America, mapped, tiered and explained. Free. Coach contacts and recruitment guides from someone who's been on both sides of recruitment.");
@@ -59,6 +61,27 @@ export default function Home() {
             </Link>
             <Link href="/map" className="btn mt-4 inline-flex items-center gap-2 bg-navy text-white px-5 py-2.5 rounded-md text-[13px] font-semibold">
               Explore the map <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Who built this: Hugh with the Notre Dame College team */}
+      <section className="border-b border-line">
+        <div className="max-w-7xl mx-auto px-5 py-10 md:py-14 grid md:grid-cols-12 gap-6 md:gap-12 items-center">
+          <figure className="md:col-span-6 lg:col-span-5">
+            <div className="rounded-lg overflow-hidden bg-line">
+              <HughPhoto photo="westPoint" sizes="(min-width: 1024px) 520px, (min-width: 768px) 50vw, 100vw" />
+            </div>
+            <figcaption className="mt-2 text-[12.5px] text-faint">{HUGH_PHOTOS.westPoint.caption}</figcaption>
+          </figure>
+          <div className="md:col-span-6 lg:col-span-7">
+            <p className="kicker mb-3">Built by a coach</p>
+            <p className="font-heading text-[24px] md:text-[30px] leading-snug text-ink max-w-xl">
+              I played at Notre Dame College, then coached the team to the 2023 NCR D1 national championship.
+            </p>
+            <Link href="/about" className="mt-4 inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
+              Why I built this <ArrowRight size={14} />
             </Link>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import CoachingEnquiry from '@/components/CoachingEnquiry';
+import HughPhoto from '@/components/HughPhoto';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 
@@ -121,6 +122,9 @@ export default function Training() {
             <CoachingEnquiry />
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-white/10 lg:pl-10">
+            <div className="rounded-lg overflow-hidden bg-white/5 mb-8">
+              <HughPhoto photo="coachCap" sizes="(min-width: 1024px) 420px, 100vw" />
+            </div>
             <p className="text-white/70 text-[11px] font-semibold uppercase tracking-caps mb-6">How it works</p>
             {[
               { n: '1', t: 'Intro chat', d: 'Your goals, your level, your season. No obligation.' },
