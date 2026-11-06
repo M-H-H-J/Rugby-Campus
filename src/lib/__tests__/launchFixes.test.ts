@@ -17,7 +17,7 @@ describe('launch fixes (Oct 2026)', () => {
 
   it('one climate rule: table, weather sentence and search facts agree for every program with a table', () => {
     const withTable = colleges.filter((c) => c.monthlyTemps.length === 12);
-    expect(withTable.length).toBe(39);
+    expect(withTable.length).toBe(50);
     for (const c of withTable) {
       const t = climateFromTemps(c.monthlyTemps)!;
       const f = F[c.slug];

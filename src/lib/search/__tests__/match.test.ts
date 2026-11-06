@@ -104,7 +104,7 @@ describe('soft filters never hide a college', () => {
       if (c.campus_feel) feels[c.campus_feel]++;
     }
     expect(sizes).toEqual({ small: 17, medium: 18, big: 15 });
-    expect(climates).toEqual({ warm_winters: 10, cool_winters: 28, cold_winters: 9 });
+    expect(climates).toEqual({ warm_winters: 11, cool_winters: 29, cold_winters: 10 });
     expect(feels).toEqual({ city: 19, college_town: 11, suburb: 15, country: 5 });
   });
   it('flags very hot summers at Grand Canyon and Arizona, not Cal', () => {
