@@ -71,7 +71,7 @@ export default function CollegeSearch({ colleges, initialSentence = '' }: { coll
 
   return (
     <section aria-label="Find colleges for you" className="mb-8">
-      <h1 className="font-heading text-[36px] md:text-[48px] leading-[1.05] text-ink mb-2">What kind of college are you after?</h1>
+      <h2 className="font-heading text-[26px] md:text-[32px] leading-[1.05] text-ink mb-2">What kind of college are you after?</h2>
       <p className="text-[15px] text-muted mb-5">Tell us in your own words. We'll find the programs that fit.</p>
       <form onSubmit={(e) => { e.preventDefault(); void run(sentence); }} className="flex flex-col sm:flex-row sm:items-end gap-3">
         <input value={sentence} onChange={(e) => setSentence(e.target.value.slice(0, 300))} maxLength={300} aria-label="Describe your ideal college"

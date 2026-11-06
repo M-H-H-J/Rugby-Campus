@@ -81,6 +81,13 @@ describe('rate limit (10 per hour per visitor cookie, friendly message)', () => 
   });
 });
 
+describe('rugby level words map to the top two tiers', () => {
+  it.each(['competitive rugby', 'strong rugby', 'good rugby', 'best rugby', 'top rugby'])('%s', async (sentence) => {
+    const r = await search(sentence);
+    expect(r.body.filters.rugby_tier.sort()).toEqual(['championship', 'playoff']);
+  });
+});
+
 describe('monthly cap + configuration', () => {
   it('refuses once the monthly cap is reached, friendly message, no model call', async () => {
     mockEnv({ SEARCH_MONTHLY_CAP_USD: '0.001' });

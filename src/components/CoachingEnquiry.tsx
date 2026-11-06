@@ -6,7 +6,7 @@ const FIELD = 'w-full px-4 py-3 rounded-md border border-line text-[14px] text-i
 const LABEL = 'block text-[12px] font-semibold text-muted mb-1';
 
 /** "Enquire about coaching" button that opens a pop-up form. Replaces the old email link on /training. */
-export default function CoachingEnquiry() {
+export default function CoachingEnquiry({ asLink = false }: { asLink?: boolean }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
@@ -50,8 +50,8 @@ export default function CoachingEnquiry() {
   return (
     <>
       <button ref={opener} type="button" onClick={() => { setDone(false); setFailed(false); setOpen(true); }}
-        className="btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold">
-        <Mail size={15} /> Enquire about coaching
+        className={asLink ? 'text-navy font-medium underline underline-offset-2' : 'btn inline-flex items-center gap-2 bg-gold text-dark px-6 py-3 rounded-md text-[13px] font-bold'}>
+        {!asLink && <Mail size={15} />} Enquire about coaching
       </button>
       {open && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto" style={{ background: 'rgba(7,27,51,0.55)', backdropFilter: 'blur(3px)' }}

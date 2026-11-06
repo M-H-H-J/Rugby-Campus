@@ -25,14 +25,14 @@ export const HUGH_PHOTOS: Record<HughPhoto['key'], HughPhoto> = {
   westPoint: {
     key: 'westPoint', base: 'hugh-johnston-west-point-huddle', width: 1536, height: 1153, smWidth: 400,
     alt: 'Hugh Johnston talking to the Notre Dame College team in a huddle at West Point',
-    caption: 'Talking to the Notre Dame College team at West Point.',
+    caption: 'NDC vs Army · 9–9 · 30 Sep 2023',
   },
   coachCap: {
     key: 'coachCap', base: 'hugh-johnston-ndc-cap', width: 1600, height: 1066, smWidth: 400,
     alt: 'Hugh Johnston in a Notre Dame College Rugby cap and black hoodie, mid-conversation on the sideline',
   },
   coachShirt: {
-    key: 'coachShirt', base: 'hugh-johnston-coach-shirt', width: 1536, height: 1153, smWidth: 400,
+    key: 'coachShirt', base: 'hugh-johnston-coach-shirt', width: 1536, height: 865, smWidth: 400,
     alt: 'Hugh Johnston, seen from behind in a COACH shirt, with the Notre Dame College team gathered on the field in front of him',
   },
 };

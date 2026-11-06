@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { colleges as bundled, College } from '@/data/colleges';
+import { sortColleges } from '@/lib/collegeOrder';
 import { getSupabase } from '@/lib/supabase';
 
 // Lookup bundled data by slug for merging with Supabase
@@ -15,49 +16,54 @@ export function dropRetired<T extends { slug?: unknown }>(rows: T[]): T[] {
   return rows.filter((r) => !RETIRED_SLUGS.has(String(r.slug)));
 }
 
-/** Bundle wins for MLR facts, the description, league labels, badges and honours (the repo is the source of truth for all of them). */
-export function preferBundledMlr(
-  remote: { badges?: unknown; description?: unknown; draft_picks?: unknown; draftPicks?: unknown; affiliation?: unknown; conference?: unknown; achievements?: unknown },
-  local: College | undefined,
-) {
-  const remoteBadges = Array.isArray(remote.badges)
-    ? remote.badges.filter((b): b is string => typeof b === 'string' && !/MLR/i.test(b))
-    : null;
-  // Badges and honours were fact-checked in the repo (Oct 2026): the bundle wins whenever it has the program.
-  const badges = local ? local.badges : (remoteBadges ?? []);
-  const achievements = local
-    ? local.achievements
-    : (Array.isArray(remote.achievements) ? remote.achievements.filter((a): a is string => typeof a === 'string') : []);
-  const affiliation = local?.affiliation ?? (typeof remote.affiliation === 'string' ? remote.affiliation : '');
-  const conference = local?.conference ?? (typeof remote.conference === 'string' ? remote.conference : '');
-  // Descriptions were rewritten in the repo (Oct 2026, facts only). The repo wins whenever it has the program;
-  // Supabase is only used for programs that aren't in the bundle.
-  const remoteDesc = typeof remote.description === 'string' ? remote.description : '';
-  const description = local?.description || remoteDesc || '';
-  const remoteDraft = typeof remote.draft_picks === 'number' ? remote.draft_picks
-    : typeof remote.draftPicks === 'number' ? remote.draftPicks : 0;
+type RemoteCollege = {
+  badges?: unknown; description?: unknown; draft_picks?: unknown; draftPicks?: unknown;
+  affiliation?: unknown; conference?: unknown; achievements?: unknown;
+  mlr_played?: unknown; mlrPlayed?: unknown; mlr_unconfirmed?: unknown; mlrUnconfirmed?: unknown;
+  mlr_no_appearance?: unknown; mlrNoAppearance?: unknown; mlr_not_yet?: unknown; mlrNotYet?: unknown;
+  mlr_note?: unknown; mlrNote?: unknown;
+};
+
+function remoteText(value: unknown, fallback: string): string {
+  return typeof value === 'string' && value !== '' ? value : fallback;
+}
+
+function remoteNumber(value: unknown, fallback: number): number {
+  return typeof value === 'number' ? value : fallback;
+}
+
+function remoteNullableNumber(value: unknown, fallback: number | null): number | null {
+  return typeof value === 'number' ? value : fallback;
+}
+
+function remoteStrings(value: unknown, fallback: string[]): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : fallback;
+}
+
+/** Supabase wins when it has a value. The bundle fills anything the row leaves blank. */
+export function preferBundledMlr(remote: RemoteCollege, local: College | undefined) {
+  const draftFallback = typeof remote.draftPicks === 'number' ? remote.draftPicks : (local?.draftPicks ?? 0);
+  const mlrNote = remoteText(remote.mlr_note ?? remote.mlrNote, local?.mlrNote ?? '');
   return {
-    draftPicks: local?.draftPicks ?? remoteDraft,
-    mlrPlayed: local?.mlrPlayed ?? null,
-    mlrUnconfirmed: local?.mlrUnconfirmed ?? 0,
-    mlrNoAppearance: local?.mlrNoAppearance ?? 0,
-    mlrNotYet: local?.mlrNotYet ?? 0,
-    ...(local?.mlrNote ? { mlrNote: local.mlrNote } : {}),
-    badges,
-    achievements,
-    affiliation,
-    conference,
-    description,
+    draftPicks: remoteNumber(remote.draft_picks, draftFallback),
+    mlrPlayed: remoteNullableNumber(remote.mlr_played ?? remote.mlrPlayed, local?.mlrPlayed ?? null),
+    mlrUnconfirmed: remoteNumber(remote.mlr_unconfirmed ?? remote.mlrUnconfirmed, local?.mlrUnconfirmed ?? 0),
+    mlrNoAppearance: remoteNumber(remote.mlr_no_appearance ?? remote.mlrNoAppearance, local?.mlrNoAppearance ?? 0),
+    mlrNotYet: remoteNumber(remote.mlr_not_yet ?? remote.mlrNotYet, local?.mlrNotYet ?? 0),
+    ...(mlrNote ? { mlrNote } : {}),
+    badges: remoteStrings(remote.badges, local?.badges ?? []),
+    achievements: remoteStrings(remote.achievements, local?.achievements ?? []),
+    affiliation: remoteText(remote.affiliation, local?.affiliation ?? ''),
+    conference: remoteText(remote.conference, local?.conference ?? ''),
+    description: remoteText(remote.description, local?.description ?? ''),
   };
 }
 
 /**
  * Loads colleges from Supabase when configured; otherwise the bundled data.
  * Editing a row in the Supabase dashboard updates the live site instantly.
- * 
- * Image fields (imageUrl, imageCredit, imageSourcePage) prefer bundled values
- * when bundled has local campus photos (/college-images/...) to avoid flicker
- * if Supabase still has stale Unsplash URLs.
+ * The database wins for the fields it stores. The bundle fills blanks and
+ * covers a Supabase outage.
  */
 export function useColleges(): { colleges: College[]; source: 'supabase' | 'bundled' } {
   const [data, setData] = useState<College[]>(bundled);
@@ -76,38 +82,39 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
           const slug = r.slug as string;
           seen.add(slug);
           const local = bundledBySlug.get(slug);
-          
-          // Prefer bundled image fields when bundled has local campus photo
-          const bundledHasLocalImage = local?.imageUrl?.startsWith('/college-images/') ?? false;
-          const imageUrl = bundledHasLocalImage && local
-            ? local.imageUrl
-            : (r.image_url ?? r.imageUrl ?? local?.imageUrl ?? '');
-          const imageCredit = bundledHasLocalImage && local
-            ? (local.imageCredit ?? '')
-            : (r.image_credit ?? r.imageCredit ?? local?.imageCredit ?? '');
-          const imageSourcePage = bundledHasLocalImage && local
-            ? (local.imageSourcePage ?? '')
-            : (r.image_source_page ?? r.imageSourcePage ?? local?.imageSourcePage ?? '');
+          const remoteTemps = r.monthly_temps ?? r.monthlyTemps;
+          const temps = Array.isArray(remoteTemps) && remoteTemps.length === 12
+            ? remoteTemps
+            : (local?.monthlyTemps ?? []);
+          const remoteId = typeof r.id === 'number' ? r.id : Number(r.id);
 
           return {
             ...r,
-            id: local?.id ?? r.id,
-            popularMajors: r.popular_majors ?? r.popularMajors ?? [],
-            // Weather tables come from NOAA in the repo (Oct 2026). The repo wins when it has a full table.
-            monthlyTemps: local?.monthlyTemps?.length === 12 ? local.monthlyTemps : (r.monthly_temps ?? r.monthlyTemps ?? []),
-            weatherSummary: local?.monthlyTemps?.length === 12 ? local.weatherSummary : (r.weather_summary ?? r.weatherSummary ?? ''),
-            coachName: r.coach_name ?? r.coachName ?? '',
-            coachEmail: r.coach_email ?? r.coachEmail ?? '',
+            id: Number.isFinite(remoteId) ? remoteId : local?.id,
+            popularMajors: r.popular_majors ?? r.popularMajors ?? local?.popularMajors ?? [],
+            monthlyTemps: temps,
+            weatherSummary: temps.length === 12
+              ? remoteText(r.weather_summary ?? r.weatherSummary, local?.weatherSummary ?? '')
+              : (local?.weatherSummary ?? ''),
+            coachName: remoteText(r.coach_name ?? r.coachName, local?.coachName ?? ''),
+            coachEmail: remoteText(r.coach_email ?? r.coachEmail, local?.coachEmail ?? ''),
             ...preferBundledMlr(r, local),
-            playerCount: r.player_count ?? r.playerCount ?? 0,
-            tier: local?.tier ?? r.tier,
-            programType: local?.programType ?? r.program_type ?? r.programType ?? 'Club',
-            rugbyProgramUrl: r.rugby_program_url ?? r.rugbyProgramUrl ?? '',
-            recruitmentFormUrl: local?.recruitmentFormUrl ?? '',
-            assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? [],
-            imageUrl,
-            imageCredit,
-            imageSourcePage,
+            playerCount: local ? local.playerCount : (r.player_count ?? r.playerCount ?? 0),
+            playerCountNote: local?.playerCountNote,
+            season: local?.season,
+            clubContactName: local?.clubContactName,
+            clubContactEmail: local?.clubContactEmail,
+            contactNote: local?.contactNote,
+            tier: remoteText(r.tier, local?.tier ?? 'emerging'),
+            programType: typeof (r.program_type ?? r.programType) === 'string'
+              ? (r.program_type ?? r.programType)
+              : (local?.programType ?? 'Club'),
+            rugbyProgramUrl: local ? local.rugbyProgramUrl : remoteText(r.rugby_program_url ?? r.rugbyProgramUrl, ''),
+            recruitmentFormUrl: remoteText(r.recruitment_form_url ?? r.recruitmentFormUrl, local?.recruitmentFormUrl ?? ''),
+            assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? local?.assistantCoaches ?? [],
+            imageUrl: remoteText(r.image_url ?? r.imageUrl, local?.imageUrl ?? ''),
+            imageCredit: remoteText(r.image_credit ?? r.imageCredit, local?.imageCredit ?? ''),
+            imageSourcePage: remoteText(r.image_source_page ?? r.imageSourcePage, local?.imageSourcePage ?? ''),
             mapX: r.map_x ?? r.mapX,
             mapY: r.map_y ?? r.mapY,
           } as College;
@@ -120,5 +127,5 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
     return () => { cancelled = true; };
   }, []);
 
-  return { colleges: data, source };
+  return { colleges: sortColleges(data), source };
 }

@@ -17,7 +17,7 @@ max_cost_usd_per_year: number | null  (only if a dollar budget per YEAR is state
 religion: ${RELIGIONS.join(' | ')} | null  ("not religious/secular" -> none_only; "religious college" -> religious; "Catholic" -> catholic; "Christian" -> christian_other)
 climate: array of ${CLIMATES.join(' | ')}  ("warm/mild winters/sunny/not freezing/no snow/hot/desert" -> warm_winters; "four seasons/some snow is fine" -> cool_winters; "snow/cold is fine" -> cold_winters)
 majors: array from ${MAJOR_KEYS.join(' | ')}  ("maths/math/stats" -> mathematics; "nursing/pre-med/health/physio" -> health; "CS/coding/software" -> computer_science; "sports science/kinesiology/exercise" -> sport_exercise)
-rugby_tier: array of ${RUGBY_TIERS.join(' | ')}  ("top/best rugby" -> championship, playoff; "decent/good rugby" -> championship, playoff, competitive; "just want to play/any level" -> [])
+rugby_tier: array of ${RUGBY_TIERS.join(' | ')}  ("top/best/good/strong/competitive rugby" -> championship, playoff; "decent rugby" -> championship, playoff, competitive; "just want to play/any level" -> [])
 rugby_program: ${RUGBY_PROGRAMS.join(' | ')} | null  ("varsity" -> varsity; "club" -> club)
 unparsed: array of short quoted fragments you could not turn into a filter (e.g. "good vibe", "cheap")
 

@@ -18,7 +18,7 @@ export function welcomeCopy(source: WelcomeSource, article?: string): { subject:
     case 'article_notify': return { subject: "You'll get it when it's out", text:
       `Thanks. I'll email you when ${article ? `"${article}"` : 'the article'} goes up, and only when there's something worth sending.\n\nHugh` };
     default: return { subject: "You're on the list", text:
-      `Thanks for signing up. I'll only email when there's something worth reading, like a new guide or a change to the college directory. No spam.\n\nHugh, Rugby Campus\n${SITE}` };
+      `Welcome aboard. I'm Hugh. I played and coached college rugby in the U.S., and I'll send you short, useful notes on finding the right program. No spam.\n\nHugh, Rugby Campus\n${SITE}` };
   }
 }
 

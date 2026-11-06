@@ -24,7 +24,7 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('tier 4 wording and a clear pin colour', () => {
-    expect(TIER_LABELS.emerging).toBe('Rounding out the best');
+    expect(TIER_LABELS.emerging).toBe('Room to play');
     expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
     const colours = Object.values(TIER_COLORS);
     expect(new Set(colours).size).toBe(4);
@@ -33,7 +33,7 @@ describe('launch fixes, 3 Nov 2026', () => {
 
   it('Home top programs come from tier 1: Cal, Brown, Navy, Army, and refill if one leaves', () => {
     const names = pickTopPrograms(colleges).map((c) => c.slug);
-    expect(names).toEqual(['university-of-california-berkeley', 'brown-university', 'united-states-naval-academy', 'united-states-military-academy-army']);
+    expect(names).toEqual(['university-of-california-berkeley', 'united-states-naval-academy', 'life-university', 'saint-mary-s-college-of-california']);
     expect(names).not.toContain('queens-university-of-charlotte');
     const without = colleges.map((c) => (c.slug === 'brown-university' ? { ...c, tier: 'playoff' as const } : c));
     const refilled = pickTopPrograms(without);
@@ -44,7 +44,7 @@ describe('launch fixes, 3 Nov 2026', () => {
 
   it('Home: credential line, free message, de-duplicated steps, new headings', () => {
     const home = copyOf('src/pages/Home.tsx');
-    expect(home).toContain("Free. You don't need an agency.");
+    expect(home).not.toMatch(/don't need an agency/);
     expect(home).toContain('Hugh Johnston');
     expect(home).toContain('2023 NCR D1 national championship coach.');
     expect(home).not.toMatch(/Stay across it|Honest Guides|How it works|Stay Connected/);

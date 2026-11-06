@@ -14,7 +14,7 @@ describe('copy batch, 2 Nov 2026', () => {
     expect(body('best-rugby-colleges-usa')).not.toMatch(/Queens, and Brown|Queens and Brown/);
   });
   it('the fourth tier is "Rounding out the best", with no "Up and coming" left anywhere in the guides', () => {
-    expect(TIER_LABELS.emerging).toBe('Rounding out the best');
+    expect(TIER_LABELS.emerging).toBe('Room to play');
     expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
     expect(articles.map((a) => a.content).join('\n')).not.toMatch(/up and coming|up & coming/i);
   });

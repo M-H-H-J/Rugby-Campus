@@ -46,7 +46,8 @@ export function mockParse(sentence: string): Record<string, unknown> {
   if (has('computer science', ' cs ', 'coding', 'software')) push('majors', 'computer_science');
   if (has('sports science', 'kinesiology', 'exercise')) push('majors', 'sport_exercise');
   if (has('psychology')) push('majors', 'psychology');
-  if (has('top rugby', 'best rugby')) push('rugby_tier', 'championship', 'playoff'); else if (has('decent rugby', 'good rugby')) push('rugby_tier', 'championship', 'playoff', 'competitive');
+  if (has('top rugby', 'best rugby', 'good rugby', 'strong rugby', 'competitive rugby')) push('rugby_tier', 'championship', 'playoff');
+  else if (has('decent rugby')) push('rugby_tier', 'championship', 'playoff', 'competitive');
   if (has('varsity')) out.rugby_program = 'varsity'; else if (has(' club rugby', 'club team')) out.rugby_program = 'club';
   return out;
 }

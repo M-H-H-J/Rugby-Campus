@@ -6,27 +6,28 @@ describe('preferBundledMlr', () => {
   const life = colleges.find((c) => c.slug === 'life-university');
   if (!life) throw new Error('life missing');
 
-  it('keeps bundled drafted, played and the MLR badge when Supabase is stale', () => {
+  it('uses the database drafted count, badges and description when they are set', () => {
     const merged = preferBundledMlr({
       draft_picks: 8,
-      badges: ['2019 National Champions', '8 MLR draft picks'],
-      description: 'Varsity CRAA D1A in Rugby East, with 8 MLR draft picks.',
+      mlr_played: 4,
+      badges: ['2019 National Champions', '8 drafted into MLR · 4 played'],
+      description: 'The live row.',
     }, life);
-    expect(merged.draftPicks).toBe(17);
-    expect(merged.mlrPlayed).toBe(13);
-    expect(merged.badges.some((b) => /MLR draft picks/i.test(b))).toBe(false);
-    expect(merged.badges.some((b) => /drafted into MLR/i.test(b))).toBe(true);
-    expect(merged.badges).toEqual(life.badges);
-    expect(merged.description).toBe(life.description);
+    expect(merged.draftPicks).toBe(8);
+    expect(merged.mlrPlayed).toBe(4);
+    expect(merged.badges).toEqual(['2019 National Champions', '8 drafted into MLR · 4 played']);
+    expect(merged.description).toBe('The live row.');
   });
 
-  it('always uses the bundled description when the program is in the bundle', () => {
+  it('falls back to the bundle when the database leaves a field blank', () => {
     const merged = preferBundledMlr({
       draft_picks: 8,
       badges: [],
-      description: 'An old Supabase description with excellent facilities.',
+      description: '',
     }, life);
+    expect(merged.draftPicks).toBe(8);
     expect(merged.description).toBe(life.description);
+    expect(merged.mlrPlayed).toBe(life.mlrPlayed);
   });
 
   it('falls back to the Supabase description for a program that is not bundled', () => {
@@ -38,7 +39,7 @@ describe('preferBundledMlr', () => {
     expect(merged.description).toBe('A short campus note.');
   });
 
-  it('uses the bundled league labels, badges and honours when the program is bundled', () => {
+  it('uses the database league labels, badges and honours when they are set', () => {
     const osu = colleges.find((c) => c.slug === 'the-ohio-state-university');
     if (!osu) throw new Error('osu missing');
     const merged = preferBundledMlr({
@@ -48,10 +49,10 @@ describe('preferBundledMlr', () => {
       badges: ['2025 Big Ten Champions'],
       achievements: ['Multiple All-Americans'],
     }, osu);
-    expect(merged.conference).toBe('Midwest');
-    expect(merged.badges).toEqual(osu.badges);
-    expect(merged.badges).not.toContain('2025 Big Ten Champions');
-    expect(merged.achievements).toEqual([]);
+    expect(merged.conference).toBe('Big Ten');
+    expect(merged.affiliation).toBe('CRAA D1A');
+    expect(merged.badges).toEqual(['2025 Big Ten Champions']);
+    expect(merged.achievements).toEqual(['Multiple All-Americans']);
   });
 
   it('falls back to Supabase labels and honours for a program that is not bundled', () => {
@@ -63,7 +64,7 @@ describe('preferBundledMlr', () => {
     }, undefined);
     expect(merged.affiliation).toBe('NCR D1');
     expect(merged.conference).toBe('Liberty');
-    expect(merged.badges).toEqual(['2019 National Champions']);
+    expect(merged.badges).toEqual(['2019 National Champions', '8 MLR draft picks']);
     expect(merged.achievements).toEqual(['A sourced title']);
   });
 
@@ -74,7 +75,7 @@ describe('preferBundledMlr', () => {
       { slug: 'life-university' },
     ];
     expect(dropRetired(rows).map((r) => r.slug)).toEqual(['life-university']);
-    expect(colleges).toHaveLength(47);
+    expect(colleges).toHaveLength(50);
     expect(colleges.some((c) => c.slug === 'iona-university')).toBe(false);
     expect(colleges.find((c) => c.slug === 'university-of-california-los-angeles-ucla')?.affiliation).toBe('NCR D1 / CRAA dual');
   });

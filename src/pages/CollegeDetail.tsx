@@ -7,7 +7,9 @@ import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import { climateFromTemps, mlrSummary, visibleBadges, weatherSentence } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
+import ProfileFacts from '@/components/ProfileFacts';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
+import { WALSH_GALLERY } from '@/data/walshPhotos';
 
 export default function CollegeDetail() {
   const [, params] = useRoute('/colleges/:slug');
@@ -38,7 +40,7 @@ export default function CollegeDetail() {
     ['Conference', college.conference],
     ['Tier', TIER_LABELS[college.tier]],
     ['Program type', college.programType],
-    ['Squad size', college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC'],
+    ['Squad size', college.playerCountNote || (college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC')],
     ['Drafted (2020–26)', mlr.draftedText],
     ['Played at least one MLR match', mlr.playedText],
   ];
@@ -93,9 +95,25 @@ export default function CollegeDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
         {/* min-w-0: lets the 12-month weather table scroll inside its own box instead of widening the page on phones */}
         <div className="lg:col-span-3 min-w-0 space-y-12">
+          <ProfileFacts college={college} />
+
           <section>
             <p className="text-[17px] text-ink leading-[1.7]">{college.description}</p>
           </section>
+
+          {college.slug === 'walsh-university' && (
+            <section aria-label="Walsh rugby photos">
+              <h2 className="font-heading text-[28px] text-ink mb-4">On the field</h2>
+              <div className="space-y-6">
+                {WALSH_GALLERY.map((p) => (
+                  <figure key={p.src}>
+                    <img src={p.src} alt={p.alt} width={p.width} height={p.height} loading="lazy" className="w-full h-auto rounded-lg bg-line" />
+                    {p.caption && <figcaption className="mt-2 text-[12.5px] text-faint">{p.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
 
           {college.achievements.length > 0 && (
             <section>
@@ -156,8 +174,8 @@ export default function CollegeDetail() {
             <dl className="border-t border-ink">
               {programFacts.map(([label, value]) => (
                 <div key={label} className="flex justify-between gap-4 py-2.5 border-b border-line text-[13px]">
-                  <dt className="text-muted">{label}</dt>
-                  <dd className="font-medium text-ink text-right">
+                  <dt className="text-muted shrink-0">{label}</dt>
+                  <dd className="font-medium text-ink text-right min-w-0 break-words">
                     {label === 'Tier' ? <span className="inline-flex items-center gap-1.5"><TierDot tier={college.tier} size="sm" />{value}</span> : value}
                   </dd>
                 </div>
@@ -188,7 +206,7 @@ export default function CollegeDetail() {
               </div>
             )}
             <div className="mt-6">
-              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} recruitmentFormUrl={college.recruitmentFormUrl} collegeName={college.name} />
+              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} recruitmentFormUrl={college.recruitmentFormUrl} collegeName={college.name} clubContactName={college.clubContactName} clubContactEmail={college.clubContactEmail} contactNote={college.contactNote} />
             </div>
             <p className="mt-5 text-[13px]">
               <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
