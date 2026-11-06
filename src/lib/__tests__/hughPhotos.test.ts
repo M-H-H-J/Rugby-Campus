@@ -57,6 +57,7 @@ describe("Hugh's photos", () => {
     expect(about).toMatch(/photo="headshot"[^>]*eager/);
     expect(about).toContain('photo="coachShirt"');
     expect(src('src/pages/Home.tsx')).toContain('photo="westPoint"');
+    expect(HUGH_PHOTOS.westPoint.caption).toBe('NDC vs Army · 9–9 · 30 Sep 2023');
     expect(src('src/pages/Training.tsx')).toContain('photo="coachCap"');
     expect(src('scripts/prerender.mjs')).toContain('/images/hugh/hugh-johnston-headshot-og.jpg');
     // Only the About headshot is eager

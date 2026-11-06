@@ -76,7 +76,7 @@ const byTier = (t) => colleges.filter((c) => c.tier === t);
 // ── Home ──
 urls.push(page({
   path: '/', title: '',
-  description: `US college rugby programs across CRAA D1A and NCR D1. ${colleges.length} programs mapped and tiered, with coach contacts and recruitment guides from a national championship-winning coach. Free, and you don't need an agency.`,
+  description: `US college rugby programs across CRAA D1A and NCR D1. ${colleges.length} programs mapped and tiered, with coach contacts and recruitment guides from a national championship-winning coach.`,
   jsonld: [],
   body: `<h1>Every top college rugby program in America. Mapped.</h1>
   <p>Rugby Campus is a free guide to college rugby programs in the USA, across CRAA D1A and NCR D1. Each program is tiered on results, with coach contacts, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately), and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
@@ -88,16 +88,16 @@ urls.push(page({
 // ── Colleges index ──
 urls.push(page({
   path: '/colleges', title: 'Best College Rugby Programs in America',
-  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff caliber, competitive, and rounding out the best, across CRAA D1A and NCR D1.`,
+  description: `US college rugby programs, tiered for the ${SEASON_LABEL.split(' ·')[0]}: often near the top, playoff calibre, a real season, and room to play, across CRAA D1A and NCR D1.`,
   jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
-  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>All ${colleges.length} compete at the top level of US college rugby.</p>` +
+  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into tiers rather than ranked, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>${colleges.length} Division I programs. Same division, very different standard.</p><p>This list is men's rugby. Women's programs aren't up yet.</p>` +
     TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}</h2><p>${esc(TIER_SUBLINE[t])}</p><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)} · ${esc(c.programType)}</li>`).join('')}</ul>`).join(''),
 }));
 
 // ── Map ──
 urls.push(page({ path: '/map', title: 'Interactive US College Rugby Map', description: 'Every top college rugby program in the USA on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.', jsonld: [],
-  body: `<h1>Interactive college rugby map</h1><p>All ${colleges.length} programs across the United States.</p>${nav}<ul>${colleges.map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a>, ${esc(c.location)}</li>`).join('')}</ul>` }));
+  body: `<h1>Interactive college rugby map</h1><p>These are programs worth a look, not every college with a team.</p>${nav}<ul>${colleges.map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a>, ${esc(c.location)}</li>`).join('')}</ul>` }));
 
 // Cost / study / campus facts from the search data (same numbers the college page shows)
 function factsHtml(slug) {

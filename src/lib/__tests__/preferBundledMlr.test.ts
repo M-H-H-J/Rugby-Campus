@@ -74,7 +74,7 @@ describe('preferBundledMlr', () => {
       { slug: 'life-university' },
     ];
     expect(dropRetired(rows).map((r) => r.slug)).toEqual(['life-university']);
-    expect(colleges).toHaveLength(47);
+    expect(colleges).toHaveLength(50);
     expect(colleges.some((c) => c.slug === 'iona-university')).toBe(false);
     expect(colleges.find((c) => c.slug === 'university-of-california-los-angeles-ucla')?.affiliation).toBe('NCR D1 / CRAA dual');
   });

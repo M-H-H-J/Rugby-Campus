@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL } from '@/config';
 import HughPhoto from '@/components/HughPhoto';
+import CoachingEnquiry from '@/components/CoachingEnquiry';
+import { NDC_ABOUT_PHOTO } from '@/data/walshPhotos';
 
 export default function About() {
   usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
@@ -40,6 +42,9 @@ export default function About() {
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
           </p>
           <figure className="!my-8 rounded-lg overflow-hidden bg-line">
+            <img src={NDC_ABOUT_PHOTO.src} alt={NDC_ABOUT_PHOTO.alt} width={NDC_ABOUT_PHOTO.width} height={NDC_ABOUT_PHOTO.height} className="w-full h-auto" />
+          </figure>
+          <figure className="!my-8 rounded-lg overflow-hidden bg-line">
             <HughPhoto photo="coachShirt" sizes="(min-width: 768px) 720px, 100vw" />
           </figure>
           <p>
@@ -50,6 +55,9 @@ export default function About() {
           </p>
           <p>
             If you go through an agency, that is fine. Use this site as well.
+          </p>
+          <p>
+            I also do paid one-on-one coaching. <CoachingEnquiry asLink />
           </p>
         </div>
       </section>

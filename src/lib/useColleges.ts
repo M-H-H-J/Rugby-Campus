@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { colleges as bundled, College } from '@/data/colleges';
+import { sortColleges } from '@/lib/collegeOrder';
 import { getSupabase } from '@/lib/supabase';
 
 // Lookup bundled data by slug for merging with Supabase
@@ -96,13 +97,18 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
             // Weather tables come from NOAA in the repo (Oct 2026). The repo wins when it has a full table.
             monthlyTemps: local?.monthlyTemps?.length === 12 ? local.monthlyTemps : (r.monthly_temps ?? r.monthlyTemps ?? []),
             weatherSummary: local?.monthlyTemps?.length === 12 ? local.weatherSummary : (r.weather_summary ?? r.weatherSummary ?? ''),
-            coachName: r.coach_name ?? r.coachName ?? '',
-            coachEmail: r.coach_email ?? r.coachEmail ?? '',
+            coachName: local ? local.coachName : (r.coach_name ?? r.coachName ?? ''),
+            coachEmail: local ? local.coachEmail : (r.coach_email ?? r.coachEmail ?? ''),
             ...preferBundledMlr(r, local),
-            playerCount: r.player_count ?? r.playerCount ?? 0,
+            playerCount: local ? local.playerCount : (r.player_count ?? r.playerCount ?? 0),
+            playerCountNote: local?.playerCountNote,
+            season: local?.season,
+            clubContactName: local?.clubContactName,
+            clubContactEmail: local?.clubContactEmail,
+            contactNote: local?.contactNote,
             tier: local?.tier ?? r.tier,
-            programType: local?.programType ?? r.program_type ?? r.programType ?? 'Club',
-            rugbyProgramUrl: r.rugby_program_url ?? r.rugbyProgramUrl ?? '',
+            programType: local ? local.programType : (r.program_type ?? r.programType ?? 'Club'),
+            rugbyProgramUrl: local ? local.rugbyProgramUrl : (r.rugby_program_url ?? r.rugbyProgramUrl ?? ''),
             recruitmentFormUrl: local?.recruitmentFormUrl ?? '',
             assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? [],
             imageUrl,
@@ -120,5 +126,5 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
     return () => { cancelled = true; };
   }, []);
 
-  return { colleges: data, source };
+  return { colleges: sortColleges(data), source };
 }

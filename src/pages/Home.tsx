@@ -43,8 +43,7 @@ export default function Home() {
             <h1 className="font-heading text-[44px] md:text-[64px] leading-[0.95] tracking-[-0.03em] text-ink">
               Every top program in America. Mapped.
             </h1>
-            <p className="mt-5 font-heading text-[22px] md:text-[26px] leading-snug text-ink">Free. You don't need an agency.</p>
-            <p className="mt-2 text-[14px] text-muted">
+            <p className="mt-5 text-[14px] text-muted">
               Built by <Link href="/about" className="text-navy font-medium underline underline-offset-2">Hugh Johnston</Link>, 2023 NCR D1 national championship coach.
             </p>
             <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">

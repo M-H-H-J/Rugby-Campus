@@ -23,7 +23,7 @@ function EmailTemplate({ collegeName, open }: { collegeName: string; open: boole
   );
 }
 
-export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFormUrl, collegeName }: { coachName: string; coachEmail: string; recruitmentFormUrl?: string; collegeName: string }) {
+export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFormUrl, collegeName, clubContactName, clubContactEmail, contactNote }: { coachName: string; coachEmail: string; recruitmentFormUrl?: string; collegeName: string; clubContactName?: string; clubContactEmail?: string; contactNote?: string }) {
   const [unlocked, setUnlocked] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
     <>
       <div className="border-t border-ink pt-4">
         <p className="kicker mb-2">Head coach</p>
-        <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'To be confirmed'}</p>
+        <p className="font-heading text-[22px] text-ink mb-4">{coachName || 'Coach: TBC'}</p>
         {recruitmentFormUrl && (
           <div className="mb-4 rounded-md border border-navy/25 bg-navy/[0.04] px-3 py-3">
             <p className="text-[11px] uppercase tracking-caps text-faint">Start here</p>
@@ -61,6 +61,15 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
             <p className="mt-1 text-[12px] text-muted">This program has its own form. Use it before you email.</p>
           </div>
         )}
+        {contactNote && <p className="mb-4 text-[12.5px] text-muted leading-relaxed">{contactNote}</p>}
+        {(clubContactName || clubContactEmail) && (
+          <div className="mb-4">
+            <p className="kicker mb-1">Club contact</p>
+            {clubContactName && <p className="text-[15px] text-ink">{clubContactName}</p>}
+            {clubContactEmail && <a href={`mailto:${clubContactEmail}`} className="text-[15px] font-semibold text-navy break-all">{clubContactEmail}</a>}
+          </div>
+        )}
+        {coachEmail ? (
         <div className="pt-4 border-t border-line">
           {unlocked ? (
             <div className="rounded-md border border-navy/25 bg-navy/[0.04] px-3 py-3">
@@ -82,6 +91,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
             </button>
           )}
         </div>
+        ) : null}
       </div>
 
       {showModal && (

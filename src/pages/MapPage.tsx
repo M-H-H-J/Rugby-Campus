@@ -30,7 +30,10 @@ export default function MapPage() {
       <div className="border-b border-line bg-white">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <h1 className="font-heading text-[20px] md:text-[24px] text-ink">Map</h1>
+            <div>
+              <h1 className="font-heading text-[20px] md:text-[24px] text-ink">Map</h1>
+              <p className="text-[12px] text-muted max-w-xs">These are programs worth a look, not every college with a team.</p>
+            </div>
             <div className="flex gap-4">
               {TABS.map((t) => (
                 <button key={t} onClick={() => setTab(t)}

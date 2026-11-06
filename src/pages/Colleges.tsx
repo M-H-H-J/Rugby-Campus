@@ -4,6 +4,7 @@ import { Search, Map as MapIcon } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, TIER_GUIDE_NOTE, Tier, type College } from '@/data/colleges';
+import { sortColleges } from '@/lib/collegeOrder';
 import TierDot from '@/components/TierDot';
 
 // The search box and its data load after the page has appeared.
@@ -92,7 +93,7 @@ export default function Colleges() {
   }), [colleges, search, tab, tierFilter, typeFilter]);
 
   const grouped = useMemo(() => TIER_ORDER
-    .map((t) => ({ tier: t, items: filtered.filter((c) => c.tier === t) }))
+    .map((t) => ({ tier: t, items: sortColleges(filtered.filter((c) => c.tier === t)) }))
     .filter((g) => g.items.length > 0), [filtered]);
 
   return (
@@ -131,7 +132,7 @@ export default function Colleges() {
               <Search size={12} className="text-faint flex-shrink-0" />
               <input
                 type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search"
+                placeholder="Search college name"
                 className="flex-1 min-w-0 bg-transparent px-1.5 py-1 text-[12px] outline-none placeholder:text-faint"
               />
             </div>
@@ -159,7 +160,8 @@ export default function Colleges() {
         </div>
       ) : (
         <>
-          <p className="text-[15px] text-ink mb-2">All {colleges.length} compete at the top level of US college rugby.</p>
+          <p className="text-[15px] text-ink mb-1">{colleges.length} Division I programs. Same division, very different standard.</p>
+          <p className="text-[14px] text-muted mb-2">This list is men's rugby. Women's programs aren't up yet.</p>
           {grouped.filter((g) => g.tier === 'championship').map(({ tier, items }) => (
             <section key={tier} className="mt-8 grid md:grid-cols-[14rem_1fr] gap-4 md:gap-10 border-t border-line pt-8 min-w-0">
               <TierHeading tier={tier} count={items.length} />

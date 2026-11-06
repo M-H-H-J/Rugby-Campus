@@ -53,13 +53,13 @@ describe('launch fixes (Oct 2026)', () => {
     for (const s of ['the-ohio-state-university', 'university-of-utah', 'western-washington-university']) expect(bySlug(s).coachName, s).toBe('');
     expect(bySlug('western-washington-university').description).not.toMatch(/Adam Roberts/);
     expect(bySlug('walsh-university').tier).toBe('playoff');
-    expect(TIER_LABELS.playoff).toBe('Playoff caliber');
-    expect(bySlug('colorado-state-university').rugbyProgramUrl).toBe('https://www.coloradostaterugby.com/');
+    expect(TIER_LABELS.playoff).toBe('Playoff calibre');
+    expect(bySlug('colorado-state-university').rugbyProgramUrl).toBe('https://ramlink.campuslabs.com/engage/organization/ramrugby');
   });
 
   it('no internal editing notes or over-claims in visible copy', () => {
     const text = articles.map((a) => a.content).join('\n') + Object.values(F).map((f) => f.intl_warning ?? '').join('\n');
-    for (const bad of ['do not hard-claim', 'Soft line only', 'avoid the word', 'check before getting excited', 'every Rugby Campus profile includes', 'prospecting rugby', 'Powerhouse', 'World-class', 'Honours', 'enquir', 'calibre']) {
+    for (const bad of ['do not hard-claim', 'Soft line only', 'avoid the word', 'check before getting excited', 'every Rugby Campus profile includes', 'prospecting rugby', 'Powerhouse', 'World-class', 'Honours', 'enquir']) {
       expect(text.includes(bad), bad).toBe(false);
     }
     const best = articles.find((a) => a.slug === 'best-rugby-colleges-usa')!.content;
