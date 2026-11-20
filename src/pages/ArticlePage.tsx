@@ -3,6 +3,8 @@ import { useRoute, Link } from 'wouter';
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react';
 import { getArticleBySlug, articles } from '@/data/articles';
 import { captureEmail } from '@/lib/supabase';
+import { useSaveState } from '@/lib/useSaveState';
+import SaveError from '@/components/SaveError';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 
 // Simple markdown-ish renderer for our article content
@@ -93,13 +95,16 @@ function ArticleNotFound() {
 
 function NotifyForm() {
   const [email, setEmail] = useState('');
-  const [done, setDone] = useState(false);
-  if (done) return <p className="text-navy text-[14px] font-medium">You're on the list. We'll email you when there's something worth sending.</p>;
+  const { state, run } = useSaveState();
+  if (state === 'done') return <p className="text-navy text-[14px] font-medium">You're on the list. We'll email you when there's something worth sending.</p>;
   return (
-    <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={async (e) => { e.preventDefault(); await captureEmail(email, 'article_notify'); setDone(true); }}>
+    <>
+    <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={async (e) => { e.preventDefault(); await run(() => captureEmail(email, 'article_notify')); }}>
       <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" className="flex-1 px-4 py-3 rounded-md border border-line text-[14px] outline-none focus:border-navy transition-colors" />
-      <button type="submit" className="btn px-5 py-3 bg-navy text-white rounded-md text-[13px] font-semibold whitespace-nowrap">Notify me</button>
+      <button type="submit" disabled={state === 'busy'} className="btn px-5 py-3 bg-navy text-white rounded-md text-[13px] font-semibold whitespace-nowrap disabled:opacity-60">Notify me</button>
     </form>
+    {state === 'failed' && <SaveError className="mt-3 text-center" />}
+    </>
   );
 }
 

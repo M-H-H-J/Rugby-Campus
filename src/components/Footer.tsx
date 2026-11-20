@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Check } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
+import { useSaveState } from '@/lib/useSaveState';
+import SaveError from '@/components/SaveError';
 import { CONTACT_EMAIL, MONEY_LINE } from '@/config';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
-  const [done, setDone] = useState(false);
+  const { state, run } = useSaveState();
 
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    await captureEmail(email, 'newsletter');
-    setDone(true);
+    await run(() => captureEmail(email, 'newsletter'));
   };
 
   return (
@@ -53,17 +54,20 @@ export default function Footer() {
           <div>
             <h2 className="text-[11px] font-semibold font-body tracking-caps text-white/75 uppercase mb-3">New guides by email</h2>
             <p className="text-white/75 text-xs mb-3">Get new guides and program updates. A short email, only when there is something worth sending.</p>
-            {done ? (
+            {state === 'done' ? (
               <p className="inline-flex items-center gap-1.5 text-white text-xs"><Check size={13} /> Subscribed</p>
             ) : (
+              <>
               <form onSubmit={subscribe} className="flex gap-1.5">
                 <input
                   type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
                   className="flex-1 min-w-0 px-3 py-2 min-h-[44px] rounded-md bg-white/5 border border-white/15 text-white text-xs outline-none placeholder:text-white/70 focus:border-white/25"
                 />
-                <button type="submit" className="btn px-3.5 py-2 min-h-[44px] border border-white/40 text-white rounded-md text-[12px] font-bold hover:border-white transition-colors">Join</button>
+                <button type="submit" disabled={state === 'busy'} className="btn px-3.5 py-2 min-h-[44px] border border-white/40 text-white rounded-md text-[12px] font-bold hover:border-white transition-colors disabled:opacity-60">{state === 'busy' ? 'Joining…' : 'Join'}</button>
               </form>
+              {state === 'failed' && <SaveError dark className="mt-2 !text-[12px]" />}
+              </>
             )}
           </div>
         </div>
