@@ -11,7 +11,8 @@
 -- REVIEW, THEN RUN BY HAND in Supabase -> SQL Editor. Not run by the PR that added it.
 -- Mirrors the same changes made in src/data/colleges.ts and src/data/collegeSearchFacts.json.
 -- Safe to run twice: every statement sets a fixed value by slug. No inserts or deletes.
--- Tier columns are not touched. Coach fields are not touched.
+-- Tier columns are not touched. Coach emails are not touched; the only coach change is
+-- three coach names (Ohio State, Western Washington, Utah), approved by Hugh on 20 Nov 2026.
 -- UCLA's NCR D1 / CRAA dual wording is unchanged (held for Hugh); only its 2025–26 record
 -- and home-ground sentence change.
 -- Wrapped in one transaction: if any line fails, nothing changes.
@@ -24,6 +25,8 @@ SELECT slug, program_type, achievements, left(description, 90) AS description_st
                 'arkansas-state-university','university-of-michigan','wheeling-university','mckendree-university',
                 'university-of-san-diego','siena-college','california-state-university-long-beach','university-of-rio-grande')
  ORDER BY slug;
+SELECT slug, coach_name, coach_email FROM public.colleges
+ WHERE slug IN ('the-ohio-state-university','western-washington-university','university-of-utah') ORDER BY slug;
 
 BEGIN;
 
@@ -55,6 +58,14 @@ UPDATE public.colleges SET program_type = '' WHERE slug = 'university-of-arizona
 UPDATE public.colleges SET program_type = 'Varsity' WHERE slug = 'siena-college';
 UPDATE public.colleges SET program_type = 'Varsity' WHERE slug = 'university-of-rio-grande';
 
+-- 4. Head coach names, approved by Hugh on 20 Nov 2026. No official email is published, so emails are left as they are.
+--    Ohio State: https://www.osurugby.com/coaches/pete-malcolm-m70wy8kc
+--    Western Washington: https://craa.rugby/2026/06/02/champions-rise-western-washington-moves-to-d1a/ , https://www.wwurugby.org/team
+--    Utah: https://www.utah-rugby.com/new-page
+UPDATE public.colleges SET coach_name = 'Pete Malcolm' WHERE slug = 'the-ohio-state-university';
+UPDATE public.colleges SET coach_name = 'Adam Roberts' WHERE slug = 'western-washington-university';
+UPDATE public.colleges SET coach_name = 'Cam Diloreto' WHERE slug = 'university-of-utah';
+
 COMMIT;
 
 -- VERIFY (expect the values in the comments)
@@ -65,4 +76,6 @@ SELECT achievements FROM public.colleges WHERE slug = 'lindenwood-university';  
 SELECT achievements FROM public.colleges WHERE slug = 'wheeling-university';        -- ["2024 CRC National 7s champions","Unbeaten 2024 7s season"]
 SELECT count(*) FROM public.colleges
  WHERE description ~ '(5–0 to win the Midwest|fourth straight D1A|October 2025, its first 15s|36–14 over Ohio State|topped the southern half|announced varsity rugby in 2018|going 5–2)'; -- 0
+SELECT slug, coach_name FROM public.colleges
+ WHERE slug IN ('the-ohio-state-university','university-of-utah','western-washington-university') ORDER BY slug; -- Pete Malcolm, Cam Diloreto, Adam Roberts
 SELECT tier, count(*) FROM public.colleges GROUP BY tier ORDER BY tier;              -- unchanged: championship 8, competitive 13, emerging 15, playoff 14

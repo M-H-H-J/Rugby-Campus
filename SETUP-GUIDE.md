@@ -141,7 +141,7 @@ Weather tables and the weather sentence now come from the repo (NOAA), so the `w
 ## Coach data gaps (fill these first)
 
 As of 20 Nov 2026 these programs show no head coach (the page shows one quiet "Head coach not confirmed yet" line):
-Arkansas State, Ohio State, Utah, Western Washington (Utah, WWU and Ohio State are deliberate blanks), and CU Boulder (club inbox shown instead).
+Arkansas State and CU Boulder (club inbox shown instead). Ohio State, Utah and Western Washington were filled from the 20 Nov 2026 fact-check (names only, no published emails).
 
 Change a coach in Supabase with a dated SQL file in `supabase/manual/`, and mirror it in `src/data/colleges.ts` in the same PR.
 The bulk sync generator (`scripts/gen-supabase-full-sync.ts`) never overwrites coach fields on an existing row, so a cleared coach stays cleared.

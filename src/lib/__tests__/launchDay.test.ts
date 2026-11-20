@@ -68,10 +68,13 @@ describe('launch day: data in all three places', () => {
     expect(bySlug('the-ohio-state-university').description).not.toMatch(/Midwest/);
     expect(src('supabase/manual/2026-11-20-launch-fixes.sql')).toContain("SET conference = 'Big Ten' WHERE slug = 'the-ohio-state-university'");
   });
-  it('the six Supabase-only coaches are in the bundle; deliberate blanks stay blank', () => {
+  it('the six Supabase-only coaches are in the bundle; owner-approved coaches are filled', () => {
     const want: Record<string, string> = { 'dartmouth-college': 'Kyle Sumsion', 'marian-university': 'John Harley', 'santa-clara-university': 'Paul Keeler', 'southern-nazarene-university': 'Aric Gilliland', 'university-of-michigan': 'Christian Mentzer', 'university-of-san-diego': 'Charlie Purdon', 'university-of-california-santa-cruz': 'Jeremy Sanford' };
     for (const [s, n] of Object.entries(want)) expect(bySlug(s).coachName, s).toBe(n);
-    for (const s of ['university-of-utah', 'western-washington-university', 'the-ohio-state-university']) expect(bySlug(s).coachName, s).toBe('');
+    for (const [s, n] of [['university-of-utah', 'Cam Diloreto'], ['western-washington-university', 'Adam Roberts'], ['the-ohio-state-university', 'Pete Malcolm']]) expect(bySlug(s).coachName, s).toBe(n);
+    const sql = src('supabase/manual/2026-11-20-fact-fixes.sql');
+    for (const s of ['university-of-utah', 'western-washington-university', 'the-ohio-state-university']) expect(sql, s).toMatch(new RegExp(`SET coach_name = '[^']+' WHERE slug = '${s}'`));
+    expect(sql).not.toMatch(/coach_email\s*=/);
     for (const s of ['kutztown-university', 'mckendree-university']) expect(bySlug(s).coachEmail, s).toBe('');
   });
   it('academies share one citizenship line in the bundle and the facts', () => {
@@ -132,7 +135,7 @@ describe('launch day: profile and coach box', () => {
     for (const c of colleges) {
       for (const [, v] of profileFactRows(c)) expect(v, c.slug).not.toMatch(/Not confirmed|TBC/);
     }
-    expect(profileFactRows(bySlug('university-of-utah')).some(([k]) => k === 'Coach')).toBe(false);
+    expect(profileFactRows(bySlug('arkansas-state-university')).some(([k]) => k === 'Coach')).toBe(false);
     expect(profileFactRows(bySlug('united-states-naval-academy')).find(([k]) => k === 'International players')?.[1]).toBe('Only via home-government nomination');
   });
   it('the coach box has no fake address and never offers an unlock without an email', () => {

@@ -51,8 +51,9 @@ describe('launch fixes (Oct 2026)', () => {
     }
   });
 
-  it('Hugh-locked data: blank coaches, Walsh tier, CSU link', () => {
-    for (const s of ['the-ohio-state-university', 'university-of-utah', 'western-washington-university']) expect(bySlug(s).coachName, s).toBe('');
+  it('Hugh-locked data: filled coaches, Walsh tier, CSU link', () => {
+    const want: Record<string, string> = { 'the-ohio-state-university': 'Pete Malcolm', 'university-of-utah': 'Cam Diloreto', 'western-washington-university': 'Adam Roberts' };
+    for (const [s, n] of Object.entries(want)) expect([bySlug(s).coachName, bySlug(s).coachEmail], s).toEqual([n, '']);
     expect(bySlug('western-washington-university').description).not.toMatch(/Adam Roberts/);
     expect(bySlug('walsh-university').tier).toBe('playoff');
     expect(TIER_LABELS.playoff).toBe('Tier 2');
