@@ -23,8 +23,10 @@ export async function overLimit(req: Req, prefix: string, perHour: number): Prom
   const hour = new Date().toISOString().slice(0, 13);
   const n = await store.incr(`${prefix}:ip:${hashed(clientIp(req))}:${hour}`, 1, 3700).catch(() => 0);
   if (!fallback) return n > perHour;
+  if (n > Math.max(1, Math.floor(perHour / 2))) return true;
+  // Only requests within their own IP limit count toward the shared hourly cap.
   const all = await store.incr(`mail:all:${hour}`, 1, 3700).catch(() => 0);
-  return n > Math.max(1, Math.floor(perHour / 2)) || all > FALLBACK_ALL_PER_HOUR;
+  return all > FALLBACK_ALL_PER_HOUR;
 }
 /** True when `markDone(key)` ran in the last few days (used so one address gets one thank-you per source). */
 export async function alreadyDone(key: string): Promise<boolean> {

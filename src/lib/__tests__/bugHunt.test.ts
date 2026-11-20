@@ -75,7 +75,9 @@ describe('bug hunt S1: stale chunks after a redeploy', () => {
     missingAsset({}, { set statusCode(n: number) { out.status = n; }, get statusCode() { return out.status ?? 200; }, setHeader: (k, val) => { out.headers[k] = val; }, end: (b) => { out.body = b; } });
     expect(out.status).toBe(404);
     expect(out.headers['Content-Type']).toMatch(/^text\/plain/);
+    // Vercel: a function's Cache-Control overrides vercel.json, so the /assets immutable rule can't reach this 404 (L3).
     expect(out.headers['Cache-Control']).toBe('no-store');
+    expect(out.headers['CDN-Cache-Control']).toBe('no-store');
     expect(out.body).not.toMatch(/<html/i);
   });
 });
@@ -106,6 +108,14 @@ describe('bug hunt S3: "I live in <state>" pricing', () => {
     const out = searchColleges(F, ohio);
     const fits = new Set(out.fitsAll.map((r) => r.slug));
     for (const s of ['university-of-michigan', 'university-of-arizona', 'university-of-california-berkeley']) expect(fits.has(s), s).toBe(false);
+  });
+
+  it('a home state never hides behind another residency (M1)', () => {
+    expect(parseFilters({ ...emptyFilters(), residency: 'out_of_state', home_state: 'OH' })!.home_state).toBeNull();
+    expect(parseFilters({ ...emptyFilters(), residency: 'international', home_state: 'OH' })!.home_state).toBeNull();
+    expect(parseFilters({ ...emptyFilters(), residency: null, home_state: 'OH' })!.residency).toBe('in_state');
+    expect(parseFilters({ ...emptyFilters(), residency: 'in_state', home_state: 'OH' })!.home_state).toBe('OH');
+    expect(src('src/components/search/FilterPanel.tsx')).toContain("home_state: next === 'in_state' ? filters.home_state : null");
   });
 
   it('the filter panel asks for a home state when "US in-state" is picked', () => {

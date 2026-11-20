@@ -35,8 +35,9 @@ export function send(res: Res, status: number, body: unknown) {
 }
 
 const SITE_ORIGINS = ['https://www.rugbycampus.org', 'https://rugbycampus.org'];
-/** Vercel preview and production aliases for this project (rugby-campus.vercel.app, rugby-campus-git-<branch>-<team>.vercel.app, ...). */
-const PREVIEW_HOST = /^rugby-campus(-[a-z0-9-]+)?\.vercel\.app$/;
+/** This project's Vercel hosts: the production alias, and previews under the rc-0753 team (rugby-campus-<hash|git-branch>-rc-0753.vercel.app). */
+const PROJECT_HOST = 'rugby-campus.vercel.app';
+const PREVIEW_HOST = /^rugby-campus-[a-z0-9-]+-rc-0753\.vercel\.app$/;
 
 function originOf(value: string): URL | null {
   if (!value || value === 'null') return null;
@@ -54,7 +55,7 @@ export function isAllowedOrigin(origin: string, ownHost: string): boolean {
   if (u.protocol !== 'https:' && !(local && u.protocol === 'http:')) return false;
   const extra = (process.env.API_ALLOWED_ORIGINS || '').split(',').map((s) => s.trim().replace(/\/$/, '')).filter(Boolean);
   if (SITE_ORIGINS.includes(u.origin) || extra.includes(u.origin)) return true;
-  if (u.protocol === 'https:' && PREVIEW_HOST.test(u.hostname)) return true;
+  if (u.protocol === 'https:' && (u.hostname === PROJECT_HOST || PREVIEW_HOST.test(u.hostname))) return true;
   return !!ownHost && u.host === ownHost.toLowerCase();
 }
 
@@ -67,7 +68,9 @@ export function rejectRequest(req: Req, res: Res): boolean {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); send(res, 405, { ok: false, reason: 'method', message: 'POST only' }); return true; }
   const type = h1(req.headers['content-type']).toLowerCase();
   if (!type.startsWith('application/json')) { send(res, 415, { ok: false, reason: 'content_type', message: 'Send JSON.' }); return true; }
-  const origin = h1(req.headers['origin']);
+  // "Origin: null" (privacy extensions, no-referrer contexts) is treated as missing, so a valid Referer still counts.
+  const rawOrigin = h1(req.headers['origin']);
+  const origin = rawOrigin === 'null' ? '' : rawOrigin;
   const referer = h1(req.headers['referer']);
   const claimed = origin || (originOf(referer)?.origin ?? '');
   const ownHost = h1(req.headers['x-forwarded-host']) || h1(req.headers['host']);

@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { call, mockEnv, search } from './helpers';
 import { writeSearchLog } from '../../api/_lib/logsink';
+import { memoryStore } from '../../api/_lib/store';
 import vercel from '../../vercel.json';
 import welcome from '../../api/welcome-email';
 import contact from '../../api/contact';
@@ -43,7 +44,7 @@ describe('bug hunt S4: cross-site posts are refused', () => {
     it(`${name}: another site's Origin or Referer gets 403`, async () => {
       mockEnv(MAIL); mockFetch();
       expect((await call(h, body, { origin: 'https://evil.example' })).code).toBe(403);
-      expect((await call(h, body, { origin: 'null' })).code).toBe(403);
+      expect((await call(h, body, { origin: 'null', referer: 'https://evil.example/page' })).code).toBe(403);
       expect((await call(h, body, { referer: 'https://evil.example/page' })).code).toBe(403);
       expect(resend().length).toBe(0);
     });
@@ -55,11 +56,20 @@ describe('bug hunt S4: cross-site posts are refused', () => {
     });
   }
 
+  it('Origin: null counts as missing, so a valid Referer is accepted (L1)', async () => {
+    mockEnv(MAIL); mockFetch();
+    const r = await call(welcome as never, { email: 'a@b.co', source: 'newsletter' }, { origin: 'null', referer: 'https://www.rugbycampus.org/colleges' });
+    expect(r.code).toBe(200);
+  });
+
   it('allowed origins: live domain, project previews, same host, localhost; nothing else', () => {
     expect(isAllowedOrigin('https://www.rugbycampus.org', 'x')).toBe(true);
     expect(isAllowedOrigin('https://rugbycampus.org', 'x')).toBe(true);
     expect(isAllowedOrigin('https://rugby-campus.vercel.app', 'x')).toBe(true);
-    expect(isAllowedOrigin('https://rugby-campus-git-fix-hugh.vercel.app', 'x')).toBe(true);
+    expect(isAllowedOrigin('https://rugby-campus-git-fix-rc-0753.vercel.app', 'x')).toBe(true);
+    expect(isAllowedOrigin('https://rugby-campus-a1b2c3d4e-rc-0753.vercel.app', 'x')).toBe(true);
+    expect(isAllowedOrigin('https://rugby-campus-evil.vercel.app', 'x')).toBe(false);
+    expect(isAllowedOrigin('https://rugby-campus-git-x-other-team.vercel.app', 'x')).toBe(false);
     expect(isAllowedOrigin('https://preview.example.dev', 'preview.example.dev')).toBe(true);
     expect(isAllowedOrigin('http://localhost:3000', 'localhost:3000')).toBe(true);
     expect(isAllowedOrigin('http://www.rugbycampus.org', 'x')).toBe(false);
@@ -148,6 +158,13 @@ describe('bug hunt S6: email endpoints still have a limit without Upstash/KV', (
     warn.mockRestore();
   });
 
+  it('an IP already over its limit does not use up the shared mail cap', async () => {
+    noStore(); mockFetch(); vi.spyOn(console, 'warn').mockImplementation(() => {});
+    for (let i = 0; i < 40; i++) await call(contact as never, { email: `loop${i}@x.com`, message: 'm' });
+    const r = await call(contact as never, { email: 'real@x.com', message: 'hi' }, { 'x-forwarded-for': '198.51.100.99' });
+    expect(r.code).toBe(200);
+  });
+
   it('caps all mail per instance per hour across many IPs', async () => {
     noStore(); mockFetch(); vi.spyOn(console, 'warn').mockImplementation(() => {});
     let last = 0;
@@ -177,6 +194,23 @@ describe('bug hunt nitpicks (API)', () => {
     const codes: number[] = [];
     for (let i = 0; i < 4; i++) codes.push((await search('warm and cheap', { 'x-forwarded-for': `198.51.100.${i}` })).code);
     expect(codes).toEqual([200, 200, 200, 429]);
+    delete process.env.SEARCH_LIMIT_PER_HOUR_ALL;
+  });
+
+  it('H1: requests refused by their own IP limit never count toward the site-wide ceiling', async () => {
+    mockEnv();
+    const hour = new Date().toISOString().slice(0, 13);
+    for (let i = 0; i < 31; i++) await search('warm and cheap', { 'x-forwarded-for': '203.0.113.50' });
+    expect(await memoryStore.get(`rl:all:${hour}`)).toBe(30);
+  });
+
+  it('H1: the site-wide refusal uses the neutral "taking a rest" message, not one that blames the visitor', async () => {
+    mockEnv({ SEARCH_LIMIT_PER_HOUR_ALL: '1' });
+    await search('warm and cheap', { 'x-forwarded-for': '198.51.100.200' });
+    const r = await search('warm and cheap', { 'x-forwarded-for': '198.51.100.201' });
+    expect(r.code).toBe(429);
+    expect(r.body.reason).toBe('busy');
+    expect(r.body.message).toMatch(/taking a rest/);
     delete process.env.SEARCH_LIMIT_PER_HOUR_ALL;
   });
 

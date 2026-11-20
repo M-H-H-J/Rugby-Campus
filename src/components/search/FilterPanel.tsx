@@ -78,7 +78,10 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
         {outside && <p className="mt-1 text-[12px] text-muted">Parsed as US${rawBudget?.toLocaleString('en-US')}. That sits outside the slider, so it is left as is.</p>}
         <div className="flex flex-wrap gap-1.5 mt-3">
           {RESIDENCIES.map((r) => (
-            <Chip key={r} on={filters.residency === r} onClick={() => onChange({ ...filters, residency: filters.residency === r ? null : r })}>
+            <Chip key={r} on={filters.residency === r} onClick={() => {
+              const next = filters.residency === r ? null : r;
+              onChange({ ...filters, residency: next, home_state: next === 'in_state' ? filters.home_state : null });
+            }}>
               {({ in_state: 'US in-state', out_of_state: 'US out-of-state', international: "I'm international" } as Record<string, string>)[r]}
             </Chip>
           ))}

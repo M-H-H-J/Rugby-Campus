@@ -81,7 +81,12 @@ export function emptyFilters(): Filters {
 }
 export function parseFilters(raw: unknown): Filters | null {
   const r = FilterSchema.safeParse(raw && typeof raw === 'object' ? raw : {});
-  return r.success ? { ...r.data, version: FILTER_VERSION } : null;
+  if (!r.success) return null;
+  const f = { ...r.data, version: FILTER_VERSION };
+  // A home state only means something for a US resident: it implies in-state, and is dropped for out-of-state or international.
+  if (f.home_state && f.residency == null) f.residency = 'in_state';
+  if (f.residency === 'out_of_state' || f.residency === 'international') f.home_state = null;
+  return f;
 }
 export function hasAnyFilter(f: Filters): boolean {
   return FILTER_KEYS.some((k) => {

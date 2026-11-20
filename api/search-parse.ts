@@ -31,10 +31,13 @@ export default async function handler(req: Req, res: Res) {
   const sid = ensureSid(req, res); const ip = hashed(clientIp(req));
   const hour = new Date().toISOString().slice(0, 13);
   try {
-    const [ck, ipn, all] = await Promise.all([store.incr(`rl:ck:${sid}:${hour}`, 1, 3700), store.incr(`rl:ip:${ip}:${hour}`, 1, 3700), store.incr(`rl:all:${hour}`, 1, 3700)]);
-    if (ck > num(process.env.SEARCH_LIMIT_PER_HOUR, 10) || ipn > num(process.env.SEARCH_LIMIT_PER_HOUR_IP, 30) || all > num(process.env.SEARCH_LIMIT_PER_HOUR_ALL, 600)) {
+    const [ck, ipn] = await Promise.all([store.incr(`rl:ck:${sid}:${hour}`, 1, 3700), store.incr(`rl:ip:${ip}:${hour}`, 1, 3700)]);
+    if (ck > num(process.env.SEARCH_LIMIT_PER_HOUR, 10) || ipn > num(process.env.SEARCH_LIMIT_PER_HOUR_IP, 30)) {
       return send(res, 429, { ok: false, reason: 'rate_limited', message: MSG.rate });
     }
+    // Counted only once the visitor's own limits pass, so one looping client can't use up everyone's hour.
+    const all = await store.incr(`rl:all:${hour}`, 1, 3700);
+    if (all > num(process.env.SEARCH_LIMIT_PER_HOUR_ALL, 600)) return send(res, 429, { ok: false, reason: 'busy', message: MSG.cap });
     // ---- monthly spend cap (hard): refuse when spend + a worst-case reserve would pass the cap ----
     const key = `spend:${monthKey()}`; const spent = await store.get(key);
     if (spent + 2000 > capMicros()) return send(res, 503, { ok: false, reason: 'cap', message: MSG.cap });
