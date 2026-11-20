@@ -19,6 +19,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const { state: subscribeState, run: runSubscribe } = useSaveState();
   const [find, setFind] = useState('');
+  const [findHint, setFindHint] = useState(false);
 
   const featured = pickTopPrograms(colleges);
   const fullArticles = articles.filter((a) => !a.content.startsWith('Coming soon'));
@@ -47,12 +48,18 @@ export default function Home() {
             <p className="mt-5 text-[14px] text-muted">
               Built by <Link href="/about" className="text-navy font-medium underline underline-offset-2">Hugh Johnston</Link>, 2023 NCR D1 national championship coach.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300)));
+              else { setFindHint(true); document.getElementById('home-find')?.focus(); }
+            }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">
               <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
-              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+              <input id="home-find" value={find} onChange={(e) => { setFind(e.target.value); setFindHint(false); }} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+                aria-describedby={findHint ? 'home-find-hint' : undefined}
                 className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] outline-none placeholder:text-faint" />
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
+            {findHint && <p id="home-find-hint" role="status" className="mt-2 text-[13px] text-muted">Type a short sentence about what you want in a college, like the example above.</p>}
             <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
           </div>
           <div>

@@ -17,6 +17,8 @@ import { absImageUrl, canonicalFor } from '@/lib/usePageMeta';
 import { hasEmailUnlock, hasTrainingUnlock, rememberEmailUnlock, rememberTrainingUnlock, TRAINING_EMAIL_PARAM } from '@/lib/unlock';
 import { welcomeCopy } from '../../../api/welcome-email';
 import { existsSync } from 'node:fs';
+import { inAppPath } from '@/lib/inAppLink';
+import { escHtml } from '@/lib/escHtml';
 
 const F = (facts as unknown as FactsFile).colleges;
 
@@ -219,5 +221,55 @@ describe('bug hunt S10: replaceable images are not cached as immutable', () => {
   it('hashed Vite assets stay immutable for a year', () => {
     expect(rule('/assets/index-abc123.js')).toBe('public, max-age=31536000, immutable');
     expect(rule('/assets/logo-abc123.png')).toBe('public, max-age=31536000, immutable');
+  });
+});
+
+describe('bug hunt nitpicks (site)', () => {
+  it('N4: same-site links in guide text route in-app; external, new-tab and modified clicks do not', () => {
+    expect(inAppPath('/map')).toBe('/map');
+    expect(inAppPath('/learn/how-to-play-college-rugby')).toBe('/learn/how-to-play-college-rugby');
+    expect(inAppPath('https://www.ncr.rugby')).toBeNull();
+    expect(inAppPath('//evil.example/x')).toBeNull();
+    expect(inAppPath('mailto:hello@rugbycampus.org')).toBeNull();
+    expect(inAppPath('/map', { target: '_blank' })).toBeNull();
+    expect(inAppPath('/map', { modifier: true })).toBeNull();
+    expect(inAppPath('/map', { button: 1 })).toBeNull();
+    expect(src('src/pages/ArticlePage.tsx')).toContain('onClick={routeInAppClicks(navigate)}');
+  });
+
+  it('N5: crawler HTML for guides renders *italic* and numbered lists like the page does', () => {
+    const p = src('scripts/prerender.mjs');
+    expect(p).toContain(".replace(/\\*(.+?)\\*/g, '<em>$1</em>')");
+    expect(p).toMatch(/kind === 'ol'/);
+  });
+
+  it('N7: map popups escape text from Supabase', () => {
+    expect(escHtml('<img src=x onerror=alert(1)> & "Saint" Mary\'s')).toBe('&lt;img src=x onerror=alert(1)&gt; &amp; &quot;Saint&quot; Mary&#39;s');
+    const m = src('src/components/LeafletMap.tsx');
+    for (const f of ['c.affiliation', 'c.name', 'c.location', 'c.slug']) expect(m, f).toContain(`\${escHtml(${f})}`);
+    expect(m).not.toMatch(/>\$\{c\.(name|location|affiliation)\}</);
+  });
+
+  it('N8: skip link to #main, and inline About links are underlined', () => {
+    const app = src('src/App.tsx');
+    expect(app).toContain('<a href="#main"');
+    expect(app).toContain('<main id="main"');
+    expect(app.indexOf('href="#main"')).toBeLessThan(app.indexOf('<Navigation />'));
+    expect(src('src/pages/About.tsx')).toMatch(/href="https:\/\/www\.niche\.com"[^>]*underline/);
+  });
+
+  it('N9: the Home finder explains a too-short entry instead of doing nothing', () => {
+    const h = src('src/pages/Home.tsx');
+    expect(h).toContain('setFindHint(true)');
+    expect(h).toContain('id="home-find-hint"');
+  });
+
+  it('S12: abuse limits are proposed as SQL for Hugh to run, not run here', () => {
+    const sql = src('supabase/manual/2026-11-20-abuse-limits.sql');
+    expect(sql).toMatch(/PROPOSAL ONLY\. Not run by the PR/);
+    expect(sql).toContain('CREATE UNIQUE INDEX IF NOT EXISTS email_subscribers_email_source_key');
+    expect(sql).toContain('NOT VALID');
+    expect(sql).toMatch(/^BEGIN;$/m);
+    expect(sql).toMatch(/^COMMIT;$/m);
   });
 });

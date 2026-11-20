@@ -160,13 +160,28 @@ for (const c of colleges) {
 add({ path: '/learn', title: 'College Rugby Guides', description: 'Guides on US college rugby: the best programs, how recruitment works, why rankings mislead, scholarships, and what happens when programs die.', jsonld: [],
   body: `<h1>How US college rugby works</h1>${nav}<ul>${articles.map((a) => `<li><a href="/learn/${a.slug}">${esc(a.title)}</a>${isFull(a) ? '' : ' (coming soon)'}</li>`).join('')}</ul>` });
 
-const inline = (t) => esc(t).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-const mdToHtml = (md) => md.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
-  if (l.startsWith('## ')) return `<h2>${esc(l.slice(3))}</h2>`;
-  if (l.startsWith('### ')) return `<h3>${esc(l.slice(4))}</h3>`;
-  if (l.startsWith('- ')) return `<li>${inline(l.slice(2))}</li>`;
-  return `<p>${inline(l)}</p>`;
-}).join('\n');
+// Mirrors renderContent in src/pages/ArticlePage.tsx: links, **bold**, *italic*, "- " and "1. " lists.
+const inline = (t) => esc(t).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+const OL_ITEM = /^\d+\.\s/;
+const mdToHtml = (md) => {
+  const out = [];
+  let open = null;
+  for (const l of md.split('\n').map((x) => x.trim()).filter(Boolean)) {
+    const kind = l.startsWith('- ') ? 'ul' : OL_ITEM.test(l) ? 'ol' : null;
+    if (kind !== open) {
+      if (open) out.push(`</${open}>`);
+      if (kind) out.push(`<${kind}>`);
+      open = kind;
+    }
+    if (kind === 'ul') out.push(`<li>${inline(l.slice(2))}</li>`);
+    else if (kind === 'ol') out.push(`<li>${inline(l.replace(OL_ITEM, ''))}</li>`);
+    else if (l.startsWith('## ')) out.push(`<h2>${esc(l.slice(3))}</h2>`);
+    else if (l.startsWith('### ')) out.push(`<h3>${esc(l.slice(4))}</h3>`);
+    else out.push(`<p>${inline(l)}</p>`);
+  }
+  if (open) out.push(`</${open}>`);
+  return out.join('\n');
+};
 
 for (const a of articles) {
   const faq = [];

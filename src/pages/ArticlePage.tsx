@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useRoute, Link } from 'wouter';
+import { useRoute, useLocation, Link } from 'wouter';
+import { routeInAppClicks } from '@/lib/inAppLink';
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react';
 import { getArticleBySlug, articles } from '@/data/articles';
 import { captureEmail } from '@/lib/supabase';
@@ -110,6 +111,7 @@ function NotifyForm() {
 
 export default function ArticlePage() {
   const [, params] = useRoute('/learn/:slug');
+  const [, navigate] = useLocation();
   const article = params?.slug ? getArticleBySlug(params.slug) : undefined;
 
   if (!article) return <ArticleNotFound />;
@@ -144,7 +146,7 @@ export default function ArticlePage() {
           <NotifyForm />
         </div>
       ) : (
-        <article className="prose-custom">
+        <article className="prose-custom" onClick={routeInAppClicks(navigate)}>
           {renderContent(article.content)}
         </article>
       )}
