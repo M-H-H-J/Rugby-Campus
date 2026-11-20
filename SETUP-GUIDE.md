@@ -134,15 +134,18 @@ Weather tables and the weather sentence now come from the repo (NOAA), so the `w
 
 1. Done already: `public/robots.txt` now lets Google, Bing, GPTBot, ClaudeBot and PerplexityBot in, and points them at your sitemap (launch-fixes paste, Oct 2026).
 2. Vercel → Settings → Domains → add `rugbycampus.org` → add the DNS records at Cloudflare.
-3. Google Search Console → add property → verify via DNS → Sitemaps → submit `https://rugbycampus.org/sitemap.xml`.
+3. Google Search Console → add property → verify via DNS → Sitemaps → submit `https://www.rugbycampus.org/sitemap.xml`.
 4. Bing Webmaster Tools → same (this is what ChatGPT search reads). You can import straight from Search Console.
 5. Every page is already pre-rendered as real HTML with structured data, so crawlers and AI assistants can read the whole site without JavaScript. `llms.txt` and `llms-full.txt` give AI tools a clean summary.
 
 ## Coach data gaps (fill these first)
 
-After the three SQL blocks, these 12 programs show no head coach (the page says "To be confirmed"):
+As of 20 Nov 2026 these programs show no head coach (the page shows one quiet "Head coach not confirmed yet" line):
+Arkansas State, Ohio State, Utah, Western Washington (Utah, WWU and Ohio State are deliberate blanks), and CU Boulder (club inbox shown instead).
 
-- **In Supabase** (fix in Table Editor → colleges → `coach_name` / `coach_email`): Arkansas State, Indiana, Ohio State, Utah, Western Washington.
-- **Not in Supabase yet** (ask Cursor to add the coach in `src/data/colleges.ts`): Aquinas, Colorado State, Cal State Long Beach, CU Boulder, Fordham, Indiana Tech, Rio Grande.
+Change a coach in Supabase with a dated SQL file in `supabase/manual/`, and mirror it in `src/data/colleges.ts` in the same PR.
+The bulk sync generator (`scripts/gen-supabase-full-sync.ts`) never overwrites coach fields on an existing row, so a cleared coach stays cleared.
 
-Indiana: the repo has Luke Gross but the live row is blank, so the site shows blank. Decide which is right.
+## Launch fixes SQL (20 Nov 2026)
+
+Review `supabase/manual/2026-11-20-launch-fixes.sql`, then paste it into Supabase → SQL Editor → Run. It previews, updates in one transaction, and ends with verify queries.

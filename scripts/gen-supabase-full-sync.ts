@@ -1,4 +1,5 @@
-// Run from repo root: npx tsx scripts/gen-supabase-full-sync.ts > supabase-full-sync-2026-11-06.sql
+// Run from repo root: npx tsx scripts/gen-supabase-full-sync.ts > supabase-full-sync-YYYY-MM-DD.sql
+// Review the output before running it. It inserts missing rows and refreshes repo-owned fields only.
 import { colleges } from '../src/data/colleges';
 const q = (v: unknown): string => {
   if (v === null || v === undefined) return 'NULL';
@@ -23,11 +24,16 @@ out.push(`ALTER TABLE public.colleges
   ADD COLUMN IF NOT EXISTS mlr_no_appearance integer NOT NULL DEFAULT 0,
   ADD COLUMN IF NOT EXISTS mlr_not_yet integer NOT NULL DEFAULT 0,
   ADD COLUMN IF NOT EXISTS mlr_note text NOT NULL DEFAULT '';`);
-// Protect DB-only values: blank/empty from the bundle must not wipe live coach data.
-const protectEmptyText = new Set(['coach_name', 'coach_email', 'rugby_program_url']);
+// Coach fields are never overwritten on an existing row. Supabase owns them: a coach that was
+// deliberately cleared in the table (Indiana, Nov 2026) must not come back from a stale bundle value.
+// Change a coach with a dated UPDATE in supabase/manual/, then mirror it in colleges.ts.
+const dbOwned = new Set(['coach_name', 'coach_email']);
+// Blank/empty from the bundle must not wipe a live value.
+const protectEmptyText = new Set(['rugby_program_url']);
 const set = cols
   .filter((c) => c !== 'slug')
   .map((c) => {
+    if (dbOwned.has(c)) return `  ${c} = colleges.${c}`;
     if (protectEmptyText.has(c)) {
       return `  ${c} = COALESCE(NULLIF(EXCLUDED.${c}, ''), colleges.${c})`;
     }
