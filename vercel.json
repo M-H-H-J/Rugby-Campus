@@ -7,6 +7,7 @@
     { "source": "/:path*", "has": [{ "type": "host", "value": "rugby-campus\\.vercel\\.app" }], "destination": "https://www.rugbycampus.org/:path*", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/assets/:path*", "destination": "/api/missing-asset" },
     { "source": "/colleges/iona-university", "destination": "/api/gone" },
     { "source": "/colleges/iona-university/", "destination": "/api/gone" },
     { "source": "/map", "destination": "/map/index.html" },
