@@ -6,6 +6,9 @@
 -- Why: the table wins over the bundle for description, achievements and program
 -- type. Run early and the live pages would disagree with the prerendered HTML,
 -- llms-full.txt and the search facts until the deploy catches up.
+-- Coach names: since the bug-hunt PR (#15) the table is the answer for coach_name whenever the row
+-- exists, blank included. Until this file runs, Ohio State, Western Washington and Utah show
+-- "Head coach not confirmed yet" on the live pages even though colleges.ts has their names.
 -- ============================================================================
 -- Rugby Campus fact-check fixes, 20 Nov 2026 (fact-check-2026-11-20.md).
 -- REVIEW, THEN RUN BY HAND in Supabase -> SQL Editor. Not run by the PR that added it.
