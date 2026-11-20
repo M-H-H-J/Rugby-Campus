@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import vercel from '../../../vercel.json';
@@ -9,6 +9,9 @@ import type { FactsFile } from '@/lib/search/facts';
 import { costFor, costText } from '@/lib/search/cost';
 import { emptyFilters, parseFilters } from '@/lib/search/filters';
 import { search as searchColleges } from '@/lib/search/match';
+import { readParam } from '@/lib/search/urlState';
+import { hasExactAlias, matchesCollegeQuery } from '@/lib/collegeAliases';
+import { colleges } from '@/data/colleges';
 
 const F = (facts as unknown as FactsFile).colleges;
 
@@ -102,5 +105,29 @@ describe('bug hunt S3: "I live in <state>" pricing', () => {
     const p = src('src/components/search/FilterPanel.tsx');
     expect(p).toContain('aria-label="Your home state"');
     expect(p).toContain('home_state: (e.target.value || null)');
+  });
+});
+
+describe('bug hunt S2 (fixed in #13, locked here): /colleges?q= parsing', () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const at = (search: string) => vi.stubGlobal('window', { location: { search } });
+
+  it('a stray % never throws', () => {
+    for (const q of ['?q=%', '?q=100%', '?q=%E0%A4%A']) { at(q); expect(() => readParam('q')).not.toThrow(); }
+    at('?q=%'); expect(readParam('q')).toBe('%');
+  });
+
+  it('+ and %20 both mean a space, and "Notre Dame" finds Notre Dame', () => {
+    at('?q=Notre+Dame'); const plus = readParam('q');
+    at('?q=Notre%20Dame'); const enc = readParam('q');
+    expect(plus).toBe('Notre Dame'); expect(enc).toBe('Notre Dame');
+    const exact = hasExactAlias(colleges, plus);
+    expect(colleges.filter((c) => matchesCollegeQuery(c, plus, exact)).map((c) => c.slug)).toContain('university-of-notre-dame');
+  });
+
+  it('Colleges reads q through readParam, never a raw decodeURIComponent', () => {
+    const p = src('src/pages/Colleges.tsx');
+    expect(p).toContain("readParam('q')");
+    expect(p).not.toContain('decodeURIComponent');
   });
 });
