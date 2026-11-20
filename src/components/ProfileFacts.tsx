@@ -22,7 +22,8 @@ function internationalLine(f: CollegeFacts | undefined): string | null {
   return route === 'nomination_only' || route === 'service_academy' ? INTL_SHORT.replace('Internationals: only', 'Only') : null;
 }
 
-/** Key facts at the top of a profile. A fact we haven't confirmed is left out, not shown as a placeholder. */
+/** Key facts at the top of a profile. A fact we haven't confirmed is left out, not shown as a placeholder.
+ *  The coach is shown once, in the coach block straight after these rows. */
 export function profileFactRows(college: College): [string, string][] {
   const f = FACTS[college.slug] as CollegeFacts | undefined;
   const kind = college.programType === 'Varsity' || college.programType === 'Club' ? college.programType : null;
@@ -32,7 +33,6 @@ export function profileFactRows(college: College): [string, string][] {
     ['International players', internationalLine(f)],
     ['Cost', costLine(f)],
     ['How hard to get in', admitLine(f)],
-    ['Coach', college.coachName?.trim() || null],
   ];
   return rows.filter((r): r is [string, string] => !!r[1]);
 }
