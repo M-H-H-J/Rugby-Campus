@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { call, mockEnv } from './helpers';
+import { call, mockEnv, search } from './helpers';
+import { writeSearchLog } from '../../api/_lib/logsink';
+import vercel from '../../vercel.json';
 import welcome from '../../api/welcome-email';
 import contact from '../../api/contact';
 import coaching from '../../api/coaching-enquiry';
@@ -166,5 +168,28 @@ describe('bug hunt S6: email endpoints still have a limit without Upstash/KV', (
     const r = await call(welcome as never, { email: 'same@b.co', source: 'newsletter' });
     expect(r.body.repeat).toBe(true);
     expect(resend().length).toBe(1);
+  });
+});
+
+describe('bug hunt nitpicks (API)', () => {
+  it('N1: a site-wide hourly ceiling holds even when every request drops the cookie', async () => {
+    mockEnv({ SEARCH_LIMIT_PER_HOUR_ALL: '3' });
+    const codes: number[] = [];
+    for (let i = 0; i < 4; i++) codes.push((await search('warm and cheap', { 'x-forwarded-for': `198.51.100.${i}` })).code);
+    expect(codes).toEqual([200, 200, 200, 429]);
+    delete process.env.SEARCH_LIMIT_PER_HOUR_ALL;
+  });
+
+  it('N2: a failed Supabase log insert is reported, not silent', async () => {
+    process.env.SEARCH_LOG_SINK = 'supabase'; process.env.SUPABASE_URL = 'https://sb.example'; process.env.SUPABASE_SERVICE_ROLE_KEY = 'srk';
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: false, status: 404 })));
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await writeSearchLog({ t: '', text: 'x', filters: null, ok: true, model: 'm', tokens_in: 0, tokens_out: 0, cost_usd: 0, ms: 0 });
+    expect(err).toHaveBeenCalledWith('SEARCH_LOG supabase 404');
+    err.mockRestore(); process.env.SEARCH_LOG_SINK = 'off';
+  });
+
+  it('N14: search-parse may run 30 seconds (two 9-second model attempts plus store calls)', () => {
+    expect((vercel as { functions?: Record<string, { maxDuration?: number }> }).functions?.['api/search-parse.ts']?.maxDuration).toBe(30);
   });
 });

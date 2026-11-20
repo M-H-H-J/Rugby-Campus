@@ -1,4 +1,7 @@
 {
+  "functions": {
+    "api/search-parse.ts": { "maxDuration": 30 }
+  },
   "redirects": [
     { "source": "/colleges/university-of-st-thomas-minnesota", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
     { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true },

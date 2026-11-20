@@ -26,12 +26,13 @@ export default async function handler(req: Req, res: Res) {
   const cfg = getModelConfig(); const store = getStore();
   if (!cfg || !store) return send(res, 503, { ok: false, reason: 'not_configured', message: MSG.off });
 
-  // ---- per-visitor rate limit: cookie 10/hour AND ip 30/hour (shared school wifi), both env-tunable ----
+  // ---- rate limits: cookie 10/hour AND ip 30/hour (shared school wifi) AND 600/hour site-wide, all env-tunable ----
+  // The site-wide ceiling matters because the cookie limit is skipped by not sending the cookie.
   const sid = ensureSid(req, res); const ip = hashed(clientIp(req));
   const hour = new Date().toISOString().slice(0, 13);
   try {
-    const [ck, ipn] = await Promise.all([store.incr(`rl:ck:${sid}:${hour}`, 1, 3700), store.incr(`rl:ip:${ip}:${hour}`, 1, 3700)]);
-    if (ck > num(process.env.SEARCH_LIMIT_PER_HOUR, 10) || ipn > num(process.env.SEARCH_LIMIT_PER_HOUR_IP, 30)) {
+    const [ck, ipn, all] = await Promise.all([store.incr(`rl:ck:${sid}:${hour}`, 1, 3700), store.incr(`rl:ip:${ip}:${hour}`, 1, 3700), store.incr(`rl:all:${hour}`, 1, 3700)]);
+    if (ck > num(process.env.SEARCH_LIMIT_PER_HOUR, 10) || ipn > num(process.env.SEARCH_LIMIT_PER_HOUR_IP, 30) || all > num(process.env.SEARCH_LIMIT_PER_HOUR_ALL, 600)) {
       return send(res, 429, { ok: false, reason: 'rate_limited', message: MSG.rate });
     }
     // ---- monthly spend cap (hard): refuse when spend + a worst-case reserve would pass the cap ----
