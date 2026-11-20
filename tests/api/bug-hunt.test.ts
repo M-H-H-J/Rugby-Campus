@@ -7,6 +7,7 @@ import shortlist from '../../api/shortlist-email';
 import searchParse from '../../api/search-parse';
 import { isAllowedOrigin } from '../../api/_lib/http';
 import { personName, stripLinks, textToHtml } from '../../api/_lib/mail';
+import { FALLBACK_ALL_PER_HOUR, resetLimitWarning } from '../../api/_lib/limits';
 
 type Sent = { url: string; headers: Record<string, string>; body: any };
 let sent: Sent[] = [];
@@ -127,5 +128,43 @@ describe('bug hunt S5: visitor text never becomes a link in our emails', () => {
     expect(textToHtml('see https://www.rugbycampus.org/colleges.')).toBe('<p>see <a href="https://www.rugbycampus.org/colleges">https://www.rugbycampus.org/colleges</a>.</p>');
     expect(textToHtml('pay "https://x.example/login"')).not.toContain('&quot;"');
     expect(textToHtml('https://x.example', false)).toBe('<p>https://x.example</p>');
+  });
+});
+
+describe('bug hunt S6: email endpoints still have a limit without Upstash/KV', () => {
+  const noStore = () => { mockEnv(MAIL); delete process.env.SEARCH_ALLOW_MEMORY_STORE; resetLimitWarning(); };
+
+  it('falls back to a stricter in-memory per-IP limit and warns once', async () => {
+    noStore(); mockFetch();
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const codes: number[] = [];
+    for (let i = 0; i < 7; i++) codes.push((await call(welcome as never, { email: `p${i}@b.co`, source: 'newsletter' })).code);
+    expect(codes.slice(0, 5).every((c) => c === 200)).toBe(true);
+    expect(codes[5]).toBe(429);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0][0])).toMatch(/RATE_LIMIT_FALLBACK/);
+    warn.mockRestore();
+  });
+
+  it('caps all mail per instance per hour across many IPs', async () => {
+    noStore(); mockFetch(); vi.spyOn(console, 'warn').mockImplementation(() => {});
+    let last = 0;
+    for (let i = 0; i < FALLBACK_ALL_PER_HOUR + 2; i++) last = (await call(contact as never, { email: `s${i}@x.com`, message: 'm' }, { 'x-forwarded-for': `198.51.100.${i}` })).code;
+    expect(last).toBe(429);
+  });
+
+  it('shortlist-email uses the same limit (it had none without a store)', async () => {
+    noStore(); mockFetch(); vi.spyOn(console, 'warn').mockImplementation(() => {});
+    let last = 0;
+    for (let i = 0; i < 4; i++) last = (await call(shortlist as never, { email: `k${i}@x.com`, slugs: ['brown-university'] })).code;
+    expect(last).toBe(429);
+  });
+
+  it('welcome emails are de-duplicated in memory too', async () => {
+    noStore(); mockFetch(); vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await call(welcome as never, { email: 'same@b.co', source: 'newsletter' });
+    const r = await call(welcome as never, { email: 'same@b.co', source: 'newsletter' });
+    expect(r.body.repeat).toBe(true);
+    expect(resend().length).toBe(1);
   });
 });

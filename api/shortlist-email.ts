@@ -1,7 +1,7 @@
 // POST /api/shortlist-email { email, slugs[], sentence?, website (honeypot) }
 // Saves the visitor's email + shortlist. No gating, no double opt-in (Hugh's decision). Optionally emails the list via Resend.
-import { clientIp, hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
-import { getStore } from './_lib/store.js';
+import { hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
+import { overLimit } from './_lib/limits.js';
 import { sendMail, SITE } from './_lib/mail.js';
 import { COLLEGE_NAMES } from './_lib/collegeNames.js';
 import { cleanSentence, stripPII } from '../src/lib/search/filters.js';
@@ -20,12 +20,7 @@ export default async function handler(req: Req, res: Res) {
   if (slugs.length === 0) return send(res, 400, { ok: false, message: 'Nothing to send yet. Tick some colleges first.' });
   const sentence = stripPII(cleanSentence(b.sentence));
 
-  const store = getStore();
-  if (store) {
-    const hour = new Date().toISOString().slice(0, 13);
-    const n = await store.incr(`sl:ip:${hashed(clientIp(req))}:${hour}`, 1, 3700).catch(() => 0);
-    if (n > 5) return send(res, 429, { ok: false, message: 'Please try again a bit later.' });
-  }
+  if (await overLimit(req, 'sl', 5)) return send(res, 429, { ok: false, message: 'Please try again a bit later.' });
 
   const sbUrl = process.env.SUPABASE_URL, sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   // Default: Supabase when its server keys are present, otherwise the console. SHORTLIST_SINK=console forces the console.
