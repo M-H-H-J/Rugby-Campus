@@ -9,10 +9,14 @@ export async function overLimit(req: Req, prefix: string, perHour: number): Prom
   const n = await store.incr(`${prefix}:ip:${hashed(clientIp(req))}:${hour}`, 1, 3700).catch(() => 0);
   return n > perHour;
 }
-/** True the first time this key is seen in `days` (used so one address gets one thank-you per source). */
-export async function firstTime(key: string, days: number): Promise<boolean> {
+/** True when `markDone(key)` ran in the last few days (used so one address gets one thank-you per source). */
+export async function alreadyDone(key: string): Promise<boolean> {
   const store = getStore();
-  if (!store) return true;
-  const n = await store.incr(key, 1, days * 86400).catch(() => 1);
-  return n <= 1;
+  if (!store) return false;
+  return (await store.get(key).catch(() => 0)) > 0;
+}
+export async function markDone(key: string, days: number): Promise<void> {
+  const store = getStore();
+  if (!store) return;
+  await store.incr(key, 1, days * 86400).catch(() => 0);
 }

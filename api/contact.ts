@@ -20,7 +20,7 @@ export default async function handler(req: Req, res: Res) {
   if (!EMAIL_RE.test(email) || !message) return send(res, 400, { ok: false });
   if (await overLimit(req, 'ct', 5)) return send(res, 429, { ok: false });
   const key = 'contact:' + hashed(email + '|' + message);
-  const notified = await sendMail({ to: HELLO, replyTo: email, idempotencyKey: key + ':n',
+  const notified = await sendMail({ to: HELLO, replyTo: email, idempotencyKey: key + ':n', linkify: false,
     subject: `Contact form (${type.replace('_', ' ')}): ${name || email}`,
     text: `From: ${name || '(no name)'} <${email}>\nType: ${type}\n\n${message}\n\nHit Reply to answer them directly.` });
   const replied = await sendMail({ to: email, idempotencyKey: key + ':r', subject: 'Got your message',

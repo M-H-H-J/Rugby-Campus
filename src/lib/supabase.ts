@@ -17,9 +17,9 @@ function ping(path: string, body: Record<string, unknown>): void {
   try { void fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, website: '' }), keepalive: true }).catch(() => {}); } catch { /* ignore */ }
 }
 
-export async function captureEmail(email: string, source: EmailSource, opts: { article?: string } = {}): Promise<boolean> {
+export async function captureEmail(email: string, source: EmailSource): Promise<boolean> {
   // search_shortlist gets its own email from /api/shortlist-email; every other box gets a short thank-you.
-  if (source !== 'search_shortlist') ping('/api/welcome-email', { email, source, article: opts.article });
+  if (source !== 'search_shortlist') ping('/api/welcome-email', { email, source });
   const sb = getSupabase();
   if (!sb) {
     console.info(`[RugbyCampus] email captured (no DB configured): ${email} — ${source}`);

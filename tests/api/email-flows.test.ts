@@ -27,7 +27,7 @@ describe('welcome-email', () => {
     const m = resend(); expect(m.length).toBe(4);
     expect(m[0].body.from).toBe(MAIL.SHORTLIST_FROM); expect(m[0].body.to).toEqual(['kid@example.com']);
     expect(m[0].body.reply_to).toBe('hello@rugbycampus.org'); expect(m[0].headers['Idempotency-Key']).toMatch(/^welcome:newsletter:/);
-    expect(m[2].body.text).toContain('/training'); expect(m[3].body.text).toContain('"How to play"');
+    expect(m[2].body.text).toContain('/training'); expect(m[3].body.text).toContain('the next guide'); expect(m[3].body.text).not.toContain('How to play');
   });
   it('same address + source twice sends once', async () => {
     mockEnv(MAIL); mockFetch();

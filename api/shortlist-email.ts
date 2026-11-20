@@ -14,9 +14,10 @@ export default async function handler(req: Req, res: Res) {
   const b = readBody(req);
   if (typeof b.website === 'string' && b.website.trim()) return send(res, 200, { ok: true, emailed: false }); // honeypot: pretend success
   const email = typeof b.email === 'string' ? b.email.trim().toLowerCase() : '';
-  const slugs = Array.isArray(b.slugs) ? [...new Set(b.slugs.filter((s): s is string => typeof s === 'string' && SLUG_RE.test(s)))].slice(0, 12) : [];
+  // Only real college slugs: anything else would be saved and turned into a line of the email.
+  const slugs = Array.isArray(b.slugs) ? [...new Set(b.slugs.filter((s): s is string => typeof s === 'string' && SLUG_RE.test(s) && Object.prototype.hasOwnProperty.call(COLLEGE_NAMES, s)))].slice(0, 12) : [];
   if (!EMAIL_RE.test(email) || email.length > 254) return send(res, 400, { ok: false, message: 'That email address does not look right.' });
-  if (slugs.length === 0) return send(res, 400, { ok: false, message: 'Nothing to send yet. Run a search first.' });
+  if (slugs.length === 0) return send(res, 400, { ok: false, message: 'Nothing to send yet. Tick some colleges first.' });
   const sentence = stripPII(cleanSentence(b.sentence));
 
   const store = getStore();
@@ -40,10 +41,8 @@ export default async function handler(req: Req, res: Res) {
     console.log('SHORTLIST ' + JSON.stringify({ t: new Date().toISOString(), slugs, sentence, email_hash: hashed(email) })); // never log the address itself
   }
 
-  const known = slugs.filter((s) => COLLEGE_NAMES[s]);
-  if (known.length === 0) return send(res, 400, { ok: false, message: 'Nothing to send yet. Tick some colleges first.' });
-  const list = known.map((s) => `- ${COLLEGE_NAMES[s]}: ${SITE}/colleges/${s}`).join('\n');
-  const emailed = await sendMail({ to: email, subject: 'Your Rugby Campus shortlist', idempotencyKey: 'shortlist:' + hashed(email + '|' + known.join(',')),
+  const list = slugs.map((s) => `- ${COLLEGE_NAMES[s]}: ${SITE}/colleges/${s}`).join('\n');
+  const emailed = await sendMail({ to: email, subject: 'Your Rugby Campus shortlist', idempotencyKey: 'shortlist:' + hashed(email + '|' + slugs.join(',')),
     text: `Here are the colleges you picked:\n\n${list}\n\nCosts on the site are before any scholarship, so ask each coach what's on offer. Then email the coaches directly. A short note with your position, your highlights and your grades does more than you'd think. I've been the player sending those emails and the coach reading them.\n\nHugh, Rugby Campus` });
   return send(res, 200, { ok: true, emailed, saved });
 }
