@@ -32,7 +32,7 @@ describe('facts file', () => {
     expect(F['dartmouth-college'].total_cost_in_state).toBe(98427);
     expect(F['california-state-university-long-beach'].tuition_fees_out_of_state).toBe(20994);
     expect(F['united-states-naval-academy'].test_policy).toBe('required');
-    expect(F['united-states-naval-academy'].intl_warning).toMatch(/nomination/i);
+    expect(F['united-states-naval-academy'].intl_warning).toMatch(/nominated by their own government/i);
   });
 });
 

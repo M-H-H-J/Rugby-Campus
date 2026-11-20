@@ -30,6 +30,10 @@ export interface CollegeFacts {
   rugby_aid: 'full' | 'partial' | 'none' | 'varies' | null;
   big_sport_tag: string | null;
   intl_admission_route: string | null; intl_warning: string | null;
+  /** The only published price is the in-state resident rate (Rio Grande). Non-residents see "ask the coach". */
+  cost_residents_only?: boolean;
+  /** Shown after the undergraduate count, e.g. "includes online students". */
+  enrollment_note?: string;
   test_policy: string | null; acceptance_rate: number | null; graduation_rate_6yr: number | null;
   majors_top: string[] | null;
   majors_cip2: Record<string, number>;

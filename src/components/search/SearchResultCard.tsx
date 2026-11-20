@@ -1,7 +1,7 @@
 import type { College } from '@/data/colleges';
 import CollegeCard from '@/components/CollegeCard';
 import Pill from './Pill';
-import type { Result } from '@/lib/search/match';
+import { INTL_SHORT, type Result } from '@/lib/search/match';
 import type { CollegeFacts } from '@/lib/search/facts';
 import { costText } from '@/lib/search/cost';
 import { isVeryHot, VERY_HOT_LABEL } from '@/lib/search/display';
@@ -12,20 +12,21 @@ export default function SearchResultCard({ college, facts, result, filters, sele
 }) {
   const cost = costText(facts, filters.residency, filters.home_state);
   const checks = result ? [...result.checks].sort((a, b) => ({ miss: 0, unknown: 1, match: 2 }[a.status] - { miss: 0, unknown: 1, match: 2 }[b.status])) : [];
+  const has = (key: string) => checks.some((c) => c.key === key);
+  const academy = facts.intl_admission_route === 'nomination_only' || facts.intl_admission_route === 'service_academy';
   return (
     <div className="flex flex-col">
       <CollegeCard college={college} variant="tool" />
       <div className="px-1 pt-2 space-y-1.5">
         {checks.length > 0 && <div className="flex flex-wrap gap-1">{checks.map((c, i) => <Pill key={c.key + i} check={c} />)}</div>}
-        {filters.climate.includes('warm_winters') && isVeryHot(facts) && <p className="text-[12px] text-muted">{VERY_HOT_LABEL}</p>}
+        {!has('very_hot') && filters.climate.includes('warm_winters') && isVeryHot(facts) && <p className="text-[12px] text-muted">{VERY_HOT_LABEL}</p>}
         <p className="text-[12px] text-ink leading-snug">
           <span className="font-medium">{cost.headline}</span>
-          {!cost.askCoach && <span className="block text-[11px] text-muted">{cost.sub}</span>}
-          {cost.askCoach && <span className="block text-[11px] text-muted">Ask the coach what it costs.</span>}
+          {!has('max_cost_usd_per_year') && <span className="block text-[11px] text-muted">{cost.askCoach ? 'Ask the coach what it costs.' : cost.sub}</span>}
         </p>
-        {facts.intl_warning && <p className="text-[12px] text-muted">⚠︎ {facts.intl_warning}</p>}
-        <label className="flex items-center gap-1.5 text-[11px] text-muted cursor-pointer select-none">
-          <input type="checkbox" checked={selected} onChange={onToggle} className="accent-navy" /> Add to my shortlist
+        {academy && !has('international') && <p className="text-[12px] text-muted">{INTL_SHORT}</p>}
+        <label className="flex items-center gap-2.5 min-h-[44px] text-[13px] text-ink cursor-pointer select-none">
+          <input type="checkbox" checked={selected} onChange={onToggle} className="w-5 h-5 accent-navy" /> Add to my shortlist
         </label>
       </div>
     </div>

@@ -18,17 +18,16 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
                 src={college.imageUrl}
                 alt={`${college.name} campus`}
                 loading="lazy"
+                width={800} height={600}
                 className="card-img w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center px-3">
-                <span className="text-[11px] text-faint font-medium text-center">{college.name}</span>
-              </div>
+              <div className="w-full h-full" aria-hidden />
             )}
           </div>
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-caps text-navy mb-1">{college.affiliation}</p>
-            <h3 className="font-heading text-[16px] leading-snug text-ink group-hover:text-navy transition-colors mb-1 line-clamp-1">
+            <h3 className="font-heading text-[16px] leading-snug text-ink group-hover:text-navy transition-colors mb-1">
               {college.name}
             </h3>
             <p className="text-[12px] text-muted line-clamp-1">{college.location}</p>
@@ -54,9 +53,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
               className="card-img w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center px-3">
-              <span className="text-[12px] text-faint font-medium text-center">{college.name}</span>
-            </div>
+            <div className="w-full h-full" aria-hidden />
           )}
           {topBadge && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/75 to-transparent pt-8 pb-3 px-4">
@@ -73,7 +70,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
           {college.name}
         </h3>
         <p className="text-[13px] text-muted">
-          {college.location} · {college.conference} · {college.programType}
+          {[college.location, college.conference, college.programType].filter(Boolean).join(' · ')}
           {college.draftPicks >= 1 && <span> · {college.draftPicks} MLR draftees</span>}
         </p>
       </article>

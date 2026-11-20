@@ -107,7 +107,7 @@ function factsHtml(slug) {
   const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}. ${cost.sub}`]];
   if (f.campus_feel && CAMPUS_FEEL_LABEL[f.campus_feel]) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
   const band = sizeBand(f.enrollment_undergrad);
-  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates (IPEDS)` : ''}`]);
+  if (band) rows.push(['Size', sizeText(f)]);
   for (const row of airportRows(f)) rows.push(row);
   const climate = climateText(f);
   if (climate) rows.push(['Climate', climate + (isVeryHot(f) ? `. ${VERY_HOT_LABEL}.` : '')]);

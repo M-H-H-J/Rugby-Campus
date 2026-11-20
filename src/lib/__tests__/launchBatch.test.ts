@@ -24,7 +24,7 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('tier 4 wording and a clear pin colour', () => {
-    expect(TIER_LABELS.emerging).toBe('Room to play');
+    expect(TIER_LABELS.emerging).toBe('Tier 4');
     expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
     const colours = Object.values(TIER_COLORS);
     expect(new Set(colours).size).toBe(4);

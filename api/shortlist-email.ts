@@ -3,6 +3,7 @@
 import { clientIp, hashed, readBody, send, type Req, type Res } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
 import { sendMail, SITE } from './_lib/mail.js';
+import { COLLEGE_NAMES } from './_lib/collegeNames.js';
 import { cleanSentence, stripPII } from '../src/lib/search/filters.js';
 
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
@@ -39,9 +40,10 @@ export default async function handler(req: Req, res: Res) {
     console.log('SHORTLIST ' + JSON.stringify({ t: new Date().toISOString(), slugs, sentence, email_hash: hashed(email) })); // never log the address itself
   }
 
-  const title = (s: string) => s.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
-  const list = slugs.map((s) => `- ${title(s)}: ${SITE}/colleges/${s}`).join('\n');
-  const emailed = await sendMail({ to: email, subject: 'Your Rugby Campus shortlist', idempotencyKey: 'shortlist:' + hashed(email + '|' + slugs.join(',')),
+  const known = slugs.filter((s) => COLLEGE_NAMES[s]);
+  if (known.length === 0) return send(res, 400, { ok: false, message: 'Nothing to send yet. Tick some colleges first.' });
+  const list = known.map((s) => `- ${COLLEGE_NAMES[s]}: ${SITE}/colleges/${s}`).join('\n');
+  const emailed = await sendMail({ to: email, subject: 'Your Rugby Campus shortlist', idempotencyKey: 'shortlist:' + hashed(email + '|' + known.join(',')),
     text: `Here are the colleges you picked:\n\n${list}\n\nCosts on the site are before any scholarship, so ask each coach what's on offer. Then email the coaches directly. A short note with your position, your highlights and your grades does more than you'd think. I've been the player sending those emails and the coach reading them.\n\nHugh, Rugby Campus` });
   return send(res, 200, { ok: true, emailed, saved });
 }

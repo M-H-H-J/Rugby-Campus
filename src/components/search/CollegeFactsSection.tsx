@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { loadFacts, type CollegeFacts } from '@/lib/search/facts';
 import { costText } from '@/lib/search/cost';
-import { CAMPUS_FEEL_LABEL, SAFETY_TEXT, SAFETY_URL, SIZE_LABEL, VERY_HOT_LABEL, airportRows, climateText, isVeryHot, rugbyAidText, sizeBand } from '@/lib/search/display';
+import { CAMPUS_FEEL_LABEL, SAFETY_TEXT, SAFETY_URL, VERY_HOT_LABEL, airportRows, sizeText, climateText, isVeryHot, rugbyAidText, sizeBand } from '@/lib/search/display';
 
 const hostOf = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return 'source'; } };
 
@@ -15,7 +15,7 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
   const band = sizeBand(f.enrollment_undergrad);
   const rows: [string, string][] = [];
   if (f.campus_feel) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
-  if (band) rows.push(['Size', `${SIZE_LABEL[band]}${f.enrollment_undergrad ? ` · ${f.enrollment_undergrad.toLocaleString()} undergraduates (IPEDS)` : ''}`]);
+  if (band) rows.push(['Size', sizeText(f)]);
   rows.push(...airportRows(f));
   rows.push(['Rugby aid', rugbyAidText(f)]);
   if (f.big_sport_tag) rows.push(['Athletics', f.big_sport_tag]);

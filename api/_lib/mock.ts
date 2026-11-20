@@ -10,7 +10,7 @@ export function mockParse(sentence: string): Record<string, unknown> {
   const out: Record<string, unknown> = { residency: null, home_state: null, states: [], regions: [], control: [], setting: [], division: [], size_band: [], conference: [], max_cost_usd_per_year: null, religion: null, climate: [], majors: [], rugby_tier: [], rugby_program: null, unparsed: [] };
   const push = (k: string, ...v: string[]) => { for (const x of v) if (!(out[k] as string[]).includes(x)) (out[k] as string[]).push(x); };
   if (has('ignore your instructions', 'ignore previous', 'system prompt')) { push('unparsed', sentence.slice(0, 80)); return out; }
-  if (has('australia', 'overseas', 'international', 'sydney', 'from the uk', 'new zealand')) out.residency = 'international';
+  if (has('australia', 'overseas', 'international', 'not a us citizen', 'sydney', 'from the uk', 'new zealand')) out.residency = 'international';
   for (const [name, code] of Object.entries(STATE_BY_NAME)) if (s.includes(' ' + name + ' ') || s.includes(' ' + name + ',')) push('states', code);
   if (has('north-east', 'northeast', 'new england')) push('regions', 'northeast');
   if (has('midwest', 'mid-west')) push('regions', 'midwest');
@@ -46,7 +46,8 @@ export function mockParse(sentence: string): Record<string, unknown> {
   if (has('computer science', ' cs ', 'coding', 'software')) push('majors', 'computer_science');
   if (has('sports science', 'kinesiology', 'exercise')) push('majors', 'sport_exercise');
   if (has('psychology')) push('majors', 'psychology');
-  if (has('top rugby', 'best rugby', 'good rugby', 'strong rugby', 'competitive rugby')) push('rugby_tier', 'championship', 'playoff');
+  if (has('championship rugby', 'championship level', 'championship-level', 'title-winning', 'tier 1')) push('rugby_tier', 'championship');
+  else if (has('top rugby', 'best rugby', 'good rugby', 'strong rugby', 'competitive rugby', 'competitive')) push('rugby_tier', 'championship', 'playoff');
   else if (has('decent rugby')) push('rugby_tier', 'championship', 'playoff', 'competitive');
   if (has('varsity')) out.rugby_program = 'varsity'; else if (has(' club rugby', 'club team')) out.rugby_program = 'club';
   return out;

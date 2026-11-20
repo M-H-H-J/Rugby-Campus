@@ -53,7 +53,7 @@ describe('launch fixes (Oct 2026)', () => {
     for (const s of ['the-ohio-state-university', 'university-of-utah', 'western-washington-university']) expect(bySlug(s).coachName, s).toBe('');
     expect(bySlug('western-washington-university').description).not.toMatch(/Adam Roberts/);
     expect(bySlug('walsh-university').tier).toBe('playoff');
-    expect(TIER_LABELS.playoff).toBe('Playoff calibre');
+    expect(TIER_LABELS.playoff).toBe('Tier 2');
     expect(bySlug('colorado-state-university').rugbyProgramUrl).toBe('https://ramlink.campuslabs.com/engage/organization/ramrugby');
   });
 
