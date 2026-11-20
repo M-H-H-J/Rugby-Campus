@@ -71,3 +71,30 @@ h1, h2, h3 {
 .leaflet-popup-content { margin: 12px 14px !important; }
 .leaflet-container { font-family: 'Libre Franklin', sans-serif !important; }
 .leaflet-popup-tip { display: none !important; }
+
+/* Prerendered first paint: same top bar and type as the app, so there is no unstyled flash before React loads. */
+.prerender-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 56px; background: #fff; border-bottom: 1px solid #e5e9ef; }
+.prerender-header-inner { max-width: 80rem; margin: 0 auto; padding: 0 20px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+.prerender-header img { height: 36px; width: auto; display: block; }
+.prerender-header nav { display: none; gap: 24px; }
+.prerender-header nav a { font-size: 13px; font-weight: 500; color: #5b6b7d; text-decoration: none; }
+@media (min-width: 768px) { .prerender-header nav { display: flex; } }
+.prerender { display: block; max-width: 72rem; margin: 0 auto; padding: 88px 20px 64px; min-height: 100vh; color: #101E30; }
+.prerender h1 { font-size: 38px; line-height: 1.05; margin: 0 0 12px; }
+.prerender h2 { font-size: 24px; line-height: 1.2; margin: 32px 0 8px; }
+.prerender h3 { font-size: 20px; margin: 24px 0 8px; }
+.prerender p, .prerender dd { color: #5b6b7d; font-size: 15px; max-width: 46rem; }
+.prerender ul { list-style: none; padding: 0; margin: 8px 0 0; border-top: 1px solid #101E30; max-width: 46rem; }
+.prerender li { padding: 10px 0; border-bottom: 1px solid #e5e9ef; font-size: 15px; color: #5b6b7d; }
+.prerender a { color: #00458c; text-decoration: none; }
+.prerender li a { color: #101E30; font-weight: 500; }
+.prerender dl { max-width: 46rem; }
+.prerender dt { margin-top: 10px; font-size: 13px; }
+.prerender dd { margin: 0; }
+.prerender-map { height: calc(100vh - 200px); min-height: 400px; background: #f3f4f6; margin: 16px -20px 24px; }
+
+/* Map controls: 44px tap targets and the site font */
+.leaflet-touch .leaflet-bar a, .leaflet-bar a { width: 44px !important; height: 44px !important; line-height: 44px !important; font-family: 'Libre Franklin', sans-serif !important; }
+.leaflet-container a.leaflet-popup-close-button { width: 44px !important; height: 44px !important; font-size: 22px !important; line-height: 44px !important; top: 0 !important; right: 0 !important; padding: 0 !important; text-align: center; }
+.leaflet-popup-content { margin-right: 36px !important; }
+.leaflet-tile-container img { outline: 1px solid transparent; }

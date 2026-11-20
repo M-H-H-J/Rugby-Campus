@@ -21,7 +21,7 @@ export const articles: Article[] = [
     excerpt: "The top programs in US college rugby for 2026–27: who's strong right now, how CRAA and NCR differ, and how to pick a fit.",
     category: "College Guide",
     publishedDate: "2026-09-03",
-    readTime: "11 min read",
+    readTime: "6 min read",
     content: `
 ## The best college rugby programs in America, 2026–27
 
@@ -29,9 +29,9 @@ This guide is about **15s**, not 7s. NCR runs a lot of sevens; it's not uncommon
 
 I went through the US college rugby pathway as a recruit from Australia, then later as a coach. This guide is opinionated where it needs to be.
 
-**Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary's, and Lindenwood**. At the top of NCR D1 are **St. Bonaventure and Brown**. Below that is a deep group of playoff-caliber sides (Queens, Walsh, Dartmouth, Wheeling and Kutztown in NCR D1), and a long tail of solid rugby environments where you can still get a proper season.
+**Short version:** the strongest programs right now include **Cal, Navy, Life, Saint Mary's, and Lindenwood**. At the top of NCR D1 are **St. Bonaventure and Brown**. Below that is a deep Tier 2 group (Queens, Walsh, Dartmouth, Wheeling and Kutztown in NCR D1), and a long tail of solid rugby environments where you can still get a proper season.
 
-On Rugby Campus we group programs rather than ranking them in a numbered list, because rankings shift and no single list agrees. Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
+On Rugby Campus we group programs into Tier 1 to Tier 4 rather than ranking them 1 to 50, because rankings shift and no single list agrees. Goff Rugby Report, NCR, and CRAA all publish their own. Browse programs, with coach contacts, on the [colleges page](/colleges).
 
 **Method note:** We label a program **Varsity** or **Club** from university athletics pages or a published varsity designation where possible. If the current designation is unclear, verify it with the school or coach rather than treating an old label as permanent.
 
@@ -41,13 +41,13 @@ American college rugby has two main governing bodies at the top level. Learning 
 
 **CRAA D1A** (College Rugby Association of America) runs a **spring** 15s championship playoff. In 2026, Cal beat Navy in the final in Indianapolis and went back-to-back. Western Washington won the 2025–26 D1AA title and moved up to D1A for 2026–27, and St. Thomas University (Florida), the 2025 D1AA champions, is in its second D1A season.
 
-**NCR D1** (National Collegiate Rugby) runs a **fall** 15s championship. St. Bonaventure won the 2025 title over Queens. Walsh University inherited the Notre Dame College program that won the 2023 title; on this site it sits in the Playoff calibre group. For **2026–27, UCLA plays both NCR D1 and CRAA D1A**.
+**NCR D1** (National Collegiate Rugby) runs a **fall** 15s championship. St. Bonaventure won the 2025 title over Queens. Walsh University inherited the Notre Dame College program that won the 2023 title; on this site it sits in Tier 2. For **2026–27, UCLA plays both NCR D1 and CRAA D1A**.
 
 My view on strength: the very top of D1A is generally stronger than the top of NCR D1. The middle of both divisions is closer than people think. No guesses about who "develops faster" on which bench.
 
 ### Competition levels (15s)
 
-**D1A**: highest CRAA level. Our top group here is Cal, Navy, Life, Lindenwood, Saint Mary's and Army. The championship is played in the spring.
+**D1A**: highest CRAA level. Our Tier 1 here is Cal, Navy, Life, Lindenwood, Saint Mary's and Army. The championship is played in the spring.
 
 **D1AA**: next tier down in the CRAA structure (people confuse this with NCR's naming). Rugby is still competitive; programs like Dartmouth, Bowling Green, and Tennessee have made deep playoff runs in recent years.
 
@@ -67,7 +67,7 @@ Cal is the most successful college rugby program in US history on 15s titles, in
 
 Life (Marietta, Georgia) runs rugby as a varsity sport and has won four D1A national titles (2013, 2016, 2018, 2019). Smaller, specialized campus (chiropractic / health sciences). Different feel from a big state school. If your priority is high-level development with a clear rugby focus, Life belongs on the shortlist.
 
-**Scholarships:** Life and other varsity programs **may have limited athletic aid**, and academic aid may also be available. Ask the coach.
+**Scholarships:** Athletic aid for rugby is rare and mostly at varsity programs. Most players who get help get it through academic aid. Ask the coach.
 
 ### Saint Mary's and Lindenwood
 
@@ -75,7 +75,7 @@ After Cal and Life, **Saint Mary's College of California** and **Lindenwood** ar
 
 ### Military academies (Army / Navy): international caveat
 
-Navy and Army are both in our top group on the field. **If you are an international player, you generally cannot play for Army or Navy.** Eligibility and academy rules close that door. Factor that in before you romanticize the jersey.
+Navy and Army are both in Tier 1 on the field. **You need U.S. citizenship to attend, apart from a small number of students nominated by their own government.** For almost every international player, that closes the door. Factor that in before you romanticize the jersey.
 
 ### Other strong D1A names worth exploring
 
@@ -83,9 +83,9 @@ Browse the map and colleges list for the full set. Do not treat a "top three" ca
 
 ## Can you get a rugby scholarship?
 
-Common question from international players. Short answer: **it depends on the school**, and we will not hard-claim a list.
+Common question from international players. Short answer: **it depends on the school**, and we don't publish a list yet.
 
-Rugby is not an NCAA-sanctioned sport at most schools, so traditional NCAA athletic scholarships for rugby are uncommon. Some schools where rugby is varsity **may have limited** rugby athletic aid. At many others, players rely on **academic aid** or other support. Ask the coach.
+Rugby isn't an NCAA sport at most schools, so the big athletic scholarships don't apply. A few varsity programs put some athletic money toward rugby. Most players who get help get it through academic aid. Ask the coach. More in [Rugby scholarships explained](/learn/rugby-scholarships-explained).
 
 ## What should you consider when choosing a program?
 
@@ -114,7 +114,7 @@ Ready to look? Start with the [map](/map).
 Best always changes. Teams rotate. Right now, **Cal** is the best 15s college rugby program in America: back-to-back CRAA D1A titles in 2025 and 2026. Navy, Life, Saint Mary's, and Lindenwood sit with them in the top conversation. In NCR D1, St. Bonaventure and Brown are the names at the top.
 
 **Which US universities offer rugby scholarships?**
-We will not publish a confident "who offers" list until verified with coaches. Soft rule: some varsity rugby schools **may have limited** athletic aid for rugby; many club programs rely on academic aid. Ask each coach.
+We don't publish a list yet. We're checking with coaches school by school. Athletic aid for rugby is rare and mostly at varsity programs. Ask each coach.
 
 **What is the difference between D1A and NCR D1?**
 CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship under a separate governing body. Top of D1A is generally stronger; the middle overlaps. Programs can compete under one or both. UCLA is doing both in 2026–27.
@@ -138,7 +138,7 @@ Highlight reel, short profile (position, size, history), a short email to coache
     excerpt: "Same school: strong side, then 1-7, then missed playoffs, then national champions. Rankings photograph last season. You're choosing the next four years.",
     category: "Straight Talk",
     publishedDate: "2026-06-20",
-    readTime: "9 min read",
+    readTime: "4 min read",
     content: `
 ## The same school, four completely different teams
 
@@ -176,13 +176,13 @@ Practical upshot: last season's ranking tells you little about *your* four years
 
 Some programs are often strong: Cal, Navy, Life, Saint Mary's, Lindenwood. Even dynasties have gaps. Cal went years between titles before the recent run.
 
-**Often-strong names worth knowing beyond the usual posters:** St. Bonaventure, Brown and Kutztown are consistently in the conversation in their competitions.
+**Strong names beyond the usual posters:** St. Bonaventure, Brown and Kutztown are consistently in the conversation in their competitions.
 
 ## Don't sleep on sevens
 
 Rankings (and many recruit conversations) obsess over 15s. Sevens is huge in American college rugby: own windows, own nationals, Olympic pathway.
 
-Ask the coach: **does this program do sevens?** NCR generally runs a **longer sevens season** than CRAA. A rough 15s year can still mean a serious 7s environment. If you are a quick back or a loose forward with an engine, sevens culture may matter more to your development than last autumn's 15s rank.
+Ask the coach: **does this program do sevens?** NCR generally runs a **longer sevens season** than CRAA. A rough 15s year can still mean a serious 7s environment. If you are a quick back or a loose forward with an engine, sevens culture may matter more to your development than last fall's 15s rank.
 
 ## What to actually look at instead of rankings
 
@@ -194,7 +194,7 @@ Ask the coach: **does this program do sevens?** NCR generally runs a **longer se
 
 **Squad depth / B-sides.** Some colleges field more than one team. Ask. Game time on a B side still matters.
 
-**Coach tenure, worded carefully.** Stability helps; a brand-new coach is not automatically a red flag. Ask what they are building.
+**Coach tenure.** Stability helps; a brand-new coach is not automatically a red flag. Ask what they are building.
 
 **Your realistic playing time.** Be straight with yourself about where you are.
 
@@ -204,13 +204,13 @@ Rankings are a photograph of last season. You are choosing the next four years.
   {
     id: 3,
     slug: "when-college-rugby-programs-die",
-    title: "When College Rugby Programs Die: CWU, Notre Dame College, and What Recruits Should Learn",
+    title: "When College Rugby Programs Die: What Recruits Should Learn",
     metaTitle: "When College Rugby Programs Die | Rugby Campus",
-    metaDescription: "Notre Dame College closed. Central Washington's funded pathway ended. What program shutdowns mean for recruits, and how to protect yourself without getting scared off.",
+    metaDescription: "Notre Dame College closed. Central Washington's funded pathway ended. What program shutdowns mean for recruits, and how to protect yourself.",
     excerpt: "Two programs every rugby person knew disappeared in a short window. One of them was mine. Here's what happened, and how to protect yourself as a recruit.",
     category: "Straight Talk",
     publishedDate: "2026-06-25",
-    readTime: "8 min read",
+    readTime: "3 min read",
     content: `
 ## A program that reached the top, then the college closed
 
@@ -270,7 +270,7 @@ If you want to go to the US to play rugby, go to play rugby. You can transfer. G
     excerpt: "A pathway map for playing college rugby in the USA: where the programs sit, how internationals and US high school players get in, and what to do first.",
     category: "Getting Started",
     publishedDate: "2026-09-30",
-    readTime: "6 min read",
+    readTime: "4 min read",
     content: `
 ## This is a pathway map, not a ranking
 
@@ -290,7 +290,7 @@ Two main governing bodies at the top:
 
 We do **not** publish a numbered ranking. Lists disagree: Goff, NCR, CRAA. See [why rankings lie](/learn/why-college-rugby-rankings-lie). “Where should I play” = fit (level, academics, cost, climate, coach, game time), not last week’s poll. Start on the [map](/map) and [colleges](/colleges); dig into [Best rugby colleges](/learn/best-rugby-colleges-usa) for who is strong right now.
 
-**Military academy caveat:** Army and Navy are excellent on the field. **If you are an international player, you generally cannot play for Army or Navy.** Factor that in early.
+**Military academy caveat:** Army and Navy are excellent on the field. **You need U.S. citizenship to attend, apart from a small number of students nominated by their own government.** Factor that in early.
 
 ## Domestic high school path (short)
 
@@ -301,7 +301,7 @@ If you are already in the US system:
 - Visit if you can. Apply to the university on its own timeline; rugby interest and admission are related but not the same process.
 - Cold recruiting happens, but it is rare unless a coach has seen you at competition. Reach out anyway.
 
-Full detail on timing and emails: [How college rugby recruitment works](/learn/how-college-rugby-recruitment-works).
+More on timing and emails: [How college rugby recruitment works](/learn/how-college-rugby-recruitment-works).
 
 ## International path: what to do in order
 
@@ -325,7 +325,7 @@ We label Varsity / Club from university athletics pages or published designation
 
 ## Cost and aid (pointer only)
 
-US college costs vary widely. Some varsity programs **may have limited athletic aid** for rugby; many club programs lean on **academic aid** or other support. We won't say who offers what until coaches confirm it, program by program. Soft rules and what to ask: [Rugby scholarships explained](/learn/rugby-scholarships-explained). Ask each coach. Do not shortlist on money alone.
+US college costs vary widely. Athletic aid for rugby is rare and mostly at varsity programs. Most players who get help get it through academic aid. We won't say who offers what until coaches confirm it. What to ask: [Rugby scholarships explained](/learn/rugby-scholarships-explained). Don't shortlist on money alone.
 
 ## Using Rugby Campus end-to-end
 
@@ -364,7 +364,7 @@ Who you are, position, size, a highlights link, and why that program. Research t
     excerpt: "Athletic rugby aid is rare and different at every school. Most players lean on academic aid. Here's how it works and what to ask.",
     category: "Scholarships",
     publishedDate: "2026-09-30",
-    readTime: "4 min read",
+    readTime: "3 min read",
     content: `
 ## The short answer
 
@@ -436,13 +436,13 @@ No. An email with film is enough to start. An agency is fine if you want one.
   {
     id: 6,
     slug: "how-college-rugby-recruitment-works",
-    title: "How college rugby recruitment works",
+    title: "How College Rugby Recruitment Works",
     metaTitle: "How College Rugby Recruitment Works | Rugby Campus",
     metaDescription: "How colleges fill their rugby rosters, when to reach out to coaches, and why an email with film is enough to get a look.",
     excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. An email with film is enough to get a look. An agency is optional and fine if you use one.",
     category: "Recruitment",
     publishedDate: "2026-03-25",
-    readTime: "4 min read",
+    readTime: "2 min read",
     content: `
 Colleges can fill their rugby rosters in a multitude of ways:
 1. Through agencies that send them players who are interested.

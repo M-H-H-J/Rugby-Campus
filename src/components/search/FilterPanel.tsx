@@ -89,7 +89,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
       <Group title="Where in the US" hint="Not sure? Leave it blank.">
         {REGIONS.map((r) => <Chip key={r} on={filters.regions.includes(r)} onClick={() => toggle('regions', r)}>{filterLabel.regions([r])}</Chip>)}
         {filters.states.map((s) => <Chip key={s} on onClick={() => toggle('states', s)}>{stateName(s)} ×</Chip>)}
-        <select aria-label="Or pick states" value="" onChange={(e) => e.target.value && toggle('states', e.target.value)} className="bg-white border border-line rounded-md px-2 py-1 text-[12px] text-muted">
+        <select aria-label="Or pick states" value="" onChange={(e) => e.target.value && toggle('states', e.target.value)} className="bg-white border border-line rounded-md px-2 py-1.5 text-[16px] sm:text-[12px] text-muted">
           <option value="">or pick states</option>
           {STATE_CODES.filter((s) => !filters.states.includes(s)).map((s) => <option key={s} value={s}>{stateName(s)}</option>)}
         </select>
@@ -99,10 +99,10 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
         {Object.entries(MAJOR_FIELDS).map(([k, v]) => <Chip key={k} on={filters.majors.includes(k)} onClick={() => toggle('majors', k)}>{v.label}</Chip>)}
       </Group>
 
-      <Group title="Rugby level">
-        <Chip on={level === 'top'} onClick={() => onChange({ ...filters, rugby_tier: level === 'top' ? [] : ['championship', 'playoff'] })}>Top level</Chip>
-        <Chip on={level === 'solid'} onClick={() => onChange({ ...filters, rugby_tier: level === 'solid' ? [] : ['championship', 'playoff', 'competitive'] })}>Solid or better</Chip>
-        <Chip on={level === 'any'} onClick={() => onChange({ ...filters, rugby_tier: [] })}>Just want to play</Chip>
+      <Group title="Rugby level" hint="Tier 1 is the strongest">
+        <Chip on={level === 'top'} onClick={() => onChange({ ...filters, rugby_tier: level === 'top' ? [] : ['championship', 'playoff'] })}>Tier 1–2</Chip>
+        <Chip on={level === 'solid'} onClick={() => onChange({ ...filters, rugby_tier: level === 'solid' ? [] : ['championship', 'playoff', 'competitive'] })}>Tier 1–3</Chip>
+        <Chip on={level === 'any'} onClick={() => onChange({ ...filters, rugby_tier: [] })}>Any tier</Chip>
         {level === 'custom' && <span className="text-[12px] text-muted self-center">Set from your sentence: {filterLabel.rugby_tier(filters.rugby_tier)}</span>}
       </Group>
 

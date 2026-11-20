@@ -23,8 +23,12 @@ export function pickRate(c: CollegeFacts, residency: Residency | null, homeState
   return { rate: 'out_of_state', assumed: true };
 }
 
+const isResident = (c: CollegeFacts, residency: Residency | null, homeState: string | null) => residency === 'in_state' || (!!homeState && homeState === c.state);
+const YEAR_RE = /^\d{4}-\d{2}$/;
+
 export function costFor(c: CollegeFacts, residency: Residency | null, homeState: string | null): CostView {
   const { rate, assumed } = pickRate(c, residency, homeState);
+  if (c.cost_residents_only && !isResident(c, residency, homeState)) return { amount: null, kind: 'none', rate, assumed };
   const total = rate === 'in_state' ? c.total_cost_in_state : c.total_cost_out_of_state;
   const tuition = rate === 'in_state' ? c.tuition_fees_in_state : c.tuition_fees_out_of_state;
   if (total != null) return { amount: total, kind: 'total', rate, assumed };
@@ -41,6 +45,10 @@ export function costText(c: CollegeFacts, residency: Residency | null = null, ho
   if (c.cost_basis === 'service_academy') {
     return { headline: 'No tuition (service commitment)', sub: 'US service academy: tuition, room and board are covered in return for military service. Ask the coach.', askCoach: false };
   }
+  const year = c.cost_year && YEAR_RE.test(c.cost_year) ? ' · ' + c.cost_year : '';
+  if (c.cost_residents_only && c.tuition_fees_in_state != null && !isResident(c, residency, homeState)) {
+    return { headline: `${usd(c.tuition_fees_in_state)} for in-state residents (tuition only)`, sub: `The only published price is the in-state resident average${year}. No out-of-state rate is published, so ask the coach what you would pay. ${COST_DISCLAIMER}`, askCoach: false };
+  }
   const v = costFor(c, residency, homeState);
   if (v.amount == null) return { headline: 'Ask the coach', sub: 'We could not find a published figure we trust.', askCoach: true };
   const isPublic = c.control === 'public';
@@ -49,7 +57,11 @@ export function costText(c: CollegeFacts, residency: Residency | null = null, ho
   if (isPublic && !residency && !(homeState)) {
     const a = c.total_cost_in_state ?? c.tuition_fees_in_state; const b = c.total_cost_out_of_state ?? c.tuition_fees_out_of_state;
     head = a != null && b != null && a !== b ? `${usd(a)} in-state / ${usd(b)} out-of-state` : usd(v.amount);
-  } else head = usd(v.amount) + (isPublic ? (v.rate === 'in_state' ? ' (in-state rate)' : ' (out-of-state rate)') : '');
-  return { headline: head, sub: `${part}${c.cost_year ? ' · ' + c.cost_year : ''}. ${COST_DISCLAIMER}`, askCoach: false };
+  } else {
+    const notes = [isPublic ? (v.rate === 'in_state' ? 'in-state rate' : 'out-of-state rate') : '', v.kind === 'tuition' ? 'tuition only' : ''].filter(Boolean);
+    head = usd(v.amount) + (notes.length ? ` (${notes.join(', ')})` : '');
+  }
+  if (v.kind === 'tuition' && !head.endsWith(')')) head += ' (tuition only)';
+  return { headline: head, sub: `${part}${year}. ${COST_DISCLAIMER}`, askCoach: false };
 }
 export function residencyOf(f: Filters): Residency | null { return f.residency; }

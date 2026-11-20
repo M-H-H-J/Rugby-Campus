@@ -12,7 +12,7 @@ That credential is the site's entire competitive moat. Never write copy that dil
 
 **Business model:** free for players; revenue from (1) one-to-one placement/coaching via `/work-with-me`, (2) featured program listings for colleges via `/for-coaches`. The buyer is usually a **parent**, not the student.
 
-**Live domain:** rugbycampus.org · **Contact:** hello@rugbycampus.org
+**Live domain:** https://www.rugbycampus.org (apex 308s to www; `SITE_URL` is www) · **Contact:** hello@rugbycampus.org
 
 ## Stack
 
@@ -20,6 +20,7 @@ That credential is the site's entire competitive moat. Never write copy that dil
 - Leaflet + OpenStreetMap for the interactive map; a hand-built SVG US map for the homepage preview
 - Supabase (Postgres) for college data + email capture; bundled TS data is the fallback
 - Deployed on Vercel from GitHub — push to `main` redeploys automatically
+- Supabase owns coach names and emails. Change them with a dated file in `supabase/manual/` and mirror it in `colleges.ts` and (for search fields) `collegeSearchFacts.json` in the same PR. The bulk sync generator never overwrites coach fields.
 
 ## Commands
 
@@ -29,7 +30,7 @@ npm run dev      # local dev, localhost:5173
 npm run build    # tsc + vite build + prerender  ← must print BOTH success lines
 ```
 
-`npm run build` must end with `prerendered 64 pages + sitemap.xml + llms-full.txt`. If it doesn't, the SEO layer is broken — treat that as a failing build.
+`npm run build` must end with `prerendered 64 pages + sitemap.xml + llms-full.txt` (63 sitemap routes plus `404.html`). If it doesn't, the SEO layer is broken — treat that as a failing build.
 
 ## File map
 
@@ -59,7 +60,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 
 ## Sentence search rules
 
-1. **Nothing removes a college.** Every filter is soft. A match is a green pill, a miss is amber, an unknown is grey and never counts against a college. Results are grouped into 'Fits everything you picked' and 'Close, but not everything'.
+1. **Nothing removes a college.** Every filter is soft. A match is a green pill, a miss is amber, an unknown is grey and is never a miss. A college is only in 'Fits everything you picked' with no misses and no unverified answers; everything else is listed under 'Other programs, best fit first' (fewest misses, then fewest unknowns).
 2. Cost is always shown with: "Before scholarships. Ask the coach what's available."
 3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
 4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.
@@ -67,7 +68,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 
 ## Do not break these
 
-1. **`vercel.json`** — without the SPA rewrite, every route except `/` 404s on direct visit. This was a real production bug. The rewrite excludes `/api/` on purpose.
+1. **`vercel.json`** — there is no SPA catch-all (it made every unknown URL a soft 200). Each real route has an explicit rewrite to its prerendered `index.html`; an unknown path or slug gets `404.html` with a real 404 status. If you add a route, add its rewrite and prerender it. `/api/` is never rewritten. `rugby-campus.vercel.app` 308s to www; other non-www hosts get `X-Robots-Tag: noindex`.
 2. **`scripts/prerender.mjs`** — it is the entire SEO and AI-visibility layer. If you change routes or data shape, update this script in the same change.
 3. **`public/robots.txt`** is public since the Oct 2026 launch fixes (allows all crawlers, AI crawlers named, sitemap listed). Don't change it back to `Disallow: /` unless Hugh asks.
 4. **`src/config.ts`** — contains live Supabase values. Never commit blank strings over them. The anon key is public-by-design and protected by RLS; that is not a leak.
@@ -103,7 +104,7 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 
 ## Data rules
 
-- Programs are grouped into four **tiers** — `championship` (Often near the top, gold `#ffb700`), `playoff` (Playoff calibre, navy `#00458c`), `competitive` (A real season, terracotta `#b5573a`), `emerging` (Room to play, teal `#0f766e`) — never numbered 1–40. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`).
+- Programs are grouped into four **tiers**, shown as plain numbers: `championship` (Tier 1, strongest, gold `#ffb700`), `playoff` (Tier 2, navy `#00458c`), `competitive` (Tier 3, terracotta `#b5573a`), `emerging` (Tier 4, teal `#0f766e`). The internal keys never change (Supabase stores them). Never rank 1–50 inside a tier. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`). In search, the word "competitive" means Tier 1–2, never the Tier 3 key.
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
 - **Never invent** coach names, emails, records, scholarship claims or draft numbers. Some programs have an empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
 - Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington discontinued its program April 2025 (deliberately excluded); UCLA is dual NCR D1 / CRAA D1A for 2026–27; Iona University (NCR D1AA) was dropped from the curated list in Oct 2026; St. Thomas University (Miami Gardens, Florida; CRAA D1A Independent, 2025 D1AA champions) replaced the University of St. Thomas (Minnesota) in Oct 2026, whose team plays lower-level NCR (Northern Lights); MLR contracted to 6 teams for 2026 but the College Draft continues.

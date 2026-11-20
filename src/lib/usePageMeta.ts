@@ -1,25 +1,35 @@
 import { useEffect } from 'react';
-import { SITE_NAME } from '@/config';
+import { SITE_NAME, SITE_URL } from '@/config';
 
-/** Sets document title + meta description per page for SEO. */
-export function usePageMeta(title: string, description?: string) {
-  useEffect(() => {
-    document.title = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Find Your Rugby College in the USA`;
-    if (description) {
-      let el = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
-      if (!el) { el = document.createElement('meta'); el.name = 'description'; document.head.appendChild(el); }
-      el.content = description;
-      let og = document.querySelector('meta[property="og:description"]') as HTMLMetaElement | null;
-      if (!og) { og = document.createElement('meta'); og.setAttribute('property', 'og:description'); document.head.appendChild(og); }
-      og.content = description;
-    }
-    let ogTitle = document.querySelector('meta[property="og:title"]') as HTMLMetaElement | null;
-    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
-  }, [title, description]);
+const HOME_TITLE = `${SITE_NAME} | Best Rugby Colleges in America, Mapped`;
+
+function setMeta(selector: string, attr: 'name' | 'property', key: string, value: string) {
+  let el = document.querySelector(selector) as HTMLMetaElement | null;
+  if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
+  el.content = value;
 }
 
-/** Adds <meta name="robots" content="noindex"> while active (e.g. the "College not found" page). */
+/**
+ * Sets the title, description, og tags and canonical for the current route.
+ * `fullTitle` is used as the whole <title> (guides pass their metaTitle); otherwise " | Rugby Campus" is added.
+ */
+export function usePageMeta(title: string, description?: string, fullTitle?: string) {
+  useEffect(() => {
+    const t = fullTitle ?? (title ? `${title} | ${SITE_NAME}` : HOME_TITLE);
+    document.title = t;
+    if (description) {
+      setMeta('meta[name="description"]', 'name', 'description', description);
+      setMeta('meta[property="og:description"]', 'property', 'og:description', description);
+    }
+    setMeta('meta[property="og:title"]', 'property', 'og:title', t);
+    const url = `${SITE_URL}${window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '')}`;
+    setMeta('meta[property="og:url"]', 'property', 'og:url', url);
+    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (canonical) canonical.href = url;
+  }, [title, description, fullTitle]);
+}
+
+/** Adds <meta name="robots" content="noindex"> and removes the canonical while active (not-found pages). */
 export function useNoindex(active: boolean) {
   useEffect(() => {
     if (!active) return;
@@ -27,6 +37,9 @@ export function useNoindex(active: boolean) {
     el.name = 'robots';
     el.content = 'noindex';
     document.head.appendChild(el);
-    return () => { el.remove(); };
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const parent = canonical?.parentNode ?? null;
+    canonical?.remove();
+    return () => { el.remove(); if (canonical && parent) parent.appendChild(canonical); };
   }, [active]);
 }

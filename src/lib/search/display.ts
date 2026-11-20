@@ -99,6 +99,14 @@ export const SIZE_LABEL: Record<SizeBand, string> = {
   big: 'Big (15,000+)',
 };
 
+/** "Big (15,000+) · 75,936 undergraduates (IPEDS, includes online students)". Empty when size is unknown. */
+export function sizeText(f: { enrollment_undergrad: number | null; enrollment_note?: string }): string {
+  const band = sizeBand(f.enrollment_undergrad);
+  if (!band) return '';
+  if (!f.enrollment_undergrad) return SIZE_LABEL[band];
+  return `${SIZE_LABEL[band]} · ${f.enrollment_undergrad.toLocaleString('en-US')} undergraduates (IPEDS${f.enrollment_note ? `, ${f.enrollment_note}` : ''})`;
+}
+
 export const CAMPUS_FEEL_LABEL: Record<'city' | 'college_town' | 'suburb' | 'country', string> = {
   city: 'In a city',
   college_town: 'College town or smaller city',

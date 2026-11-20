@@ -2,7 +2,7 @@ import { useRoute, Link } from 'wouter';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
-import { CONTACT_EMAIL } from '@/config';
+import { CONTACT_EMAIL, SITE_URL } from '@/config';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import { climateFromTemps, mlrSummary, visibleBadges, weatherSentence } from '@/lib/search/display';
@@ -11,6 +11,21 @@ import ProfileFacts from '@/components/ProfileFacts';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 import { WALSH_GALLERY } from '@/data/walshPhotos';
 
+export function collegeMetaDescription(c: { name: string; affiliation: string; conference: string; tier: keyof typeof TIER_LABELS }): string {
+  return `${c.name} rugby: ${c.affiliation}, ${c.conference}, ${TIER_LABELS[c.tier]}. Coach contact, squad size, MLR numbers, weather and campus facts.`;
+}
+
+function CorrectionLink({ name, slug }: { name: string; slug: string }) {
+  return (
+    <a
+      href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${name}`)}&body=${encodeURIComponent(`I spotted something on ${SITE_URL}/colleges/${slug}:\n\n`)}`}
+      className="text-navy font-medium"
+    >
+      Tell us
+    </a>
+  );
+}
+
 export default function CollegeDetail() {
   const [, params] = useRoute('/colleges/:slug');
   const { colleges } = useColleges();
@@ -18,16 +33,17 @@ export default function CollegeDetail() {
 
   usePageMeta(
     college ? `${college.name} Rugby` : 'College Not Found',
-    college ? `${college.name} rugby: ${college.affiliation}, ${college.conference}. Coach contact, program details, and how to get recruited.` : undefined
+    college ? collegeMetaDescription(college) : undefined
   );
   // Unknown or retired slug: keep this "not found" page out of search engines.
   useNoindex(!college);
 
   if (!college) {
     return (
-      <div className="max-w-6xl mx-auto px-5 py-24 text-center">
-        <h1 className="font-heading text-[28px] text-ink mb-4">College not found</h1>
-        <Link href="/colleges" className="text-navy font-semibold text-[13px]">← All colleges</Link>
+      <div className="max-w-6xl mx-auto px-5 py-24 min-h-[60vh]">
+        <h1 className="font-heading text-[32px] text-ink mb-3">College not found</h1>
+        <p className="text-muted text-[15px] mb-6">That program isn't on Rugby Campus, or its address has changed.</p>
+        <Link href="/colleges" className="text-navy font-semibold text-[14px]">See all colleges</Link>
       </div>
     );
   }
@@ -40,18 +56,22 @@ export default function CollegeDetail() {
     ['Conference', college.conference],
     ['Tier', TIER_LABELS[college.tier]],
     ['Program type', college.programType],
-    ['Squad size', college.playerCountNote || (college.playerCount > 0 ? `~${college.playerCount} players` : 'TBC')],
+    ['Squad size', college.playerCountNote || (college.playerCount > 0 ? `~${college.playerCount} players` : '')],
     ['Drafted (2020–26)', mlr.draftedText],
     ['Played at least one MLR match', mlr.playedText],
   ];
   const collegeFacts: [string, string][] = [
     ['Location', college.location],
   ];
+  const glance = programFacts.filter(([, v]) => v && v.trim());
+  const coachBlock = (
+    <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} recruitmentFormUrl={college.recruitmentFormUrl} collegeName={college.name} clubContactName={college.clubContactName} clubContactEmail={college.clubContactEmail} contactNote={college.contactNote} rugbyProgramUrl={college.rugbyProgramUrl} />
+  );
   const badges = visibleBadges(college.badges);
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 md:py-12">
-      <Link href="/colleges" className="inline-flex items-center gap-1.5 text-[13px] text-faint hover:text-navy transition-colors mb-8">
+      <Link href="/colleges" className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] text-muted hover:text-navy transition-colors mb-4">
         <ArrowLeft size={14} /> All colleges
       </Link>
 
@@ -67,11 +87,9 @@ export default function CollegeDetail() {
       <figure className="mb-10 -mx-5 md:mx-0">
         <div className="overflow-hidden relative bg-line md:rounded-lg">
           {college.imageUrl ? (
-            <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} className="w-full h-[240px] md:h-[420px] object-cover" />
+            <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} width={1200} height={420} fetchPriority="high" className="w-full h-[240px] md:h-[420px] object-cover" />
           ) : (
-            <div className="w-full h-[220px] flex items-center justify-center">
-              <span className="text-[13px] text-faint">{college.name}</span>
-            </div>
+            <div className="w-full h-[220px]" aria-hidden />
           )}
           {badges.length > 0 && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/80 to-transparent pt-12 pb-4 px-5">
@@ -96,6 +114,9 @@ export default function CollegeDetail() {
         {/* min-w-0: lets the 12-month weather table scroll inside its own box instead of widening the page on phones */}
         <div className="lg:col-span-3 min-w-0 space-y-12">
           <ProfileFacts college={college} />
+
+          {/* On phones the coach block comes straight after the key facts; on desktop it sits in the sidebar. */}
+          <div className="lg:hidden">{coachBlock}</div>
 
           <section>
             <p className="text-[17px] text-ink leading-[1.7]">{college.description}</p>
@@ -132,35 +153,10 @@ export default function CollegeDetail() {
             <section>
               <h2 className="font-heading text-[28px] text-ink mb-1.5">Weather</h2>
               <p className="text-[14px] text-muted mb-5">{weatherSentence(climateFromTemps(college.monthlyTemps) ?? { winter_avg_computed_f: null, summer_high_f: null })}</p>
-              <div className="overflow-x-auto -mx-1 px-1">
-                <table className="w-full text-[12px] border-t border-line">
-                  <thead>
-                    <tr className="text-faint">
-                      <th className="text-left font-medium py-2.5 pr-3">Month</th>
-                      {college.monthlyTemps.map((t) => <th key={t.month} className="font-medium py-2.5 px-1.5 text-center">{t.month}</th>)}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-3">High</td>
-                      {college.monthlyTemps.map((t) => (
-                        <td key={t.month} className="py-2.5 px-1.5 text-center">
-                          <span className="text-ink font-semibold">{t.hC}°</span>
-                          <span className="block text-faint text-[10px]">{t.hF}°F</span>
-                        </td>
-                      ))}
-                    </tr>
-                    <tr className="border-t border-line">
-                      <td className="text-muted py-2.5 pr-3">Low</td>
-                      {college.monthlyTemps.map((t) => (
-                        <td key={t.month} className="py-2.5 px-1.5 text-center">
-                          <span className="text-ink font-semibold">{t.lC}°</span>
-                          <span className="block text-faint text-[10px]">{t.lF}°F</span>
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="hidden sm:block"><WeatherTable temps={college.monthlyTemps} /></div>
+              <div className="sm:hidden space-y-4">
+                <WeatherTable temps={college.monthlyTemps.slice(0, 6)} />
+                <WeatherTable temps={college.monthlyTemps.slice(6)} />
               </div>
               <p className="text-[11px] text-faint mt-2.5">Average high / low. °C shown large, °F below. NOAA 1991–2020 normals, nearest full weather station.</p>
             </section>
@@ -172,7 +168,7 @@ export default function CollegeDetail() {
           <div className="lg:sticky lg:top-24">
             <h2 className="font-heading text-[22px] text-ink mb-3">At a glance</h2>
             <dl className="border-t border-ink">
-              {programFacts.map(([label, value]) => (
+              {glance.map(([label, value]) => (
                 <div key={label} className="flex justify-between gap-4 py-2.5 border-b border-line text-[13px]">
                   <dt className="text-muted shrink-0">{label}</dt>
                   <dd className="font-medium text-ink text-right min-w-0 break-words">
@@ -187,15 +183,8 @@ export default function CollegeDetail() {
                 </div>
               ))}
             </dl>
-            <p className="mt-3 text-[12px] text-faint leading-relaxed">
-              Program type comes from each school's own pages. Something wrong?{' '}
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
-                className="text-navy font-medium"
-              >
-                Tell us
-              </a>
-              .
+            <p className="mt-3 text-[12px] text-muted leading-relaxed">
+              Program type comes from each school's own pages. Something wrong? <CorrectionLink name={college.name} slug={college.slug} />.
             </p>
             {mlr.drafted > 0 && (
               <div className="mt-3 space-y-2 text-[12px] text-muted leading-relaxed">
@@ -205,9 +194,7 @@ export default function CollegeDetail() {
                 <p className="text-faint">{mlr.sources}</p>
               </div>
             )}
-            <div className="mt-6">
-              <CoachEmailUnlock coachName={college.coachName} coachEmail={college.coachEmail} recruitmentFormUrl={college.recruitmentFormUrl} collegeName={college.name} clubContactName={college.clubContactName} clubContactEmail={college.clubContactEmail} contactNote={college.contactNote} />
-            </div>
+            <div className="mt-6 hidden lg:block">{coachBlock}</div>
             <p className="mt-5 text-[13px]">
               <a href={college.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-navy font-medium">
                 University website <ExternalLink size={13} />
@@ -220,14 +207,6 @@ export default function CollegeDetail() {
                 </a>
               </p>
             )}
-            <p className="mt-4 text-[13px]">
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${college.name}`)}&body=${encodeURIComponent(`I spotted something on https://rugbycampus.org/colleges/${college.slug}:\n\n`)}`}
-                className="text-navy font-medium"
-              >
-                Spot something wrong? Tell us
-              </a>
-            </p>
             <p className="text-[13px] text-muted leading-relaxed pt-2">
               Thinking about this program?{' '}
               <Link href="/learn/best-rugby-colleges-usa" className="text-navy font-medium hover:text-navy-deep">
@@ -241,9 +220,9 @@ export default function CollegeDetail() {
 
       {others.length > 0 && (
         <section className="mt-20 pt-12 border-t border-line">
-          <div className="flex items-end justify-between mb-8">
-            <h2 className="font-heading text-[24px] text-ink">More programs in the “{TIER_LABELS[college.tier]}” tier</h2>
-            <Link href="/colleges" className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1">View all</Link>
+          <div className="flex flex-wrap items-end justify-between gap-3 mb-8">
+            <h2 className="font-heading text-[24px] text-ink">More {TIER_LABELS[college.tier]} programs</h2>
+            <Link href={`/colleges?tier=${college.tier}`} className="text-[13px] font-semibold text-navy hover:text-navy-deep mb-1 whitespace-nowrap">View all</Link>
           </div>
           <ul className="border-t border-ink">
             {others.map((c) => (
@@ -258,5 +237,38 @@ export default function CollegeDetail() {
         </section>
       )}
     </div>
+  );
+}
+
+function WeatherTable({ temps }: { temps: { month: string; hF: number; lF: number; hC: number; lC: number }[] }) {
+  return (
+    <table className="w-full text-[12px] border-t border-line">
+      <thead>
+        <tr className="text-muted">
+          <th className="text-left font-medium py-2.5 pr-3">Month</th>
+          {temps.map((t) => <th key={t.month} className="font-medium py-2.5 px-1.5 text-center">{t.month}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="border-t border-line">
+          <td className="text-muted py-2.5 pr-3">High</td>
+          {temps.map((t) => (
+            <td key={t.month} className="py-2.5 px-1.5 text-center">
+              <span className="text-ink font-semibold">{t.hC}°</span>
+              <span className="block text-muted text-[10px]">{t.hF}°F</span>
+            </td>
+          ))}
+        </tr>
+        <tr className="border-t border-line">
+          <td className="text-muted py-2.5 pr-3">Low</td>
+          {temps.map((t) => (
+            <td key={t.month} className="py-2.5 px-1.5 text-center">
+              <span className="text-ink font-semibold">{t.lC}°</span>
+              <span className="block text-muted text-[10px]">{t.lF}°F</span>
+            </td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
   );
 }
