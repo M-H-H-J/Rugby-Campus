@@ -57,7 +57,7 @@ export default function CoachingEnquiry({ asLink = false }: { asLink?: boolean }
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto" style={{ background: 'rgba(7,27,51,0.55)', backdropFilter: 'blur(3px)' }}
           onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
           <div ref={dialog} role="dialog" aria-modal="true" aria-labelledby="coaching-title" className="bg-white border border-line rounded-lg max-w-md w-full p-7 relative my-auto">
-            <button type="button" onClick={close} aria-label="Close" className="absolute top-4 right-4 text-faint hover:text-muted"><X size={18} /></button>
+            <button type="button" onClick={close} aria-label="Close" className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-muted hover:text-ink"><X size={18} /></button>
             {done ? (
               <div className="text-center py-4">
                 <Check size={26} className="text-navy mx-auto mb-3" />
