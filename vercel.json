@@ -20,7 +20,7 @@
     { "source": "/for-coaches", "destination": "/for-coaches/index.html" }
   ],
   "headers": [
-    { "source": "/(.*)\\.(png|ico|svg|jpg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/(.*)\\.(png|ico|svg|jpg|jpeg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }] },
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/(.*)", "headers": [
       { "key": "X-Content-Type-Options", "value": "nosniff" },

@@ -199,3 +199,25 @@ describe('bug hunt S8: the Training unlock survives a reload, and the email link
     expect(existsSync(resolve(__dirname, '../email-store.ts'))).toBe(false);
   });
 });
+
+describe('bug hunt S10: replaceable images are not cached as immutable', () => {
+  const rule = (path: string) => {
+    // Vercel applies every matching rule in order; a later rule overrides the same header.
+    let value = '';
+    for (const h of v.headers) {
+      if (!new RegExp('^' + h.source.replace(/\\\./g, '\\.') + '$').test(path)) continue;
+      const cc = h.headers.find((x) => x.key === 'Cache-Control');
+      if (cc) value = cc.value;
+    }
+    return value;
+  };
+  it('college photos, the logo, Hugh photos and the favicon get one day plus stale-while-revalidate', () => {
+    for (const p of ['/college-images/brown-university.jpg', '/logo.png', '/logo-white.png', '/favicon.ico', '/images/hugh/hugh-johnston-headshot-og.jpg']) {
+      expect(rule(p), p).toBe('public, max-age=86400, stale-while-revalidate=604800');
+    }
+  });
+  it('hashed Vite assets stay immutable for a year', () => {
+    expect(rule('/assets/index-abc123.js')).toBe('public, max-age=31536000, immutable');
+    expect(rule('/assets/logo-abc123.png')).toBe('public, max-age=31536000, immutable');
+  });
+});
