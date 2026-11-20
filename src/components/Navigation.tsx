@@ -24,6 +24,15 @@ export default function Navigation() {
 
   useEffect(() => { setOpen(false); }, [location]);
 
+  useEffect(() => {
+    if (!open) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = overflow; document.removeEventListener('keydown', onKey); };
+  }, [open]);
+
   const isActive = (href: string) =>
     href === '/' ? location === '/' : location.startsWith(href);
 
@@ -52,14 +61,17 @@ export default function Navigation() {
             ))}
           </div>
 
-          <button className="md:hidden text-ink p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+          <button type="button" className="md:hidden text-ink w-11 h-11 -mr-2.5 flex items-center justify-center" onClick={() => setOpen(!open)}
+            aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-menu">
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="md:hidden bg-white border-t border-line">
+        <>
+        <div className="md:hidden fixed inset-0 top-14 bg-ink/20" onClick={() => setOpen(false)} aria-hidden />
+        <div id="mobile-menu" className="md:hidden relative bg-white border-t border-line">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -72,6 +84,7 @@ export default function Navigation() {
             </Link>
           ))}
         </div>
+        </>
       )}
     </nav>
   );

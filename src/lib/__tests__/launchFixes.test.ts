@@ -38,9 +38,11 @@ describe('launch fixes (Oct 2026)', () => {
     expect(Math.round(summer.reduce((a, b) => a + b, 0) / 3)).toBe(Math.round(F[u.slug].summer_high_f!));
   });
 
-  it('retired slugs return a real 404 (or redirect) before the SPA catch-all', () => {
+  it('retired slugs return a real 404 (or redirect), and there is no SPA catch-all', () => {
     const v = vercel as { redirects: { source: string }[]; rewrites: { source: string; destination: string }[] };
-    const catchAll = v.rewrites.findIndex((r) => r.destination === '/index.html');
+    expect(v.rewrites.some((r) => r.destination === '/index.html')).toBe(false);
+    const collegeRewrite = v.rewrites.findIndex((r) => r.source === '/colleges/:slug');
+    const catchAll = collegeRewrite === -1 ? v.rewrites.length : collegeRewrite;
     for (const slug of RETIRED_SLUGS) {
       const path = `/colleges/${slug}`;
       const redirected = v.redirects.some((r) => r.source === path);

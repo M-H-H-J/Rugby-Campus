@@ -3,7 +3,7 @@ import { useRoute, Link } from 'wouter';
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react';
 import { getArticleBySlug, articles } from '@/data/articles';
 import { captureEmail } from '@/lib/supabase';
-import { usePageMeta } from '@/lib/usePageMeta';
+import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 
 // Simple markdown-ish renderer for our article content
 function renderContent(content: string) {
@@ -74,9 +74,21 @@ function formatInline(text: string): string {
 
 
 
-function ArticleMeta({ title, description }: { title: string; description: string }) {
-  usePageMeta(title, description);
+function ArticleMeta({ title, description, fullTitle }: { title: string; description: string; fullTitle?: string }) {
+  usePageMeta(title, description, fullTitle);
   return null;
+}
+
+function ArticleNotFound() {
+  usePageMeta('Article not found', "This guide doesn't exist on Rugby Campus.");
+  useNoindex(true);
+  return (
+    <div className="max-w-6xl mx-auto px-5 py-24 min-h-[60vh]">
+      <h1 className="font-heading text-[32px] text-ink mb-3">Article not found</h1>
+      <p className="text-muted text-[15px] mb-6">That guide doesn't exist, or it has moved.</p>
+      <Link href="/learn" className="text-navy font-semibold text-[14px]">See all guides</Link>
+    </div>
+  );
 }
 
 function NotifyForm({ article }: { article: string }) {
@@ -95,23 +107,16 @@ export default function ArticlePage() {
   const [, params] = useRoute('/learn/:slug');
   const article = params?.slug ? getArticleBySlug(params.slug) : undefined;
 
-  if (!article) {
-    return (
-      <div className="max-w-6xl mx-auto px-5 py-24 text-center">
-        <h1 className="font-heading text-[28px] text-ink mb-4">Article not found</h1>
-        <Link href="/learn" className="text-navy font-semibold text-sm hover:underline">← Back to all articles</Link>
-      </div>
-    );
-  }
+  if (!article) return <ArticleNotFound />;
 
   const isComingSoon = article.content.startsWith('Coming soon');
   const otherArticles = articles.filter(a => a.id !== article.id).slice(0, 3);
 
   return (
     <div className="max-w-3xl mx-auto px-5 py-8 md:py-12">
-      <ArticleMeta title={article.title} description={article.metaDescription} />
+      <ArticleMeta title={article.title} description={article.metaDescription} fullTitle={article.metaTitle} />
       {/* Breadcrumb */}
-      <Link href="/learn" className="inline-flex items-center gap-1.5 text-[13px] text-faint hover:text-navy transition-colors mb-8">
+      <Link href="/learn" className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] text-muted hover:text-navy transition-colors mb-4">
         <ArrowLeft size={14} /> Back to all articles
       </Link>
 

@@ -16,7 +16,7 @@ export default {
         ink: '#101E30',
         line: '#e5e9ef',
         muted: '#5b6b7d',
-        faint: '#8b98a8',
+        faint: '#677489',
         terra: '#b5573a',
         'tier-gold': '#ffb700',
         'tier-navy': '#00458c',

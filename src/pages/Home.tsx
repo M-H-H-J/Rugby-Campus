@@ -11,9 +11,9 @@ import HughPhoto from '@/components/HughPhoto';
 import { HUGH_PHOTOS } from '@/lib/hughPhotos';
 
 export default function Home() {
-  usePageMeta('', "Every top college rugby program in America, mapped, tiered and explained. Free. Coach contacts and recruitment guides from someone who's been on both sides of recruitment.");
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
+  usePageMeta('', `${colleges.length} US college rugby programs across CRAA D1A and NCR D1, mapped and tiered, with coach contacts and plain-English recruitment guides. Free.`);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [find, setFind] = useState('');
@@ -32,7 +32,7 @@ export default function Home() {
   const steps = [
     { n: '1', t: 'Find programs that fit', d: 'Browse the map and explore by tier, conference and location. There are so many programs out there, so make sure you find the right one for you.' },
     { n: '2', t: 'Build your highlight reel', d: 'Put together a short highlight reel and a one-page profile of who you are as a player.' },
-    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact. Where we couldn't confirm one, we say so. Where a program has its own recruitment form, use that first. Then send a short email with a link to your reel. That is enough to start the conversation." },
+    { n: '3', t: 'Email the coach', d: "Most profiles list a head coach contact. Where we couldn't confirm one, we say so. Where a program has its own recruitment form, use that first. Then send a short email with your position, size and a link to your highlights. That's enough to start the conversation." },
   ];
 
   return (
@@ -55,7 +55,7 @@ export default function Home() {
             <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
           </div>
           <div>
-            <Link href="/map" className="block">
+            <Link href="/map" className="block" aria-label="Open the interactive map">
               <USMap colleges={colleges} onSelect={() => navigate('/map')} height={420} interactive={false} />
             </Link>
             <Link href="/map" className="btn mt-4 inline-flex items-center gap-2 bg-navy text-white px-5 py-2.5 rounded-md text-[13px] font-semibold">
@@ -88,7 +88,7 @@ export default function Home() {
 
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-5">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 mb-8">
             <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05]">Top programs</h2>
             <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
               All {colleges.length} programs <ArrowRight size={15} />
@@ -99,9 +99,9 @@ export default function Home() {
               <Link href={`/colleges/${hero.slug}`} className="group">
                 <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-4">
                   {hero.imageUrl ? (
-                    <img src={hero.imageUrl} alt={`${hero.name} campus`} className="card-img w-full h-full object-cover" />
+                    <img src={hero.imageUrl} alt={`${hero.name} campus`} width={800} height={600} className="card-img w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[13px] text-faint">{hero.name}</div>
+                    <div className="w-full h-full" aria-hidden />
                   )}
                 </div>
                 <h3 className="font-heading text-[32px] leading-tight text-ink group-hover:text-navy">{hero.name}</h3>
@@ -166,7 +166,7 @@ export default function Home() {
               {rest.slice(0, 2).map((a) => (
                 <Link key={a.id} href={`/learn/${a.slug}`} className="block group cursor-pointer py-6 border-b border-line">
                   <p className="kicker mb-2">{a.category}</p>
-                  <h4 className="font-heading text-[22px] md:text-[26px] leading-snug text-ink group-hover:text-navy transition-colors mb-1">{a.title}</h4>
+                  <h3 className="font-heading text-[22px] md:text-[26px] leading-snug text-ink group-hover:text-navy transition-colors mb-1">{a.title}</h3>
                   <span className="text-[13px] text-faint">{a.readTime}</span>
                 </Link>
               ))}
@@ -180,7 +180,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 py-16 md:py-24">
           <div className="max-w-2xl">
             <p className="kicker mb-4 !text-white/80">New guides by email</p>
-            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">The season has started. Get new guides.</h2>
+            <h2 className="font-heading text-[32px] md:text-[44px] text-white leading-[1.1] tracking-[-0.02em] mb-5">New guides, when they're worth sending.</h2>
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows and new guides. A short email, only when there's something worth sending.
             </p>

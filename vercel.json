@@ -1,15 +1,30 @@
 {
   "redirects": [
     { "source": "/colleges/university-of-st-thomas-minnesota", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
-    { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true }
+    { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
+    { "source": "/work-with-me", "destination": "/about", "permanent": true },
+    { "source": "/work-with-me/", "destination": "/about", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "rugby-campus.vercel.app" }], "destination": "https://www.rugbycampus.org/:path*", "permanent": true }
   ],
   "rewrites": [
     { "source": "/colleges/iona-university", "destination": "/api/gone" },
     { "source": "/colleges/iona-university/", "destination": "/api/gone" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/map", "destination": "/map/index.html" },
+    { "source": "/colleges", "destination": "/colleges/index.html" },
+    { "source": "/colleges/:slug", "destination": "/colleges/:slug/index.html" },
+    { "source": "/learn", "destination": "/learn/index.html" },
+    { "source": "/learn/:slug", "destination": "/learn/:slug/index.html" },
+    { "source": "/training", "destination": "/training/index.html" },
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/for-coaches", "destination": "/for-coaches/index.html" }
   ],
   "headers": [
     { "source": "/(.*)\\.(png|ico|svg|jpg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+    ] },
+    { "source": "/(.*)", "missing": [{ "type": "host", "value": "www.rugbycampus.org" }], "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
   ]
 }

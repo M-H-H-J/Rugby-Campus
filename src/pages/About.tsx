@@ -36,7 +36,7 @@ export default function About() {
             What I needed was a clear list of colleges: where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
           </p>
           <p>
-            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong>, an Australian who joined Notre Dame College's rugby program in Ohio in Fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In Fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
+            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong>, an Australian who joined Notre Dame College's rugby program in Ohio in fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.

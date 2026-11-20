@@ -48,7 +48,8 @@ describe('launch fixes, 3 Nov 2026', () => {
     expect(home).toContain('Hugh Johnston');
     expect(home).toContain('2023 NCR D1 national championship coach.');
     expect(home).not.toMatch(/Stay across it|Honest Guides|How it works|Stay Connected/);
-    expect(home).toContain('Get new guides.');
+    expect(home).toContain("New guides, when they're worth sending.");
+    expect(home).not.toContain('The season has started');
   });
 
   it('About: Hugh paragraph untouched, "I reply personally" gone, one "Email me", national champions on the row', () => {
@@ -143,11 +144,11 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('link previews use full addresses (checked on the built pages when dist exists)', () => {
-    expect(src('index.html')).toContain('content="https://rugbycampus.org/logo.png"');
+    expect(src('index.html')).toContain('content="https://www.rugbycampus.org/logo.png"');
     const p = new URL('../../../dist/colleges/wheeling-university/index.html', import.meta.url);
     if (!existsSync(p)) return;
     const html = readFileSync(p, 'utf8');
-    expect(html).toMatch(/<meta property="og:image" content="https:\/\/rugbycampus\.org\/college-images\//);
+    expect(html).toMatch(/<meta property="og:image" content="https:\/\/www\.rugbycampus\.org\/college-images\//);
     expect(readFileSync(new URL('../../../dist/about/index.html', import.meta.url), 'utf8')).not.toContain('reply personally');
   });
 });

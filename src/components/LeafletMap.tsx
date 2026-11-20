@@ -31,6 +31,8 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
   const mapRef = useRef<L.Map | null>(null);
   const layerRef = useRef<L.LayerGroup | null>(null);
   const onSelectRef = useRef(onSelect);
+  // Fit the pins once; after that a tab change or data refresh keeps the visitor's zoom and pan.
+  const fitted = useRef(false);
   onSelectRef.current = onSelect;
 
   // Init map once
@@ -42,6 +44,8 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       zoom: 4,
       minZoom: 3,
       maxZoom: 18,
+      zoomSnap: 0.25,
+      zoomDelta: 0.5,
       scrollWheelZoom: true,
       worldCopyJump: true,
     });
@@ -93,6 +97,8 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
 
     colleges.forEach((c) => {
       const marker = L.marker([c.lat, c.lng], {
+        title: c.name,
+        alt: c.name,
         icon: makePin(TIER_COLORS[c.tier], c.tier === 'championship' ? 32 : 28, TIER_HOLLOW[c.tier]),
       });
 
@@ -117,9 +123,10 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       marker.addTo(layer);
     });
 
-    if (colleges.length > 0) {
+    if (colleges.length > 0 && !fitted.current) {
+      fitted.current = true;
       const bounds = L.latLngBounds(colleges.map((c) => [c.lat, c.lng] as [number, number]));
-      map.fitBounds(bounds.pad(0.12), { maxZoom: 6, animate: false });
+      map.fitBounds(bounds.pad(0.04), { maxZoom: 6, animate: false });
     }
   }, [colleges]);
 
