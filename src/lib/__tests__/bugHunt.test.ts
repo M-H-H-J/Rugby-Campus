@@ -13,6 +13,7 @@ import { readParam } from '@/lib/search/urlState';
 import { hasExactAlias, matchesCollegeQuery } from '@/lib/collegeAliases';
 import { colleges } from '@/data/colleges';
 import { remoteCoachField } from '@/lib/useColleges';
+import { absImageUrl, canonicalFor } from '@/lib/usePageMeta';
 
 const F = (facts as unknown as FactsFile).colleges;
 
@@ -147,5 +148,22 @@ describe('bug hunt S11: a coach cleared in Supabase stays cleared', () => {
     const u = src('src/lib/useColleges.ts');
     expect(u).toContain("coachName: remoteCoachField(r, 'coach_name', 'coachName'");
     expect(u).toContain("coachEmail: remoteCoachField(r, 'coach_email', 'coachEmail'");
+  });
+});
+
+describe('bug hunt S9: share tags follow in-app navigation', () => {
+  it('canonical and og:url use the current path on the www domain (fixed in #13)', () => {
+    expect(canonicalFor('/')).toBe('https://www.rugbycampus.org/');
+    expect(canonicalFor('/colleges/brown-university/')).toBe('https://www.rugbycampus.org/colleges/brown-university');
+  });
+  it('og:image is reset per page: the college photo, Hugh on About, the logo elsewhere', () => {
+    expect(absImageUrl('/college-images/brown-university.jpg')).toBe('https://www.rugbycampus.org/college-images/brown-university.jpg');
+    expect(absImageUrl(undefined)).toBe('https://www.rugbycampus.org/logo.png');
+    expect(absImageUrl('https://upload.wikimedia.org/x.jpg')).toBe('https://upload.wikimedia.org/x.jpg');
+    const meta = src('src/lib/usePageMeta.ts');
+    expect(meta).toContain("setMeta('meta[property=\"og:image\"]', 'property', 'og:image', absImageUrl(image))");
+    expect(meta).toContain("setMeta('meta[property=\"og:url\"]'");
+    expect(src('src/pages/CollegeDetail.tsx')).toContain('college?.imageUrl,');
+    expect(src('src/pages/About.tsx')).toContain("'/images/hugh/hugh-johnston-headshot-og.jpg'");
   });
 });
