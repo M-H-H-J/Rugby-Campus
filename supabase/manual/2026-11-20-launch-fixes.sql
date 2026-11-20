@@ -1,3 +1,10 @@
+-- ============================================================================
+-- RUN ORDER: run this ONLY AFTER PR #13 is merged AND the production deploy on
+-- https://www.rugbycampus.org shows Ready in Vercel. Then run it immediately.
+-- Why: the site falls back to the code copy for any coach field the table leaves blank.
+-- Run before the merge, and main (which still has Luke Gross in colleges.ts) would show
+-- Brad Tucker with Luke Gross's old email.
+-- ============================================================================
 -- Rugby Campus launch fixes, 20 Nov 2026.
 -- REVIEW, THEN RUN BY HAND in Supabase -> SQL Editor. Not run by the PR that added it.
 -- Mirrors the same changes made in src/data/colleges.ts and src/data/collegeSearchFacts.json.

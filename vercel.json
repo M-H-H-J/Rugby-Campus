@@ -4,7 +4,7 @@
     { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
     { "source": "/work-with-me", "destination": "/about", "permanent": true },
     { "source": "/work-with-me/", "destination": "/about", "permanent": true },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "rugby-campus.vercel.app" }], "destination": "https://www.rugbycampus.org/:path*", "permanent": true }
+    { "source": "/:path*", "has": [{ "type": "host", "value": "rugby-campus\\.vercel\\.app" }], "destination": "https://www.rugbycampus.org/:path*", "permanent": true }
   ],
   "rewrites": [
     { "source": "/colleges/iona-university", "destination": "/api/gone" },
@@ -25,6 +25,6 @@
       { "key": "X-Content-Type-Options", "value": "nosniff" },
       { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
     ] },
-    { "source": "/(.*)", "missing": [{ "type": "host", "value": "www.rugbycampus.org" }], "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
+    { "source": "/(.*)", "missing": [{ "type": "host", "value": "www\\.rugbycampus\\.org" }], "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
   ]
 }

@@ -120,6 +120,9 @@ describe('launch day: sentence search', () => {
     expect(costText(F['brigham-young-university']).headline).toMatch(/tuition only/);
     expect(costText(F['pennsylvania-state-university']).headline).toMatch(/tuition only/);
     expect(costText(F['university-of-rio-grande']).headline).toMatch(/in-state residents/);
+    expect(costText(F['university-of-rio-grande']).sub).toContain("Before scholarships. Ask the coach what's available.");
+    expect(costText(F['pennsylvania-state-university'], 'international').headline).toBe('$44,574 (out-of-state rate, tuition only)');
+    expect(costText(F['brigham-young-university']).headline).toBe('$14,192 (tuition only)');
     expect(costText(F['university-of-california-santa-cruz']).sub).not.toMatch(/Scorecard/);
   });
 });
@@ -176,8 +179,8 @@ describe('launch day: domain, 404 and hosts', () => {
     const v = vercel as unknown as { redirects: { source: string; destination: string; has?: { value: string }[] }[]; rewrites: { destination: string }[]; headers: { missing?: { value: string }[]; headers: { key: string; value: string }[] }[] };
     expect(v.rewrites.some((r) => r.destination === '/index.html')).toBe(false);
     expect(v.redirects.find((r) => r.source === '/work-with-me')?.destination).toBe('/about');
-    expect(v.redirects.find((r) => r.has?.[0]?.value === 'rugby-campus.vercel.app')?.destination).toBe('https://www.rugbycampus.org/:path*');
-    const noindex = v.headers.find((h) => h.missing?.[0]?.value === 'www.rugbycampus.org');
+    expect(v.redirects.find((r) => r.has?.[0]?.value === 'rugby-campus\\.vercel\\.app')?.destination).toBe('https://www.rugbycampus.org/:path*');
+    const noindex = v.headers.find((h) => h.missing?.[0]?.value === 'www\\.rugbycampus\\.org');
     expect(noindex?.headers[0]).toEqual({ key: 'X-Robots-Tag', value: 'noindex' });
   });
   it('prerender writes a noindex 404 page and keeps /work-with-me out of the sitemap', () => {

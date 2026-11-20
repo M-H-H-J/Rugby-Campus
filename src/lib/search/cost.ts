@@ -47,7 +47,7 @@ export function costText(c: CollegeFacts, residency: Residency | null = null, ho
   }
   const year = c.cost_year && YEAR_RE.test(c.cost_year) ? ' · ' + c.cost_year : '';
   if (c.cost_residents_only && c.tuition_fees_in_state != null && !isResident(c, residency, homeState)) {
-    return { headline: `${usd(c.tuition_fees_in_state)} for in-state residents (tuition only)`, sub: `The only published price is the in-state resident average${year}. No out-of-state rate is published, so ask the coach what you would pay.`, askCoach: false };
+    return { headline: `${usd(c.tuition_fees_in_state)} for in-state residents (tuition only)`, sub: `The only published price is the in-state resident average${year}. No out-of-state rate is published, so ask the coach what you would pay. ${COST_DISCLAIMER}`, askCoach: false };
   }
   const v = costFor(c, residency, homeState);
   if (v.amount == null) return { headline: 'Ask the coach', sub: 'We could not find a published figure we trust.', askCoach: true };
@@ -57,8 +57,11 @@ export function costText(c: CollegeFacts, residency: Residency | null = null, ho
   if (isPublic && !residency && !(homeState)) {
     const a = c.total_cost_in_state ?? c.tuition_fees_in_state; const b = c.total_cost_out_of_state ?? c.tuition_fees_out_of_state;
     head = a != null && b != null && a !== b ? `${usd(a)} in-state / ${usd(b)} out-of-state` : usd(v.amount);
-  } else head = usd(v.amount) + (isPublic ? (v.rate === 'in_state' ? ' (in-state rate)' : ' (out-of-state rate)') : '');
-  if (v.kind === 'tuition') head += ' (tuition only)';
+  } else {
+    const notes = [isPublic ? (v.rate === 'in_state' ? 'in-state rate' : 'out-of-state rate') : '', v.kind === 'tuition' ? 'tuition only' : ''].filter(Boolean);
+    head = usd(v.amount) + (notes.length ? ` (${notes.join(', ')})` : '');
+  }
+  if (v.kind === 'tuition' && !head.endsWith(')')) head += ' (tuition only)';
   return { headline: head, sub: `${part}${year}. ${COST_DISCLAIMER}`, askCoach: false };
 }
 export function residencyOf(f: Filters): Residency | null { return f.residency; }

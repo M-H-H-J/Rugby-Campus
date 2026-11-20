@@ -67,7 +67,7 @@ Cal is the most successful college rugby program in US history on 15s titles, in
 
 Life (Marietta, Georgia) runs rugby as a varsity sport and has won four D1A national titles (2013, 2016, 2018, 2019). Smaller, specialized campus (chiropractic / health sciences). Different feel from a big state school. If your priority is high-level development with a clear rugby focus, Life belongs on the shortlist.
 
-**Scholarships:** Life is varsity, so it's one of the schools more likely to have some rugby money. Most help still comes through academic aid. Ask the coach.
+**Scholarships:** Athletic aid for rugby is rare and mostly at varsity programs. Most players who get help get it through academic aid. Ask the coach.
 
 ### Saint Mary's and Lindenwood
 

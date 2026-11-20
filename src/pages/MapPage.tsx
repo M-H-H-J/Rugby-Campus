@@ -12,9 +12,9 @@ import TierNote from '@/components/TierNote';
 const TABS = ['All', 'CRAA D1A', 'NCR D1'] as const;
 
 export default function MapPage() {
-  usePageMeta('Interactive US College Rugby Map', '50 US college rugby programs on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.');
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
+  usePageMeta('Interactive US College Rugby Map', `${colleges.length} US college rugby programs on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.`);
   const [tab, setTab] = useState<(typeof TABS)[number]>(() => ((TABS as readonly string[]).includes(readParam('tab')) ? readParam('tab') as (typeof TABS)[number] : 'All'));
   useEffect(() => { writeParams({ tab: tab === 'All' ? null : tab }); }, [tab]);
 
