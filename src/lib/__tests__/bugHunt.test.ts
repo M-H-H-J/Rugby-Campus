@@ -12,6 +12,7 @@ import { search as searchColleges } from '@/lib/search/match';
 import { readParam } from '@/lib/search/urlState';
 import { hasExactAlias, matchesCollegeQuery } from '@/lib/collegeAliases';
 import { colleges } from '@/data/colleges';
+import { remoteCoachField } from '@/lib/useColleges';
 
 const F = (facts as unknown as FactsFile).colleges;
 
@@ -129,5 +130,22 @@ describe('bug hunt S2 (fixed in #13, locked here): /colleges?q= parsing', () => 
     const p = src('src/pages/Colleges.tsx');
     expect(p).toContain("readParam('q')");
     expect(p).not.toContain('decodeURIComponent');
+  });
+});
+
+describe('bug hunt S11: a coach cleared in Supabase stays cleared', () => {
+  it('an empty or null DB value wins over the bundle when the row has the column', () => {
+    expect(remoteCoachField({ coach_email: '' }, 'coach_email', 'coachEmail', 'departed@old.example')).toBe('');
+    expect(remoteCoachField({ coach_email: null }, 'coach_email', 'coachEmail', 'departed@old.example')).toBe('');
+    expect(remoteCoachField({ coach_name: '  Brad Tucker ' }, 'coach_name', 'coachName', 'Luke Gross')).toBe('Brad Tucker');
+    expect(remoteCoachField({ coachName: '' }, 'coach_name', 'coachName', 'Luke Gross')).toBe('');
+  });
+  it('the bundle is used only when the row has no coach column at all', () => {
+    expect(remoteCoachField({ slug: 'x' }, 'coach_name', 'coachName', 'Bundled Coach')).toBe('Bundled Coach');
+  });
+  it('useColleges uses it for both coach fields', () => {
+    const u = src('src/lib/useColleges.ts');
+    expect(u).toContain("coachName: remoteCoachField(r, 'coach_name', 'coachName'");
+    expect(u).toContain("coachEmail: remoteCoachField(r, 'coach_email', 'coachEmail'");
   });
 });

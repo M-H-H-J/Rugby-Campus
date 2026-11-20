@@ -28,6 +28,17 @@ function remoteText(value: unknown, fallback: string): string {
   return typeof value === 'string' && value !== '' ? value : fallback;
 }
 
+/**
+ * Coach name and email: when the row has the column, the table is the answer, even blank or null.
+ * Clearing a departed coach in Supabase must not bring the bundled copy back.
+ */
+export function remoteCoachField(row: Record<string, unknown>, snake: string, camel: string, fallback: string): string {
+  const key = snake in row ? snake : camel in row ? camel : null;
+  if (key === null) return fallback;
+  const value = row[key];
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 function remoteNumber(value: unknown, fallback: number): number {
   return typeof value === 'number' ? value : fallback;
 }
@@ -63,7 +74,8 @@ export function preferBundledMlr(remote: RemoteCollege, local: College | undefin
  * Loads colleges from Supabase when configured; otherwise the bundled data.
  * Editing a row in the Supabase dashboard updates the live site instantly.
  * The database wins for the fields it stores. The bundle fills blanks and
- * covers a Supabase outage.
+ * covers a Supabase outage, except coach name and email: those are owned by the
+ * table, so a blank there stays blank (see remoteCoachField).
  */
 export function useColleges(): { colleges: College[]; source: 'supabase' | 'bundled' } {
   const [data, setData] = useState<College[]>(bundled);
@@ -96,8 +108,8 @@ export function useColleges(): { colleges: College[]; source: 'supabase' | 'bund
             weatherSummary: temps.length === 12
               ? remoteText(r.weather_summary ?? r.weatherSummary, local?.weatherSummary ?? '')
               : (local?.weatherSummary ?? ''),
-            coachName: remoteText(r.coach_name ?? r.coachName, local?.coachName ?? ''),
-            coachEmail: remoteText(r.coach_email ?? r.coachEmail, local?.coachEmail ?? ''),
+            coachName: remoteCoachField(r, 'coach_name', 'coachName', local?.coachName ?? ''),
+            coachEmail: remoteCoachField(r, 'coach_email', 'coachEmail', local?.coachEmail ?? ''),
             ...preferBundledMlr(r, local),
             playerCount: local ? local.playerCount : (r.player_count ?? r.playerCount ?? 0),
             playerCountNote: local?.playerCountNote,
