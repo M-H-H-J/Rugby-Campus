@@ -1,8 +1,10 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation, Link } from 'wouter';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
+import { lazyWithReload as lazy } from '@/lib/chunkReload';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import Home from '@/pages/Home';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -46,11 +48,16 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [location] = useLocation();
   return (
     <div className="min-h-screen flex flex-col font-body bg-white">
       <ScrollToTop />
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[10001] focus:bg-white focus:text-navy focus:px-4 focus:py-2 focus:rounded-md focus:border focus:border-line text-[13px] font-semibold">
+        Skip to content
+      </a>
       <Navigation />
-      <main className="flex-1 pt-14">
+      <main id="main" tabIndex={-1} className="flex-1 pt-14 outline-none">
+        <ErrorBoundary resetKey={location}>
         <Suspense fallback={<div className="min-h-screen" aria-hidden />}>
         <Switch>
           <Route path="/" component={Home} />
@@ -66,6 +73,7 @@ export default function App() {
           <Route component={NotFound} />
         </Switch>
         </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
       {/* Vercel Web Analytics: page views only, no cookies. It starts counting once Web Analytics is switched on for the project in Vercel. */}

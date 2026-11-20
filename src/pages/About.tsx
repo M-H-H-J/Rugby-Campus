@@ -7,7 +7,7 @@ import CoachingEnquiry from '@/components/CoachingEnquiry';
 import { NDC_ABOUT_PHOTO } from '@/data/walshPhotos';
 
 export default function About() {
-  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
+  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.', undefined, '/images/hugh/hugh-johnston-headshot-og.jpg');
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">
       <header className="mb-10 grid md:grid-cols-[1fr_220px] gap-6 md:gap-10 items-start">
@@ -30,7 +30,7 @@ export default function About() {
       <section className="mb-14">
         <div className="space-y-5 font-heading text-[17.5px] text-ink/85 leading-[1.75]">
           <p>
-            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check <a href="https://www.niche.com" target="_blank" rel="noopener noreferrer" className="text-navy hover:text-navy-deep">Niche</a> for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream. Every conversation made it sound like the best place to be.
+            Coming out of high school, I wanted to do something different: go to the US and play rugby. I went through an agency. They gave me recommendations. I could check <a href="https://www.niche.com" target="_blank" rel="noopener noreferrer" className="text-navy underline underline-offset-2 hover:text-navy-deep">Niche</a> for academics and acceptance rates. What I could not see was how good any of those programs actually were at rugby. Coaches sold the dream. Every conversation made it sound like the best place to be.
           </p>
           <p>
             What I needed was a clear list of colleges: where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.

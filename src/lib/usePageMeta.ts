@@ -9,11 +9,23 @@ function setMeta(selector: string, attr: 'name' | 'property', key: string, value
   el.content = value;
 }
 
+/** Same rule as scripts/prerender.mjs: social apps need a full address, and the logo is the default. */
+export function absImageUrl(u?: string): string {
+  if (!u) return `${SITE_URL}/logo.png`;
+  return /^https?:\/\//i.test(u) ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`;
+}
+
+/** The canonical address for a path: www domain, no trailing slash except the homepage. */
+export function canonicalFor(pathname: string): string {
+  return `${SITE_URL}${pathname === '/' ? '/' : pathname.replace(/\/$/, '')}`;
+}
+
 /**
  * Sets the title, description, og tags and canonical for the current route.
  * `fullTitle` is used as the whole <title> (guides pass their metaTitle); otherwise " | Rugby Campus" is added.
+ * `image` is the share image (the logo when omitted), so a page reached in-app never keeps the previous page's.
  */
-export function usePageMeta(title: string, description?: string, fullTitle?: string) {
+export function usePageMeta(title: string, description?: string, fullTitle?: string, image?: string) {
   useEffect(() => {
     const t = fullTitle ?? (title ? `${title} | ${SITE_NAME}` : HOME_TITLE);
     document.title = t;
@@ -22,11 +34,12 @@ export function usePageMeta(title: string, description?: string, fullTitle?: str
       setMeta('meta[property="og:description"]', 'property', 'og:description', description);
     }
     setMeta('meta[property="og:title"]', 'property', 'og:title', t);
-    const url = `${SITE_URL}${window.location.pathname === '/' ? '/' : window.location.pathname.replace(/\/$/, '')}`;
+    const url = canonicalFor(window.location.pathname);
     setMeta('meta[property="og:url"]', 'property', 'og:url', url);
+    setMeta('meta[property="og:image"]', 'property', 'og:image', absImageUrl(image));
     const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (canonical) canonical.href = url;
-  }, [title, description, fullTitle]);
+  }, [title, description, fullTitle, image]);
 }
 
 /** Adds <meta name="robots" content="noindex"> and removes the canonical while active (not-found pages). */

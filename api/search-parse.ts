@@ -3,7 +3,7 @@
 import { callModel, getModelConfig } from './_lib/llm.js';
 import { writeSearchLog } from './_lib/logsink.js';
 import { capMicros, costMicros, monthKey } from './_lib/pricing.js';
-import { clientIp, ensureSid, hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { clientIp, ensureSid, hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
 import { cleanSentence, FILTER_VERSION, parseFilters, stripPII } from '../src/lib/search/filters.js';
 
@@ -18,7 +18,7 @@ const MSG = {
 
 export default async function handler(req: Req, res: Res) {
   const t0 = Date.now();
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false, reason: 'method', message: 'POST only' }); }
+  if (rejectRequest(req, res)) return;
   const body = readBody(req);
   const sentence = cleanSentence(body.sentence);
   if (sentence.length < 3) return send(res, 400, { ok: false, reason: 'bad_input', message: MSG.bad });
@@ -26,7 +26,8 @@ export default async function handler(req: Req, res: Res) {
   const cfg = getModelConfig(); const store = getStore();
   if (!cfg || !store) return send(res, 503, { ok: false, reason: 'not_configured', message: MSG.off });
 
-  // ---- per-visitor rate limit: cookie 10/hour AND ip 30/hour (shared school wifi), both env-tunable ----
+  // ---- rate limits: cookie 10/hour AND ip 30/hour (shared school wifi) AND 600/hour site-wide, all env-tunable ----
+  // The site-wide ceiling matters because the cookie limit is skipped by not sending the cookie.
   const sid = ensureSid(req, res); const ip = hashed(clientIp(req));
   const hour = new Date().toISOString().slice(0, 13);
   try {
@@ -34,6 +35,9 @@ export default async function handler(req: Req, res: Res) {
     if (ck > num(process.env.SEARCH_LIMIT_PER_HOUR, 10) || ipn > num(process.env.SEARCH_LIMIT_PER_HOUR_IP, 30)) {
       return send(res, 429, { ok: false, reason: 'rate_limited', message: MSG.rate });
     }
+    // Counted only once the visitor's own limits pass, so one looping client can't use up everyone's hour.
+    const all = await store.incr(`rl:all:${hour}`, 1, 3700);
+    if (all > num(process.env.SEARCH_LIMIT_PER_HOUR_ALL, 600)) return send(res, 429, { ok: false, reason: 'busy', message: MSG.cap });
     // ---- monthly spend cap (hard): refuse when spend + a worst-case reserve would pass the cap ----
     const key = `spend:${monthKey()}`; const spent = await store.get(key);
     if (spent + 2000 > capMicros()) return send(res, 503, { ok: false, reason: 'cap', message: MSG.cap });

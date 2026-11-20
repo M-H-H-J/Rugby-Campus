@@ -1,9 +1,12 @@
 -- ============================================================================
 -- RUN ORDER: run this ONLY AFTER PR #13 is merged AND the production deploy on
 -- https://www.rugbycampus.org shows Ready in Vercel. Then run it immediately.
--- Why: the site falls back to the code copy for any coach field the table leaves blank.
+-- Why: on main the site falls back to the code copy for any coach field the table leaves blank.
 -- Run before the merge, and main (which still has Luke Gross in colleges.ts) would show
 -- Brad Tucker with Luke Gross's old email.
+-- After the bug-hunt PR (2026-11-20) the table is the answer for coach_name / coach_email whenever
+-- the row exists, blank included. Until this file runs, UC Santa Cruz and Air Force (blank in the
+-- table today) show "Head coach not confirmed yet" instead of the coaches added in colleges.ts.
 -- ============================================================================
 -- Rugby Campus launch fixes, 20 Nov 2026.
 -- REVIEW, THEN RUN BY HAND in Supabase -> SQL Editor. Not run by the PR that added it.

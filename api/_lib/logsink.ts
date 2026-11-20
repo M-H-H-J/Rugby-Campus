@@ -7,11 +7,13 @@ export async function writeSearchLog(rec: SearchLog): Promise<void> {
   if (sink === 'off') return;
   try {
     if (sink === 'supabase' && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      await fetch(process.env.SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/search_logs', {
+      const r = await fetch(process.env.SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/search_logs', {
         method: 'POST', signal: AbortSignal.timeout(3000),
         headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
         body: JSON.stringify({ sentence: rec.text, filters: rec.filters, ok: rec.ok, reason: rec.reason ?? null, model: rec.model, tokens_in: rec.tokens_in, tokens_out: rec.tokens_out, cost_usd: rec.cost_usd, ms: rec.ms }),
       });
+      // fetch doesn't throw on 4xx/5xx; a missing search_logs table answers 404.
+      if (!r.ok) console.error('SEARCH_LOG supabase ' + r.status);
       return;
     }
     console.log('SEARCH_LOG ' + JSON.stringify(rec));

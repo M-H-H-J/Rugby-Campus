@@ -17,13 +17,14 @@ export interface CostView {
 
 export function pickRate(c: CollegeFacts, residency: Residency | null, homeState: string | null): { rate: 'in_state' | 'out_of_state'; assumed: boolean } {
   if (c.control !== 'public') return { rate: 'in_state', assumed: false }; // private: one rate
-  if (residency === 'in_state') return { rate: 'in_state', assumed: false };
   if (residency === 'international' || residency === 'out_of_state') return { rate: 'out_of_state', assumed: false };
-  if (homeState && homeState === c.state) return { rate: 'in_state', assumed: false };
+  // "In-state" only ever means the family's own state. Without a state we can't know, so assume out-of-state.
+  if (homeState) return { rate: homeState === c.state ? 'in_state' : 'out_of_state', assumed: false };
   return { rate: 'out_of_state', assumed: true };
 }
 
-const isResident = (c: CollegeFacts, residency: Residency | null, homeState: string | null) => residency === 'in_state' || (!!homeState && homeState === c.state);
+const isResident = (c: CollegeFacts, residency: Residency | null, homeState: string | null) =>
+  residency !== 'international' && residency !== 'out_of_state' && !!homeState && homeState === c.state;
 const YEAR_RE = /^\d{4}-\d{2}$/;
 
 export function costFor(c: CollegeFacts, residency: Residency | null, homeState: string | null): CostView {

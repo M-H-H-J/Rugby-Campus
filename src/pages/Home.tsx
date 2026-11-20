@@ -6,6 +6,8 @@ import { usePageMeta } from '@/lib/usePageMeta';
 import { articles } from '@/data/articles';
 import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
+import { useSaveState } from '@/lib/useSaveState';
+import SaveError from '@/components/SaveError';
 import { pickTopPrograms } from '@/lib/topPrograms';
 import HughPhoto from '@/components/HughPhoto';
 import { HUGH_PHOTOS } from '@/lib/hughPhotos';
@@ -15,8 +17,9 @@ export default function Home() {
   const { colleges } = useColleges();
   usePageMeta('', `${colleges.length} US college rugby programs across CRAA D1A and NCR D1, mapped and tiered, with coach contacts and plain-English recruitment guides. Free.`);
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const { state: subscribeState, run: runSubscribe } = useSaveState();
   const [find, setFind] = useState('');
+  const [findHint, setFindHint] = useState(false);
 
   const featured = pickTopPrograms(colleges);
   const fullArticles = articles.filter((a) => !a.content.startsWith('Coming soon'));
@@ -24,8 +27,7 @@ export default function Home() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    await captureEmail(email, 'newsletter');
-    setSubscribed(true);
+    await runSubscribe(() => captureEmail(email, 'newsletter'));
   };
 
   const [hero, ...restFeatured] = featured;
@@ -46,12 +48,18 @@ export default function Home() {
             <p className="mt-5 text-[14px] text-muted">
               Built by <Link href="/about" className="text-navy font-medium underline underline-offset-2">Hugh Johnston</Link>, 2023 NCR D1 national championship coach.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300))); }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (find.trim().length >= 3) navigate('/colleges?find=' + encodeURIComponent(find.trim().slice(0, 300)));
+              else { setFindHint(true); document.getElementById('home-find')?.focus(); }
+            }} className="mt-7 flex flex-col sm:flex-row sm:items-end gap-3">
               <label htmlFor="home-find" className="sr-only">Describe your ideal college</label>
-              <input id="home-find" value={find} onChange={(e) => setFind(e.target.value)} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+              <input id="home-find" value={find} onChange={(e) => { setFind(e.target.value); setFindHint(false); }} maxLength={300} placeholder="Engineering, good rugby, mild winters"
+                aria-describedby={findHint ? 'home-find-hint' : undefined}
                 className="flex-1 min-w-0 bg-transparent border-b-2 border-ink py-2 font-heading text-[18px] sm:text-[22px] outline-none placeholder:text-faint" />
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
+            {findHint && <p id="home-find-hint" role="status" className="mt-2 text-[13px] text-muted">Type a short sentence about what you want in a college, like the example above.</p>}
             <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
           </div>
           <div>
@@ -184,21 +192,24 @@ export default function Home() {
             <p className="text-white/50 text-[16px] leading-relaxed mb-8 max-w-lg">
               Program updates, recruitment windows and new guides. A short email, only when there's something worth sending.
             </p>
-            {subscribed ? (
+            {subscribeState === 'done' ? (
               <p className="inline-flex items-center gap-2 text-[15px] text-white font-medium">
                 <Check size={18} className="text-gold" /> You're on the list. Welcome aboard.
               </p>
             ) : (
+              <>
               <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md">
                 <input
                   type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
                   className="flex-1 min-w-0 px-4 py-3.5 rounded-md bg-white/10 border border-white/15 text-white text-[15px] outline-none placeholder:text-white/40 focus:border-white/40 transition-colors"
                 />
-                <button type="submit" className="btn bg-gold text-dark px-6 py-3.5 rounded-md text-[14px] font-bold whitespace-nowrap">
-                  Subscribe
+                <button type="submit" disabled={subscribeState === 'busy'} className="btn bg-gold text-dark px-6 py-3.5 rounded-md text-[14px] font-bold whitespace-nowrap disabled:opacity-60">
+                  {subscribeState === 'busy' ? 'Subscribing…' : 'Subscribe'}
                 </button>
               </form>
+              {subscribeState === 'failed' && <SaveError dark className="mt-3" />}
+              </>
             )}
           </div>
         </div>

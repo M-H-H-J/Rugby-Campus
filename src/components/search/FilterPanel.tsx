@@ -78,12 +78,25 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
         {outside && <p className="mt-1 text-[12px] text-muted">Parsed as US${rawBudget?.toLocaleString('en-US')}. That sits outside the slider, so it is left as is.</p>}
         <div className="flex flex-wrap gap-1.5 mt-3">
           {RESIDENCIES.map((r) => (
-            <Chip key={r} on={filters.residency === r} onClick={() => onChange({ ...filters, residency: filters.residency === r ? null : r })}>
+            <Chip key={r} on={filters.residency === r} onClick={() => {
+              const next = filters.residency === r ? null : r;
+              onChange({ ...filters, residency: next, home_state: next === 'in_state' ? filters.home_state : null });
+            }}>
               {({ in_state: 'US in-state', out_of_state: 'US out-of-state', international: "I'm international" } as Record<string, string>)[r]}
             </Chip>
           ))}
+          {filters.residency === 'in_state' && (
+            <select aria-label="Your home state" value={filters.home_state ?? ''} onChange={(e) => onChange({ ...filters, home_state: (e.target.value || null) as Filters['home_state'] })}
+              className="bg-white border border-line rounded-md px-2 py-1.5 text-[16px] sm:text-[12px] text-muted">
+              <option value="">Which state do you live in?</option>
+              {STATE_CODES.map((s) => <option key={s} value={s}>{stateName(s)}</option>)}
+            </select>
+          )}
         </div>
-        <p className="text-[12px] text-faint mt-2">No residency picked: we use the higher out-of-state price at public universities. Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
+        {filters.residency === 'in_state' && !filters.home_state && (
+          <p className="text-[12px] text-muted mt-2">Pick your state. The in-state price only applies to public universities in that state; everywhere else we show out-of-state.</p>
+        )}
+        <p className="text-[12px] text-faint mt-2">{filters.residency == null && 'No residency picked: we use the higher out-of-state price at public universities. '}Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
       </div>
 
       <Group title="Where in the US" hint="Not sure? Leave it blank.">

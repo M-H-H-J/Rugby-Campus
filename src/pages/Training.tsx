@@ -1,18 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import CoachingEnquiry from '@/components/CoachingEnquiry';
 import HughPhoto from '@/components/HughPhoto';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
+import { readParam, writeParams } from '@/lib/search/urlState';
+import { hasTrainingUnlock, rememberEmailUnlock, rememberTrainingUnlock, TRAINING_EMAIL_PARAM } from '@/lib/unlock';
 
 export default function Training() {
   usePageMeta('Rugby Training', 'A free sample strength block, plus paid one-on-one coaching for high-school players getting ready for US college rugby.');
   const [email, setEmail] = useState('');
-  const [unlocked, setUnlocked] = useState(false);
+  const [unlocked, setUnlocked] = useState(() => hasTrainingUnlock() || readParam(TRAINING_EMAIL_PARAM) === '1');
+  const [busy, setBusy] = useState(false);
+
+  // The welcome email links to /training?unlocked=1, so the link opens the days on any device.
+  useEffect(() => {
+    if (readParam(TRAINING_EMAIL_PARAM) !== '1') return;
+    rememberTrainingUnlock();
+    setUnlocked(true);
+    writeParams({ [TRAINING_EMAIL_PARAM]: null });
+  }, []);
 
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    // The program is free; the email is how Hugh follows up. A failed save still opens the days.
     await captureEmail(email, 'training_program');
+    rememberTrainingUnlock();
+    rememberEmailUnlock();
+    setBusy(false);
     setUnlocked(true);
   };
 
@@ -73,8 +90,8 @@ export default function Training() {
                 placeholder="Your email" required
                 className="w-full px-4 py-3 rounded-md border border-line text-[14px] outline-none focus:border-navy transition-colors"
               />
-              <button type="submit" className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold">
-                Unlock days 2–4
+              <button type="submit" disabled={busy} className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold disabled:opacity-60">
+                {busy ? 'Unlocking…' : 'Unlock days 2–4'}
               </button>
             </form>
           )}

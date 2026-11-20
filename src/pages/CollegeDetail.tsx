@@ -33,7 +33,9 @@ export default function CollegeDetail() {
 
   usePageMeta(
     college ? `${college.name} Rugby` : 'College Not Found',
-    college ? collegeMetaDescription(college) : undefined
+    college ? collegeMetaDescription(college) : undefined,
+    undefined,
+    college?.imageUrl,
   );
   // Unknown or retired slug: keep this "not found" page out of search engines.
   useNoindex(!college);

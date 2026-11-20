@@ -17,34 +17,40 @@ function ping(path: string, body: Record<string, unknown>): void {
   try { void fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, website: '' }), keepalive: true }).catch(() => {}); } catch { /* ignore */ }
 }
 
-export async function captureEmail(email: string, source: EmailSource, opts: { article?: string } = {}): Promise<boolean> {
-  // search_shortlist gets its own email from /api/shortlist-email; every other box gets a short thank-you.
-  if (source !== 'search_shortlist') ping('/api/welcome-email', { email, source, article: opts.article });
+/** True only when the address was stored (or was already there). The thank-you email goes out after that. */
+export async function captureEmail(email: string, source: EmailSource): Promise<boolean> {
   const sb = getSupabase();
+  let saved = true;
   if (!sb) {
     console.info(`[RugbyCampus] email captured (no DB configured): ${email} — ${source}`);
-    return true;
+  } else {
+    const { error } = await sb.from('email_subscribers').insert({ email, source }).then((r) => r, () => ({ error: { message: 'network', code: '' } }));
+    if (error && error.code !== '23505' && !error.message.includes('duplicate')) {
+      console.error('captureEmail failed:', error.message);
+      saved = false;
+    }
   }
-  const { error } = await sb.from('email_subscribers').insert({ email, source });
-  if (error && !error.message.includes('duplicate')) {
-    console.error('captureEmail failed:', error.message);
-    return false;
-  }
-  return true;
+  // search_shortlist gets its own email from /api/shortlist-email; every other box gets a short thank-you.
+  if (saved && source !== 'search_shortlist') ping('/api/welcome-email', { email, source });
+  return saved;
 }
 
 export interface ContactMessage { name: string; email: string; type: string; message: string; }
 
+/** True when Hugh has the message: saved to the contacts table, or the notification email was accepted. */
 export async function submitContact(msg: ContactMessage): Promise<boolean> {
-  ping('/api/contact', { ...msg });
+  const mailed = fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...msg, website: '' }) })
+    .then(async (r) => r.ok && (await r.json().catch(() => ({}))).notified === true)
+    .catch(() => false);
   const sb = getSupabase();
-  if (!sb) {
-    console.info('[RugbyCampus] contact (no DB configured):', msg);
-    return true;
-  }
-  const { error } = await sb.from('contacts').insert(msg);
-  if (error) { console.error('submitContact failed:', error.message); return false; }
-  return true;
+  const saved = sb
+    ? sb.from('contacts').insert(msg).then(({ error }) => {
+      if (error) console.error('submitContact failed:', error.message);
+      return !error;
+    }, () => false)
+    : Promise.resolve(false);
+  const [a, b] = await Promise.all([mailed, saved]);
+  return a || b;
 }
 
 

@@ -3,8 +3,7 @@ import { createPortal } from 'react-dom';
 import { Lock, X, Check, ExternalLink } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { COACH_EMAIL_TIPS, coachEmailBody, coachEmailSubject } from '@/data/coachEmailTemplate';
-
-const STORAGE_KEY = 'rc_unlocked';
+import { hasEmailUnlock, rememberEmailUnlock } from '@/lib/unlock';
 const FOCUSABLE = 'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])';
 
 function EmailTemplate({ collegeName, open }: { collegeName: string; open: boolean }) {
@@ -62,7 +61,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
   const titleId = useId();
 
   useEffect(() => {
-    try { if (localStorage.getItem(STORAGE_KEY) === 'true') setUnlocked(true); } catch { /* private mode */ }
+    if (hasEmailUnlock()) setUnlocked(true);
   }, []);
 
   const closeModal = () => { setShowModal(false); setDone(false); setTimeout(() => trigger.current?.focus(), 0); };
@@ -74,7 +73,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
     e.preventDefault();
     setBusy(true);
     await captureEmail(email, 'coach_unlock');
-    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch { /* private mode */ }
+    rememberEmailUnlock();
     setBusy(false);
     setUnlocked(true);
     setJustUnlocked(true);
