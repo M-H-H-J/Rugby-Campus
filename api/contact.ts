@@ -1,7 +1,7 @@
 // POST /api/contact { name, email, type, message, website (honeypot) }
 // The message is saved to the contacts table by the browser first (submitContact). This only sends:
 // 1) a notification to hello@rugbycampus.org (reply-to = the visitor, so Hugh can just hit Reply), 2) a short auto-reply to the visitor.
-import { hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { overLimit } from './_lib/limits.js';
 import { sendMail, HELLO } from './_lib/mail.js';
 
@@ -10,7 +10,7 @@ const TYPES = ['placement', 'coaching', 'featured_program', 'general'];
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.replace(/\r/g, '').trim().slice(0, max) : '');
 
 export default async function handler(req: Req, res: Res) {
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false }); }
+  if (rejectRequest(req, res)) return;
   const b = readBody(req);
   if (typeof b.website === 'string' && b.website.trim()) return send(res, 200, { ok: true, notified: false, replied: false });
   const email = clean(b.email, 254).toLowerCase();

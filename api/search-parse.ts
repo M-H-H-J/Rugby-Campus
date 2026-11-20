@@ -3,7 +3,7 @@
 import { callModel, getModelConfig } from './_lib/llm.js';
 import { writeSearchLog } from './_lib/logsink.js';
 import { capMicros, costMicros, monthKey } from './_lib/pricing.js';
-import { clientIp, ensureSid, hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { clientIp, ensureSid, hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
 import { cleanSentence, FILTER_VERSION, parseFilters, stripPII } from '../src/lib/search/filters.js';
 
@@ -18,7 +18,7 @@ const MSG = {
 
 export default async function handler(req: Req, res: Res) {
   const t0 = Date.now();
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false, reason: 'method', message: 'POST only' }); }
+  if (rejectRequest(req, res)) return;
   const body = readBody(req);
   const sentence = cleanSentence(body.sentence);
   if (sentence.length < 3) return send(res, 400, { ok: false, reason: 'bad_input', message: MSG.bad });

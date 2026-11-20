@@ -1,6 +1,6 @@
 // POST /api/shortlist-email { email, slugs[], sentence?, website (honeypot) }
 // Saves the visitor's email + shortlist. No gating, no double opt-in (Hugh's decision). Optionally emails the list via Resend.
-import { clientIp, hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { clientIp, hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
 import { sendMail, SITE } from './_lib/mail.js';
 import { COLLEGE_NAMES } from './_lib/collegeNames.js';
@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 const SLUG_RE = /^[a-z0-9-]{3,80}$/;
 
 export default async function handler(req: Req, res: Res) {
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false }); }
+  if (rejectRequest(req, res)) return;
   const b = readBody(req);
   if (typeof b.website === 'string' && b.website.trim()) return send(res, 200, { ok: true, emailed: false }); // honeypot: pretend success
   const email = typeof b.email === 'string' ? b.email.trim().toLowerCase() : '';

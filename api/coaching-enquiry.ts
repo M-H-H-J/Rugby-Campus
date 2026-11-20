@@ -1,7 +1,7 @@
 // POST /api/coaching-enquiry { firstName, lastName, age, location, position, email, whatsapp, website (honeypot) }
 // Sends: 1) the enquiry to hello@rugbycampus.org (reply-to = the player, so Hugh can just hit Reply),
 // 2) a short auto-reply to the player. The browser also saves a copy to the contacts table (type 'coaching').
-import { hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { overLimit } from './_lib/limits.js';
 import { sendMail, HELLO } from './_lib/mail.js';
 
@@ -9,7 +9,7 @@ const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
 const line = (v: unknown, max: number) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '');
 
 export default async function handler(req: Req, res: Res) {
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false }); }
+  if (rejectRequest(req, res)) return;
   const b = readBody(req);
   if (typeof b.website === 'string' && b.website.trim()) return send(res, 200, { ok: true, notified: false, replied: false });
   const firstName = line(b.firstName, 60), lastName = line(b.lastName, 60), age = line(b.age, 3);

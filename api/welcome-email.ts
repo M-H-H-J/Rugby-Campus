@@ -1,7 +1,7 @@
 // POST /api/welcome-email { email, source, article?, website (honeypot) }
 // Sends a short thank-you for a sign-up box. The address itself is saved by the browser (captureEmail) before this is called,
 // so a failed send never blocks a sign-up. Always answers 200 for valid input; `emailed` says whether Resend took it.
-import { hashed, readBody, send, type Req, type Res } from './_lib/http.js';
+import { hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { overLimit, firstTime } from './_lib/limits.js';
 import { sendMail, SITE } from './_lib/mail.js';
 
@@ -23,7 +23,7 @@ export function welcomeCopy(source: WelcomeSource, article?: string): { subject:
 }
 
 export default async function handler(req: Req, res: Res) {
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return send(res, 405, { ok: false }); }
+  if (rejectRequest(req, res)) return;
   const b = readBody(req);
   if (typeof b.website === 'string' && b.website.trim()) return send(res, 200, { ok: true, emailed: false }); // honeypot
   const email = typeof b.email === 'string' ? b.email.trim().toLowerCase() : '';

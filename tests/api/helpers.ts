@@ -5,7 +5,7 @@ export interface FakeRes { code: number; body: any; headers: Record<string, any>
 export async function call(h: (req: any, res: any) => Promise<unknown>, body: unknown, headers: Record<string, string> = {}, method = 'POST'): Promise<FakeRes> {
   const out: FakeRes = { code: 200, body: null, headers: {} };
   const res = { status(n: number) { out.code = n; return res; }, json(b: unknown) { out.body = b; }, setHeader(k: string, v: unknown) { out.headers[k.toLowerCase()] = v; }, end() {} };
-  await h({ method, headers: { 'x-forwarded-for': '203.0.113.7', ...headers }, body }, res);
+  await h({ method, headers: { 'x-forwarded-for': '203.0.113.7', 'content-type': 'application/json', host: 'www.rugbycampus.org', ...headers }, body }, res);
   return out;
 }
 export const search = (sentence: unknown, headers: Record<string, string> = {}) => call(handler as never, { sentence }, headers);
