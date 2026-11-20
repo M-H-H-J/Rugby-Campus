@@ -82,7 +82,17 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
               {({ in_state: 'US in-state', out_of_state: 'US out-of-state', international: "I'm international" } as Record<string, string>)[r]}
             </Chip>
           ))}
+          {filters.residency === 'in_state' && (
+            <select aria-label="Your home state" value={filters.home_state ?? ''} onChange={(e) => onChange({ ...filters, home_state: e.target.value || null })}
+              className="bg-white border border-line rounded-md px-2 py-1.5 text-[16px] sm:text-[12px] text-muted">
+              <option value="">Which state do you live in?</option>
+              {STATE_CODES.map((s) => <option key={s} value={s}>{stateName(s)}</option>)}
+            </select>
+          )}
         </div>
+        {filters.residency === 'in_state' && !filters.home_state && (
+          <p className="text-[12px] text-muted mt-2">Pick your state. The in-state price only applies to public universities in that state; everywhere else we show out-of-state.</p>
+        )}
         <p className="text-[12px] text-faint mt-2">No residency picked: we use the higher out-of-state price at public universities. Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
       </div>
 
