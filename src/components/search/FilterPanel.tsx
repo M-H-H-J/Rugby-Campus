@@ -93,7 +93,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
         {filters.residency === 'in_state' && !filters.home_state && (
           <p className="text-[12px] text-muted mt-2">Pick your state. The in-state price only applies to public universities in that state; everywhere else we show out-of-state.</p>
         )}
-        <p className="text-[12px] text-faint mt-2">No residency picked: we use the higher out-of-state price at public universities. Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
+        <p className="text-[12px] text-faint mt-2">{filters.residency == null && 'No residency picked: we use the higher out-of-state price at public universities. '}Rugby aid varies by school and is often limited or none, so ask the coach what's available.</p>
       </div>
 
       <Group title="Where in the US" hint="Not sure? Leave it blank.">
