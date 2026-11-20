@@ -162,3 +162,21 @@ describe('shortlist email', () => {
     expect(l).toContain('brown-university'); expect(l).not.toContain('<script>'); expect(l).not.toContain('kid@example.com');
   });
 });
+
+describe('launch day words (mock model)', () => {
+  it('"international student, under $40k" reads international and the budget', async () => {
+    const r = await search('international student, under $40k');
+    expect(r.body.filters.residency).toBe('international');
+    expect(r.body.filters.max_cost_usd_per_year).toBe(40000);
+  });
+  it('"competitive" never maps to the Tier 3 key on its own', async () => {
+    for (const s of ['competitive rugby', 'somewhere competitive, engineering']) {
+      const r = await search(s);
+      expect(r.body.filters.rugby_tier.sort(), s).toEqual(['championship', 'playoff']);
+    }
+  });
+  it('"championship rugby" is Tier 1', async () => {
+    const r = await search('championship rugby and business');
+    expect(r.body.filters.rugby_tier).toEqual(['championship']);
+  });
+});
