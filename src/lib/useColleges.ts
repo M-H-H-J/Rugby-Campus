@@ -70,72 +70,94 @@ export function preferBundledMlr(remote: RemoteCollege, local: College | undefin
   };
 }
 
+/** Merges live rows over the bundle. Bundled programs missing from the table are kept at the end. */
+export function mergeRemote(live: Record<string, unknown>[]): College[] {
+  const seen = new Set<string>();
+  const mapped = live.map((r: Record<string, unknown>) => {
+    const slug = r.slug as string;
+    seen.add(slug);
+    const local = bundledBySlug.get(slug);
+    const remoteTemps = r.monthly_temps ?? r.monthlyTemps;
+    const temps = Array.isArray(remoteTemps) && remoteTemps.length === 12
+      ? remoteTemps
+      : (local?.monthlyTemps ?? []);
+    const remoteId = typeof r.id === 'number' ? r.id : Number(r.id);
+
+    return {
+      ...r,
+      id: Number.isFinite(remoteId) ? remoteId : local?.id,
+      popularMajors: r.popular_majors ?? r.popularMajors ?? local?.popularMajors ?? [],
+      monthlyTemps: temps,
+      weatherSummary: temps.length === 12
+        ? remoteText(r.weather_summary ?? r.weatherSummary, local?.weatherSummary ?? '')
+        : (local?.weatherSummary ?? ''),
+      coachName: remoteCoachField(r, 'coach_name', 'coachName', local?.coachName ?? ''),
+      coachEmail: remoteCoachField(r, 'coach_email', 'coachEmail', local?.coachEmail ?? ''),
+      ...preferBundledMlr(r, local),
+      playerCount: local ? local.playerCount : (r.player_count ?? r.playerCount ?? 0),
+      playerCountNote: local?.playerCountNote,
+      season: local?.season,
+      clubContactName: local?.clubContactName,
+      clubContactEmail: local?.clubContactEmail,
+      contactNote: local?.contactNote,
+      tier: remoteText(r.tier, local?.tier ?? 'emerging'),
+      programType: typeof (r.program_type ?? r.programType) === 'string'
+        ? (r.program_type ?? r.programType)
+        : (local?.programType ?? 'Club'),
+      rugbyProgramUrl: local ? local.rugbyProgramUrl : remoteText(r.rugby_program_url ?? r.rugbyProgramUrl, ''),
+      recruitmentFormUrl: remoteText(r.recruitment_form_url ?? r.recruitmentFormUrl, local?.recruitmentFormUrl ?? ''),
+      assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? local?.assistantCoaches ?? [],
+      imageUrl: remoteText(r.image_url ?? r.imageUrl, local?.imageUrl ?? ''),
+      imageCredit: remoteText(r.image_credit ?? r.imageCredit, local?.imageCredit ?? ''),
+      imageSourcePage: remoteText(r.image_source_page ?? r.imageSourcePage, local?.imageSourcePage ?? ''),
+      mapX: r.map_x ?? r.mapX,
+      mapY: r.map_y ?? r.mapY,
+    } as College;
+  });
+  const extras = bundled.filter((c) => !seen.has(c.slug));
+  return [...mapped, ...extras];
+}
+
+/** One Supabase read per page load, shared by every page that asks. A failed read is retried on the next mount. */
+let remote: Promise<College[] | null> | null = null;
+let remoteResult: College[] | null = null;
+
+export function loadRemoteColleges(): Promise<College[] | null> {
+  const sb = getSupabase();
+  if (!sb) return Promise.resolve(null);
+  if (!remote) {
+    remote = Promise.resolve(sb.from('colleges').select('*').order('name')).then(({ data: rows, error }) => {
+      const live = rows ? dropRetired(rows as Record<string, unknown>[]) : [];
+      if (error || live.length === 0) { remote = null; return null; }
+      remoteResult = mergeRemote(live);
+      return remoteResult;
+    }, () => { remote = null; return null; });
+  }
+  return remote;
+}
+
+/** Test hook: forget the cached read. */
+export function resetRemoteColleges() { remote = null; remoteResult = null; }
+
 /**
  * Loads colleges from Supabase when configured; otherwise the bundled data.
- * Editing a row in the Supabase dashboard updates the live site instantly.
+ * Editing a row in the Supabase dashboard updates the live site on the next page load.
  * The database wins for the fields it stores. The bundle fills blanks and
  * covers a Supabase outage, except coach name and email: those are owned by the
  * table, so a blank there stays blank (see remoteCoachField).
  */
 export function useColleges(): { colleges: College[]; source: 'supabase' | 'bundled' } {
-  const [data, setData] = useState<College[]>(bundled);
-  const [source, setSource] = useState<'supabase' | 'bundled'>('bundled');
+  const [data, setData] = useState<College[]>(() => remoteResult ?? bundled);
+  const [source, setSource] = useState<'supabase' | 'bundled'>(() => (remoteResult ? 'supabase' : 'bundled'));
 
   useEffect(() => {
-    const sb = getSupabase();
-    if (!sb) return;
+    if (remoteResult) return;
     let cancelled = false;
-    (async () => {
-      const { data: rows, error } = await sb.from('colleges').select('*').order('name');
-      const live = rows ? dropRetired(rows as Record<string, unknown>[]) : [];
-      if (!cancelled && !error && live.length > 0) {
-        const seen = new Set<string>();
-        const mapped = live.map((r: Record<string, unknown>) => {
-          const slug = r.slug as string;
-          seen.add(slug);
-          const local = bundledBySlug.get(slug);
-          const remoteTemps = r.monthly_temps ?? r.monthlyTemps;
-          const temps = Array.isArray(remoteTemps) && remoteTemps.length === 12
-            ? remoteTemps
-            : (local?.monthlyTemps ?? []);
-          const remoteId = typeof r.id === 'number' ? r.id : Number(r.id);
-
-          return {
-            ...r,
-            id: Number.isFinite(remoteId) ? remoteId : local?.id,
-            popularMajors: r.popular_majors ?? r.popularMajors ?? local?.popularMajors ?? [],
-            monthlyTemps: temps,
-            weatherSummary: temps.length === 12
-              ? remoteText(r.weather_summary ?? r.weatherSummary, local?.weatherSummary ?? '')
-              : (local?.weatherSummary ?? ''),
-            coachName: remoteCoachField(r, 'coach_name', 'coachName', local?.coachName ?? ''),
-            coachEmail: remoteCoachField(r, 'coach_email', 'coachEmail', local?.coachEmail ?? ''),
-            ...preferBundledMlr(r, local),
-            playerCount: local ? local.playerCount : (r.player_count ?? r.playerCount ?? 0),
-            playerCountNote: local?.playerCountNote,
-            season: local?.season,
-            clubContactName: local?.clubContactName,
-            clubContactEmail: local?.clubContactEmail,
-            contactNote: local?.contactNote,
-            tier: remoteText(r.tier, local?.tier ?? 'emerging'),
-            programType: typeof (r.program_type ?? r.programType) === 'string'
-              ? (r.program_type ?? r.programType)
-              : (local?.programType ?? 'Club'),
-            rugbyProgramUrl: local ? local.rugbyProgramUrl : remoteText(r.rugby_program_url ?? r.rugbyProgramUrl, ''),
-            recruitmentFormUrl: remoteText(r.recruitment_form_url ?? r.recruitmentFormUrl, local?.recruitmentFormUrl ?? ''),
-            assistantCoaches: r.assistant_coaches ?? r.assistantCoaches ?? local?.assistantCoaches ?? [],
-            imageUrl: remoteText(r.image_url ?? r.imageUrl, local?.imageUrl ?? ''),
-            imageCredit: remoteText(r.image_credit ?? r.imageCredit, local?.imageCredit ?? ''),
-            imageSourcePage: remoteText(r.image_source_page ?? r.imageSourcePage, local?.imageSourcePage ?? ''),
-            mapX: r.map_x ?? r.mapX,
-            mapY: r.map_y ?? r.mapY,
-          } as College;
-        });
-        const extras = bundled.filter((c) => !seen.has(c.slug));
-        setData([...mapped, ...extras]);
-        setSource('supabase');
-      }
-    })();
+    loadRemoteColleges().then((merged) => {
+      if (cancelled || !merged) return;
+      setData(merged);
+      setSource('supabase');
+    });
     return () => { cancelled = true; };
   }, []);
 
