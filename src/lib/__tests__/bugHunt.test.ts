@@ -14,6 +14,9 @@ import { hasExactAlias, matchesCollegeQuery } from '@/lib/collegeAliases';
 import { colleges } from '@/data/colleges';
 import { remoteCoachField } from '@/lib/useColleges';
 import { absImageUrl, canonicalFor } from '@/lib/usePageMeta';
+import { hasEmailUnlock, hasTrainingUnlock, rememberEmailUnlock, rememberTrainingUnlock, TRAINING_EMAIL_PARAM } from '@/lib/unlock';
+import { welcomeCopy } from '../../../api/welcome-email';
+import { existsSync } from 'node:fs';
 
 const F = (facts as unknown as FactsFile).colleges;
 
@@ -165,5 +168,34 @@ describe('bug hunt S9: share tags follow in-app navigation', () => {
     expect(meta).toContain("setMeta('meta[property=\"og:url\"]'");
     expect(src('src/pages/CollegeDetail.tsx')).toContain('college?.imageUrl,');
     expect(src('src/pages/About.tsx')).toContain("'/images/hugh/hugh-johnston-headshot-og.jpg'");
+  });
+});
+
+describe('bug hunt S8: the Training unlock survives a reload, and the email link opens it', () => {
+  it('a training unlock is remembered; the email-link unlock opens training but not coach emails', () => {
+    const viaLink = memoryStorage();
+    rememberTrainingUnlock(viaLink);
+    expect(hasTrainingUnlock(viaLink)).toBe(true);
+    expect(hasEmailUnlock(viaLink)).toBe(false);
+    const viaCoachBox = memoryStorage();
+    rememberEmailUnlock(viaCoachBox);
+    expect(hasTrainingUnlock(viaCoachBox)).toBe(true);
+    expect(hasTrainingUnlock(memoryStorage())).toBe(false);
+  });
+
+  it('the training welcome email links to the unlocked page', () => {
+    expect(TRAINING_EMAIL_PARAM).toBe('unlocked');
+    expect(welcomeCopy('training_program').text).toContain('https://www.rugbycampus.org/training?unlocked=1');
+  });
+
+  it('Training reads the stored unlock and the link parameter, and stores both unlocks on submit', () => {
+    const t = src('src/pages/Training.tsx');
+    expect(t).toContain('useState(() => hasTrainingUnlock() || readParam(TRAINING_EMAIL_PARAM) === \'1\')');
+    expect(t).toMatch(/rememberTrainingUnlock\(\);\s*rememberEmailUnlock\(\);/);
+    expect(src('src/components/CoachEmailUnlock.tsx')).toContain('hasEmailUnlock()');
+  });
+
+  it('the dead second unlock module is gone (N12)', () => {
+    expect(existsSync(resolve(__dirname, '../email-store.ts'))).toBe(false);
   });
 });

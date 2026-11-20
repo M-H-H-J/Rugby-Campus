@@ -13,7 +13,7 @@ const SOURCES: WelcomeSource[] = ['newsletter', 'coach_unlock', 'training_progra
 export function welcomeCopy(source: WelcomeSource): { subject: string; text: string } {
   switch (source) {
     case 'training_program': return { subject: 'Your 4-day program', text:
-      `Here's the 4-day program: ${SITE}/training\n\nIt's what I'd give a player getting ready for college rugby. Lift with good form before you add weight, and don't skip the conditioning days.\n\nIf you want a program built around your position and your season, reply to this email.\n\nHugh` };
+      `Here's the 4-day program: ${SITE}/training?unlocked=1\n\nIt's what I'd give a player getting ready for college rugby. Lift with good form before you add weight, and don't skip the conditioning days.\n\nIf you want a program built around your position and your season, reply to this email.\n\nHugh` };
     case 'coach_unlock': return { subject: 'Coach emails unlocked', text:
       `You can now see coach emails on every college page: ${SITE}/colleges\n\nKeep your first email short: your position, your year, a highlight link and your grades. Coaches get a lot of these, and the clear ones get answered.\n\nHugh` };
     case 'article_notify': return { subject: "You'll get it when it's out", text:
