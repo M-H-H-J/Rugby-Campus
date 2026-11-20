@@ -101,6 +101,6 @@ describe('bug hunt S3: "I live in <state>" pricing', () => {
   it('the filter panel asks for a home state when "US in-state" is picked', () => {
     const p = src('src/components/search/FilterPanel.tsx');
     expect(p).toContain('aria-label="Your home state"');
-    expect(p).toContain('home_state: e.target.value || null');
+    expect(p).toContain('home_state: (e.target.value || null)');
   });
 });

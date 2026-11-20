@@ -83,7 +83,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
             </Chip>
           ))}
           {filters.residency === 'in_state' && (
-            <select aria-label="Your home state" value={filters.home_state ?? ''} onChange={(e) => onChange({ ...filters, home_state: e.target.value || null })}
+            <select aria-label="Your home state" value={filters.home_state ?? ''} onChange={(e) => onChange({ ...filters, home_state: (e.target.value || null) as Filters['home_state'] })}
               className="bg-white border border-line rounded-md px-2 py-1.5 text-[16px] sm:text-[12px] text-muted">
               <option value="">Which state do you live in?</option>
               {STATE_CODES.map((s) => <option key={s} value={s}>{stateName(s)}</option>)}
