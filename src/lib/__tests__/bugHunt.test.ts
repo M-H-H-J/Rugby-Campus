@@ -282,4 +282,22 @@ describe('bug hunt nitpicks (site)', () => {
     expect(sql).toMatch(/^BEGIN;$/m);
     expect(sql).toMatch(/^COMMIT;$/m);
   });
+
+  it('S12 (review M2): no client created_at, per-address brake, reversible de-dup, safe to re-run', () => {
+    const sql = src('supabase/manual/2026-11-20-abuse-limits.sql');
+    const body = sql.split('\n').filter((l) => !l.trim().startsWith('--')).join('\n');
+    expect(body).toContain('NEW.created_at := now();');
+    expect(body).toMatch(/WHERE lower\(email\) = lower\(\$1\)/);
+    expect(body).not.toMatch(/WHERE created_at > now\(\) - interval ''1 minute''/);
+    const backup = body.indexOf('CREATE TABLE IF NOT EXISTS public.email_subscribers_backup_20261120 AS TABLE public.email_subscribers');
+    expect(backup).toBeGreaterThan(-1);
+    expect(backup).toBeLessThan(body.indexOf('DELETE FROM public.email_subscribers'));
+    for (const name of ['email_subscribers_email_shape', 'email_subscribers_source_known', 'contacts_sizes']) {
+      expect(body.indexOf(`DROP CONSTRAINT IF EXISTS ${name}`), name).toBeLessThan(body.indexOf(`ADD CONSTRAINT ${name}`));
+    }
+    expect(sql).toMatch(/-- INSERT INTO public\.email_subscribers .*OVERRIDING SYSTEM VALUE/);
+    const form = src('src/components/ContactForm.tsx');
+    expect(form).toContain('maxLength={5000}');
+    expect(form).toContain('maxLength={200}');
+  });
 });

@@ -38,10 +38,10 @@ export default function ContactForm({ type, submitLabel = 'Send inquiry', messag
   return (
     <form onSubmit={submit} className="space-y-3 max-w-md">
       <div className="grid sm:grid-cols-2 gap-3">
-        <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className={input} />
+        <input type="text" required value={name} onChange={(e) => setName(e.target.value)} maxLength={200} placeholder="Your name" className={input} />
         <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" className={input} />
       </div>
-      <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder={messagePlaceholder} rows={4} className={input} />
+      <textarea required maxLength={5000} value={message} onChange={(e) => setMessage(e.target.value)} placeholder={messagePlaceholder} rows={4} className={input} />
       {state === 'failed' && <SaveError dark={dark} />}
       <button type="submit" disabled={busy}
         className={`btn px-6 py-3 rounded-md text-[13px] font-bold disabled:opacity-60 ${dark ? 'bg-gold text-dark' : 'bg-navy text-white'}`}>
