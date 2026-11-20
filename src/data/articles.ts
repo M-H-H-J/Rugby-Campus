@@ -49,7 +49,7 @@ My view on strength: the very top of D1A is generally stronger than the top of N
 
 **D1A**: highest CRAA level. Our Tier 1 here is Cal, Navy, Life, Lindenwood, Saint Mary's and Army. The championship is played in the spring.
 
-**D1AA**: next tier down in the CRAA structure (people confuse this with NCR's naming). Rugby is still competitive; programs like Dartmouth, Bowling Green, and Tennessee have made deep playoff runs in recent years.
+**D1AA**: next tier down in the CRAA structure (people confuse this with NCR's naming). Rugby is still competitive: St. Thomas (2025) and Western Washington (2026) both won the CRAA D1AA title and then moved up to D1A. NCR runs its own D1AA as well, where Tennessee and Bowling Green have made deep playoff runs.
 
 **NCR** also has its own Division 1 and lower divisions. Do not mix NCR D1 with CRAA D1A when you compare results.
 
@@ -182,7 +182,7 @@ Some programs are often strong: Cal, Navy, Life, Saint Mary's, Lindenwood. Even 
 
 Rankings (and many recruit conversations) obsess over 15s. Sevens is huge in American college rugby: own windows, own nationals, Olympic pathway.
 
-Ask the coach: **does this program do sevens?** NCR generally runs a **longer sevens season** than CRAA. A rough 15s year can still mean a serious 7s environment. If you are a quick back or a loose forward with an engine, sevens culture may matter more to your development than last fall's 15s rank.
+Ask the coach: **does this program do sevens?** Sevens calendars differ between NCR, CRAA and individual conferences, so ask how many sevens tournaments the team plays and when. A rough 15s year can still mean a serious 7s environment. If you are a quick back or a loose forward with an engine, sevens culture may matter more to your development than last fall's 15s rank.
 
 ## What to actually look at instead of rankings
 
@@ -218,7 +218,7 @@ In late 2023 Notre Dame College's rugby program was at the sharp end of NCR D1. 
 
 The program that had climbed hard over a decade, shaped a lot of lives including mine, did not lose because of results on the field. The ground disappeared under it.
 
-**Silver lining:** the program transferred to **Walsh University** in **North Canton, Ohio**. Many players and a lot of the culture carried across. Walsh is a legitimate NCR D1 side now. Find them on the [map](/map). If you had committed to NDC in mid-2024, you learned the hard version of a real American higher-ed risk: small colleges can close, and rugby goes with them.
+**Silver lining:** the program transferred to **Walsh University** in **North Canton, Ohio**. Many players and a lot of the culture carried across. Walsh is a legitimate NCR D1 side now. Find them on the [map](/map). If you had committed to NDC in late 2023 or early 2024, you learned the hard version of a real American higher-ed risk: small colleges can close, and rugby goes with them.
 
 ## Central Washington: varsity discontinued; club restart
 
@@ -370,7 +370,7 @@ Who you are, position, size, a highlights link, and why that program. Research t
 
 Rugby scholarships in the US exist, but they're rare and every school does it differently.
 
-Most college rugby isn't an NCAA sport, so the big athletic scholarships you hear about in football and basketball don't apply. A few varsity programs put some athletic money toward rugby. Most players who get help get it through academic aid instead.
+Most college rugby isn't an NCAA sport, so the big athletic scholarships you hear about in football and basketball don't apply. A few varsity programs put some athletic money toward rugby. Many players who get help get it through academic aid instead.
 
 There's no list that tells you who pays what. The only person who can answer that for a school is the coach. So ask.
 
