@@ -46,7 +46,8 @@ UPDATE public.colleges SET coach_name = 'John Harley', coach_email = 'jharley@ma
 UPDATE public.colleges SET coach_name = 'Paul Keeler', coach_email = 'pkeeler@scu.edu' WHERE slug = 'santa-clara-university';
 UPDATE public.colleges SET coach_name = 'Aric Gilliland', coach_email = 'agilliland@mail.snu.edu' WHERE slug = 'southern-nazarene-university';
 UPDATE public.colleges SET coach_name = 'Christian Mentzer', coach_email = 'mensrugby@umich.edu' WHERE slug = 'university-of-michigan';
-UPDATE public.colleges SET coach_name = 'Charlie Purdon', coach_email = 'usdrugbycoach@gmail.com' WHERE slug = 'university-of-san-diego';
+-- 2026-11-24: Purdon left; blank until USD names a coach.
+UPDATE public.colleges SET coach_name = '', coach_email = '' WHERE slug = 'university-of-san-diego';
 
 -- 6. Descriptions (the table wins over the repo for this field, so these must match colleges.ts).
 --    Army/Navy/Air Force: one citizenship line. Air Force/UCSC/Rio Grande/Aquinas: research notes removed. Ohio State: Big Ten.

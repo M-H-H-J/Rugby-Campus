@@ -549,7 +549,7 @@ export const colleges: College[] = [
     lat: 32.7717, lng: -117.1874, mapX: 98, mapY: 389.7,
     affiliation: "CRAA D1A", conference: "California", tier: "emerging", programType: "Club",
     draftPicks: 2, mlrPlayed: 1, mlrUnconfirmed: 1, mlrNoAppearance: 0, mlrNotYet: 0, playerCount: 38,
-    coachName: "Charlie Purdon", coachEmail: "usdrugbycoach@gmail.com",
+    coachName: "", coachEmail: "",
     rugbyProgramUrl: "https://www.usdrugby.org/", assistantCoaches: [],
     description: "San Diego went 5–1–1 in the southern half of the California Conference in 2025–26, including a 36–28 win over Long Beach State. The Toreros made the 2026 D1A playoffs as the West's No. 8 seed and lost in the first round at Cal.",
     enrollment: 5700, popularMajors: ["Business", "Engineering", "Biology", "Political Science"],
