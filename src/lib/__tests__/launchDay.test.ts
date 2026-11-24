@@ -69,13 +69,13 @@ describe('launch day: data in all three places', () => {
     expect(src('supabase/manual/2026-11-20-launch-fixes.sql')).toContain("SET conference = 'Big Ten' WHERE slug = 'the-ohio-state-university'");
   });
   it('the six Supabase-only coaches are in the bundle; owner-approved coaches are filled', () => {
-    const want: Record<string, string> = { 'dartmouth-college': 'Kyle Sumsion', 'marian-university': 'John Harley', 'santa-clara-university': 'Paul Keeler', 'southern-nazarene-university': 'Aric Gilliland', 'university-of-michigan': 'Christian Mentzer', 'university-of-san-diego': 'Charlie Purdon', 'university-of-california-santa-cruz': 'Jeremy Sanford' };
+    const want: Record<string, string> = { 'dartmouth-college': 'Kyle Sumsion', 'marian-university': 'John Harley', 'santa-clara-university': 'Paul Keeler', 'southern-nazarene-university': 'Aric Gilliland', 'university-of-michigan': 'Christian Mentzer', 'university-of-san-diego': '', 'university-of-california-santa-cruz': 'Jeremy Sanford' };
     for (const [s, n] of Object.entries(want)) expect(bySlug(s).coachName, s).toBe(n);
     for (const [s, n] of [['university-of-utah', 'Cam Diloreto'], ['western-washington-university', 'Adam Roberts'], ['the-ohio-state-university', 'Pete Malcolm']]) expect(bySlug(s).coachName, s).toBe(n);
     const sql = src('supabase/manual/2026-11-20-fact-fixes.sql');
     for (const s of ['university-of-utah', 'western-washington-university', 'the-ohio-state-university']) expect(sql, s).toMatch(new RegExp(`SET coach_name = '[^']+' WHERE slug = '${s}'`));
     expect(sql).not.toMatch(/coach_email\s*=/);
-    for (const s of ['kutztown-university', 'mckendree-university']) expect(bySlug(s).coachEmail, s).toBe('');
+    for (const s of ['kutztown-university', 'mckendree-university', 'university-of-san-diego']) expect(bySlug(s).coachEmail, s).toBe('');
   });
   it('academies share one citizenship line in the bundle and the facts', () => {
     for (const s of ACADEMIES) {
