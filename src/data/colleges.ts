@@ -39,6 +39,9 @@ export const TIER_LABELS: Record<Tier, string> = {
   emerging: 'Tier 4',
 };
 
+/** "2" for Tier 2: the value of a fact row whose label is already "Tier". */
+export const tierNumber = (t: Tier): string => TIER_LABELS[t].replace(/^Tier /, '');
+
 export const TIER_ORDER: Tier[] = [
   'championship',
   'playoff',

@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import { usePageMeta } from '@/lib/usePageMeta';
-import { CONTACT_EMAIL } from '@/config';
+import { CONTACT_EMAIL, HUGH_SOURCES, HUGH_TITLE } from '@/config';
 import HughPhoto from '@/components/HughPhoto';
 import CoachingEnquiry from '@/components/CoachingEnquiry';
 import { NDC_ABOUT_PHOTO } from '@/data/walshPhotos';
@@ -36,7 +36,7 @@ export default function About() {
             What I needed was a clear list of colleges: where they were, what level they played, how the system worked. I had no idea what Goff Rugby Report was. I did not understand NCR versus D1A. I was just trying to get over to study and play.
           </p>
           <p>
-            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong>, an Australian who joined Notre Dame College's rugby program in Ohio in fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In fall 2023 I came back as head coach; that season we won the NCR D1 National Championship.
+            I'm <strong className="font-semibold text-ink">Hugh Johnston</strong>, an Australian who joined Notre Dame College's rugby program in Ohio in fall 2019, at 17. That freshman year I was injured, but I was part of a team that played Rugby East against sides like Army, Navy, and Penn State. I captained later as the program moved from D1A to NCR D1, then played PR7s and club rugby in Austin. In fall 2023 I came back as men's rugby head coach; that season we won the NCR D1 National Championship.
           </p>
           <p>
             Notre Dame College has since closed. The experience, the people, and the lessons stayed.
@@ -69,7 +69,7 @@ export default function About() {
           {[
             ['Player & captain', 'Notre Dame College (D1A, then NCR D1)'],
             ['After college', 'PR7s and club rugby in Austin, Texas'],
-            ['Coach', 'Notre Dame College Head Coach, 2023 NCR D1 national champions'],
+            ['Coach', HUGH_TITLE],
           ].map(([label, value]) => (
             <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-6 py-4 border-b border-line">
               <dt className="text-[13px] text-faint sm:pt-0.5">{label}</dt>
@@ -77,6 +77,15 @@ export default function About() {
             </div>
           ))}
         </dl>
+        <p className="mt-4 text-[13px] text-muted leading-relaxed">
+          Check it yourself:{' '}
+          {HUGH_SOURCES.map((s, i) => (
+            <span key={s.url}>
+              {i > 0 && ' · '}
+              <a href={s.url} target="_blank" rel="noopener noreferrer me" className="text-navy underline underline-offset-2 hover:text-navy-deep">{s.label}</a>
+            </span>
+          ))}
+        </p>
       </section>
 
       {/* Questions — soft contact */}

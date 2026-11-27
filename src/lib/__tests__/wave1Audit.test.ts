@@ -247,3 +247,78 @@ describe('crawler parity and technical SEO', () => {
     expect(txt).toContain('2024 NCR D1 Finalists (lost 23–20 to Brown)');
   });
 });
+
+describe("Hugh's credential and verifiable sources", () => {
+  it('uses the exact title and the three public sources, with no Goff link', async () => {
+    const { HUGH_TITLE, HUGH_SOURCES } = await import('@/config');
+    expect(HUGH_TITLE).toBe("Men's Rugby Head Coach, Notre Dame College (2023 NCR D1 National Champions)");
+    expect(HUGH_SOURCES.map((s) => s.url)).toEqual([
+      'https://notredamefalcons.com/news/2023/12/10/mens-rugby-mens-rugby-wins-2023-national-championship.aspx',
+      'https://notredamefalcons.com/sports/mens-rugby/coaches',
+      'https://www.linkedin.com/in/hugh-johnston-au',
+    ]);
+    const about = src('src/pages/About.tsx');
+    expect(about).toContain('HUGH_SOURCES.map');
+    expect(about).toContain("['Coach', HUGH_TITLE]");
+    for (const p of ['src/pages/About.tsx', 'scripts/prerender.mjs', 'public/llms.txt']) expect(src(p), p).not.toMatch(/goffrugbyreport\.com|href="[^"]*goff/i);
+  });
+  it('built pages carry Person sameAs on every page and ProfilePage on /about', () => {
+    const about = dist('about/index.html'); if (!about) return;
+    const ld = (html: string) => JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1])['@graph'];
+    for (const p of ['about/index.html', 'index.html', 'colleges/walsh-university/index.html', 'learn/best-rugby-colleges-usa/index.html']) {
+      const person = ld(dist(p)!).find((x: { '@type': string }) => x['@type'] === 'Person');
+      expect(person.sameAs, p).toContain('https://www.linkedin.com/in/hugh-johnston-au');
+      expect(person.description, p).toContain("Men's Rugby Head Coach");
+    }
+    const profile = ld(about).find((x: { '@type': string }) => x['@type'] === 'ProfilePage');
+    expect(profile.mainEntity['@id']).toBe('https://www.rugbycampus.org/about#hugh');
+    expect(about).toContain('https://notredamefalcons.com/sports/mens-rugby/coaches');
+  });
+});
+
+describe('live QA catches', () => {
+  it('the Tier fact row is "Tier" + "2", never "Tier Tier 2"', async () => {
+    const { tierNumber } = await import('@/data/colleges');
+    expect(tierNumber('playoff')).toBe('2');
+    expect(src('src/pages/CollegeDetail.tsx')).toContain("['Tier', tierNumber(college.tier)]");
+    const html = dist('colleges/brigham-young-university/index.html'); if (!html) return;
+    expect(html).toContain('<dt><strong>Tier</strong></dt><dd>2</dd>');
+    expect(html).not.toMatch(/<dt><strong>Tier<\/strong><\/dt><dd>Tier/);
+  });
+  it('service academies read "US service academy", not "uS"', () => {
+    for (const s of ['united-states-military-academy-army', 'united-states-naval-academy', 'united-states-air-force-academy']) {
+      const html = dist(`colleges/${s}/index.html`); if (!html) return;
+      expect(html, s).toContain('US service academy');
+      expect(html, s).not.toContain('uS service academy');
+    }
+  });
+  it('FAQPage answers are plain text, without Markdown links or bold', () => {
+    for (const s of ['best-rugby-colleges-usa', 'how-to-play-rugby-college-usa']) {
+      const html = dist(`learn/${s}/index.html`); if (!html) return;
+      const faq = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)![1])['@graph'].find((x: { '@type': string }) => x['@type'] === 'FAQPage');
+      expect(faq.mainEntity.length, s).toBeGreaterThan(2);
+      for (const q of faq.mainEntity) expect(q.name + q.acceptedAnswer.text, s).not.toMatch(/\]\(|\*\*/);
+    }
+  });
+  it('San Diego keeps a blank coach, and its page still shows the coach block', () => {
+    expect(bySlug('university-of-san-diego').coachName).toBe('');
+    const html = dist('colleges/university-of-san-diego/index.html'); if (!html) return;
+    expect(html).toContain('<h2>Head coach</h2><p>Head coach not confirmed yet. To be confirmed.</p>');
+  });
+});
+
+describe('security cleanups', () => {
+  it('every page sends X-Frame-Options and Permissions-Policy alongside the existing headers', () => {
+    const all = JSON.parse(src('vercel.json')).headers.find((h: { source: string; headers: { key: string }[] }) => h.source === '/(.*)' && h.headers.some((x) => x.key === 'X-Content-Type-Options'));
+    expect(all.headers).toEqual(expect.arrayContaining([
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'X-Frame-Options', value: 'DENY' },
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+    ]));
+  });
+  it('.env files are ignored', () => {
+    const lines = src('.gitignore').split('\n');
+    expect(lines).toEqual(expect.arrayContaining(['.env', '.env.local']));
+  });
+});

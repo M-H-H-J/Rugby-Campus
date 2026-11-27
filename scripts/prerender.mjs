@@ -19,7 +19,7 @@ await build({ ...shared, entryPoints: [resolve(root, 'scripts/page-entry.tsx')],
   // react-dom/server is CommonJS and requires Node built-ins.
   banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" } });
 const { renderPage, PRIVACY_UPDATED, PRIVACY_TITLE, PRIVACY_DESCRIPTION } = await import(pathToFileURL(pagesTmp).href);
-const { colleges, articles, formatGuideDate, collegeUpdated, HOME_HEADLINE, homeDescription, MONEY_LINE, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, formatGuideDate, collegeUpdated, tierNumber, HOME_HEADLINE, homeDescription, MONEY_LINE, HUGH_TITLE, HUGH_SOURCES, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -30,7 +30,12 @@ const ORG = {
   '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: SITE_NAME, url: SITE_URL,
   logo: `${SITE_URL}/logo.png`, email: CONTACT_EMAIL,
   description: 'A free guide to US college rugby programs for aspiring players, built by a national championship-winning college coach.',
-  founder: { '@type': 'Person', name: 'Hugh Johnston', jobTitle: 'Founder', image: `${SITE_URL}/images/hugh/hugh-johnston-headshot-og.jpg`, description: '2023 NCR D1 National Championship-winning head coach, Notre Dame College' },
+  founder: { '@id': `${SITE_URL}/about#hugh` },
+};
+const PERSON = {
+  '@type': 'Person', '@id': `${SITE_URL}/about#hugh`, name: 'Hugh Johnston', url: `${SITE_URL}/about`, jobTitle: 'Founder, Rugby Campus',
+  image: `${SITE_URL}/images/hugh/hugh-johnston-headshot-og.jpg`, description: `${HUGH_TITLE}.`,
+  sameAs: HUGH_SOURCES.map((x) => x.url),
 };
 const WEBSITE = {
   '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: SITE_URL, name: SITE_NAME, publisher: { '@id': `${SITE_URL}/#org` },
@@ -49,7 +54,7 @@ const header = `<header class="prerender-header"><div class="prerender-header-in
 function page({ path, title, fullTitle: givenTitle, description, jsonld, body, image, noindex = false, file, lastmod, app = false }) {
   const url = path === '/' ? `${SITE_URL}/` : `${SITE_URL}${path}`;
   const fullTitle = givenTitle ?? (path === '/' ? `${SITE_NAME} | Best Rugby Colleges in America, Mapped` : `${title} | ${SITE_NAME}`);
-  const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': [ORG, WEBSITE, ...jsonld] });
+  const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': [ORG, PERSON, WEBSITE, ...jsonld] });
   const head = `
     <title>${esc(fullTitle)}</title>
     <meta name="description" content="${esc(description)}" />
@@ -91,7 +96,7 @@ const add = (opts) => {
 const DATA_LASTMOD = latest(colleges.map((c) => collegeUpdated(c.slug)));
 const GUIDES_LASTMOD = latest(articles.map((a) => a.updatedDate));
 // Static pages: bump the date when the page's own words change.
-const PAGE_LASTMOD = { '/': '2026-11-27', '/about': '2026-11-20', '/training': '2026-11-27', '/for-coaches': '2026-11-27' };
+const PAGE_LASTMOD = { '/': '2026-11-27', '/about': '2026-11-27', '/training': '2026-11-27', '/for-coaches': '2026-11-27' };
 const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a></nav>`;
 const byTier = (t) => colleges.filter((c) => c.tier === t);
 
@@ -121,12 +126,15 @@ add({
 add({ path: '/map', title: 'Interactive US College Rugby Map', lastmod: DATA_LASTMOD, description: `${colleges.length} US college rugby programs on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.`, jsonld: [],
   body: `<h1>Interactive college rugby map</h1><p>These are programs worth a look, not every college with a team.</p><div class="prerender-map" aria-hidden="true"></div>${nav}<ul>${colleges.map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a>, ${esc(c.location)}</li>`).join('')}</ul>` });
 
+// "Per year" -> "per year", but "US service academy" stays as it is.
+const lowerFirst = (t) => (/^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t);
+
 // Cost / study / campus facts from the search data (same numbers the college page shows)
 function factsHtml(slug) {
   const f = searchFacts[slug];
   if (!f) return '';
   const cost = costText(f);
-  const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}, ${cost.sub.charAt(0).toLowerCase()}${cost.sub.slice(1)}`]];
+  const rows = [['Cost per year', cost.askCoach ? 'Ask the coach' : `${cost.headline}, ${lowerFirst(cost.sub)}`]];
   if (f.campus_feel && CAMPUS_FEEL_LABEL[f.campus_feel]) rows.push(['Campus feel', CAMPUS_FEEL_LABEL[f.campus_feel]]);
   const band = sizeBand(f.enrollment_undergrad);
   if (band) rows.push(['Size', sizeText(f)]);
@@ -144,7 +152,7 @@ function factsHtml(slug) {
 // ── Each college ──
 for (const c of colleges) {
   const mlr = mlrSummary(c);
-  const facts = [['Affiliation', c.affiliation], ['Conference', c.conference], ['Tier', TIER_LABELS[c.tier]], ...(c.programType ? [['Program type', c.programType]] : []),
+  const facts = [['Affiliation', c.affiliation], ['Conference', c.conference], ['Tier', tierNumber(c.tier)], ...(c.programType ? [['Program type', c.programType]] : []),
     ...(c.playerCountNote || c.playerCount ? [['Squad size', c.playerCountNote || `~${c.playerCount} players`]] : []),
     ['Drafted in the MLR College Draft (2020–26)', mlr.draftedText],
     ['Played at least one MLR match (confirmed)', mlr.playedText],
@@ -164,7 +172,7 @@ for (const c of colleges) {
     <p><a href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Correction: ${c.name}`)}&amp;body=${encodeURIComponent(`I spotted something on ${SITE_URL}/colleges/${c.slug}:\n\n`)}">Spot something wrong? Tell us</a></p>
     ${factsHtml(c.slug)}
     ${c.achievements.length ? `<h2>Recent achievements</h2><ul>${c.achievements.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` : ''}
-    ${c.coachName ? `<h2>Head coach</h2><p>${esc(c.coachName)}.${c.coachEmail ? ' Email available on the page after a free one-time signup.' : ''}</p>` : ''}
+    <h2>Head coach</h2><p>${c.coachName ? `${esc(c.coachName)}.${c.coachEmail ? ' Email available on the page after a free one-time signup.' : ''}` : 'Head coach not confirmed yet. To be confirmed.'}</p>
     ${c.recruitmentFormUrl ? `<p><a href="${esc(c.recruitmentFormUrl)}" rel="noopener noreferrer" target="_blank">Recruitment form</a></p>` : ''}
     <p><a href="/colleges">All programs</a> · <a href="/map">Map</a> · <a href="/about">About</a></p>`,
   });
@@ -197,20 +205,23 @@ const mdToHtml = (md) => {
   return out.join('\n');
 };
 
+/** Markdown-ish guide text to plain text for JSON-LD: links keep their words, emphasis marks go. */
+const plainText = (t) => t.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
+
 for (const a of articles) {
   const faq = [];
   if (isFull(a)) {
     // Pull **Question?** / answer pairs for FAQ schema (used on the best-colleges guide)
     const lines = a.content.split('\n').map((l) => l.trim());
     for (let i = 0; i < lines.length; i++) {
-      if (/^\*\*.+\?\*\*$/.test(lines[i])) { const ans = lines.slice(i + 1).find((l) => l && !l.startsWith('#') && !l.startsWith('**')); if (ans) faq.push({ '@type': 'Question', name: lines[i].replace(/\*\*/g, ''), acceptedAnswer: { '@type': 'Answer', text: ans.replace(/\*\*/g, '') } }); }
+      if (/^\*\*.+\?\*\*$/.test(lines[i])) { const ans = lines.slice(i + 1).find((l) => l && !l.startsWith('#') && !l.startsWith('**')); if (ans) faq.push({ '@type': 'Question', name: plainText(lines[i]), acceptedAnswer: { '@type': 'Answer', text: plainText(ans) } }); }
     }
   }
   add({
     path: `/learn/${a.slug}`, title: a.title, fullTitle: a.metaTitle, description: a.metaDescription,
     lastmod: a.updatedDate,
     jsonld: [{ '@type': 'Article', headline: a.title, description: a.metaDescription, datePublished: a.publishedDate, dateModified: a.updatedDate,
-      author: { '@type': 'Person', name: 'Hugh Johnston', url: `${SITE_URL}/about` }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: `${SITE_URL}/logo.png` },
+      author: { '@id': PERSON['@id'] }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: `${SITE_URL}/logo.png` },
       ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])],
     body: `<p><em>${esc(a.category)} · ${esc(a.readTime)}</em></p><h1>${esc(a.title)}</h1><p>${esc(a.excerpt)}</p><p>By <a href="/about">Hugh Johnston</a> · Updated <time datetime="${a.updatedDate}">${esc(formatGuideDate(a.updatedDate))}</time></p>${isFull(a) ? mdToHtml(a.content) : '<p>This guide is being written. Sign up on the page to be notified.</p>'}<p>${nav}</p>`,
   });
@@ -221,7 +232,8 @@ for (const [path, title, description, image] of [
   ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.', '/images/hugh/hugh-johnston-headshot-og.jpg'],
   ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.'],
   ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.'],
-]) add({ path, title, description, jsonld: [], body: renderPage(path), image, lastmod: PAGE_LASTMOD[path], app: true });
+]) add({ path, title, description, body: renderPage(path), image, lastmod: PAGE_LASTMOD[path], app: true,
+  jsonld: path === '/about' ? [{ '@type': 'ProfilePage', '@id': `${SITE_URL}/about#page`, url: `${SITE_URL}/about`, name: title, mainEntity: { '@id': PERSON['@id'] }, dateModified: PAGE_LASTMOD['/about'] }] : [] });
 add({ path: '/privacy', title: PRIVACY_TITLE, description: PRIVACY_DESCRIPTION, jsonld: [], body: renderPage('/privacy'), lastmod: PRIVACY_UPDATED, app: true });
 
 // ── 404 (served by Vercel with status 404 for any unknown path; no canonical, noindex) ──
@@ -255,7 +267,7 @@ writeFileSync(resolve(dist, 'llms-full.txt'), [
   '',
   ORG.description,
   `Site: ${SITE_URL}`,
-  'Founder: Hugh Johnston — Australian, Notre Dame College captain, 2023 NCR D1 National Championship coach.',
+  `Founder: Hugh Johnston — Australian, Notre Dame College captain; ${HUGH_TITLE}. Sources: ${HUGH_SOURCES.map((x) => x.url).join(' , ')}`,
   SEASON_LABEL,
   `Coverage: ${colleges.length} men's college rugby programs. Women's programs are not listed yet.`,
   `${MONEY_LINE} Coach email addresses are shown after a free one-time email signup; everything else is open.`,

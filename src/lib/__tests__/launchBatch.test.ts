@@ -56,7 +56,8 @@ describe('launch fixes, 3 Nov 2026', () => {
     const about = copyOf('src/pages/About.tsx');
     expect(about).toContain('Being on both sides of recruiting calls, I was conscious that the decision potential athletes were about to make was a crucial one in their life. I was honest, upfront about Notre Dame College. We were a no-name college, without the best facilities, but we had a tight-knit group of boys from all across the world who all wanted to win. That honesty is some of the gap this site tries to fill.');
     expect(about).toContain('I never visited before I committed though, and it\'s okay if you can\'t.');
-    expect(about).toContain('2023 NCR D1 national champions');
+    expect(about).toContain("['Coach', HUGH_TITLE]");
+    expect(copyOf('src/config.ts')).toContain("Men's Rugby Head Coach, Notre Dame College (2023 NCR D1 National Champions)");
     expect(about).not.toMatch(/reply personally|Agencies vary/);
     expect((about.match(/Email me/g) ?? []).length).toBe(1);
     expect(src('scripts/prerender.mjs')).not.toContain('I reply personally');
