@@ -7,16 +7,22 @@ import { TIER_COLORS, TIER_HOLLOW } from '@/data/colleges';
 /**
  * Basemap: OpenFreeMap vector tiles (free, no API key, no usage limits; OSM data via OpenMapTiles), drawn by native
  * MapLibre GL. Not OpenStreetMap's own tile servers (not for app traffic), and not CARTO's basemaps (they now need an
- * API key). The credit below is OpenFreeMap's required attribution.
+ * API key). The credit below is OpenFreeMap's required attribution. The Bright style is used because Positron read as
+ * dark grey behind the pins; Liberty is busier (dense green landcover, darker ocean).
  *
  * MapLibre GL 5+ needs WebGL2. Without it, or if the chunk, worker or style fails, the map falls back to Leaflet with
- * the USGS National Map topo tiles (US public domain, no key, no watermark), greyed by `.basemap-raster` in index.css
- * to match Positron. Every fallback logs a console warning saying why.
+ * USGS National Map tiles (US public domain, no key, no watermark, fine on a commercial site): the hydrography layer
+ * (white land, blue water, national borders) for the national view, then the topo layer from RASTER_DETAIL_MIN_ZOOM,
+ * where it is white with towns and roads. Zoomed out, topo is dark shaded relief. Not Esri's server.arcgisonline.com
+ * tiles: without an ArcGIS subscription they aren't licensed for commercial use. Every fallback logs a console
+ * warning saying why.
  */
-export const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+export const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright';
 // Byte-for-byte the attribution in OpenFreeMap's TileJSON, so MapLibre shows the credit once instead of twice.
 export const BASEMAP_ATTRIBUTION = '<a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>';
-export const RASTER_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}';
+export const RASTER_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}';
+export const RASTER_DETAIL_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}';
+export const RASTER_DETAIL_MIN_ZOOM = 7;
 export const RASTER_ATTRIBUTION = 'Tiles: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener noreferrer">USGS The National Map</a>';
 
 /** Centre of the contiguous US, as [lat, lng]. */

@@ -12,7 +12,7 @@ interface Props {
 }
 
 /**
- * /map. Native MapLibre GL (OpenFreeMap Positron) when WebGL2 works; otherwise Leaflet with USGS raster tiles.
+ * /map. Native MapLibre GL (OpenFreeMap Bright) when WebGL2 works; otherwise Leaflet with USGS hydro raster tiles.
  * Each engine is its own chunk, so a visitor downloads only the one that runs.
  */
 export default function CollegeMap({ colleges, onSelect, height = 560 }: Props) {

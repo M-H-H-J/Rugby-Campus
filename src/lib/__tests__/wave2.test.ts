@@ -104,7 +104,7 @@ describe('map tiles', () => {
     expect(map).not.toMatch(/tile\.openstreetmap\.org/);
   });
   it('uses OpenFreeMap vector tiles (no key) through native MapLibre GL, with the required credit', () => {
-    expect(map).toContain("BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron'");
+    expect(map).toContain("BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright'");
     expect(map).toContain("import('@/lib/vectorMap')");
     expect(src('src/lib/vectorMap.ts')).toContain("setWorkerUrl(workerUrl)");
     for (const credit of ['href="https://openfreemap.org"', '&copy; OpenMapTiles', 'href="https://www.openstreetmap.org/copyright"']) expect(map).toContain(credit);

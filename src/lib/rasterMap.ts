@@ -3,7 +3,9 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { College } from '@/data/colleges';
-import { RASTER_ATTRIBUTION, RASTER_TILES, US_CENTER, pinBounds, pinSpec, popupNode, type MapHandle } from '@/lib/mapMarkup';
+import {
+  RASTER_ATTRIBUTION, RASTER_DETAIL_MIN_ZOOM, RASTER_DETAIL_TILES, RASTER_TILES, US_CENTER, pinBounds, pinSpec, popupNode, type MapHandle,
+} from '@/lib/mapMarkup';
 
 /** Integer zoom and a slow, debounced wheel: raster tiles scale with CSS transforms instead of blurring at
  * fractional levels and refetching on every trackpad tick. */
@@ -44,7 +46,9 @@ function pinIcon(c: College) {
 
 export function mountRasterMap(container: HTMLElement, { onSelect }: { onSelect: (slug: string) => void }): MapHandle {
   const map = L.map(container, RASTER_MAP_OPTIONS);
-  L.tileLayer(RASTER_TILES, RASTER_TILE_OPTIONS).addTo(map);
+  // Each layer only fetches inside its own zoom range, so exactly one is drawn at any zoom.
+  L.tileLayer(RASTER_TILES, { ...RASTER_TILE_OPTIONS, maxZoom: RASTER_DETAIL_MIN_ZOOM - 1 }).addTo(map);
+  L.tileLayer(RASTER_DETAIL_TILES, { ...RASTER_TILE_OPTIONS, minZoom: RASTER_DETAIL_MIN_ZOOM }).addTo(map);
   const layer = L.layerGroup().addTo(map);
 
   // Leaflet only watches the window; this also catches layout shifts and rotation.
