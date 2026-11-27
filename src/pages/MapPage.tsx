@@ -4,7 +4,7 @@ import { useLocation, Link } from 'wouter';
 import { List } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta } from '@/lib/usePageMeta';
-import LeafletMap from '@/components/LeafletMap';
+import CollegeMap from '@/components/CollegeMap';
 import { TIER_LABELS, TIER_ORDER } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import TierNote from '@/components/TierNote';
@@ -56,9 +56,9 @@ export default function MapPage() {
         </div>
       </div>
 
-      {/* Map with explicit height. isolate keeps Leaflet's z-indexes below the fixed nav and mobile menu. */}
+      {/* Map with explicit height. isolate keeps the map's z-indexes below the fixed nav and mobile menu. */}
       <div className="relative isolate z-0">
-        <LeafletMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 150px)" />
+        <CollegeMap colleges={filtered} onSelect={(slug) => navigate(`/colleges/${slug}`)} height="calc(100vh - 150px)" />
         <div className="absolute bottom-4 left-4 bg-white rounded-md border border-line px-3 py-2 max-w-[280px]" style={{ zIndex: 500 }}>
           <div className="space-y-1">
             {TIER_ORDER.map((tier) => (

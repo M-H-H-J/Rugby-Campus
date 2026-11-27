@@ -17,7 +17,7 @@ That credential is the site's entire competitive moat. Never write copy that dil
 ## Stack
 
 - React 18 + TypeScript + Vite 6, `wouter` for routing, Tailwind (config-driven tokens), `lucide-react` icons
-- Leaflet for the interactive map, with OpenFreeMap vector tiles (no API key) drawn by MapLibre GL via `@maplibre/maplibre-gl-leaflet`, loaded only on `/map`. Never `tile.openstreetmap.org` (not for app traffic) and not CARTO basemaps (they now need an API key). Keep the OpenFreeMap / OpenMapTiles / OpenStreetMap credit. MapLibre 5+ needs WebGL2; without it (or if the style, worker or chunk fails) `src/lib/basemap.ts` falls back, with a console warning, to greyed USGS National Map raster tiles (public domain, no key). Never swallow basemap errors silently. A hand-built SVG US map is the homepage preview
+- Native MapLibre GL (`maplibregl.Map`, `Marker`, `Popup`) for the interactive map, with OpenFreeMap Positron vector tiles (no API key), loaded only on `/map` (`src/components/CollegeMap.tsx` + `src/lib/vectorMap.ts`). Don't wrap it in Leaflet again (`@maplibre/maplibre-gl-leaflet` made two engines fight on every wheel tick). Never `tile.openstreetmap.org` (not for app traffic) and not CARTO basemaps (they now need an API key). Keep the OpenFreeMap / OpenMapTiles / OpenStreetMap credit. MapLibre 5+ needs WebGL2; without it (or if the style, worker or chunk fails) `src/lib/basemap.ts` destroys the MapLibre map and falls back, with a console warning, to Leaflet with greyed USGS National Map raster tiles (public domain, no key; `src/lib/rasterMap.ts`). Leaflet is a lazy chunk loaded only by that fallback. Keep its integer zoom (`zoomSnap: 1`) and `updateWhenZooming: false`, and keep `.basemap-raster` to one cheap filter: fractional zoom and filter chains made trackpad zoom stutter. Pin and popup markup is shared in `src/lib/mapMarkup.ts`. Never swallow basemap errors silently. A hand-built SVG US map is the homepage preview
 - Supabase (Postgres) for college data + email capture; bundled TS data is the fallback
 - Deployed on Vercel from GitHub — push to `main` redeploys automatically
 - Supabase owns coach names and emails. Change them with a dated file in `supabase/manual/` and mirror it in `colleges.ts` and (for search fields) `collegeSearchFacts.json` in the same PR. The bulk sync generator never overwrites coach fields.
@@ -44,7 +44,7 @@ src/
   lib/useColleges.ts        Supabase-first with bundled fallback
   lib/usePageMeta.ts        client-side title/meta
   components/               Navigation, Footer, CollegeCard, ArticleCard,
-                            LeafletMap, USMap, CoachEmailUnlock, ContactForm,
+                            CollegeMap, USMap, CoachEmailUnlock, ContactForm,
                             PrivacyNote (the /privacy line beside every form that takes an email),
                             CampusPhoto (WebP <picture> with the .jpg fallback), RuleTable,
                             FoundUsPrompt (optional "How did you find us?", confirmation states only)

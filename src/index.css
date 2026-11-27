@@ -68,7 +68,7 @@ table { font-variant-numeric: tabular-nums; }
 .card-img { transition: transform 160ms var(--rc-ease-out); }
 .group:hover .card-img { transform: scale(1.03); }
 
-/* Map pins: Leaflet positions .rc-pin with translate3d, so the scale goes on the inner span or the pin would drift off its anchor */
+/* Map pins: the map engine (MapLibre or Leaflet) positions .rc-pin with a transform, so the scale goes on the inner span or the pin would drift off its anchor */
 .rc-pin-inner { display: block; width: 100%; height: 100%; transform-origin: 50% 100%; transition: transform 120ms var(--rc-ease-out); }
 .rc-pin-inner svg { display: block; }
 .rc-pin:hover .rc-pin-inner, .rc-pin:focus-visible .rc-pin-inner { transform: scale(1.12); }
@@ -111,15 +111,16 @@ a:has(> .press-card):focus-visible, a.group:focus-visible { outline-offset: 4px;
 }
 .email-blurred:hover { filter: blur(3px); }
 
-/* Leaflet popup — hairline card, minimal shadow (map OS chrome exception) */
-.leaflet-popup-content-wrapper {
+/* Map popup — hairline card, minimal shadow (map OS chrome exception). Same look on MapLibre and the Leaflet fallback. */
+.leaflet-popup-content-wrapper, .maplibregl-popup-content {
   border-radius: 8px !important;
   box-shadow: 0 4px 16px rgba(7, 27, 51, 0.10) !important;
   border: 1px solid #e5e9ef !important;
 }
 .leaflet-popup-content { margin: 12px 14px !important; }
-.leaflet-container { font-family: 'Libre Franklin', sans-serif !important; }
-.leaflet-popup-tip { display: none !important; }
+.maplibregl-popup-content { padding: 12px 36px 12px 14px !important; }
+.leaflet-container, .maplibregl-map { font-family: 'Libre Franklin', sans-serif !important; }
+.leaflet-popup-tip, .maplibregl-popup-tip { display: none !important; }
 
 /* Prerendered first paint: same top bar and type as the app, so there is no unstyled flash before React loads. */
 .prerender-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 56px; background: #fff; border-bottom: 1px solid #e5e9ef; }
@@ -154,5 +155,9 @@ a:has(> .press-card):focus-visible, a.group:focus-visible { outline-offset: 4px;
 .leaflet-container a.leaflet-popup-close-button { width: 44px !important; height: 44px !important; font-size: 22px !important; line-height: 44px !important; top: 0 !important; right: 0 !important; padding: 0 !important; text-align: center; }
 .leaflet-popup-content { margin-right: 36px !important; }
 .leaflet-tile-container img { outline: 1px solid transparent; }
-/* Raster fallback (no WebGL2): grey the USGS topo tiles so they read like the Positron vector basemap */
-.basemap-raster { filter: grayscale(1) brightness(1.08) contrast(0.88); }
+.maplibregl-ctrl-group button { width: 44px !important; height: 44px !important; }
+.maplibregl-popup-close-button { width: 44px; height: 44px; font-size: 22px; line-height: 44px; top: 0; right: 0; padding: 0; text-align: center; }
+.rc-pin { cursor: pointer; }
+/* Raster fallback (no WebGL2): grey the USGS topo tiles so they read like the Positron vector basemap. One cheap
+   filter plus opacity over the light container, not a filter chain, so zoom transforms stay smooth in Safari. */
+.basemap-raster { filter: grayscale(1); opacity: 0.72; }
