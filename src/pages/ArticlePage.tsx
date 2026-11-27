@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useRoute, useLocation, Link } from 'wouter';
 import { routeInAppClicks } from '@/lib/inAppLink';
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react';
-import { getArticleBySlug, articles } from '@/data/articles';
+import { getArticleBySlug, articles, formatGuideDate } from '@/data/articles';
 import { captureEmail } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
+import PrivacyNote from '@/components/PrivacyNote';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 
 // Simple markdown-ish renderer for our article content
@@ -105,6 +106,7 @@ function NotifyForm() {
       <button type="submit" disabled={state === 'busy'} className="btn px-5 py-3 bg-navy text-white rounded-md text-[13px] font-semibold whitespace-nowrap disabled:opacity-60">Notify me</button>
     </form>
     {state === 'failed' && <SaveError className="mt-3 text-center" />}
+    <PrivacyNote className="mt-3 text-center" />
     </>
   );
 }
@@ -132,6 +134,10 @@ export default function ArticlePage() {
         <p className="kicker mb-3">{article.category} · {article.readTime}</p>
         <h1 className="font-heading text-[34px] md:text-[44px] text-ink leading-[1.08] mb-5">{article.title}</h1>
         <p className="font-heading text-[19px] text-muted leading-[1.6]">{article.excerpt}</p>
+        <p className="mt-5 text-[13px] text-muted">
+          By <Link href="/about" className="text-ink font-medium hover:text-navy">Hugh Johnston</Link>
+          {' · '}Updated <time dateTime={article.updatedDate}>{formatGuideDate(article.updatedDate)}</time>
+        </p>
       </header>
 
       <hr className="border-line mb-10" />

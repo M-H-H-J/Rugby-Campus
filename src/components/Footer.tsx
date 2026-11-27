@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
+import PrivacyNote from '@/components/PrivacyNote';
 import { CONTACT_EMAIL, MONEY_LINE } from '@/config';
 
 export default function Footer() {
@@ -67,6 +68,7 @@ export default function Footer() {
                 <button type="submit" disabled={state === 'busy'} className="btn px-3.5 py-2 min-h-[44px] border border-white/40 text-white rounded-md text-[12px] font-bold hover:border-white transition-colors disabled:opacity-60">{state === 'busy' ? 'Joining…' : 'Join'}</button>
               </form>
               {state === 'failed' && <SaveError dark className="mt-2 !text-[12px]" />}
+              <PrivacyNote dark className="mt-2 !text-[11px]" />
               </>
             )}
           </div>
@@ -76,7 +78,7 @@ export default function Footer() {
           <p className="text-white/75 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
           <p className="text-white/75 text-[11px] leading-relaxed">{MONEY_LINE}</p>
           <div className="flex flex-col sm:flex-row justify-between gap-3">
-            <p className="text-white/70 text-[11px]">© 2026 Rugby Campus.</p>
+            <p className="text-white/70 text-[11px]">© 2026 Rugby Campus. <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/70 hover:text-white text-[11px] transition-colors">{CONTACT_EMAIL}</a>
           </div>
         </div>

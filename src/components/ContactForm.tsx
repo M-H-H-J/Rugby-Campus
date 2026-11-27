@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import { submitContact } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
+import PrivacyNote from '@/components/PrivacyNote';
 
 interface Props {
   type: 'placement' | 'coaching' | 'featured_program' | 'general';
@@ -47,6 +48,7 @@ export default function ContactForm({ type, submitLabel = 'Send inquiry', messag
         className={`btn px-6 py-3 rounded-md text-[13px] font-bold disabled:opacity-60 ${dark ? 'bg-gold text-dark' : 'bg-navy text-white'}`}>
         {busy ? 'Sending…' : submitLabel}
       </button>
+      <PrivacyNote dark={dark}>Used only to reply to you. Never sold.</PrivacyNote>
     </form>
   );
 }

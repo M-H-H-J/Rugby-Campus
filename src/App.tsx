@@ -18,6 +18,7 @@ const ArticlePage = lazy(() => import('@/pages/ArticlePage'));
 const Training = lazy(() => import('@/pages/Training'));
 const About = lazy(() => import('@/pages/About'));
 const ForCoaches = lazy(() => import('@/pages/ForCoaches'));
+const Privacy = lazy(() => import('@/pages/Privacy'));
 
 function NotFound() {
   usePageMeta('Page not found', "This page doesn't exist on Rugby Campus.");
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="/about" component={About} />
           <Route path="/work-with-me">{() => <Redirect to="/about" />}</Route>
           <Route path="/for-coaches" component={ForCoaches} />
+          <Route path="/privacy" component={Privacy} />
           <Route component={NotFound} />
         </Switch>
         </Suspense>

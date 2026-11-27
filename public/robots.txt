@@ -2,22 +2,38 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-# AI assistants and their crawlers are explicitly welcome
+# AI assistants and their crawlers are explicitly welcome.
+# A crawler follows only the most specific group that names it, so each group repeats Disallow: /api/.
 User-agent: GPTBot
 Allow: /
+Disallow: /api/
+
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /api/
+
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /api/
+
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api/
+
 User-agent: anthropic-ai
 Allow: /
+Disallow: /api/
+
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
+
 User-agent: Google-Extended
 Allow: /
+Disallow: /api/
+
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
 
 Sitemap: https://www.rugbycampus.org/sitemap.xml

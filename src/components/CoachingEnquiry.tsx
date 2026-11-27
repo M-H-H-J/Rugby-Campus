@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, Mail, X } from 'lucide-react';
 import { submitCoachingEnquiry } from '@/lib/supabase';
+import PrivacyNote from '@/components/PrivacyNote';
 
 const FIELD = 'w-full px-4 py-3 rounded-md border border-line text-[14px] text-ink outline-none focus:border-navy transition-colors';
 const LABEL = 'block text-[12px] font-semibold text-muted mb-1';
@@ -87,6 +88,7 @@ export default function CoachingEnquiry({ asLink = false }: { asLink?: boolean }
                   <button type="submit" disabled={busy} className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold disabled:opacity-60">
                     {busy ? 'Sending…' : 'Send enquiry'}
                   </button>
+                  <PrivacyNote className="text-center">Used only to reply to you. Never sold.</PrivacyNote>
                 </form>
               </>
             )}

@@ -25,7 +25,7 @@ describe('launch fixes, 3 Nov 2026', () => {
 
   it('tier 4 wording and a clear pin colour', () => {
     expect(TIER_LABELS.emerging).toBe('Tier 4');
-    expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
+    expect(TIER_SUBLINE.emerging).toBe('Programs with fewer playoff runs in recent seasons.');
     const colours = Object.values(TIER_COLORS);
     expect(new Set(colours).size).toBe(4);
     expect(TIER_COLORS.emerging.toLowerCase()).not.toBe('#8b98a8'); // the old grey
@@ -123,7 +123,7 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('money line and Featured label', () => {
-    expect(MONEY_LINE).toBe('How the site makes money: free for players. Colleges may pay for a featured listing, and it will always be labelled Featured.');
+    expect(MONEY_LINE).toBe('How the site makes money: free for players. Revenue comes from paid one-on-one coaching, and colleges may pay for a featured listing, which is always labelled Featured.');
     expect(copyOf('src/components/Footer.tsx')).toContain('MONEY_LINE');
     expect(renderToStaticMarkup(createElement(FeaturedBadge))).toContain('Featured');
     // Not used anywhere yet.

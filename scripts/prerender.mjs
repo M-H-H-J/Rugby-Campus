@@ -10,14 +10,16 @@ const root = resolve(import.meta.dirname, '..');
 const dist = resolve(root, 'dist');
 if (!existsSync(resolve(dist, 'index.html'))) { console.error('dist/index.html missing — run vite build first'); process.exit(1); }
 
-// Bundle the TS data modules into one importable file
+// Bundle the TS data modules (and the server-rendered pages) into importable files
 const tmp = resolve(root, '.prerender-data.mjs');
-await build({
-  entryPoints: [resolve(root, 'scripts/data-entry.ts')],
-  bundle: true, platform: 'node', format: 'esm', outfile: tmp, logLevel: 'silent',
-  alias: { '@': resolve(root, 'src') },
-});
-const { colleges, articles, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
+const pagesTmp = resolve(root, '.prerender-pages.mjs');
+const shared = { bundle: true, platform: 'node', format: 'esm', logLevel: 'silent', alias: { '@': resolve(root, 'src') } };
+await build({ ...shared, entryPoints: [resolve(root, 'scripts/data-entry.ts')], outfile: tmp });
+await build({ ...shared, entryPoints: [resolve(root, 'scripts/page-entry.tsx')], outfile: pagesTmp, jsx: 'automatic', define: { 'process.env.NODE_ENV': '"production"' },
+  // react-dom/server is CommonJS and requires Node built-ins.
+  banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" } });
+const { renderPage, PRIVACY_UPDATED, PRIVACY_TITLE, PRIVACY_DESCRIPTION } = await import(pathToFileURL(pagesTmp).href);
+const { colleges, articles, formatGuideDate, collegeUpdated, HOME_HEADLINE, homeDescription, MONEY_LINE, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -32,7 +34,7 @@ const ORG = {
 };
 const WEBSITE = {
   '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: SITE_URL, name: SITE_NAME, publisher: { '@id': `${SITE_URL}/#org` },
-  potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/colleges?q={search_term_string}` }, 'query-input': 'required name=search_term_string' },
+  potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/colleges?find={search_term_string}` }, 'query-input': 'required name=search_term_string' },
 };
 
 // Social apps (WhatsApp, Facebook) often ignore a short path like /college-images/x.jpg, so always give a full address.
@@ -42,8 +44,9 @@ const absUrl = (u) => (!u ? `${SITE_URL}/logo.png` : /^https?:\/\//i.test(u) ? u
 const NAV_LINKS = [['/', 'Home'], ['/map', 'Map'], ['/colleges', 'Colleges'], ['/learn', 'Learn'], ['/training', 'Training'], ['/about', 'About']];
 const header = `<header class="prerender-header"><div class="prerender-header-inner"><a href="/" aria-label="Rugby Campus home"><img src="/logo.png" alt="Rugby Campus" width="97" height="36" /></a><nav aria-label="Main">${NAV_LINKS.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</nav></div></header>`;
 
-/** fullTitle: the whole <title>, used as given (guides pass their metaTitle). noindex pages get no canonical. */
-function page({ path, title, fullTitle: givenTitle, description, jsonld, body, image, noindex = false, file }) {
+/** fullTitle: the whole <title>, used as given (guides pass their metaTitle). noindex pages get no canonical.
+ *  lastmod: the date the page's content last really changed (sitemap). app: body is server-rendered React, laid out like the live page. */
+function page({ path, title, fullTitle: givenTitle, description, jsonld, body, image, noindex = false, file, lastmod, app = false }) {
   const url = path === '/' ? `${SITE_URL}/` : `${SITE_URL}${path}`;
   const fullTitle = givenTitle ?? (path === '/' ? `${SITE_NAME} | Best Rugby Colleges in America, Mapped` : `${title} | ${SITE_NAME}`);
   const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': [ORG, WEBSITE, ...jsonld] });
@@ -66,7 +69,7 @@ function page({ path, title, fullTitle: givenTitle, description, jsonld, body, i
     .replace(/<meta name="twitter:card"[^>]*>\n?/g, '')
     .replace('</head>', `${head}\n  </head>`)
     // Static content inside #root: crawlers read it; React replaces it on load.
-    .replace('<div id="root"></div>', `<div id="root">${header}<main class="prerender">${body}</main></div>`);
+    .replace('<div id="root"></div>', `<div id="root">${header}${app ? `<main class="pt-14">${body}</main>` : `<main class="prerender">${body}</main>`}</div>`);
 
   if (file) { writeFileSync(resolve(dist, file), html); return null; }
   const dir = path === '/' ? dist : resolve(dist, path.slice(1));
@@ -75,19 +78,30 @@ function page({ path, title, fullTitle: givenTitle, description, jsonld, body, i
   return url;
 }
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const latest = (dates) => dates.filter(Boolean).sort().at(-1);
 const urls = [];
 let pages = 0;
-const add = (opts) => { const u = page(opts); pages++; if (u) urls.push(u); };
-const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a></nav>`;
+const add = (opts) => {
+  const u = page(opts); pages++;
+  if (!u) return;
+  if (!ISO_DATE.test(opts.lastmod ?? '')) throw new Error(`prerender: ${opts.path} needs a real lastmod date, got ${opts.lastmod}`);
+  urls.push({ url: u, lastmod: opts.lastmod });
+};
+const DATA_LASTMOD = latest(colleges.map((c) => collegeUpdated(c.slug)));
+const GUIDES_LASTMOD = latest(articles.map((a) => a.updatedDate));
+// Static pages: bump the date when the page's own words change.
+const PAGE_LASTMOD = { '/': '2026-11-27', '/about': '2026-11-20', '/training': '2026-11-27', '/for-coaches': '2026-11-27' };
+const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a></nav>`;
 const byTier = (t) => colleges.filter((c) => c.tier === t);
 
 // ── Home ──
 add({
-  path: '/', title: '',
-  description: `${colleges.length} US college rugby programs across CRAA D1A and NCR D1, mapped and tiered, with coach contacts and plain-English recruitment guides. Free.`,
+  path: '/', title: '', lastmod: latest([PAGE_LASTMOD['/'], DATA_LASTMOD, GUIDES_LASTMOD]),
+  description: homeDescription(colleges.length),
   jsonld: [],
-  body: `<h1>Every top college rugby program in America. Mapped.</h1>
-  <p>Rugby Campus is a free guide to college rugby programs in the USA, across CRAA D1A and NCR D1. Each program is tiered on results, with coach contacts, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately), and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
+  body: `<h1>${esc(HOME_HEADLINE)}</h1>
+  <p>Rugby Campus is a free guide to men's college rugby programs in the USA: ${colleges.length} men's programs across CRAA D1A and NCR D1. Each program is tiered on results, with coach emails (free with an email signup), conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately), and campus details. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.</p>
   ${nav}
   ${TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}${t === 'championship' ? ' (strongest)' : ''}: ${esc(SEASON_LABEL)}</h2><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)}, ${esc(c.affiliation)}</li>`).join('')}</ul>`).join('')}
   <h2>Guides</h2><ul>${articles.filter(isFull).map((a) => `<li><a href="/learn/${a.slug}">${esc(a.title)}</a></li>`).join('')}</ul>`,
@@ -95,16 +109,16 @@ add({
 
 // ── Colleges index ──
 add({
-  path: '/colleges', title: 'Best College Rugby Programs in America',
+  path: '/colleges', title: 'Best College Rugby Programs in America', lastmod: DATA_LASTMOD,
   description: `Best college rugby programs in America for ${SEASON_LABEL.split(' ·')[0].replace(' season', '')}, grouped into Tier 1 to Tier 4 across CRAA D1A and NCR D1, with coach contacts and campus facts.`,
   jsonld: [{ '@type': 'ItemList', name: 'College rugby programs in America', itemListOrder: 'Unordered', numberOfItems: colleges.length,
     itemListElement: colleges.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE_URL}/colleges/${c.slug}`, name: c.name })) }],
-  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into Tier 1 (strongest) to Tier 4 rather than ranked 1 to 50, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>${colleges.length} Division I programs. Same division, very different standard.</p><p>This list is men's rugby. Women's programs aren't up yet.</p>` +
+  body: `<h1>College rugby programs in America</h1><p>${esc(SEASON_LABEL)}. Programs are grouped into Tier 1 (strongest) to Tier 4 rather than ranked 1 to 50, because rankings change weekly and no single authority agrees on them.</p>${nav}<p>${colleges.length} men's D1 rugby programs. Same division, very different standard.</p><p>This list is men's rugby. Women's programs aren't up yet.</p>` +
     TIER_ORDER.map((t) => `<h2>${esc(TIER_LABELS[t])}</h2><p>${esc(TIER_SUBLINE[t])}</p><ul>${byTier(t).map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a> — ${esc(c.location)} · ${esc(c.affiliation)} · ${esc(c.conference)}${c.programType ? ` · ${esc(c.programType)}` : ''}</li>`).join('')}</ul>`).join(''),
 });
 
 // ── Map ──
-add({ path: '/map', title: 'Interactive US College Rugby Map', description: `${colleges.length} US college rugby programs on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.`, jsonld: [],
+add({ path: '/map', title: 'Interactive US College Rugby Map', lastmod: DATA_LASTMOD, description: `${colleges.length} US college rugby programs on an interactive map. Zoom to the town, click a pin for the full profile, coach contact and campus details.`, jsonld: [],
   body: `<h1>Interactive college rugby map</h1><p>These are programs worth a look, not every college with a team.</p><div class="prerender-map" aria-hidden="true"></div>${nav}<ul>${colleges.map((c) => `<li><a href="/colleges/${c.slug}">${esc(c.name)}</a>, ${esc(c.location)}</li>`).join('')}</ul>` });
 
 // Cost / study / campus facts from the search data (same numbers the college page shows)
@@ -136,7 +150,7 @@ for (const c of colleges) {
     ['Played at least one MLR match (confirmed)', mlr.playedText],
     ...(climateFromTemps(c.monthlyTemps) ? [['Weather', weatherSentence(climateFromTemps(c.monthlyTemps))]] : [])];
   add({
-    path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl,
+    path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl, lastmod: collegeUpdated(c.slug),
     description: `${c.name} rugby: ${c.affiliation}, ${c.conference}, ${TIER_LABELS[c.tier]}. Coach contact, squad size, MLR numbers, weather and campus facts.`,
     jsonld: [{ '@type': 'CollegeOrUniversity', name: c.name, url: c.website, address: { '@type': 'PostalAddress', addressLocality: c.location.split(',')[0], addressRegion: c.state, addressCountry: 'US' },
       geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng }, image: absUrl(c.imageUrl),
@@ -158,7 +172,7 @@ for (const c of colleges) {
 
 // ── Learn + articles ──
 add({ path: '/learn', title: 'College Rugby Guides', description: 'Guides on US college rugby: the best programs, how recruitment works, why rankings mislead, scholarships, and what happens when programs die.', jsonld: [],
-  body: `<h1>How US college rugby works</h1>${nav}<ul>${articles.map((a) => `<li><a href="/learn/${a.slug}">${esc(a.title)}</a>${isFull(a) ? '' : ' (coming soon)'}</li>`).join('')}</ul>` });
+  lastmod: GUIDES_LASTMOD, app: true, body: renderPage('/learn') });
 
 // Mirrors renderContent in src/pages/ArticlePage.tsx: links, **bold**, *italic*, "- " and "1. " lists.
 const inline = (t) => esc(t).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
@@ -194,33 +208,77 @@ for (const a of articles) {
   }
   add({
     path: `/learn/${a.slug}`, title: a.title, fullTitle: a.metaTitle, description: a.metaDescription,
-    jsonld: [{ '@type': 'Article', headline: a.title, description: a.metaDescription, datePublished: a.publishedDate, dateModified: a.publishedDate,
+    lastmod: a.updatedDate,
+    jsonld: [{ '@type': 'Article', headline: a.title, description: a.metaDescription, datePublished: a.publishedDate, dateModified: a.updatedDate,
       author: { '@type': 'Person', name: 'Hugh Johnston', url: `${SITE_URL}/about` }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: `${SITE_URL}/logo.png` },
       ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])],
-    body: `<p><em>${esc(a.category)} · ${esc(a.readTime)} · by Hugh Johnston</em></p><h1>${esc(a.title)}</h1><p>${esc(a.excerpt)}</p>${isFull(a) ? mdToHtml(a.content) : '<p>This guide is being written. Sign up on the page to be notified.</p>'}<p>${nav}</p>`,
+    body: `<p><em>${esc(a.category)} · ${esc(a.readTime)}</em></p><h1>${esc(a.title)}</h1><p>${esc(a.excerpt)}</p><p>By <a href="/about">Hugh Johnston</a> · Updated <time datetime="${a.updatedDate}">${esc(formatGuideDate(a.updatedDate))}</time></p>${isFull(a) ? mdToHtml(a.content) : '<p>This guide is being written. Sign up on the page to be notified.</p>'}<p>${nav}</p>`,
   });
 }
 
-// ── Static pages ──
-for (const [path, title, description, body, image] of [
-  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.',
-    `<h1>Hugh Johnston</h1><p>An Australian who was recruited to Notre Dame College rugby in 2019, captained the side, played PR7s and club rugby in Austin, Texas, then came back as head coach and won the 2023 NCR D1 National Championship. Rugby Campus is a free guide to US college rugby, from someone who has seen recruitment from both sides.</p><p>Questions about a program? Email me at hello@rugbycampus.org.</p>${nav}`, '/images/hugh/hugh-johnston-headshot-og.jpg'],
-  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.',
-    `<h1>Arrive ready to compete</h1><p>Free off-season strength sample block, and paid one-on-one coaching (strength, conditioning and speed work) for high-school players getting ready to leave home for US college rugby.</p>${nav}`],
-  ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.',
-    `<h1>Put your program in front of the players you actually want</h1><p>Rugby Campus is a free guide to US college rugby for international players and their parents. Coaches can verify their profile for free, or ask about a featured listing (always labelled Featured).</p>${nav}`],
-]) add({ path, title, description, jsonld: [], body, image });
+// ── Static pages: the real components, server-rendered ──
+for (const [path, title, description, image] of [
+  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.', '/images/hugh/hugh-johnston-headshot-og.jpg'],
+  ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.'],
+  ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.'],
+]) add({ path, title, description, jsonld: [], body: renderPage(path), image, lastmod: PAGE_LASTMOD[path], app: true });
+add({ path: '/privacy', title: PRIVACY_TITLE, description: PRIVACY_DESCRIPTION, jsonld: [], body: renderPage('/privacy'), lastmod: PRIVACY_UPDATED, app: true });
 
 // ── 404 (served by Vercel with status 404 for any unknown path; no canonical, noindex) ──
 add({ path: '/404', file: '404.html', noindex: true, fullTitle: `Page not found | ${SITE_NAME}`, description: 'This page does not exist on Rugby Campus.', jsonld: [],
   body: `<h1>Page not found</h1><p>That page doesn't exist, or it has moved.</p><p><a href="/colleges">All colleges</a> · <a href="/map">Map</a> · <a href="/learn">Guides</a></p>` });
 
 // ── sitemap.xml ──
-const today = new Date().toISOString().slice(0, 10);
-writeFileSync(resolve(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>${u === `${SITE_URL}/` || u.endsWith('/colleges') ? 'weekly' : 'monthly'}</changefreq><priority>${u === `${SITE_URL}/` ? '1.0' : u.includes('/colleges/') || u.includes('/learn/') ? '0.8' : '0.6'}</priority></url>`).join('\n')}\n</urlset>\n`);
+writeFileSync(resolve(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(({ url: u, lastmod }) => `  <url><loc>${u}</loc><lastmod>${lastmod}</lastmod><changefreq>${u === `${SITE_URL}/` || u.endsWith('/colleges') ? 'weekly' : 'monthly'}</changefreq><priority>${u === `${SITE_URL}/` ? '1.0' : u.includes('/colleges/') || u.includes('/learn/') ? '0.8' : '0.6'}</priority></url>`).join('\n')}\n</urlset>\n`);
 
 // ── llms-full.txt (machine-readable summary of the whole site) ──
-writeFileSync(resolve(dist, 'llms-full.txt'), `# ${SITE_NAME} — full site summary for AI assistants\n\n${ORG.description}\nSite: ${SITE_URL}\nFounder: Hugh Johnston — Australian, Notre Dame College captain, 2023 NCR D1 National Championship coach.\n${SEASON_LABEL}\n\n## The programs\n\n${TIER_ORDER.map((t) => `### ${TIER_LABELS[t]}\n` + byTier(t).map((c) => `- ${c.name} (${c.location}) — ${[c.affiliation, c.conference, c.programType].filter(Boolean).join(', ')}; ${c.playerCount ? `~${c.playerCount} players; ` : ''}${mlrSummary(c).drafted === 0 ? 'no MLR draftees found' : `${mlrSummary(c).drafted} drafted in the MLR College Draft 2020–26 (${mlrSummary(c).played ? `${mlrSummary(c).played} confirmed played an MLR match` : 'none confirmed played an MLR match'})`}${c.badges.length ? `; ${c.badges.join(', ')}` : ''}. ${SITE_URL}/colleges/${c.slug}`).join('\n')).join('\n\n')}\n\n## Guides\n\n${articles.filter(isFull).map((a) => `- ${a.title}: ${a.metaDescription} ${SITE_URL}/learn/${a.slug}`).join('\n')}\n\n## Key facts\n- Cal won the 2026 CRAA D1A National Championship (back-to-back, 2025 and 2026), beating Navy 36–22.\n- St. Bonaventure won the 2025 NCR D1 National Championship over Queens.\n- Central Washington ended varsity men's and women's rugby in April 2025 (effective at the end of 2024–25); a student-run men's club restarted in fall 2025.\n- Notre Dame College closed; its program (2023 NCR D1 champions) transferred to Walsh University.\n- UCLA plays both CRAA D1A and NCR D1 for 2026–27.\n- Major League Rugby contracted to 6 teams for 2026; the MLR College Draft continues.\n`);
+// The MLR count comes from mlrSummary only: the "N drafted into MLR" badge is dropped (visibleBadges) so it isn't said twice.
+const honours = (c) => {
+  const extra = visibleBadges(c.badges).filter((b) => !c.achievements.some((a) => a.includes(b)));
+  return [...extra, ...c.achievements];
+};
+const mlrText = (c) => {
+  const m = mlrSummary(c);
+  if (m.drafted === 0) return 'no MLR draftees found';
+  return `${m.drafted} drafted in the MLR College Draft 2020–26 (${m.played ? `${m.played} confirmed played an MLR match` : 'none confirmed played an MLR match'})`;
+};
+const programLine = (c) => {
+  const parts = [[c.affiliation, c.conference, c.programType].filter(Boolean).join(', ')];
+  if (c.playerCount) parts.push(`~${c.playerCount} players`);
+  parts.push(mlrText(c));
+  const h = honours(c);
+  if (h.length) parts.push(h.join('; '));
+  return `- ${c.name} (${c.location}) — ${parts.join('; ')}. ${SITE_URL}/colleges/${c.slug}`;
+};
+writeFileSync(resolve(dist, 'llms-full.txt'), [
+  `# ${SITE_NAME} — full site summary for AI assistants`,
+  '',
+  ORG.description,
+  `Site: ${SITE_URL}`,
+  'Founder: Hugh Johnston — Australian, Notre Dame College captain, 2023 NCR D1 National Championship coach.',
+  SEASON_LABEL,
+  `Coverage: ${colleges.length} men's college rugby programs. Women's programs are not listed yet.`,
+  `${MONEY_LINE} Coach email addresses are shown after a free one-time email signup; everything else is open.`,
+  `Privacy: ${SITE_URL}/privacy`,
+  '',
+  '## The programs',
+  '',
+  TIER_ORDER.map((t) => [`### ${TIER_LABELS[t]}: ${TIER_SUBLINE[t]}`, ...byTier(t).map(programLine)].join('\n')).join('\n\n'),
+  '',
+  '## Guides',
+  '',
+  articles.filter(isFull).map((a) => `- ${a.title}: ${a.metaDescription} ${SITE_URL}/learn/${a.slug}`).join('\n'),
+  '',
+  '## Key facts',
+  "- Men's rugby is not an NCAA sport anywhere. The NCAA lists varsity women's rugby as an Emerging Sport for Women.",
+  '- Cal won the 2026 CRAA D1A National Championship (back-to-back, 2025 and 2026), beating Navy 36–22.',
+  '- St. Bonaventure won the 2025 NCR D1 National Championship over Queens.',
+  "- Central Washington ended varsity men's and women's rugby in April 2025 (effective at the end of 2024–25); a student-run men's club restarted in fall 2025.",
+  '- Notre Dame College closed; its program (2023 NCR D1 champions) transferred to Walsh University.',
+  '- UCLA plays both CRAA D1A and NCR D1 for 2026–27.',
+  '- Major League Rugby contracted to 6 teams for 2026; the MLR College Draft continues.',
+  '',
+].join('\n'));
 
 // pages = every HTML file written (the sitemap routes plus 404.html).
 console.log(`prerendered ${pages} pages + sitemap.xml + llms-full.txt`);

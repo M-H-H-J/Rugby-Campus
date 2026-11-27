@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { sendShortlist } from '@/lib/search/client';
 import { captureEmail } from '@/lib/supabase';
+import PrivacyNote from '@/components/PrivacyNote';
 
 export default function ShortlistEmail({ slugs, sentence }: { slugs: string[]; sentence: string }) {
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ export default function ShortlistEmail({ slugs, sentence }: { slugs: string[]; s
           <input type="text" tabIndex={-1} autoComplete="off" aria-hidden value={hp} onChange={(e) => setHp(e.target.value)} className="hidden" name="website" />
           <button disabled={state === 'sending'} className="btn bg-navy text-white px-4 py-2.5 min-h-[44px] rounded-md text-[13px] font-semibold disabled:opacity-60">{state === 'sending' ? 'Sending…' : 'Email me the list'}</button>
           {state === 'error' && <p className="w-full text-[12px] text-ink" role="alert">{msg}</p>}
+          <PrivacyNote className="w-full" />
         </form>
       )}
     </div>

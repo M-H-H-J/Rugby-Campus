@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import CoachingEnquiry from '@/components/CoachingEnquiry';
 import HughPhoto from '@/components/HughPhoto';
+import PrivacyNote from '@/components/PrivacyNote';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { readParam, writeParams } from '@/lib/search/urlState';
@@ -93,6 +94,7 @@ export default function Training() {
               <button type="submit" disabled={busy} className="btn w-full py-3 bg-navy text-white rounded-md text-[13px] font-semibold disabled:opacity-60">
                 {busy ? 'Unlocking…' : 'Unlock days 2–4'}
               </button>
+              <PrivacyNote />
             </form>
           )}
         </div>

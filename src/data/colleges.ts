@@ -72,7 +72,7 @@ export const TIER_SUBLINE: Record<Tier, string> = {
   championship: 'Regularly in the hunt for national titles.',
   playoff: 'Competing in the playoffs most seasons.',
   competitive: 'Solid programs that are in the hunt for playoff spots.',
-  emerging: 'Earlier game time, and a say in where the program goes.',
+  emerging: 'Programs with fewer playoff runs in recent seasons.',
 };
 
 /** One-line note under the Colleges heading. */
@@ -81,6 +81,20 @@ export const TIER_GUIDE_NOTE = 'Tiers are a guide, based on recent seasons. Ever
 export const TIER_DISCLAIMER = "Tiers reflect results over the last few seasons plus early-season form. They're a guide to track record, not a prediction for this season, and teams move between tiers every year.";
 
 export const SEASON_LABEL = '2026–27 season · tiers based on final 2025–26 results and early-season rankings';
+
+/** Last full fact check of every program. A profile's sitemap lastmod is this, or its own date below when it changed later. */
+export const DATA_REVIEWED = '2026-11-20';
+/** Profiles edited after DATA_REVIEWED. Add the slug and date whenever a program's facts change. */
+export const COLLEGE_UPDATED: Readonly<Record<string, string>> = {
+  'university-of-san-diego': '2026-11-24',
+  'united-states-naval-academy': '2026-11-27',
+  'united-states-military-academy-army': '2026-11-27',
+  'brown-university': '2026-11-27',
+  'queens-university-of-charlotte': '2026-11-27',
+  'life-university': '2026-11-27',
+  'southern-virginia-university': '2026-11-27',
+};
+export const collegeUpdated = (slug: string): string => COLLEGE_UPDATED[slug] ?? DATA_REVIEWED;
 
 // Fallback dataset — the site loads from Supabase first, then falls back to this.
 export const colleges: College[] = [
@@ -108,11 +122,11 @@ export const colleges: College[] = [
     coachName: "Gavin Hickie", coachEmail: "hickie@usna.edu",
     rugbyProgramUrl: "https://navysports.com/sports/mens-rugby",
     recruitmentFormUrl: "https://questionnaires.armssoftware.com/c201f880feaa", assistantCoaches: [],
-    description: "You need U.S. citizenship to attend, apart from a small number of students nominated by their own government. Navy reached the 2026 D1A final, beating Army 38–10 and Life on the way before losing 36–22 to Cal. Navy went 5–0 to top Rugby East in 2025–26. Gavin Hickie has led the program since 2017.",
+    description: "You need U.S. citizenship to attend, apart from a small number of students nominated by their own government. Navy won the 2023 D1A national title, beating Cal 28–22 in the final, and reached the final again in 2024. In 2026 Navy was back in the final, beating Army 38–10 and Life on the way before losing 36–22 to Cal. Navy went 5–0 to top Rugby East in 2025–26. Gavin Hickie has led the program since 2017.",
     enrollment: 4465, popularMajors: ["Engineering", "Political Science", "Economics", "Mathematics"],
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:43,lF:30,hC:6,lC:-1},{month:"Feb",hF:45,lF:32,hC:7,lC:0},{month:"Mar",hF:53,lF:38,hC:12,lC:3},{month:"Apr",hF:64,lF:47,hC:18,lC:8},{month:"May",hF:73,lF:57,hC:23,lC:14},{month:"Jun",hF:82,lF:68,hC:28,lC:20},{month:"Jul",hF:86,lF:72,hC:30,lC:22},{month:"Aug",hF:84,lF:71,hC:29,lC:21},{month:"Sep",hF:77,lF:65,hC:25,lC:18},{month:"Oct",hF:67,lF:52,hC:19,lC:11},{month:"Nov",hF:56,lF:42,hC:13,lC:6},{month:"Dec",hF:47,lF:34,hC:8,lC:1}],
-    badges: ["2026 D1A Finalists"], achievements: ["2023 D1A National Champions","2025–26 Rugby East champions (5–0)"],
+    badges: ["2026 D1A Finalists","2023 D1A National Champions"], achievements: ["2023 D1A National Champions (beat Cal 28–22 in the final)","2024 D1A Finalists","2026 D1A Finalists","2025–26 Rugby East champions (5–0)"],
     website: "https://www.usna.edu", imageUrl: "/college-images/united-states-naval-academy.jpg", imageCredit: "Photo: National Museum of the U.S. Navy / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Aerial%20photograph%20of%20the%20United%20States%20Naval%20Academy%20%28121011-N-OA833-002%29.jpg", gender: "mens",
   },
   {
@@ -123,11 +137,11 @@ export const colleges: College[] = [
     draftPicks: 17, mlrPlayed: 13, mlrUnconfirmed: 1, mlrNoAppearance: 1, mlrNotYet: 2, playerCount: 44,
     coachName: "Blake Bradford", coachEmail: "francis.bradford@life.edu",
     rugbyProgramUrl: "https://liferunningeagles.com/sports/mens-rugby", assistantCoaches: [],
-    description: "Life won back-to-back D1A national titles in 2018 and 2019. In 2026 the Running Eagles won a 31–24 quarterfinal at Lindenwood and reached the semifinals, where they lost to Navy. Life plays in Rugby East from Marietta, Georgia, near Atlanta.",
+    description: "Life has won four D1A national titles: 2013, 2016, 2018 and 2019. It reached the 2025 final and lost to Cal. In 2026 the Running Eagles won a 31–24 quarterfinal at Lindenwood and reached the semifinals, where they lost to Navy. Life plays in Rugby East from Marietta, Georgia, near Atlanta.",
     enrollment: 2419, popularMajors: ["Chiropractic", "Biology", "Psychology", "Exercise Physiology"],
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:53,lF:32,hC:12,lC:0},{month:"Feb",hF:57,lF:35,hC:14,lC:1},{month:"Mar",hF:65,lF:40,hC:19,lC:5},{month:"Apr",hF:72,lF:48,hC:22,lC:9},{month:"May",hF:77,lF:57,hC:25,lC:14},{month:"Jun",hF:82,lF:65,hC:28,lC:18},{month:"Jul",hF:84,lF:68,hC:29,lC:20},{month:"Aug",hF:84,lF:68,hC:29,lC:20},{month:"Sep",hF:80,lF:62,hC:26,lC:17},{month:"Oct",hF:71,lF:51,hC:22,lC:11},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:55,lF:35,hC:13,lC:2}],
-    badges: ["2026 D1A Semifinalists","17 drafted into MLR · 13 played"], achievements: ["4× D1A National Champions (2013, 2016, 2018, 2019)"],
+    badges: ["2026 D1A Semifinalists","2025 D1A Finalists","4× D1A National Champions","17 drafted into MLR · 13 played"], achievements: ["4× D1A National Champions (2013, 2016, 2018, 2019)","2025 D1A Finalists (lost to Cal)"],
     website: "https://www.life.edu", imageUrl: "/college-images/life-university.jpg", imageCredit: "Photo: John Phelan / Wikimedia Commons (CC BY 4.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Drs%20Sid%20E%20and%20Nell%20K%20Williams%20Library%20entrance%2C%20Marietta%20GA.jpg", gender: "mens",
   },
   {
@@ -169,11 +183,11 @@ export const colleges: College[] = [
     draftPicks: 2, mlrPlayed: 2, mlrUnconfirmed: 0, mlrNoAppearance: 0, mlrNotYet: 0, playerCount: 67,
     coachName: "Matt Sherman", coachEmail: "matthew.sherman@westpoint.edu",
     rugbyProgramUrl: "https://goarmywestpoint.com/sports/mens-rugby/", assistantCoaches: [],
-    description: "You need U.S. citizenship to attend, apart from a small number of students nominated by their own government. Army won the 2022 D1A national title. In 2026 Army beat Arkansas State 42–17 in the first round of the playoffs, then lost 38–10 at Navy in the quarterfinals to finish 10–4. Matt Sherman is head coach.",
+    description: "You need U.S. citizenship to attend, apart from a small number of students nominated by their own government. Army won the 2022 D1A national title, beating Saint Mary's 20–8 in the final. In 2026 Army beat Arkansas State 42–17 in the first round of the playoffs, then lost 38–10 at Navy in the quarterfinals to finish 10–4. Matt Sherman is head coach.",
     enrollment: 4508, popularMajors: ["Engineering", "Military Leadership", "International Affairs", "Economics"],
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:36,lF:21,hC:2,lC:-6},{month:"Feb",hF:39,lF:22,hC:4,lC:-5},{month:"Mar",hF:47,lF:30,hC:9,lC:-1},{month:"Apr",hF:60,lF:41,hC:16,lC:5},{month:"May",hF:72,lF:51,hC:22,lC:10},{month:"Jun",hF:80,lF:60,hC:27,lC:15},{month:"Jul",hF:85,lF:65,hC:30,lC:19},{month:"Aug",hF:83,lF:64,hC:29,lC:18},{month:"Sep",hF:76,lF:57,hC:24,lC:14},{month:"Oct",hF:63,lF:46,hC:17,lC:8},{month:"Nov",hF:51,lF:36,hC:11,lC:2},{month:"Dec",hF:41,lF:27,hC:5,lC:-3}],
-    badges: ["2 drafted into MLR · 2 played"], achievements: ["2022 D1A National Champions"],
+    badges: ["2022 D1A National Champions","2 drafted into MLR · 2 played"], achievements: ["2022 D1A National Champions (beat Saint Mary's 20–8 in the final)"],
     website: "https://www.westpoint.edu", imageUrl: "/college-images/united-states-military-academy-army.jpg", imageCredit: "Photo: USMA Public Affairs Office / Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:USMA%20Aerial%20View%20Looking%20North.jpg", gender: "mens",
   },
   {
@@ -199,11 +213,11 @@ export const colleges: College[] = [
     draftPicks: 2, mlrPlayed: 1, mlrUnconfirmed: 0, mlrNoAppearance: 0, mlrNotYet: 1, playerCount: 56,
     coachName: "David Laflamme", coachEmail: "david_laflamme@brown.edu",
     rugbyProgramUrl: "https://brownrec.com/sports/mens-rugby", assistantCoaches: [],
-    description: "Brown won NCR Division 1 national titles in 2022 and 2024. In fall 2025 the team reached the NCR Division 1 quarterfinals, where it lost 51–7 to eventual champions St. Bonaventure. Brown is an Ivy League university in Providence, Rhode Island.",
+    description: "Brown won NCR Division 1 national titles in 2022 and 2024, beating Queens 23–20 in the 2024 final. In fall 2025 the team reached the NCR Division 1 quarterfinals, where it lost 51–7 to eventual champions St. Bonaventure. Brown is an Ivy League university in Providence, Rhode Island.",
     enrollment: 11700, popularMajors: ["Economics", "Computer Science", "International Relations", "Biology"],
     weatherSummary: "Warm summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:38,lF:22,hC:3,lC:-5},{month:"Feb",hF:41,lF:24,hC:5,lC:-5},{month:"Mar",hF:48,lF:30,hC:9,lC:-1},{month:"Apr",hF:59,lF:40,hC:15,lC:4},{month:"May",hF:69,lF:49,hC:21,lC:10},{month:"Jun",hF:78,lF:59,hC:25,lC:15},{month:"Jul",hF:84,lF:65,hC:29,lC:18},{month:"Aug",hF:82,lF:64,hC:28,lC:18},{month:"Sep",hF:75,lF:57,hC:24,lC:14},{month:"Oct",hF:64,lF:45,hC:18,lC:7},{month:"Nov",hF:53,lF:36,hC:12,lC:2},{month:"Dec",hF:43,lF:28,hC:6,lC:-2}],
-    badges: ["2 drafted into MLR · 1 played"], achievements: ["2022 and 2024 NCR D1 National Champions"],
+    badges: ["2024 NCR D1 National Champions","2022 NCR D1 National Champions","2 drafted into MLR · 1 played"], achievements: ["2024 NCR D1 National Champions (beat Queens 23–20 in the final)","2022 NCR D1 National Champions"],
     website: "https://www.brown.edu", imageUrl: "/college-images/brown-university.jpg", imageCredit: "Photo: Kenneth C. Zirkel / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Brown%27s%20University%20Hall%20in%202007.jpg", gender: "mens",
   },
   {
@@ -368,11 +382,11 @@ export const colleges: College[] = [
     coachName: "Tyree Reed", coachEmail: "reedt2@queens.edu",
     rugbyProgramUrl: "https://queensathletics.com/sports/mens-rugby",
     recruitmentFormUrl: "https://questionnaires.armssoftware.com/3a2844a9d2bb", assistantCoaches: [],
-    description: "Queens reached the 2025 NCR Division 1 final, beating Wheeling 45–28 and Belmont Abbey 19–15 before losing 55–19 to St. Bonaventure. Tyree Reed was named head coach in April 2025. Queens is in Charlotte, North Carolina, and plays in the ARC.",
+    description: "Queens reached the 2025 NCR Division 1 final, beating Wheeling 45–28 and Belmont Abbey 19–15 before losing 55–19 to St. Bonaventure. That was a second straight final: Queens lost the 2024 final 23–20 to Brown. Tyree Reed was named head coach in April 2025. Queens is in Charlotte, North Carolina, and plays in the ARC.",
     enrollment: 1599, popularMajors: ["Business", "Health Sciences", "Communications", "Education"],
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:52,lF:32,hC:11,lC:0},{month:"Feb",hF:57,lF:35,hC:14,lC:2},{month:"Mar",hF:64,lF:41,hC:18,lC:5},{month:"Apr",hF:73,lF:49,hC:23,lC:10},{month:"May",hF:80,lF:58,hC:27,lC:14},{month:"Jun",hF:87,lF:66,hC:31,lC:19},{month:"Jul",hF:90,lF:70,hC:32,lC:21},{month:"Aug",hF:89,lF:69,hC:31,lC:20},{month:"Sep",hF:83,lF:63,hC:28,lC:17},{month:"Oct",hF:73,lF:50,hC:23,lC:10},{month:"Nov",hF:63,lF:40,hC:17,lC:4},{month:"Dec",hF:55,lF:35,hC:13,lC:1}],
-    badges: ["2025 NCR D1 Finalists","4 drafted into MLR · none confirmed played"], achievements: [],
+    badges: ["2025 NCR D1 Finalists","2024 NCR D1 Finalists","4 drafted into MLR · none confirmed played"], achievements: ["2025 NCR D1 Finalists (lost 55–19 to St. Bonaventure)","2024 NCR D1 Finalists (lost 23–20 to Brown)"],
     website: "https://www.queens.edu", imageUrl: "/college-images/queens-university-of-charlotte.jpg", imageCredit: "Photo: Bz3rk / Wikimedia Commons (CC BY-SA 3.0)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Queens%20University%20of%20Charlotte.jpg", gender: "mens",
   },
   {
@@ -861,7 +875,7 @@ export const colleges: College[] = [
     weatherSummary: "Hot summers, cool winters.",
     monthlyTemps: [{month:"Jan",hF:45,lF:23,hC:7,lC:-5},{month:"Feb",hF:49,lF:25,hC:9,lC:-4},{month:"Mar",hF:57,lF:31,hC:14,lC:-1},{month:"Apr",hF:68,lF:40,hC:20,lC:4},{month:"May",hF:76,lF:50,hC:24,lC:10},{month:"Jun",hF:83,lF:59,hC:28,lC:15},{month:"Jul",hF:87,lF:64,hC:31,lC:18},{month:"Aug",hF:85,lF:63,hC:29,lC:17},{month:"Sep",hF:79,lF:56,hC:26,lC:13},{month:"Oct",hF:69,lF:43,hC:21,lC:6},{month:"Nov",hF:58,lF:32,hC:14,lC:0},{month:"Dec",hF:48,lF:26,hC:9,lC:-3}],
     badges: [], achievements: [],
-    website: "https://svu.edu", imageUrl: "", imageCredit: "", imageSourcePage: "", gender: "mens",
+    website: "https://svu.edu", imageUrl: "/college-images/southern-virginia-university.jpg", imageCredit: "Photo: Carol M. Highsmith / Library of Congress via Wikimedia Commons (public domain)", imageSourcePage: "https://commons.wikimedia.org/wiki/File:Southern_Virginia_University.jpg", gender: "mens",
   },
 ];
 
