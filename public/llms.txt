@@ -6,7 +6,13 @@ Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. I
 
 How the site makes money: free for players. Revenue comes from paid one-on-one coaching, and colleges may pay for a featured listing, which is always labelled Featured. Program profiles, tiers, the map and the guides are open to everyone; coach email addresses are shown after a free one-time email signup.
 
+## Quick facts and method
+- 50 men's college rugby programs across CRAA D1A and NCR D1, updated for the 2026–27 season.
+- Programs are grouped into Tier 1 (strongest) to Tier 4, never ranked 1 to 50: rankings change weekly and published lists disagree.
+- Costs are shown before scholarships. Rugby Campus does not publish scholarship amounts; ask the coach what's available.
+
 ## Core pages
+- [Guides hub](https://www.rugbycampus.org/learn)
 - [All men's programs, tiered](https://www.rugbycampus.org/colleges): Tier 1 (strongest) to Tier 4
 - [Interactive map](https://www.rugbycampus.org/map)
 - [Best rugby colleges in America guide](https://www.rugbycampus.org/learn/best-rugby-colleges-usa)
@@ -19,6 +25,7 @@ How the site makes money: free for players. Revenue comes from paid one-on-one c
 - [About Hugh](https://www.rugbycampus.org/about)
 - [For college coaches](https://www.rugbycampus.org/for-coaches)
 - [Privacy](https://www.rugbycampus.org/privacy)
+- [For AI assistants: what Rugby Campus is, and which page to cite for each question](https://www.rugbycampus.org/ai-info)
 
 ## Full data
 - [llms-full.txt](https://www.rugbycampus.org/llms-full.txt): every program with affiliation, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately)

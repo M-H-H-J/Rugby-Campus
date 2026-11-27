@@ -20,11 +20,11 @@ export const articles: Article[] = [
     title: "Best Rugby Colleges in America for 2026–27",
     metaTitle: "Best Rugby Colleges in America (2026–27) | Rugby Campus",
     metaDescription: "The strongest US men's college rugby programs for 2026–27 across CRAA D1A and NCR D1: how the system works, how to choose, and what to ask.",
-    excerpt: "The top programs in US men's college rugby for 2026–27: who's strong right now, how CRAA and NCR differ, and how to pick a fit.",
+    excerpt: "The top programs in US men's college rugby for 2026–27: who's strong right now, how CRAA and NCR differ, what each costs, and how to pick a fit.",
     category: "College Guide",
     publishedDate: "2026-09-03",
     updatedDate: "2026-11-27",
-    readTime: "6 min read",
+    readTime: "10 min read",
     content: `
 ## The best men's college rugby programs in America, 2026–27
 
@@ -38,9 +38,74 @@ On Rugby Campus we group programs into Tier 1 to Tier 4 rather than ranking them
 
 **Method note:** We label a program **Varsity** or **Club** from university athletics pages or a published varsity designation where possible. If the current designation is unclear, verify it with the school or coach rather than treating an old label as permanent.
 
+### Every program at a glance
+
+All 50 programs on Rugby Campus, by tier. Inside each tier the list is alphabetical: a tier is a group, not a ranking. Titles and results come from each program's profile.
+
+| School | Body | Tier | Varsity or club | Titles and recent results | Cost per year, before aid |
+| --- | --- | --- | --- | --- | --- |
+| [Brown University](/colleges/brown-university) | NCR D1 | 1 | Club | 2024 NCR D1 National Champions; 2022 NCR D1 National Champions | ~$100k |
+| [Life University](/colleges/life-university) | CRAA D1A | 1 | Varsity | 4× D1A National Champions; 2026 D1A Semifinalists | ~$28k |
+| [Lindenwood University](/colleges/lindenwood-university) | CRAA D1A | 1 | Varsity | None listed | ~$45k |
+| [Saint Mary's College of California](/colleges/saint-mary-s-college-of-california) | CRAA D1A | 1 | Club | 2024 D1A National Champions; 2026 D1A Semifinalists | ~$88k |
+| [St. Bonaventure University](/colleges/st-bonaventure-university) | NCR D1 | 1 | Varsity | 2025 NCR D1 National Champions | ~$62k |
+| [United States Military Academy (Army)](/colleges/united-states-military-academy-army) | CRAA D1A | 1 | Varsity | 2022 D1A National Champions | No tuition (service commitment) |
+| [United States Naval Academy](/colleges/united-states-naval-academy) | CRAA D1A | 1 | Varsity | 2023 D1A National Champions; 2026 D1A Finalists | No tuition (service commitment) |
+| [University of California, Berkeley](/colleges/university-of-california-berkeley) | CRAA D1A | 1 | Varsity | 2026 D1A National Champions; Back-to-Back Champions (2025 & 2026) | ~$55k in-state / ~$94k out-of-state |
+| [Arkansas State University](/colleges/arkansas-state-university) | CRAA D1A | 2 | Club | None listed | ~$31k in-state / ~$39k out-of-state |
+| [Brigham Young University](/colleges/brigham-young-university) | CRAA D1A | 2 | Club | None listed | ~$14k (tuition only) |
+| [Dartmouth College](/colleges/dartmouth-college) | NCR D1 | 2 | Club | None listed | ~$98k |
+| [Davenport University](/colleges/davenport-university) | CRAA D1A | 2 | Varsity | None listed | ~$52k |
+| [Grand Canyon University](/colleges/grand-canyon-university) | CRAA D1A | 2 | Club | None listed | ~$34k |
+| [Kutztown University](/colleges/kutztown-university) | NCR D1 | 2 | Club | None listed | ~$26k in-state / ~$31k out-of-state |
+| [Mount St. Mary's University](/colleges/mount-st-mary-s-university) | CRAA D1A | 2 | Varsity | None listed | ~$68k |
+| [Pennsylvania State University](/colleges/pennsylvania-state-university) | CRAA D1A | 2 | Varsity | None listed | ~$21k in-state / ~$45k out-of-state (tuition only) |
+| [Queens University of Charlotte](/colleges/queens-university-of-charlotte) | NCR D1 | 2 | Varsity | 2025 NCR D1 Finalists; 2024 NCR D1 Finalists | ~$75k |
+| [United States Air Force Academy](/colleges/united-states-air-force-academy) | CRAA D1A | 2 | Club | None listed | No tuition (service commitment) |
+| [University of Arizona](/colleges/university-of-arizona) | CRAA D1A | 2 | Club | None listed | ~$37k in-state / ~$68k out-of-state |
+| [University of Mary Washington](/colleges/university-of-mary-washington) | CRAA D1A | 2 | Varsity | None listed | ~$30k in-state / ~$44k out-of-state |
+| [Walsh University](/colleges/walsh-university) | NCR D1 | 2 | Varsity | 2023 NCR D1 Champions (as Notre Dame College) | ~$56k |
+| [Wheeling University](/colleges/wheeling-university) | NCR D1 | 2 | Varsity | None listed | ~$45k |
+| [Belmont Abbey College](/colleges/belmont-abbey-college) | NCR D1 | 3 | Varsity | None listed | ~$36k |
+| [California Polytechnic State University](/colleges/california-polytechnic-state-university) | CRAA D1A | 3 | Club | None listed | ~$41k in-state / ~$64k out-of-state |
+| [California State University, Long Beach](/colleges/california-state-university-long-beach) | CRAA D1A | 3 | Club | None listed | ~$34k in-state / ~$47k out-of-state |
+| [Colorado State University](/colleges/colorado-state-university) | CRAA D1A | 3 | Club | None listed | ~$37k in-state / ~$61k out-of-state |
+| [Fairfield University](/colleges/fairfield-university) | NCR D1 | 3 | Club | None listed | ~$83k |
+| [Indiana Institute of Technology](/colleges/indiana-institute-of-technology) | NCR D1 | 3 | Varsity | None listed | ~$55k |
+| [Indiana University](/colleges/indiana-university) | NCR D1 / CRAA dual | 3 | Club | None listed | ~$31k in-state / ~$63k out-of-state |
+| [Marian University](/colleges/marian-university) | NCR D1 | 3 | Varsity | None listed | ~$58k |
+| [Southern Nazarene University](/colleges/southern-nazarene-university) | NCR D1 | 3 | Varsity | None listed | ~$44k |
+| [The Ohio State University](/colleges/the-ohio-state-university) | CRAA D1A | 3 | Club | 2024 Big Ten Universities champions | ~$34k in-state / ~$65k out-of-state |
+| [University of California, Los Angeles (UCLA)](/colleges/university-of-california-los-angeles-ucla) | NCR D1 / CRAA dual | 3 | Club | None listed | ~$46k in-state / ~$85k out-of-state |
+| [University of California, Santa Cruz](/colleges/university-of-california-santa-cruz) | CRAA D1A | 3 | Club | None listed | ~$44k in-state / ~$81k out-of-state |
+| [University of Notre Dame](/colleges/university-of-notre-dame) | NCR D1 | 3 | Club | None listed | ~$92k |
+| [Aquinas College](/colleges/aquinas-college) | NCR D1 | 4 | Varsity | None listed | ~$62k |
+| [Fordham University](/colleges/fordham-university) | NCR D1 | 4 | Club | None listed | ~$102k |
+| [McKendree University](/colleges/mckendree-university) | CRAA D1A | 4 | Varsity | None listed | ~$53k |
+| [Santa Clara University](/colleges/santa-clara-university) | CRAA D1A | 4 | Club | None listed | ~$93k |
+| [Siena College](/colleges/siena-college) | NCR D1 | 4 | Varsity | None listed | ~$73k |
+| [Southern Virginia University](/colleges/southern-virginia-university) | CRAA D1A | 4 | Varsity | None listed | ~$36k |
+| [St. Thomas University (Florida)](/colleges/st-thomas-university-florida) | CRAA D1A | 4 | Varsity | 2025 CRAA D1AA National Champions | ~$55k |
+| [Thomas More University](/colleges/thomas-more-university) | NCR D1 | 4 | Varsity | None listed | ~$60k |
+| [University of Colorado Boulder](/colleges/university-of-colorado-boulder) | CRAA D1A | 4 | Club | None listed | ~$35k in-state / ~$67k out-of-state |
+| [University of Michigan](/colleges/university-of-michigan) | NCR D1 | 4 | Club | None listed | ~$40k in-state / ~$88k out-of-state |
+| [University of Rio Grande](/colleges/university-of-rio-grande) | NCR D1 | 4 | Varsity | None listed | ~$13k in-state tuition only; ask the coach |
+| [University of San Diego](/colleges/university-of-san-diego) | CRAA D1A | 4 | Club | None listed | ~$89k |
+| [University of Utah](/colleges/university-of-utah) | CRAA D1A | 4 | Club | None listed | ~$46k in-state / ~$68k out-of-state |
+| [Western Washington University](/colleges/western-washington-university) | CRAA D1A | 4 | Club | New to D1A for 2026–27 | ~$33k in-state / ~$52k out-of-state |
+| [Wingate University](/colleges/wingate-university) | NCR D1 | 4 | Varsity | None listed | ~$66k |
+
+Costs are the latest published yearly cost of attendance (tuition, fees, room, board and extras), rounded to the nearest $1,000, unless marked tuition only. Public universities show the in-state and out-of-state rate. Before scholarships. Ask the coach what's available.
+
 ## How college rugby is structured in the USA
 
 American college rugby has two main governing bodies at the top level. Learning about both may influence your decision.
+
+| Body | Main 15s championship | Latest champion | Programs on Rugby Campus |
+| --- | --- | --- | --- |
+| CRAA D1A | Spring | Cal (2026, beat Navy 36–22) | 28 |
+| NCR D1 | Fall | St. Bonaventure (2025, beat Queens 55–19) | 20 |
+| Listed under both | Fall and spring | See the two rows above | 2 |
 
 **CRAA D1A** (College Rugby Association of America) runs a **spring** 15s championship playoff. In 2026, Cal beat Navy in the final in Indianapolis and went back-to-back. Western Washington won the 2025–26 D1AA title and moved up to D1A for 2026–27, and St. Thomas University (Florida), the 2025 D1AA champions, is in its second D1A season.
 
@@ -60,7 +125,7 @@ My view on strength: the very top of D1A is generally stronger than the top of N
 
 Some schools compete under one body, some under both, and the landscape keeps evolving. UCLA playing both NCR D1 and CRAA D1A in 2026–27 is the clearest current example.
 
-## Top D1A programs
+## Top CRAA D1A and NCR D1 programs
 
 ### UC Berkeley (Cal)
 
@@ -73,6 +138,10 @@ Life (Marietta, Georgia) runs rugby as a varsity sport and has won four D1A nati
 ### Saint Mary's and Lindenwood
 
 After Cal and Life, **Saint Mary's College of California** and **Lindenwood** are the next names most people should study. Both compete at the top end of D1A year after year. Lindenwood runs rugby as a varsity sport; Saint Mary's has won four D1A national titles (2014, 2015, 2017, 2024).
+
+### St. Bonaventure and Brown (NCR D1)
+
+On the NCR side, **[St. Bonaventure](/colleges/st-bonaventure-university)** won the 2025 NCR D1 title, beating Queens 55–19 in the final, and runs rugby as a varsity sport. **[Brown](/colleges/brown-university)** won NCR D1 titles in 2022 and 2024, beating Queens 23–20 in the 2024 final. Brown is an Ivy League school where rugby is a club, and it admits about 5% of applicants, so academics come first.
 
 ### Military academies (Army / Navy): international caveat
 
@@ -89,11 +158,67 @@ Tier 2 on this site is deep. A few D1A programs worth a proper look:
 
 Browse the [colleges list](/colleges) for the full set. Programs move in cycles (see [why rankings lie](/learn/why-college-rugby-rankings-lie)), so don't treat any short list as gospel.
 
-## Can you get a rugby scholarship?
+## Best fit by what you want
 
-Common question from international players. Short answer: **it depends on the school**, and we don't publish a list yet.
+| If you want | Start with | Why |
+| --- | --- | --- |
+| A national title shot | [Brown University](/colleges/brown-university), [Life University](/colleges/life-university), [Lindenwood University](/colleges/lindenwood-university), [Saint Mary's College of California](/colleges/saint-mary-s-college-of-california), [St. Bonaventure University](/colleges/st-bonaventure-university), [United States Military Academy (Army)](/colleges/united-states-military-academy-army), [United States Naval Academy](/colleges/united-states-naval-academy), [University of California, Berkeley](/colleges/university-of-california-berkeley) | Tier 1: the programs winning or contending for CRAA D1A and NCR D1 titles now. |
+| Club rugby at a public university | [Arkansas State University](/colleges/arkansas-state-university), [California Polytechnic State University](/colleges/california-polytechnic-state-university), [California State University, Long Beach](/colleges/california-state-university-long-beach), [Colorado State University](/colleges/colorado-state-university), [Indiana University](/colleges/indiana-university), [Kutztown University](/colleges/kutztown-university), [The Ohio State University](/colleges/the-ohio-state-university), [University of Arizona](/colleges/university-of-arizona), [University of California, Los Angeles (UCLA)](/colleges/university-of-california-los-angeles-ucla), [University of California, Santa Cruz](/colleges/university-of-california-santa-cruz), [University of Colorado Boulder](/colleges/university-of-colorado-boulder), [University of Michigan](/colleges/university-of-michigan), [University of Utah](/colleges/university-of-utah), [Western Washington University](/colleges/western-washington-university) | Public universities where rugby is a club. Out-of-state and international students pay the higher rate. |
+| US service academy | [United States Air Force Academy](/colleges/united-states-air-force-academy), [United States Military Academy (Army)](/colleges/united-states-military-academy-army), [United States Naval Academy](/colleges/united-states-naval-academy) | No tuition in return for military service. US citizens only, apart from a few students nominated by their own government. |
 
-Men's rugby isn't an NCAA sport anywhere (the NCAA lists varsity women's rugby as an Emerging Sport for Women), so the big NCAA athletic scholarships don't apply. A few varsity programs put some athletic money toward rugby. Most players who get help get it through academic aid. Ask the coach. More in [Rugby scholarships explained](/learn/rugby-scholarships-explained).
+## Rugby scholarships: which programs are varsity
+
+Common question from international players. Short answer: **it depends on the school**. Rugby Campus doesn't publish who pays what, because amounts change every year and only the coach can tell you. What we can tell you is where rugby sits.
+
+Men's rugby isn't an NCAA sport anywhere (the NCAA lists varsity women's rugby as an Emerging Sport for Women), so the big NCAA athletic scholarships don't apply. Where rugby money exists, it's almost always at a **varsity** program, where rugby sits under the athletics department. Being varsity doesn't mean there's money for you; it means it's worth asking.
+
+**Varsity programs on Rugby Campus (25):**
+
+- **CRAA D1A:** [Davenport University](/colleges/davenport-university), [Life University](/colleges/life-university), [Lindenwood University](/colleges/lindenwood-university), [McKendree University](/colleges/mckendree-university), [Mount St. Mary's University](/colleges/mount-st-mary-s-university), [Pennsylvania State University](/colleges/pennsylvania-state-university), [Southern Virginia University](/colleges/southern-virginia-university), [St. Thomas University (Florida)](/colleges/st-thomas-university-florida), [United States Military Academy (Army)](/colleges/united-states-military-academy-army), [United States Naval Academy](/colleges/united-states-naval-academy), [University of California, Berkeley](/colleges/university-of-california-berkeley), [University of Mary Washington](/colleges/university-of-mary-washington)
+- **NCR D1:** [Aquinas College](/colleges/aquinas-college), [Belmont Abbey College](/colleges/belmont-abbey-college), [Indiana Institute of Technology](/colleges/indiana-institute-of-technology), [Marian University](/colleges/marian-university), [Queens University of Charlotte](/colleges/queens-university-of-charlotte), [Siena College](/colleges/siena-college), [Southern Nazarene University](/colleges/southern-nazarene-university), [St. Bonaventure University](/colleges/st-bonaventure-university), [Thomas More University](/colleges/thomas-more-university), [University of Rio Grande](/colleges/university-of-rio-grande), [Walsh University](/colleges/walsh-university), [Wheeling University](/colleges/wheeling-university), [Wingate University](/colleges/wingate-university)
+
+The service academies (Army and Navy above) charge no tuition in return for military service, so a rugby scholarship isn't how they work.
+
+**Club programs (25)** run rugby as a student club, sometimes with paid coaches. Rugby money is unlikely, but academic aid still applies. Labels can change, so check the current one with the coach.
+
+Most players who get help get it through academic aid. More in [Rugby scholarships explained](/learn/rugby-scholarships-explained).
+
+## How hard is it to get in? Academic selectivity
+
+A coach's interest helps, but at a selective school it doesn't replace admission. You still have to get in on your grades. Two signals are on every profile:
+
+- **Admitted:** the share of applicants the university admitted (federal IPEDS data). Under about 20% means your grades carry the application, whatever the coach thinks.
+- **SAT / ACT:** whether the school requires, accepts (optional) or ignores test scores. If it's optional, a good score can still help, including for academic aid.
+
+The most selective schools on the site (under 35% admitted):
+
+| School | Admitted | SAT / ACT | Tier |
+| --- | --- | --- | --- |
+| [Brown University](/colleges/brown-university) | 5% | Optional | 1 |
+| [Dartmouth College](/colleges/dartmouth-college) | 5% | Optional | 2 |
+| [University of California, Los Angeles (UCLA)](/colleges/university-of-california-los-angeles-ucla) | 9% | Not considered | 3 |
+| [United States Naval Academy](/colleges/united-states-naval-academy) | 9% | Required | 1 |
+| [University of California, Berkeley](/colleges/university-of-california-berkeley) | 11% | Not considered | 1 |
+| [University of Notre Dame](/colleges/university-of-notre-dame) | 11% | Optional | 3 |
+| [United States Military Academy (Army)](/colleges/united-states-military-academy-army) | 13% | Required | 1 |
+| [United States Air Force Academy](/colleges/united-states-air-force-academy) | 14% | Check with the school | 2 |
+| [University of Michigan](/colleges/university-of-michigan) | 16% | Optional | 4 |
+| [California Polytechnic State University](/colleges/california-polytechnic-state-university) | 31% | Not considered | 3 |
+| [Fairfield University](/colleges/fairfield-university) | 33% | Optional | 3 |
+
+Most programs on the site admit more than half of applicants. That doesn't make the course easy; check that your major is offered and what the workload looks like.
+
+## What it costs an international student
+
+The table above shows US prices. If you're coming from overseas, read it this way:
+
+- **Public universities:** you pay the **out-of-state** rate. In-state prices are only for residents of that state. At Cal, for example, that's about $94k a year, not $55k.
+- **Private universities:** usually one price for everyone, international students included.
+- **On top of that:** flights home, health insurance (most colleges require a plan), visa fees, and summers when you may stay in the US. Budget for them.
+- **Proof of funds:** before a school issues the form you need for a student visa (the I-20), it will ask you to show you can pay for the first year, after any aid.
+- **Service academies:** closed to almost every international player (see above).
+
+This isn't visa advice. Confirm the numbers with each school's international admissions office, and ask the coach what aid is realistic.
 
 ## What should you consider when choosing a program?
 
@@ -103,7 +228,7 @@ Men's rugby isn't an NCAA sport anywhere (the NCAA lists varsity women's rugby a
 
 **Location and climate.** Playing in Southern California is a very different four years from Wisconsin. Think about the weather you'll live in.
 
-**Cost and aid.** US tuition ranges widely. Ask early about academic aid and any rugby-related support, without assuming either exists.
+**Cost and aid.** US tuition ranges widely (see the table above). Ask early about academic aid and any rugby-related support, without assuming either exists.
 
 **Coach and culture.** Email the coach. Visit if you can. Visits are costly, and not everyone can; I didn't. The relationship with your coach and the team culture still matters more than the brochure.
 
@@ -122,7 +247,10 @@ Ready to look? Start with the [map](/map).
 Best always changes. Teams rotate. Right now, **Cal** is the best men's 15s college rugby program in America: back-to-back CRAA D1A titles in 2025 and 2026. Navy, Life, Saint Mary's, and Lindenwood sit with them in the top conversation. In NCR D1, St. Bonaventure and Brown are the names at the top.
 
 **Which US universities offer rugby scholarships?**
-We don't publish a list yet. We're checking with coaches school by school. Athletic aid for rugby is rare and mostly at varsity programs. Ask each coach.
+Athletic aid for rugby is rare and mostly at varsity programs, and amounts change every year, so Rugby Campus doesn't publish who pays what. 25 of the 50 programs on the site are varsity; they're listed above. Ask each coach what's available.
+
+**How much does US college rugby cost for an international student?**
+Use the out-of-state price at public universities; private universities usually charge everyone the same. Full yearly costs on Rugby Campus run from about $28k to over $100k before aid, plus flights, health insurance and visa fees. Ask the coach and the international office what aid is realistic.
 
 **What is the difference between D1A and NCR D1?**
 CRAA D1A runs a spring 15s national playoff; NCR D1 runs a fall 15s championship under a separate governing body. Top of D1A is generally stronger; the middle overlaps. Programs can compete under one or both. UCLA is doing both in 2026–27.
@@ -403,6 +531,12 @@ Profiles say Varsity or Club when that's confirmed. Where it isn't, the page say
 - **Academic aid** comes from the university, based on grades and test scores. For a lot of players this is the bigger number.
 - **Other help:** campus jobs, housing deals, payment plans. Worth asking about.
 
+| Aid type | Who decides | Where it's most likely | What to ask |
+|---|---|---|---|
+| Athletic (rugby) aid | The rugby coach | Varsity programs | Is there rugby aid here, how much, and for how many years? |
+| Academic aid | The university's admissions or financial aid office | Any school, varsity or club | What academic aid could my grades and scores earn? |
+| Other help | The university | Varies | Campus jobs, housing, payment plans? |
+
 A good package is often a mix. Look at the total cost to attend, not just the rugby line.
 
 ## How to ask the coach
@@ -438,7 +572,7 @@ Money matters, but a good offer at the wrong level or a shaky school can go badl
 Sometimes. It's rare and depends on the school. Ask the coach.
 
 **Which schools offer rugby scholarships?**
-We don't publish a list yet. We're checking with coaches school by school. Until then, ask each coach directly.
+Rugby Campus doesn't publish who pays what, because it changes every year. Rugby aid is most likely at varsity programs, and the [best rugby colleges guide](/learn/best-rugby-colleges-usa) lists every program that is varsity. Ask each coach directly.
 
 **Do big state schools give rugby scholarships?**
 Usually not for rugby, since most run it as a club. Academic aid is still on the table.
@@ -452,12 +586,12 @@ No. An email with film is enough to start. An agency is fine if you want one.
     slug: "how-college-rugby-recruitment-works",
     title: "How College Rugby Recruitment Works",
     metaTitle: "How College Rugby Recruitment Works | Rugby Campus",
-    metaDescription: "How colleges fill their rugby rosters, when to reach out to coaches, and why an email with film is enough to get a look.",
-    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. An email with film is enough to get a look. An agency is optional and fine if you use one.",
+    metaDescription: "How colleges fill rugby rosters, a year-by-year timeline for when to email coaches (US and international), what to send, and why film gets you a look.",
+    excerpt: "Colleges fill rosters through agencies, direct outreach, recruiting, and walk-ons. Here's when to reach out, year by year, and what to send. An email with film is enough to get a look.",
     category: "Recruitment",
     publishedDate: "2026-03-25",
     updatedDate: "2026-11-27",
-    readTime: "2 min read",
+    readTime: "6 min read",
     content: `
 Colleges can fill their rugby rosters in a multitude of ways:
 1. Through agencies that send them players who are interested.
@@ -473,6 +607,47 @@ In season, coaches are flat out, so it's better to reach out during the offseaso
 
 Men's rugby isn't an NCAA sport anywhere. Some universities/colleges are considered club teams while others are varsity sports. That matters hugely as it influences your scholarship, the facilities, the staff and the money going into the program. Additionally there are two competing College Rugby governing bodies: CRAA and NCR.
 
+## When to contact college rugby coaches (timeline by year)
+
+There's no NCAA recruiting calendar for men's rugby, so there's no date before which you're not allowed to email a coach. What matters is that the coach can plan for you, and that your university application is in on time. Eighteen months to two years before you'd start is a good time for the first email. Earlier is fine if you have film.
+
+US players: junior year is the US 11th grade. International players: read "junior" as your second-last year of school and "senior" as your last. US college starts in August.
+
+| When | What to do | What to send |
+|---|---|---|
+| Two years out (US sophomore) | Play as much as you can, 15s and 7s. Keep your grades up: they decide admission and academic aid. Film your games. | Nothing yet. Start a list of programs that fit. |
+| Junior fall | Cut the list to 5–8. Check each profile for a recruitment form. Send your first emails. | Short email, highlight reel, position, height and weight, grades. |
+| Junior spring | Follow up once with new film. Ask about admission and aid. Book the SAT or ACT if your schools want it (check each admissions page). Visit if you can. | Updated reel, a recent full match, your school transcript if asked. |
+| Summer before senior year | Tournaments, camps and visits. International players: check whether your schools need an English test, and what they want from your school. | Results and new film to the coaches who replied. |
+| Senior fall | Apply. Many US deadlines fall between November and January; check each one. Ask the coach whether they'll support your application. | Your application, plus a note to the coach once it's in. |
+| Senior spring | Decisions arrive. Get any aid offer in writing and compare the full cost. International players: once you commit, the school issues your I-20 for the student visa. | Your decision, to every coach you spoke to. |
+
+**Coaches' busy seasons differ.** NCR D1 plays its 15s championship in the fall and CRAA D1A its playoffs in the spring. Don't expect a long reply in the weeks around a coach's playoffs. Ask each coach when their quiet months are.
+
+**Finishing school in November or December?** Common in Australia, New Zealand and South Africa. Most players start in the August after they finish, so run the timeline against that August, not against the US school year. I finished school in Australia and started at Notre Dame College that fall, at 17.
+
+**Running late?** Not every roster is full by spring. Some coaches still have room in the summer, and walk-ons make teams every year. Email anyway.
+
+## What to put in your first email to a rugby coach
+
+Keep it short enough to read on a phone:
+
+- **Subject line:** your name, position and country, and the college's name.
+- **Who you are:** age, where you're from, your club or school, height and weight.
+- **Why them:** one real reason. The level, the course, the coach. Not "your great program."
+- **Film:** a highlight reel link, and say you can send full matches.
+- **One question:** what they look for in your position, and whether they expect space on the roster in your year.
+
+There's a copy-paste version on each college page that lists a coach email, once you've unlocked coach emails. Follow up once, then leave it.
+
+## Highlight reel basics coaches actually watch
+
+- **Best clips first.** A coach may only watch the first minute.
+- **Show which player you are.** Say your jersey number at the start, or mark yourself in each clip.
+- **Short.** A few minutes is plenty. Have full matches ready to send when asked.
+- **Your position's work.** Carries and tackles for everyone, plus set piece for forwards and kicking and passing for backs.
+- **Recent.** This season's film beats a great clip from two years ago.
+
 ## What to do
 
 1. Shortlist the colleges that fit you.
@@ -482,6 +657,23 @@ Men's rugby isn't an NCAA sport anywhere. Some universities/colleges are conside
 Yes, you can apply to the university at the same time, but that won't move the needle. You typically want the coach vouching for you and they typically allocate resources to help you through the process.
 
 If you're international it's unlikely you'll be found unless you attend a "recruiting camp". In the USA, you may get lucky and be recruited. However, don't base your college future on luck. Take it into your own hands.
+
+## Frequently asked questions
+
+**When should I email college rugby coaches?**
+Eighteen months to two years before you'd start, which for US players is the fall of junior year. Earlier is fine if you have film. Avoid the weeks around a coach's playoffs, and follow up once.
+
+**Do I need an agency to get recruited for college rugby?**
+No. An email with film is enough to get a look. An agency is fine if you want one; I used one. Using an agency and this site together is fine too.
+
+**How long should a rugby highlight video be?**
+A few minutes, with your best clips first and your jersey number shown. Have full match film ready for coaches who ask.
+
+**Can international players get recruited without visiting campus?**
+Yes. I never visited before I committed. Video calls with the coach, and talking to current players, do most of what a visit does.
+
+**Is it too late to get recruited in senior year?**
+Not always. Some programs still have room in the spring and summer, and walk-ons make teams every year. Email anyway, and apply to the university on time.
 `,
   },
 ];
