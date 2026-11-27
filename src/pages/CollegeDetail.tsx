@@ -170,7 +170,7 @@ export default function CollegeDetail() {
         <aside className="lg:col-span-2 min-w-0">
           <div className="lg:sticky lg:top-24">
             <h2 className="font-heading text-[22px] text-ink mb-3">At a glance</h2>
-            <dl className="border-t border-ink">
+            <dl className="border-t border-ink tabular-nums">
               {glance.map(([label, value]) => (
                 <div key={label} className="flex justify-between gap-4 py-2.5 border-b border-line text-[13px]">
                   <dt className="text-muted shrink-0">{label}</dt>
@@ -245,7 +245,7 @@ export default function CollegeDetail() {
 
 function WeatherTable({ temps }: { temps: { month: string; hF: number; lF: number; hC: number; lC: number }[] }) {
   return (
-    <table className="w-full text-[12px] border-t border-line">
+    <table className="w-full text-[12px] border-t border-line tabular-nums">
       <thead>
         <tr className="text-muted">
           <th className="text-left font-medium py-2.5 pr-3">Month</th>

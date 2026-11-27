@@ -42,7 +42,7 @@ export default function ProfileFacts({ college }: { college: College }) {
   return (
     <section aria-label="Key facts">
       {rows.length > 0 && (
-        <dl className="border-t border-ink">
+        <dl className="border-t border-ink tabular-nums">
           {rows.map(([label, value]) => (
             <div key={label} className="flex flex-col sm:flex-row sm:justify-between gap-0.5 sm:gap-6 py-2.5 border-b border-line text-[14px] min-w-0">
               <dt className="text-muted shrink-0">{label}</dt>

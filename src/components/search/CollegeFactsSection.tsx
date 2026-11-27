@@ -26,7 +26,7 @@ export default function CollegeFactsSection({ slug }: { slug: string }) {
   return (
     <section aria-label="Cost, majors and campus facts">
       <h2 className="font-heading text-[24px] text-ink mb-2">Cost, study and campus</h2>
-      <dl>
+      <dl className="tabular-nums">
         <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5 sm:gap-6 py-3 border-b border-line text-[14px]">
           <dt className="text-muted shrink-0">Cost per year</dt>
           <dd className="font-medium text-ink sm:text-right">{cost.headline}<span className="block text-[12px] font-normal text-muted">{cost.askCoach ? 'Ask the coach what it costs.' : cost.sub}</span></dd>

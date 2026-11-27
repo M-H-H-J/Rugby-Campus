@@ -48,7 +48,7 @@ export default function MapPage() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-[13px] text-muted whitespace-nowrap"><span className="font-semibold text-ink">{filtered.length}</span> programs</span>
+            <span className="text-[13px] text-muted whitespace-nowrap tabular-nums"><span className="font-semibold text-ink">{filtered.length}</span> programs</span>
             <Link href="/colleges" className="btn inline-flex items-center gap-1.5 bg-white border border-line text-ink px-3 py-1.5 min-h-[44px] rounded-md text-[12px] font-medium hover:border-navy/30">
               <List size={14} /> List
             </Link>

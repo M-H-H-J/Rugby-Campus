@@ -64,7 +64,7 @@ export default function Home() {
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
             {findHint && <p id="home-find-hint" role="status" className="mt-2 text-[13px] text-muted">Type a short sentence about what you want in a college, like the example above.</p>}
-            <p className="mt-6 text-[13px] text-muted">{colleges.length} men's programs across CRAA D1A and NCR D1.</p>
+            <p className="mt-6 text-[13px] text-muted tabular-nums">{colleges.length} men's programs across CRAA D1A and NCR D1.</p>
           </div>
           <div>
             <Link href="/map" className="block" aria-label="Open the interactive map">
@@ -103,7 +103,7 @@ export default function Home() {
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 mb-8">
             <h2 className="font-heading text-[36px] md:text-[48px] text-ink leading-[1.05]">Top programs</h2>
             <Link href="/colleges" className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy">
-              All {colleges.length} programs <ArrowRight size={15} />
+              <span className="tabular-nums">All {colleges.length} programs</span> <ArrowRight size={15} />
             </Link>
           </div>
           <div className="grid lg:grid-cols-2 gap-10 items-start">
@@ -116,7 +116,7 @@ export default function Home() {
                     <div className="w-full h-full" aria-hidden />
                   )}
                 </div>
-                <h3 className="font-heading text-[32px] leading-tight text-ink group-hover:text-navy">{hero.name}</h3>
+                <h3 className="font-heading text-[32px] leading-[1.15] text-ink group-hover:text-navy">{hero.name}</h3>
                 <p className="text-[15px] text-muted mt-1">{hero.location}</p>
               </Link>
             )}
