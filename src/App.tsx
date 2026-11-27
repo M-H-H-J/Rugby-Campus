@@ -70,7 +70,7 @@ export default function App() {
           <Route path="/learn/:slug" component={ArticlePage} />
           <Route path="/training" component={Training} />
           <Route path="/about" component={About} />
-          <Route path="/work-with-me">{() => <Redirect to="/about" />}</Route>
+          <Route path="/work-with-me">{() => <Redirect to="/about" replace />}</Route>
           <Route path="/for-coaches" component={ForCoaches} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/ai-info" component={AiInfo} />
