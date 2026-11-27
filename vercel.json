@@ -58,7 +58,8 @@
     { "source": "/training", "destination": "/training/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/for-coaches", "destination": "/for-coaches/index.html" },
-    { "source": "/privacy", "destination": "/privacy/index.html" }
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/ai-info", "destination": "/ai-info/index.html" }
   ],
   "headers": [
     { "source": "/(.*)\\.(png|ico|svg|jpg|jpeg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }] },

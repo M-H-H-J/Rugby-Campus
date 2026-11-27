@@ -236,7 +236,7 @@ describe('crawler parity and technical SEO', () => {
     expect(sm).toContain('<loc>https://www.rugbycampus.org/privacy</loc><lastmod>2026-11-27</lastmod>');
     expect(sm).toContain('<loc>https://www.rugbycampus.org/learn/why-college-rugby-rankings-lie</loc><lastmod>2026-06-20</lastmod>');
     expect(sm).toContain('<loc>https://www.rugbycampus.org/colleges/university-of-california-berkeley</loc><lastmod>2026-11-20</lastmod>');
-    expect((sm.match(/<url>/g) ?? []).length).toBe(64);
+    expect((sm.match(/<url>/g) ?? []).length).toBe(65);
   });
   it('built llms-full.txt states the MLR numbers once per program and includes the title history', () => {
     const txt = dist('llms-full.txt'); if (!txt) return;

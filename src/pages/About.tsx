@@ -7,7 +7,7 @@ import CoachingEnquiry from '@/components/CoachingEnquiry';
 import { NDC_ABOUT_PHOTO } from '@/data/walshPhotos';
 
 export default function About() {
-  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.', undefined, '/images/hugh/hugh-johnston-headshot-og.jpg');
+  usePageMeta('About Rugby Campus', 'Why Rugby Campus exists: a free guide to US college rugby programs, levels, and recruitment, built after going through the pathway.');
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">
       <header className="mb-10 grid md:grid-cols-[1fr_220px] gap-6 md:gap-10 items-start">

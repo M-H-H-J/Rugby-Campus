@@ -18,8 +18,8 @@ await build({ ...shared, entryPoints: [resolve(root, 'scripts/data-entry.ts')], 
 await build({ ...shared, entryPoints: [resolve(root, 'scripts/page-entry.tsx')], outfile: pagesTmp, jsx: 'automatic', define: { 'process.env.NODE_ENV': '"production"' },
   // react-dom/server is CommonJS and requires Node built-ins.
   banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" } });
-const { renderPage, PRIVACY_UPDATED, PRIVACY_TITLE, PRIVACY_DESCRIPTION } = await import(pathToFileURL(pagesTmp).href);
-const { colleges, articles, formatGuideDate, collegeUpdated, tierNumber, HOME_HEADLINE, homeDescription, MONEY_LINE, HUGH_TITLE, HUGH_SOURCES, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges } = await import(pathToFileURL(tmp).href);
+const { renderPage, PRIVACY_UPDATED, PRIVACY_TITLE, PRIVACY_DESCRIPTION, AI_INFO_UPDATED, AI_INFO_TITLE, AI_INFO_DESCRIPTION, CITE_TABLE } = await import(pathToFileURL(pagesTmp).href);
+const { colleges, articles, formatGuideDate, collegeUpdated, tierNumber, HOME_HEADLINE, homeDescription, MONEY_LINE, HUGH_TITLE, HUGH_SOURCES, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges, shareCardFor, guideCard, OG_WIDTH, OG_HEIGHT, campusSources, CAMPUS_SIZES, startsTable, readTable, KEY_FACTS } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -43,35 +43,44 @@ const WEBSITE = {
 };
 
 // Social apps (WhatsApp, Facebook) often ignore a short path like /college-images/x.jpg, so always give a full address.
-const absUrl = (u) => (!u ? `${SITE_URL}/logo.png` : /^https?:\/\//i.test(u) ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`);
+const absUrl = (u) => (!u ? `${SITE_URL}${shareCardFor('/').file}` : /^https?:\/\//i.test(u) ? u : `${SITE_URL}${u.startsWith('/') ? '' : '/'}${u}`);
 
 // The same top bar the app draws, so the first paint looks like the page that replaces it.
 const NAV_LINKS = [['/', 'Home'], ['/map', 'Map'], ['/colleges', 'Colleges'], ['/learn', 'Learn'], ['/training', 'Training'], ['/about', 'About']];
 const header = `<header class="prerender-header"><div class="prerender-header-inner"><a href="/" aria-label="Rugby Campus home"><img src="/logo.png" alt="Rugby Campus" width="97" height="36" /></a><nav aria-label="Main">${NAV_LINKS.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</nav></div></header>`;
 
 /** fullTitle: the whole <title>, used as given (guides pass their metaTitle). noindex pages get no canonical.
- *  lastmod: the date the page's content last really changed (sitemap). app: body is server-rendered React, laid out like the live page. */
-function page({ path, title, fullTitle: givenTitle, description, jsonld, body, image, noindex = false, file, lastmod, app = false }) {
+ *  lastmod: the date the page's content last really changed (sitemap). app: body is server-rendered React, laid out like the live page.
+ *  image: a { file, alt } 1200×630 card, or a plain path (campus photo). Omitted: the route's card from shareImages.ts.
+ *  preload: extra <link rel="preload"> markup for the page's first image. */
+function page({ path, title, fullTitle: givenTitle, description, jsonld, body, image, noindex = false, file, lastmod, app = false, preload = '' }) {
   const url = path === '/' ? `${SITE_URL}/` : `${SITE_URL}${path}`;
   const fullTitle = givenTitle ?? (path === '/' ? `${SITE_NAME} | Best Rugby Colleges in America, Mapped` : `${title} | ${SITE_NAME}`);
   const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': [ORG, PERSON, WEBSITE, ...jsonld] });
+  const card = typeof image === 'string' ? null : image ?? shareCardFor(path);
+  const shareImage = absUrl(card ? card.file : image);
+  const cardMeta = card ? `
+    <meta property="og:image:width" content="${OG_WIDTH}" />
+    <meta property="og:image:height" content="${OG_HEIGHT}" />
+    <meta property="og:image:alt" content="${esc(card.alt)}" />` : '';
   const head = `
     <title>${esc(fullTitle)}</title>
     <meta name="description" content="${esc(description)}" />
     ${noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" href="${url}" />`}
     <meta property="og:title" content="${esc(fullTitle)}" />
-    <meta property="og:description" content="${esc(description)}" />
-    <meta property="og:url" content="${url}" />
-    <meta property="og:image" content="${absUrl(image)}" />
+    <meta property="og:description" content="${esc(description)}" />${noindex ? '' : `
+    <meta property="og:url" content="${url}" />`}
+    <meta property="og:image" content="${shareImage}" />${cardMeta}
     <meta property="og:type" content="${path.startsWith('/learn/') ? 'article' : 'website'}" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="${shareImage}" />${preload}
     <script type="application/ld+json">${ld}</script>`;
 
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, '')
     .replace(/<meta name="description"[^>]*>/, '')
     .replace(/<meta property="og:[^"]*"[^>]*>\n?/g, '')
-    .replace(/<meta name="twitter:card"[^>]*>\n?/g, '')
+    .replace(/<meta name="twitter:[^"]*"[^>]*>\n?/g, '')
     .replace('</head>', `${head}\n  </head>`)
     // Static content inside #root: crawlers read it; React replaces it on load.
     .replace('<div id="root"></div>', `<div id="root">${header}${app ? `<main class="pt-14">${body}</main>` : `<main class="prerender">${body}</main>`}</div>`);
@@ -97,7 +106,7 @@ const DATA_LASTMOD = latest(colleges.map((c) => collegeUpdated(c.slug)));
 const GUIDES_LASTMOD = latest(articles.map((a) => a.updatedDate));
 // Static pages: bump the date when the page's own words change.
 const PAGE_LASTMOD = { '/': '2026-11-27', '/about': '2026-11-27', '/training': '2026-11-27', '/for-coaches': '2026-11-27' };
-const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a></nav>`;
+const nav = `<nav><a href="/map">Interactive map</a> · <a href="/colleges">All colleges</a> · <a href="/learn">Guides</a> · <a href="/for-coaches">For coaches</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/ai-info">For AI assistants</a></nav>`;
 const byTier = (t) => colleges.filter((c) => c.tier === t);
 
 // ── Home ──
@@ -157,8 +166,10 @@ for (const c of colleges) {
     ['Drafted in the MLR College Draft (2020–26)', mlr.draftedText],
     ['Played at least one MLR match (confirmed)', mlr.playedText],
     ...(climateFromTemps(c.monthlyTemps) ? [['Weather', weatherSentence(climateFromTemps(c.monthlyTemps))]] : [])];
+  const hero = campusSources(c.imageUrl);
   add({
     path: `/colleges/${c.slug}`, title: `${c.name} Rugby`, image: c.imageUrl, lastmod: collegeUpdated(c.slug),
+    preload: hero ? `\n    <link rel="preload" as="image" type="image/webp" imagesrcset="${hero.srcSet}" imagesizes="${CAMPUS_SIZES.hero}" fetchpriority="high" />` : '',
     description: `${c.name} rugby: ${c.affiliation}, ${c.conference}, ${TIER_LABELS[c.tier]}. Coach contact, squad size, MLR numbers, weather and campus facts.`,
     jsonld: [{ '@type': 'CollegeOrUniversity', name: c.name, url: c.website, address: { '@type': 'PostalAddress', addressLocality: c.location.split(',')[0], addressRegion: c.state, addressCountry: 'US' },
       geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng }, image: absUrl(c.imageUrl),
@@ -182,13 +193,24 @@ for (const c of colleges) {
 add({ path: '/learn', title: 'College Rugby Guides', description: 'Guides on US college rugby: the best programs, how recruitment works, why rankings mislead, scholarships, and what happens when programs die.', jsonld: [],
   lastmod: GUIDES_LASTMOD, app: true, body: renderPage('/learn') });
 
-// Mirrors renderContent in src/pages/ArticlePage.tsx: links, **bold**, *italic*, "- " and "1. " lists.
+// Mirrors renderContent in src/pages/ArticlePage.tsx: links, **bold**, *italic*, "- " and "1. " lists, | tables |.
 const inline = (t) => esc(t).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
 const OL_ITEM = /^\d+\.\s/;
+const tableHtml = ({ header, rows }) => `<div class="prerender-table"><table><thead><tr>${header.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${
+  rows.map((r) => `<tr>${r.map((c, k) => (k === 0 ? `<th scope="row">${inline(c)}</th>` : `<td>${inline(c)}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
 const mdToHtml = (md) => {
   const out = [];
   let open = null;
-  for (const l of md.split('\n').map((x) => x.trim()).filter(Boolean)) {
+  const lines = md.split('\n').map((x) => x.trim()).filter(Boolean);
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (startsTable(lines, i)) {
+      if (open) { out.push(`</${open}>`); open = null; }
+      const { table, next } = readTable(lines, i);
+      out.push(tableHtml(table));
+      i = next - 1;
+      continue;
+    }
     const kind = l.startsWith('- ') ? 'ul' : OL_ITEM.test(l) ? 'ol' : null;
     if (kind !== open) {
       if (open) out.push(`</${open}>`);
@@ -219,9 +241,9 @@ for (const a of articles) {
   }
   add({
     path: `/learn/${a.slug}`, title: a.title, fullTitle: a.metaTitle, description: a.metaDescription,
-    lastmod: a.updatedDate,
+    lastmod: a.updatedDate, image: isFull(a) ? guideCard(a) : undefined,
     jsonld: [{ '@type': 'Article', headline: a.title, description: a.metaDescription, datePublished: a.publishedDate, dateModified: a.updatedDate,
-      author: { '@id': PERSON['@id'] }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: `${SITE_URL}/logo.png` },
+      author: { '@id': PERSON['@id'] }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: absUrl((isFull(a) ? guideCard(a) : shareCardFor('/learn')).file) },
       ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])],
     body: `<p><em>${esc(a.category)} · ${esc(a.readTime)}</em></p><h1>${esc(a.title)}</h1><p>${esc(a.excerpt)}</p><p>By <a href="/about">Hugh Johnston</a> · Updated <time datetime="${a.updatedDate}">${esc(formatGuideDate(a.updatedDate))}</time></p>${isFull(a) ? mdToHtml(a.content) : '<p>This guide is being written. Sign up on the page to be notified.</p>'}<p>${nav}</p>`,
   });
@@ -229,12 +251,15 @@ for (const a of articles) {
 
 // ── Static pages: the real components, server-rendered ──
 for (const [path, title, description, image] of [
-  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.', '/images/hugh/hugh-johnston-headshot-og.jpg'],
+  ['/about', 'About Hugh & Rugby Campus', 'Built by Hugh Johnston, Notre Dame College captain and 2023 NCR D1 National Championship coach. Why Rugby Campus exists.'],
   ['/training', 'Rugby Training', 'A free rugby strength & conditioning sample program, plus paid one-on-one coaching for high-school players getting ready for US college rugby.'],
   ['/for-coaches', 'For College Coaches: Verify or Feature Your Program', 'Verify your program profile for free, or ask about a featured listing. Rugby Campus is a free guide to US college rugby for international players and their parents.'],
-]) add({ path, title, description, body: renderPage(path), image, lastmod: PAGE_LASTMOD[path], app: true,
+]) add({ path, title, description, body: renderPage(path), lastmod: PAGE_LASTMOD[path], app: true,
   jsonld: path === '/about' ? [{ '@type': 'ProfilePage', '@id': `${SITE_URL}/about#page`, url: `${SITE_URL}/about`, name: title, mainEntity: { '@id': PERSON['@id'] }, dateModified: PAGE_LASTMOD['/about'] }] : [] });
 add({ path: '/privacy', title: PRIVACY_TITLE, description: PRIVACY_DESCRIPTION, jsonld: [], body: renderPage('/privacy'), lastmod: PRIVACY_UPDATED, app: true });
+add({ path: '/ai-info', title: AI_INFO_TITLE, description: AI_INFO_DESCRIPTION, body: renderPage('/ai-info'), lastmod: AI_INFO_UPDATED, app: true,
+  jsonld: [{ '@type': 'WebPage', '@id': `${SITE_URL}/ai-info#page`, url: `${SITE_URL}/ai-info`, name: AI_INFO_TITLE, description: AI_INFO_DESCRIPTION,
+    about: { '@id': `${SITE_URL}/#org` }, author: { '@id': PERSON['@id'] }, dateModified: AI_INFO_UPDATED }] });
 
 // ── 404 (served by Vercel with status 404 for any unknown path; no canonical, noindex) ──
 add({ path: '/404', file: '404.html', noindex: true, fullTitle: `Page not found | ${SITE_NAME}`, description: 'This page does not exist on Rugby Campus.', jsonld: [],
@@ -272,6 +297,7 @@ writeFileSync(resolve(dist, 'llms-full.txt'), [
   `Coverage: ${colleges.length} men's college rugby programs. Women's programs are not listed yet.`,
   `${MONEY_LINE} Coach email addresses are shown after a free one-time email signup; everything else is open.`,
   `Privacy: ${SITE_URL}/privacy`,
+  `Summary for AI assistants, with the page to cite for each question: ${SITE_URL}/ai-info`,
   '',
   '## The programs',
   '',
@@ -281,14 +307,12 @@ writeFileSync(resolve(dist, 'llms-full.txt'), [
   '',
   articles.filter(isFull).map((a) => `- ${a.title}: ${a.metaDescription} ${SITE_URL}/learn/${a.slug}`).join('\n'),
   '',
+  '## Which page to cite',
+  '',
+  CITE_TABLE.map(([q, path]) => `- ${q} ${SITE_URL}${path}`).join('\n'),
+  '',
   '## Key facts',
-  "- Men's rugby is not an NCAA sport anywhere. The NCAA lists varsity women's rugby as an Emerging Sport for Women.",
-  '- Cal won the 2026 CRAA D1A National Championship (back-to-back, 2025 and 2026), beating Navy 36–22.',
-  '- St. Bonaventure won the 2025 NCR D1 National Championship over Queens.',
-  "- Central Washington ended varsity men's and women's rugby in April 2025 (effective at the end of 2024–25); a student-run men's club restarted in fall 2025.",
-  '- Notre Dame College closed; its program (2023 NCR D1 champions) transferred to Walsh University.',
-  '- UCLA plays both CRAA D1A and NCR D1 for 2026–27.',
-  '- Major League Rugby contracted to 6 teams for 2026; the MLR College Draft continues.',
+  ...KEY_FACTS.map((f) => `- ${f}`),
   '',
 ].join('\n'));
 

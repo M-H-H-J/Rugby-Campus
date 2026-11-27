@@ -91,6 +91,13 @@ h1, h2, h3 {
 .prerender dl { max-width: 46rem; }
 .prerender dt { margin-top: 10px; font-size: 13px; }
 .prerender dd { margin: 0; }
+.prerender-table { overflow-x: auto; margin: 16px 0 24px; max-width: 46rem; }
+.prerender table { border-collapse: collapse; width: 100%; min-width: 540px; font-size: 14px; text-align: left; }
+.prerender thead tr { border-bottom: 1px solid #101E30; }
+.prerender tbody tr { border-bottom: 1px solid #e5e9ef; }
+.prerender th, .prerender td { padding: 10px 16px 10px 0; vertical-align: top; color: #5b6b7d; }
+.prerender thead th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; }
+.prerender tbody th { color: #101E30; font-weight: 600; }
 .prerender-map { height: calc(100vh - 200px); min-height: 400px; background: #f3f4f6; margin: 16px -20px 24px; }
 
 /* Map controls: 44px tap targets and the site font */

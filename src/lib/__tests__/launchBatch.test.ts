@@ -145,7 +145,7 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('link previews use full addresses (checked on the built pages when dist exists)', () => {
-    expect(src('index.html')).toContain('content="https://www.rugbycampus.org/logo.png"');
+    expect(src('index.html')).toContain('content="https://www.rugbycampus.org/og/rugby-campus.jpg"');
     const p = new URL('../../../dist/colleges/wheeling-university/index.html', import.meta.url);
     if (!existsSync(p)) return;
     const html = readFileSync(p, 'utf8');

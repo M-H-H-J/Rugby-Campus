@@ -7,7 +7,11 @@ import { captureEmail } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
 import PrivacyNote from '@/components/PrivacyNote';
+import FoundUsPrompt from '@/components/FoundUsPrompt';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
+import { startsTable, readTable } from '@/lib/markdownTable';
+import { guideCard } from '@/data/shareImages';
+import RuleTable from '@/components/RuleTable';
 
 // Simple markdown-ish renderer for our article content
 function renderContent(content: string) {
@@ -19,6 +23,16 @@ function renderContent(content: string) {
     const line = lines[i].trim();
 
     if (!line) { i++; continue; }
+
+    if (startsTable(lines, i)) {
+      const { table, next } = readTable(lines, i);
+      elements.push(
+        <RuleTable key={`table-${i}`} label={`Table: ${table.header.join(', ')}`} header={table.header}
+          rows={table.rows.map((r) => r.map((c, k) => <span key={k} dangerouslySetInnerHTML={{ __html: formatInline(c) }} />))} />
+      );
+      i = next;
+      continue;
+    }
 
     if (line.startsWith('### ')) {
       elements.push(<h3 key={i} className="font-heading text-[22px] text-ink mt-9 mb-3">{line.slice(4)}</h3>);
@@ -78,8 +92,8 @@ function formatInline(text: string): string {
 
 
 
-function ArticleMeta({ title, description, fullTitle }: { title: string; description: string; fullTitle?: string }) {
-  usePageMeta(title, description, fullTitle);
+function ArticleMeta({ title, description, fullTitle, image }: { title: string; description: string; fullTitle?: string; image?: string }) {
+  usePageMeta(title, description, fullTitle, image);
   return null;
 }
 
@@ -98,7 +112,12 @@ function ArticleNotFound() {
 function NotifyForm() {
   const [email, setEmail] = useState('');
   const { state, run } = useSaveState();
-  if (state === 'done') return <p className="text-navy text-[14px] font-medium">You're on the list. We'll email you when there's something worth sending.</p>;
+  if (state === 'done') return (
+    <div className="max-w-sm mx-auto">
+      <p className="text-navy text-[14px] font-medium">You're on the list. We'll email you when there's something worth sending.</p>
+      <FoundUsPrompt context="article_notify" className="mt-4 text-left" />
+    </div>
+  );
   return (
     <>
     <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={async (e) => { e.preventDefault(); await run(() => captureEmail(email, 'article_notify')); }}>
@@ -123,7 +142,7 @@ export default function ArticlePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-5 py-8 md:py-12">
-      <ArticleMeta title={article.title} description={article.metaDescription} fullTitle={article.metaTitle} />
+      <ArticleMeta title={article.title} description={article.metaDescription} fullTitle={article.metaTitle} image={isComingSoon ? undefined : guideCard(article).file} />
       {/* Breadcrumb */}
       <Link href="/learn" className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] text-muted hover:text-navy transition-colors mb-4">
         <ArrowLeft size={14} /> Back to all articles
