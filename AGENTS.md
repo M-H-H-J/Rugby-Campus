@@ -17,7 +17,7 @@ That credential is the site's entire competitive moat. Never write copy that dil
 ## Stack
 
 - React 18 + TypeScript + Vite 6, `wouter` for routing, Tailwind (config-driven tokens), `lucide-react` icons
-- Leaflet for the interactive map, with OpenFreeMap vector tiles (no API key) drawn by MapLibre GL via `@maplibre/maplibre-gl-leaflet`, loaded only on `/map`. Never `tile.openstreetmap.org` (not for app traffic) and not CARTO basemaps (they now need an API key). Keep the OpenFreeMap / OpenMapTiles / OpenStreetMap credit. A hand-built SVG US map is the homepage preview
+- Leaflet for the interactive map, with OpenFreeMap vector tiles (no API key) drawn by MapLibre GL via `@maplibre/maplibre-gl-leaflet`, loaded only on `/map`. Never `tile.openstreetmap.org` (not for app traffic) and not CARTO basemaps (they now need an API key). Keep the OpenFreeMap / OpenMapTiles / OpenStreetMap credit. MapLibre 5+ needs WebGL2; without it (or if the style, worker or chunk fails) `src/lib/basemap.ts` falls back, with a console warning, to greyed USGS National Map raster tiles (public domain, no key). Never swallow basemap errors silently. A hand-built SVG US map is the homepage preview
 - Supabase (Postgres) for college data + email capture; bundled TS data is the fallback
 - Deployed on Vercel from GitHub — push to `main` redeploys automatically
 - Supabase owns coach names and emails. Change them with a dated file in `supabase/manual/` and mirror it in `colleges.ts` and (for search fields) `collegeSearchFacts.json` in the same PR. The bulk sync generator never overwrites coach fields.
