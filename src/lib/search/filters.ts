@@ -119,7 +119,10 @@ const TIER_INTENT = new RegExp([
   String.raw`\b(?:top|best|strong|strongest|decent|good|great|serious|winning)\s+(?:(?!academ|and\b|or\b|with\b)[\w-]+\s+){0,2}?(?:rugby|programs?|teams?|sides?|clubs?)\b`,
 ].join('|'), 'i');
 const D1_WORD = /\b(?:d-?1(?:a{1,2})?|div(?:ision)?\.?\s*(?:1|i|one)(?:a{1,2})?)\b/i;
-const NCAA_WORD = /\bncaa\b|\b(?:d-?1|div(?:ision)?\.?\s*(?:1|i|one))\s+(?:athletics|sports|football|basketball)\b/i;
+const D1_RUGBY = /\b(?:d-?1(?:a{1,2})?|div(?:ision)?\.?\s*(?:1|i|one)(?:a{1,2})?)\s+(?:college\s+)?rugby\b/i;
+/** Campus athletics, not rugby: the user wants an NCAA Division I school. */
+const NCAA_D1_INTENT = /\bncaa\s+(?:d-?1|div(?:ision)?\.?\s*(?:1|i|one))\b|\b(?:d-?1|div(?:ision)?\.?\s*(?:1|i|one))\s+(?:athletics|sports|football|basketball|school sports)\b|\bbig[- ]time\s+(?:college\s+)?(?:sports|athletics)\b|\bpower\s*(?:4|four|5|five)\b/i;
+const NCAA_WORD = /\bncaa\b/i;
 const AFFORDABLE_WORD = /\b(?:affordable|cheap(?:er|est)?|inexpensive|low[- ]cost|lower[- ]cost|on a budget|budget[- ]friendly|good value|value for money|low tuition|not (?:too )?expensive)\b/i;
 const ACADEMICS_WORD = /\b(?:good|great|strong|top|high|excellent|solid|serious|rigorous|elite|best|high[- ]quality)\s+(?:academics?|academic\s+(?:reputation|programs?|schools?|colleges?|standards?)|education|schools? academically)\b|\bacademically\s+(?:strong|rigorous|good|selective)\b|\b(?:highly\s+)?selective\b|\bprestigious\b/i;
 const EAST_COAST_WORD = /\beast(?:ern)?[- ]coast\b|\beastern seaboard\b/i;
@@ -130,10 +133,13 @@ export function applySentenceRules(sentence: string, input: Filters): Filters {
   const s = sentence;
   const f: Filters = { ...input, regions: [...input.regions], division: [...input.division], unparsed: [...input.unparsed] };
   if (!TIER_INTENT.test(s)) f.rugby_tier = [];
-  if (D1_WORD.test(s) && !NCAA_WORD.test(s)) {
+  const ncaaD1 = NCAA_D1_INTENT.test(s);
+  if (ncaaD1) {
+    if (!f.division.includes('d1')) f.division.push('d1');
+  } else if (D1_WORD.test(s) && !NCAA_WORD.test(s)) {
     f.division = f.division.filter((d) => d !== 'd1');
-    f.rugby_level = 'd1';
   }
+  if (D1_RUGBY.test(s) || (D1_WORD.test(s) && !ncaaD1 && !NCAA_WORD.test(s))) f.rugby_level = 'd1';
   if (AFFORDABLE_WORD.test(s)) {
     f.budget = 'affordable';
     f.unparsed = f.unparsed.filter((u) => !AFFORDABLE_WORD.test(u));

@@ -127,6 +127,25 @@ describe('sentence rules: edge cases', () => {
     expect(f.division).toEqual([]);
     expect(f.rugby_level).toBe('d1');
   });
+  it('"affordable D1 rugby programs in the Midwest" keeps every D1 rugby school eligible (no NCAA filter)', () => {
+    const f = rules('affordable D1 rugby programs in the Midwest', { division: ['d1'], regions: ['midwest'] });
+    expect(f.division).toEqual([]);
+    const out = runSearch(F, f);
+    expect(out.results.every((r) => !r.checks.some((c) => c.key === 'division'))).toBe(true);
+    expect(out.results.every((r) => r.checks.find((c) => c.key === 'rugby_level')!.status === 'match')).toBe(true);
+  });
+  it.each(['NCAA D1 school with rugby', 'D1 football school', 'D1 basketball and rugby', 'big-time college sports', 'a Power 4 school', 'power five campus'])('"%s" filters to NCAA Division I athletics', (s) => {
+    const f = rules(s);
+    expect(f.division).toEqual(['d1']);
+    const nd = runSearch(F, f).results;
+    expect(nd.find((r) => r.slug === 'university-of-notre-dame')!.checks.find((c) => c.key === 'division')!.status).toBe('match');
+    expect(nd.find((r) => r.slug === 'davenport-university')!.checks.find((c) => c.key === 'division')!.status).toBe('miss');
+  });
+  it('"D1 rugby at a school with D1 football" sets both', () => {
+    const f = rules('D1 rugby at a school with D1 football');
+    expect(f.division).toEqual(['d1']);
+    expect(f.rugby_level).toBe('d1');
+  });
   it('"D2" is not touched (an NCAA division, not a rugby level)', () => {
     expect(rules('snow is fine, d2', { division: ['d2'] }).division).toEqual(['d2']);
   });

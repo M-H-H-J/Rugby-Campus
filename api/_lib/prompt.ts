@@ -10,7 +10,7 @@ states: array of two-letter codes (${STATE_CODES.join(',')})
 regions: array of ${REGIONS.join(' | ')}  (US Census regions: "north-east/New England" -> northeast; "south/southern" -> south; "midwest/mid-west" -> midwest; "west coast/west" -> west; "East Coast/eastern seaboard" -> east_coast, never northeast alone)
 control: array of ${CONTROLS.join(' | ')}  ("state school/public uni" -> public; "private" -> private_nonprofit)
 setting: array of ${SETTINGS.join(' | ')}  ("big city/in a city" -> city; "near a city/leafy/suburb" -> suburb; "college town" -> college_town; "countryside/quiet/small town" -> country)
-division: array of ${DIVISIONS.join(' | ')}  (NCAA/NAIA athletics, NOT rugby. Only when the user says "NCAA", e.g. "NCAA D1" -> d1; "NAIA" -> naia. A bare "D1" or "D1 rugby" is rugby_level, never division)
+division: array of ${DIVISIONS.join(' | ')}  (NCAA/NAIA campus athletics, NOT rugby. "NCAA D1", "D1 football", "D1 basketball", "big-time college sports", "Power 4" -> d1; "NAIA" -> naia. A bare "D1" or "D1 rugby" is rugby_level, never division)
 size_band: array of ${SIZE_BANDS.join(' | ')}  (small = under 3,000 undergrads; medium = 3,000-14,999; big = 15,000+. "big" -> big; "small/tight-knit" -> small)
 conference: array of up to 4 conference names exactly as the user said them (e.g. "Big Ten", "Ivy", "Pac-12"). If they mention football, put that fragment in unparsed. There is no football filter.
 max_cost_usd_per_year: number | null  (only if a dollar budget per YEAR is stated; "$60k" -> 60000. "cheap/affordable" with no number -> null, use budget)
