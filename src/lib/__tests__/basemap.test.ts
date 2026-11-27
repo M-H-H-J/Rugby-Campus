@@ -94,7 +94,21 @@ describe('CollegeMap wiring', () => {
     expect(map).toContain('mountBasemap(');
     expect(markup).toContain("RASTER_TILES = 'https://basemap.nationalmap.gov/");
     expect(markup).toContain('USGS The National Map');
-    expect(src('src/index.css')).toMatch(/\.basemap-raster\s*\{[^}]*grayscale/);
+  });
+  it('uses a bright basemap on both paths, never a dark or greyed one (Hugh, 27 Nov 2026)', () => {
+    expect(markup).toContain("BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/bright'");
+    // Zoomed out, USGS topo is dark shaded relief: the national view uses the light hydro layer, topo only from zoom 7.
+    expect(markup).toContain("RASTER_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/");
+    expect(markup).toContain("RASTER_DETAIL_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/");
+    expect(markup).toContain('RASTER_DETAIL_MIN_ZOOM = 7;');
+    expect(src('src/lib/rasterMap.ts')).toContain('maxZoom: RASTER_DETAIL_MIN_ZOOM - 1');
+    expect(src('src/lib/rasterMap.ts')).toContain('minZoom: RASTER_DETAIL_MIN_ZOOM');
+    const urls = markup.match(/'https:\/\/[^']+'/g) ?? [];
+    expect(urls.length).toBeGreaterThan(0);
+    for (const u of urls) expect(u).not.toMatch(/positron|arcgisonline|tile\.openstreetmap|cartocdn/i);
+    expect(markup).toContain('OpenFreeMap</a>');
+    expect(markup).toContain('OpenMapTiles</a>');
+    expect(markup).toContain('OpenStreetMap</a>');
   });
   it('loads each engine only when it runs: MapLibre for WebGL2, Leaflet for the fallback', () => {
     expect(map).toContain("import('@/lib/vectorMap')");
@@ -135,9 +149,10 @@ describe('Leaflet fallback zooms in whole steps and fetches tiles once the zoom 
   it('tile options', () => {
     for (const opt of ['updateWhenZooming: false,', 'updateWhenIdle: true,', 'keepBuffer: 4,']) expect(raster).toContain(opt);
   });
-  it('the raster grey is a single filter, not a chain', () => {
-    const rule = src('src/index.css').match(/\.basemap-raster\s*\{([^}]*)\}/)?.[1] ?? '';
-    expect(rule).toMatch(/filter: grayscale\(1\);/);
-    expect(rule).not.toMatch(/brightness|contrast/);
+  it('the raster tiles carry no filter or opacity (they made the fallback grey and cost a repaint per zoom)', () => {
+    const css = src('src/index.css');
+    const rule = css.match(/\.basemap-raster\s*\{([^}]*)\}/)?.[1] ?? '';
+    expect(rule).not.toMatch(/filter|opacity/);
+    expect(css.match(/\.basemap-raster\s*\{/g)).toHaveLength(1);
   });
 });

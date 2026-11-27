@@ -158,6 +158,7 @@ a:has(> .press-card):focus-visible, a.group:focus-visible { outline-offset: 4px;
 .maplibregl-ctrl-group button { width: 44px !important; height: 44px !important; }
 .maplibregl-popup-close-button { width: 44px; height: 44px; font-size: 22px; line-height: 44px; top: 0; right: 0; padding: 0; text-align: center; }
 .rc-pin { cursor: pointer; }
-/* Raster fallback (no WebGL2): grey the USGS topo tiles so they read like the Positron vector basemap. One cheap
-   filter plus opacity over the light container, not a filter chain, so zoom transforms stay smooth in Safari. */
-.basemap-raster { filter: grayscale(1); opacity: 0.72; }
+/* Raster fallback (no WebGL2): the USGS hydro tiles are already light, so no filter (a filter on tiles repaints on
+   every zoom transform in Safari). The hydro service is an overlay: where a tile is transparent, land shows white
+   rather than Leaflet's grey container. */
+.basemap-raster { background: white; }
