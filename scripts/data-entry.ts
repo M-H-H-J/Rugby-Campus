@@ -6,4 +6,4 @@ export { climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidTe
 export { shareCardFor, guideCard, OG_WIDTH, OG_HEIGHT } from '@/data/shareImages';
 export { campusSources, CAMPUS_SIZES } from '@/lib/campusImage';
 export { startsTable, readTable } from '@/lib/markdownTable';
-export { KEY_FACTS } from '@/data/siteFacts';
+export { KEY_FACTS, GUIDE_TAKEAWAYS } from '@/data/siteFacts';

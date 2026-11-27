@@ -19,7 +19,7 @@ await build({ ...shared, entryPoints: [resolve(root, 'scripts/page-entry.tsx')],
   // react-dom/server is CommonJS and requires Node built-ins.
   banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" } });
 const { renderPage, PRIVACY_UPDATED, PRIVACY_TITLE, PRIVACY_DESCRIPTION, AI_INFO_UPDATED, AI_INFO_TITLE, AI_INFO_DESCRIPTION, CITE_TABLE } = await import(pathToFileURL(pagesTmp).href);
-const { colleges, articles, formatGuideDate, collegeUpdated, tierNumber, HOME_HEADLINE, homeDescription, MONEY_LINE, HUGH_TITLE, HUGH_SOURCES, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges, shareCardFor, guideCard, OG_WIDTH, OG_HEIGHT, campusSources, CAMPUS_SIZES, startsTable, readTable, KEY_FACTS } = await import(pathToFileURL(tmp).href);
+const { colleges, articles, formatGuideDate, collegeUpdated, tierNumber, HOME_HEADLINE, homeDescription, MONEY_LINE, HUGH_TITLE, HUGH_SOURCES, TIER_LABELS, TIER_ORDER, TIER_SUBLINE, SEASON_LABEL, SITE_URL, SITE_NAME, CONTACT_EMAIL, costText, climateText, weatherSentence, climateFromTemps, airportRows, rugbyAidText, SAFETY_TEXT, SAFETY_URL, CAMPUS_FEEL_LABEL, SIZE_LABEL, sizeBand, isVeryHot, VERY_HOT_LABEL, sizeText, mlrSummary, visibleBadges, shareCardFor, guideCard, OG_WIDTH, OG_HEIGHT, campusSources, CAMPUS_SIZES, startsTable, readTable, KEY_FACTS, GUIDE_TAKEAWAYS } = await import(pathToFileURL(tmp).href);
 const searchFacts = JSON.parse(readFileSync(resolve(root, 'src/data/collegeSearchFacts.json'), 'utf8')).colleges;
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
@@ -244,7 +244,11 @@ for (const a of articles) {
     lastmod: a.updatedDate, image: isFull(a) ? guideCard(a) : undefined,
     jsonld: [{ '@type': 'Article', headline: a.title, description: a.metaDescription, datePublished: a.publishedDate, dateModified: a.updatedDate,
       author: { '@id': PERSON['@id'] }, publisher: { '@id': `${SITE_URL}/#org` }, mainEntityOfPage: `${SITE_URL}/learn/${a.slug}`, image: absUrl((isFull(a) ? guideCard(a) : shareCardFor('/learn')).file) },
-      ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : [])],
+      ...(faq.length ? [{ '@type': 'FAQPage', mainEntity: faq }] : []),
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Learn', item: `${SITE_URL}/learn` },
+        { '@type': 'ListItem', position: 3, name: a.title, item: `${SITE_URL}/learn/${a.slug}` }] }],
     body: `<p><em>${esc(a.category)} · ${esc(a.readTime)}</em></p><h1>${esc(a.title)}</h1><p>${esc(a.excerpt)}</p><p>By <a href="/about">Hugh Johnston</a> · Updated <time datetime="${a.updatedDate}">${esc(formatGuideDate(a.updatedDate))}</time></p>${isFull(a) ? mdToHtml(a.content) : '<p>This guide is being written. Sign up on the page to be notified.</p>'}<p>${nav}</p>`,
   });
 }
@@ -298,6 +302,10 @@ writeFileSync(resolve(dist, 'llms-full.txt'), [
   `${MONEY_LINE} Coach email addresses are shown after a free one-time email signup; everything else is open.`,
   `Privacy: ${SITE_URL}/privacy`,
   `Summary for AI assistants, with the page to cite for each question: ${SITE_URL}/ai-info`,
+  '',
+  '## Key takeaways from the guides',
+  '',
+  GUIDE_TAKEAWAYS.map((t) => `- ${t.topic}: ${t.text} ${SITE_URL}${t.path}`).join('\n'),
   '',
   '## The programs',
   '',

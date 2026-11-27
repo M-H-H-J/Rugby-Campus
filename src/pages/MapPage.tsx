@@ -39,7 +39,7 @@ export default function MapPage() {
             <div className="flex gap-1 order-last sm:order-none w-full sm:w-auto" role="group" aria-label="Competition">
               {TABS.map((t) => (
                 <button key={t} onClick={() => setTab(t)} aria-pressed={tab === t}
-                  className={`px-2 min-h-[44px] text-[13px] font-medium border-b-2 whitespace-nowrap transition-colors ${
+                  className={`press px-2 min-h-[44px] text-[13px] font-medium border-b-2 whitespace-nowrap ${
                     tab === t ? 'border-navy text-ink' : 'border-transparent text-muted hover:text-ink'
                   }`}>
                   {t}
