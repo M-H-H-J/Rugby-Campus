@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import { escHtml } from '@/lib/escHtml';
+import { hasWebGL2, mountBasemap } from '@/lib/basemap';
 import 'leaflet/dist/leaflet.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { College } from '@/data/colleges';
@@ -27,23 +28,39 @@ function makePin(color: string, size = 30, hollow = false) {
  * inside Leaflet so the pins, popups and fit-to-bounds stay as they were. Not OpenStreetMap's own tile servers (not for app traffic),
  * and not CARTO's basemaps (they now need an API key). The credit below is OpenFreeMap's required attribution.
  * MapLibre loads after the map mounts, so pins show at once and the WebGL library stays out of every other page.
- * Without WebGL the pins still work on the plain background.
+ *
+ * MapLibre GL 5+ needs WebGL2. Without it, or if the chunk, worker or style fails, the map falls back to the
+ * USGS National Map topo tiles (US public domain, no key, no watermark), greyed by `.basemap-raster` in index.css
+ * to match Positron. Every fallback logs a console warning saying why.
  */
 export const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
 export const BASEMAP_ATTRIBUTION = '<a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>';
+export const RASTER_TILES = 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}';
+export const RASTER_ATTRIBUTION = 'Tiles: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank" rel="noopener noreferrer">USGS The National Map</a>';
+const VECTOR_TIMEOUT_MS = 15000;
 
-function hasWebGL(): boolean {
-  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+function addRasterBasemap(map: L.Map) {
+  map.attributionControl.removeAttribution(BASEMAP_ATTRIBUTION);
+  L.tileLayer(RASTER_TILES, {
+    attribution: RASTER_ATTRIBUTION,
+    className: 'basemap-raster',
+    maxNativeZoom: 16,
+    maxZoom: 18,
+  }).addTo(map);
 }
 
-async function addBasemap(map: L.Map, alive: () => boolean) {
+function addBasemap(map: L.Map, alive: () => boolean) {
   map.attributionControl.addAttribution(BASEMAP_ATTRIBUTION);
-  if (!hasWebGL()) return;
-  try {
-    const { maplibreGL } = await import('@/lib/maplibreBasemap');
-    if (!alive()) return;
-    maplibreGL({ style: BASEMAP_STYLE, attributionControl: false }).addTo(map);
-  } catch { /* chunk or style failed: pins still work on the plain background */ }
+  return mountBasemap({
+    hasWebGL2,
+    alive,
+    addRaster: () => addRasterBasemap(map),
+    addVector: async (onLateFailure) => {
+      const { addVectorBasemap } = await import('@/lib/maplibreBasemap');
+      if (!alive()) return;
+      await addVectorBasemap(map, { style: BASEMAP_STYLE, timeoutMs: VECTOR_TIMEOUT_MS, onLateFailure });
+    },
+  });
 }
 
 interface Props {
@@ -76,10 +93,10 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       worldCopyJump: true,
     });
 
-    void addBasemap(map, () => mapRef.current === map);
-
     layerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
+
+    void addBasemap(map, () => mapRef.current === map);
 
     // Wire popup buttons to navigation via event delegation
     map.on('popupopen', (e: L.PopupEvent) => {

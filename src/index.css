@@ -154,3 +154,5 @@ a:has(> .press-card):focus-visible, a.group:focus-visible { outline-offset: 4px;
 .leaflet-container a.leaflet-popup-close-button { width: 44px !important; height: 44px !important; font-size: 22px !important; line-height: 44px !important; top: 0 !important; right: 0 !important; padding: 0 !important; text-align: center; }
 .leaflet-popup-content { margin-right: 36px !important; }
 .leaflet-tile-container img { outline: 1px solid transparent; }
+/* Raster fallback (no WebGL2): grey the USGS topo tiles so they read like the Positron vector basemap */
+.basemap-raster { filter: grayscale(1) brightness(1.08) contrast(0.88); }
