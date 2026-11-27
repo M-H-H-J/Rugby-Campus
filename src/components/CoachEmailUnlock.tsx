@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Lock, X, Check, ExternalLink } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
+import PrivacyNote from '@/components/PrivacyNote';
 import { COACH_EMAIL_TIPS, coachEmailBody, coachEmailSubject } from '@/data/coachEmailTemplate';
 import { hasEmailUnlock, rememberEmailUnlock } from '@/lib/unlock';
 const FOCUSABLE = 'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])';
@@ -167,6 +168,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
                     {busy ? 'Unlocking…' : 'Unlock coach emails'}
                   </button>
                 </form>
+                <PrivacyNote className="mt-3 text-center" />
               </>
             )}
           </div>

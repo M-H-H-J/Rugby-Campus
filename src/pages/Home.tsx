@@ -8,14 +8,16 @@ import USMap from '@/components/USMap';
 import { captureEmail } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
+import PrivacyNote from '@/components/PrivacyNote';
 import { pickTopPrograms } from '@/lib/topPrograms';
 import HughPhoto from '@/components/HughPhoto';
 import { HUGH_PHOTOS } from '@/lib/hughPhotos';
+import { HOME_HEADLINE, homeDescription } from '@/config';
 
 export default function Home() {
   const [, navigate] = useLocation();
   const { colleges } = useColleges();
-  usePageMeta('', `${colleges.length} US college rugby programs across CRAA D1A and NCR D1, mapped and tiered, with coach contacts and plain-English recruitment guides. Free.`);
+  usePageMeta('', homeDescription(colleges.length));
   const [email, setEmail] = useState('');
   const { state: subscribeState, run: runSubscribe } = useSaveState();
   const [find, setFind] = useState('');
@@ -43,7 +45,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-5 py-8 md:py-14 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <h1 className="font-heading text-[44px] md:text-[64px] leading-[0.95] tracking-[-0.03em] text-ink">
-              Every top program in America. Mapped.
+              {HOME_HEADLINE}
             </h1>
             <p className="mt-5 text-[14px] text-muted">
               Built by <Link href="/about" className="text-navy font-medium underline underline-offset-2">Hugh Johnston</Link>, 2023 NCR D1 national championship coach.
@@ -60,7 +62,7 @@ export default function Home() {
               <button className="btn bg-navy text-white px-4 py-2.5 rounded-md text-[13px] font-semibold">Find colleges</button>
             </form>
             {findHint && <p id="home-find-hint" role="status" className="mt-2 text-[13px] text-muted">Type a short sentence about what you want in a college, like the example above.</p>}
-            <p className="mt-6 text-[13px] text-muted">{colleges.length} programs across CRAA D1A and NCR D1.</p>
+            <p className="mt-6 text-[13px] text-muted">{colleges.length} men's programs across CRAA D1A and NCR D1.</p>
           </div>
           <div>
             <Link href="/map" className="block" aria-label="Open the interactive map">
@@ -209,6 +211,7 @@ export default function Home() {
                 </button>
               </form>
               {subscribeState === 'failed' && <SaveError dark className="mt-3" />}
+              <PrivacyNote dark className="mt-3" />
               </>
             )}
           </div>

@@ -25,7 +25,7 @@ describe('launch fixes, 3 Nov 2026', () => {
 
   it('tier 4 wording and a clear pin colour', () => {
     expect(TIER_LABELS.emerging).toBe('Tier 4');
-    expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
+    expect(TIER_SUBLINE.emerging).toBe('Programs with fewer playoff runs in recent seasons.');
     const colours = Object.values(TIER_COLORS);
     expect(new Set(colours).size).toBe(4);
     expect(TIER_COLORS.emerging.toLowerCase()).not.toBe('#8b98a8'); // the old grey
@@ -56,7 +56,8 @@ describe('launch fixes, 3 Nov 2026', () => {
     const about = copyOf('src/pages/About.tsx');
     expect(about).toContain('Being on both sides of recruiting calls, I was conscious that the decision potential athletes were about to make was a crucial one in their life. I was honest, upfront about Notre Dame College. We were a no-name college, without the best facilities, but we had a tight-knit group of boys from all across the world who all wanted to win. That honesty is some of the gap this site tries to fill.');
     expect(about).toContain('I never visited before I committed though, and it\'s okay if you can\'t.');
-    expect(about).toContain('2023 NCR D1 national champions');
+    expect(about).toContain("['Coach', HUGH_TITLE]");
+    expect(copyOf('src/config.ts')).toContain("Men's Rugby Head Coach, Notre Dame College (2023 NCR D1 National Champions)");
     expect(about).not.toMatch(/reply personally|Agencies vary/);
     expect((about.match(/Email me/g) ?? []).length).toBe(1);
     expect(src('scripts/prerender.mjs')).not.toContain('I reply personally');
@@ -123,7 +124,7 @@ describe('launch fixes, 3 Nov 2026', () => {
   });
 
   it('money line and Featured label', () => {
-    expect(MONEY_LINE).toBe('How the site makes money: free for players. Colleges may pay for a featured listing, and it will always be labelled Featured.');
+    expect(MONEY_LINE).toBe('How the site makes money: free for players. Revenue comes from paid one-on-one coaching, and colleges may pay for a featured listing, which is always labelled Featured.');
     expect(copyOf('src/components/Footer.tsx')).toContain('MONEY_LINE');
     expect(renderToStaticMarkup(createElement(FeaturedBadge))).toContain('Featured');
     // Not used anywhere yet.

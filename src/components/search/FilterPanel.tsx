@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CLIMATES, CONTROLS, DIVISIONS, MAJOR_FIELDS, REGIONS, RESIDENCIES, SETTINGS, SIZE_BANDS, STATE_CODES, type Filters } from '@/lib/search/filters';
+import { AFFORDABLE_MAX_USD, CLIMATES, CONTROLS, DIVISIONS, MAJOR_FIELDS, REGIONS, RESIDENCIES, SELECTIVE_MAX_ADMIT_RATE, SETTINGS, SIZE_BANDS, STATE_CODES, type Filters } from '@/lib/search/filters';
 import { filterLabel, stateName } from '@/lib/search/match';
 import { CAMPUS_FEEL_LABEL, CLIMATE_HINT, CLIMATE_RANGE, SIZE_LABEL } from '@/lib/search/display';
 
@@ -39,9 +39,12 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
     onChange({ ...filters, [key]: cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v] } as Filters);
   };
   const rawBudget = filters.max_cost_usd_per_year;
+  const affordable = rawBudget == null && filters.budget === 'affordable';
   const outside = rawBudget != null && (rawBudget < BUDGET_MIN || rawBudget > BUDGET_MAX);
-  const sliderValue = rawBudget == null || rawBudget > BUDGET_MAX ? BUDGET_MAX : rawBudget < BUDGET_MIN ? BUDGET_MIN : rawBudget;
-  const budgetLabel = rawBudget == null
+  const sliderValue = affordable ? AFFORDABLE_MAX_USD : rawBudget == null || rawBudget > BUDGET_MAX ? BUDGET_MAX : rawBudget < BUDGET_MIN ? BUDGET_MIN : rawBudget;
+  const budgetLabel = affordable
+    ? `Affordable: up to US$${AFFORDABLE_MAX_USD.toLocaleString('en-US')} a year, before scholarships`
+    : rawBudget == null
     ? 'Any budget'
     : `Up to US$${rawBudget.toLocaleString('en-US')} a year, before scholarships`;
   const top = ['championship', 'playoff'];
@@ -67,7 +70,7 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
           aria-label="Budget per year"
           onChange={(e) => {
             const n = Number(e.target.value);
-            onChange({ ...filters, max_cost_usd_per_year: n >= BUDGET_MAX ? null : n });
+            onChange({ ...filters, budget: null, max_cost_usd_per_year: n >= BUDGET_MAX ? null : n });
           }}
           className="w-full accent-navy"
         />
@@ -110,6 +113,12 @@ export default function FilterPanel({ filters, onChange }: { filters: Filters; o
 
       <Group title="What to study">
         {Object.entries(MAJOR_FIELDS).map(([k, v]) => <Chip key={k} on={filters.majors.includes(k)} onClick={() => toggle('majors', k)}>{v.label}</Chip>)}
+      </Group>
+
+      <Group title="Academics" hint="Based on the share of applicants admitted">
+        <Chip on={filters.academics === 'strong'} onClick={() => onChange({ ...filters, academics: filters.academics === 'strong' ? null : 'strong' })}>
+          Strong academics (admits {SELECTIVE_MAX_ADMIT_RATE}% or fewer)
+        </Chip>
       </Group>
 
       <Group title="Rugby level" hint="Tier 1 is the strongest">

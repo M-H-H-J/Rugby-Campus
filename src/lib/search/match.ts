@@ -2,10 +2,10 @@
 // RULE: nothing removes a college. A miss is an amber pill. Unknown is grey: it never counts as a miss,
 // but a college with an unverified answer is not called a full fit either (it is listed straight after the fits).
 import type { CollegeFacts } from './facts';
-import { MAJOR_FIELDS, type Filters } from './filters';
+import { AFFORDABLE_MAX_USD, EAST_COAST_STATES, MAJOR_FIELDS, SELECTIVE_MAX_ADMIT_RATE, type Filters } from './filters';
 import { costFor, usd } from './cost';
-import { TIER_LABELS } from '../../data/colleges';
-import { CAMPUS_FEEL_LABEL, CLIMATE_LABEL, SIZE_LABEL, climateBand, fToC, isVeryHot, sizeBand } from './display';
+import { colleges as bundledColleges, TIER_LABELS } from '../../data/colleges';
+import { CAMPUS_FEEL_LABEL, CLIMATE_LABEL, SIZE_LABEL, climateBand, fToC, sizeBand } from './display';
 
 export type Status = 'match' | 'miss' | 'unknown';
 export interface Check {
@@ -41,15 +41,15 @@ const DIV_LABEL: Record<string, string> = { d1: 'NCAA D1', d2: 'NCAA D2', d3: 'N
 const CONTROL_LABEL: Record<string, string> = { public: 'Public', private_nonprofit: 'Private' };
 const SETTING_LABEL = CAMPUS_FEEL_LABEL;
 const TIER_LABEL: Record<string, string> = TIER_LABELS;
-/** Unknowns that are information only (shown on every card), so they never stop a college being a full fit. */
-const INFO_KEYS = new Set(['rugby_aid', 'very_hot']);
+const REGION_LABEL: Record<string, string> = { northeast: 'Northeast', midwest: 'Midwest', south: 'South', west: 'West', east_coast: 'East Coast' };
+const AFFILIATION = new Map(bundledColleges.map((c) => [c.slug, c.affiliation]));
 export const INTL_SHORT = 'Internationals: only via home-government nomination';
 const STATE_NAMES: Record<string, string> = { AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'Washington DC',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming' };
 export const stateName = (c: string) => STATE_NAMES[c] ?? c;
 
 export const filterLabel = {
   states: (v: string[]) => v.map(stateName).join(' / '),
-  regions: (v: string[]) => v.map((x) => x[0].toUpperCase() + x.slice(1)).join(' / '),
+  regions: (v: string[]) => v.map((x) => REGION_LABEL[x] ?? x).join(' / '),
   control: (v: string[]) => v.map((x) => CONTROL_LABEL[x] ?? x).join(' / '),
   setting: (v: string[]) => v.map((x) => SETTING_LABEL[x as keyof typeof SETTING_LABEL] ?? x).join(' / '),
   division: (v: string[]) => v.map((x) => DIV_LABEL[x] ?? x).join(' / '),
@@ -87,10 +87,11 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
   if (f.states.length || f.regions.length) {
     const region = c.region_census?.toLowerCase() ?? '';
     const stateHit = !!c.state && f.states.includes(c.state as never);
-    const regionHit = !!region && f.regions.includes(region as never);
+    const eastCoastHit = f.regions.includes('east_coast') && !!c.state && EAST_COAST_STATES.includes(c.state);
+    const regionHit = (!!region && f.regions.includes(region as never)) || eastCoastHit;
     const asked = [f.states.length ? filterLabel.states(f.states) : '', f.regions.length ? `${filterLabel.regions(f.regions)} US` : ''].filter(Boolean).join(' or ');
     if (!c.state && !region) push({ key: 'where', hard: false, status: 'unknown', label: 'Location unverified' });
-    else if (stateHit || regionHit) push({ key: 'where', hard: false, status: 'match', label: stateHit ? stateName(c.state) : `${c.region_census} US` });
+    else if (stateHit || regionHit) push({ key: 'where', hard: false, status: 'match', label: stateHit || eastCoastHit ? stateName(c.state) : `${c.region_census} US` });
     else push({ key: 'where', hard: false, status: 'miss', label: `Not in ${asked}`, detail: `It is in ${c.state ? stateName(c.state) : 'an unknown state'}.` });
   }
   if (f.residency === 'international') {
@@ -123,15 +124,25 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
       push(hit ? { key: 'conference', hard: false, status: 'match', label: c.athletics_conference ?? c.football_conference ?? 'Conference' } : { key: 'conference', hard: false, status: 'miss', label: c.athletics_conference ?? 'Other conference', detail: 'Conferences changed a lot in 2025-26; double-check.' });
     }
   }
-  if (f.max_cost_usd_per_year != null) {
+  const maxCost = f.max_cost_usd_per_year ?? (f.budget === 'affordable' ? AFFORDABLE_MAX_USD : null);
+  if (maxCost != null) {
     const cv = costFor(c, f.residency, f.home_state);
-    const max = f.max_cost_usd_per_year;
+    const max = maxCost;
     if (c.cost_basis === 'service_academy') push({ key: 'max_cost_usd_per_year', hard: false, status: 'match', label: 'No tuition (service commitment)' });
     else if (cv.amount == null) push({ key: 'max_cost_usd_per_year', hard: false, status: 'unknown', label: 'Cost: ask the coach', detail: 'No published figure we trust.' });
     else if (cv.amount > max) push({ key: 'max_cost_usd_per_year', hard: false, status: 'miss', label: `${usd(cv.amount - max)} over budget`, gap: cv.amount - max, detail: `${usd(cv.amount)} per year${cv.kind === 'tuition' ? ' (tuition & fees only, so the true cost is higher)' : ''}, before scholarships. Ask the coach what's available.` });
     else if (cv.kind === 'tuition') push({ key: 'max_cost_usd_per_year', hard: false, status: 'unknown', label: 'Total cost unverified', detail: `Tuition & fees ${usd(cv.amount)} fits, but room and board are not in our figure.` });
     else push({ key: 'max_cost_usd_per_year', hard: false, status: 'match', label: `${usd(cv.amount)} / yr`, detail: 'Before scholarships. Ask the coach what\'s available.' });
-    if (c.rugby_aid == null) push({ key: 'rugby_aid', hard: false, status: 'unknown', label: 'Aid: ask the coach', detail: "Rugby aid varies by school and is often limited or none, so ask the coach what's available." });
+  }
+  if (f.academics === 'strong') {
+    const rate = c.acceptance_rate;
+    if (rate == null) push({ key: 'academics', hard: false, status: 'unknown', label: 'Admit rate not published' });
+    else {
+      const label = `Admits ${Math.round(rate)}%`;
+      push(rate <= SELECTIVE_MAX_ADMIT_RATE
+        ? { key: 'academics', hard: false, status: 'match', label, detail: 'Share of applicants admitted (IPEDS). A lower rate means more selective.' }
+        : { key: 'academics', hard: false, status: 'miss', label, detail: `Less selective than the ${SELECTIVE_MAX_ADMIT_RATE}%-or-lower admit rate we use for strong academics.` });
+    }
   }
   if (f.religion && f.religion !== 'any') {
     const g = c.religion_group;
@@ -154,7 +165,6 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
       const winter = Math.round(c.winter_avg_computed_f);
       const label = `${CLIMATE_LABEL[band]} (${winter}°F / ${fToC(winter)}°C)`;
       push(f.climate.includes(band) ? { key: 'climate', hard: false, status: 'match', label } : { key: 'climate', hard: false, status: 'miss', label });
-      if (isVeryHot(c) && f.climate.includes('warm_winters')) push({ key: 'very_hot', hard: false, status: 'unknown', label: 'Very hot summers', detail: 'Summer highs of 95°F (35°C) or more.' });
     }
   }
   if (f.majors.length) {
@@ -167,10 +177,13 @@ export function evaluate(slug: string, c: CollegeFacts, f: Filters): Check[] {
   if (f.rugby_tier.length) {
     push(c.rugby_tier ? (f.rugby_tier.includes(c.rugby_tier) ? { key: 'rugby_tier', hard: false, status: 'match', label: TIER_LABEL[c.rugby_tier] } : { key: 'rugby_tier', hard: false, status: 'miss', label: TIER_LABEL[c.rugby_tier] }) : { key: 'rugby_tier', hard: false, status: 'unknown', label: 'Rugby level unverified' });
   }
+  if (f.rugby_level === 'd1') {
+    const aff = AFFILIATION.get(slug);
+    push(aff ? { key: 'rugby_level', hard: false, status: 'match', label: aff } : { key: 'rugby_level', hard: false, status: 'unknown', label: 'Rugby division unverified' });
+  }
   if (f.rugby_program) {
     push(c.mens_rugby_program_type ? (c.mens_rugby_program_type === f.rugby_program ? { key: 'rugby_program', hard: false, status: 'match', label: f.rugby_program === 'varsity' ? 'Varsity rugby' : 'Club rugby' } : { key: 'rugby_program', hard: false, status: 'miss', label: c.mens_rugby_program_type === 'varsity' ? 'Varsity rugby' : 'Club rugby' }) : { key: 'rugby_program', hard: false, status: 'unknown', label: 'Program type unverified' });
   }
-  void slug;
   return out;
 }
 
@@ -182,19 +195,25 @@ function toResult(slug: string, c: CollegeFacts, f: Filters): Result {
   const softMatches = checks.filter((x) => !x.hard && x.status === 'match').length;
   return { slug, checks, hardMisses, softMisses, unknowns, softMatches, score: softMatches * 2 - softMisses.length, closest: false };
 }
-const byRank = (a: Result, b: Result, facts: Record<string, CollegeFacts>) =>
-  b.score - a.score || (TIER_RANK[facts[a.slug].rugby_tier ?? 'emerging'] ?? 9) - (TIER_RANK[facts[b.slug].rugby_tier ?? 'emerging'] ?? 9) || facts[a.slug].name.localeCompare(facts[b.slug].name);
+const costRank = (c: CollegeFacts, f: Filters) => {
+  if (f.max_cost_usd_per_year == null && f.budget == null) return 0;
+  const amount = costFor(c, f.residency, f.home_state).amount;
+  return amount ?? Number.POSITIVE_INFINITY;
+};
+/** With a budget in play, cheaper programs rank first among equally good fits. */
+const byRank = (a: Result, b: Result, facts: Record<string, CollegeFacts>, f: Filters) =>
+  b.score - a.score || (costRank(facts[a.slug], f) - costRank(facts[b.slug], f) || 0) || (TIER_RANK[facts[a.slug].rugby_tier ?? 'emerging'] ?? 9) - (TIER_RANK[facts[b.slug].rugby_tier ?? 'emerging'] ?? 9) || facts[a.slug].name.localeCompare(facts[b.slug].name);
 
 const missCount = (r: Result) => r.checks.filter((x) => x.status === 'miss').length;
-const unknownCount = (r: Result) => r.checks.filter((x) => x.status === 'unknown' && !INFO_KEYS.has(x.key)).length;
+const unknownCount = (r: Result) => r.checks.filter((x) => x.status === 'unknown').length;
 
 export function search(facts: Record<string, CollegeFacts>, f: Filters): SearchOutcome {
   const all = Object.keys(facts).map((s) => toResult(s, facts[s], f));
   const active = all.some((r) => r.checks.length > 0);
   const isFit = (r: Result) => missCount(r) === 0 && unknownCount(r) === 0;
-  const fitsAll = all.filter(isFit).sort((a, b) => byRank(a, b, facts));
-  const close = all.filter((r) => !isFit(r)).sort((a, b) => missCount(a) - missCount(b) || unknownCount(a) - unknownCount(b) || byRank(a, b, facts));
-  const idle = all.sort((a, b) => byRank(a, b, facts));
+  const fitsAll = all.filter(isFit).sort((a, b) => byRank(a, b, facts, f));
+  const close = all.filter((r) => !isFit(r)).sort((a, b) => missCount(a) - missCount(b) || unknownCount(a) - unknownCount(b) || byRank(a, b, facts, f));
+  const idle = all.sort((a, b) => byRank(a, b, facts, f));
   return { active, fitsAll, close, fitsAllCount: fitsAll.length, results: active ? [...fitsAll, ...close] : idle };
 }
 
@@ -213,10 +232,13 @@ export function describeFilters(f: Filters): { key: string; label: string }[] {
   if (f.size_band.length) o.push({ key: 'size_band', label: filterLabel.size_band(f.size_band) });
   if (f.conference.length) o.push({ key: 'conference', label: f.conference.join(' / ') });
   if (f.max_cost_usd_per_year != null) o.push({ key: 'max_cost_usd_per_year', label: 'Up to ' + usd(f.max_cost_usd_per_year) + '/yr' });
+  else if (f.budget === 'affordable') o.push({ key: 'budget', label: `Affordable: up to ${usd(AFFORDABLE_MAX_USD)}/yr` });
+  if (f.academics === 'strong') o.push({ key: 'academics', label: `Strong academics: admits ${SELECTIVE_MAX_ADMIT_RATE}% or fewer` });
   if (f.religion && f.religion !== 'any') o.push({ key: 'religion', label: ({ none_only: 'Not religious', religious: 'Religious college', catholic: 'Catholic', christian_other: 'Other Christian' } as Record<string, string>)[f.religion] });
   if (f.climate.length) o.push({ key: 'climate', label: filterLabel.climate(f.climate) });
   if (f.majors.length) o.push({ key: 'majors', label: filterLabel.majors(f.majors) });
   if (f.rugby_tier.length) o.push({ key: 'rugby_tier', label: filterLabel.rugby_tier(f.rugby_tier) });
+  if (f.rugby_level === 'd1') o.push({ key: 'rugby_level', label: 'D1 rugby (D1A, NCR D1, D1AA)' });
   if (f.rugby_program) o.push({ key: 'rugby_program', label: f.rugby_program === 'varsity' ? 'Varsity rugby' : 'Club rugby' });
   return o;
 }

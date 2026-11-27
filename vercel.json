@@ -7,6 +7,43 @@
     { "source": "/colleges/university-of-st-thomas-minnesota/", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
     { "source": "/work-with-me", "destination": "/about", "permanent": true },
     { "source": "/work-with-me/", "destination": "/about", "permanent": true },
+    { "source": "/{colleges/}?ucla{/}?", "destination": "/colleges/university-of-california-los-angeles-ucla", "permanent": true },
+    { "source": "/{colleges/}?ohio-state{/}?", "destination": "/colleges/the-ohio-state-university", "permanent": true },
+    { "source": "/{colleges/}?ohio-state-university{/}?", "destination": "/colleges/the-ohio-state-university", "permanent": true },
+    { "source": "/{colleges/}?air-force{/}?", "destination": "/colleges/united-states-air-force-academy", "permanent": true },
+    { "source": "/{colleges/}?air-force-academy{/}?", "destination": "/colleges/united-states-air-force-academy", "permanent": true },
+    { "source": "/{colleges/}?navy{/}?", "destination": "/colleges/united-states-naval-academy", "permanent": true },
+    { "source": "/{colleges/}?army{/}?", "destination": "/colleges/united-states-military-academy-army", "permanent": true },
+    { "source": "/{colleges/}?cal{/}?", "destination": "/colleges/university-of-california-berkeley", "permanent": true },
+    { "source": "/{colleges/}?byu{/}?", "destination": "/colleges/brigham-young-university", "permanent": true },
+    { "source": "/{colleges/}?penn-state{/}?", "destination": "/colleges/pennsylvania-state-university", "permanent": true },
+    { "source": "/{colleges/}?notre-dame{/}?", "destination": "/colleges/university-of-notre-dame", "permanent": true },
+    { "source": "/{colleges/}?st-bonaventure{/}?", "destination": "/colleges/st-bonaventure-university", "permanent": true },
+    { "source": "/{colleges/}?saint-marys{/}?", "destination": "/colleges/saint-mary-s-college-of-california", "permanent": true },
+    { "source": "/{colleges/}?life{/}?", "destination": "/colleges/life-university", "permanent": true },
+    { "source": "/{colleges/}?lindenwood{/}?", "destination": "/colleges/lindenwood-university", "permanent": true },
+    { "source": "/{colleges/}?walsh{/}?", "destination": "/colleges/walsh-university", "permanent": true },
+    { "source": "/{colleges/}?usd{/}?", "destination": "/colleges/university-of-san-diego", "permanent": true },
+    { "source": "/{colleges/}?san-diego{/}?", "destination": "/colleges/university-of-san-diego", "permanent": true },
+    { "source": "/{colleges/}?grand-canyon{/}?", "destination": "/colleges/grand-canyon-university", "permanent": true },
+    { "source": "/{colleges/}?gcu{/}?", "destination": "/colleges/grand-canyon-university", "permanent": true },
+    { "source": "/{colleges/}?utah{/}?", "destination": "/colleges/university-of-utah", "permanent": true },
+    { "source": "/{colleges/}?arizona{/}?", "destination": "/colleges/university-of-arizona", "permanent": true },
+    { "source": "/{colleges/}?indiana{/}?", "destination": "/colleges/indiana-university", "permanent": true },
+    { "source": "/{colleges/}?michigan{/}?", "destination": "/colleges/university-of-michigan", "permanent": true },
+    { "source": "/{colleges/}?brown{/}?", "destination": "/colleges/brown-university", "permanent": true },
+    { "source": "/{colleges/}?dartmouth{/}?", "destination": "/colleges/dartmouth-college", "permanent": true },
+    { "source": "/{colleges/}?queens{/}?", "destination": "/colleges/queens-university-of-charlotte", "permanent": true },
+    { "source": "/{colleges/}?mount-st-marys{/}?", "destination": "/colleges/mount-st-mary-s-university", "permanent": true },
+    { "source": "/{colleges/}?belmont-abbey{/}?", "destination": "/colleges/belmont-abbey-college", "permanent": true },
+    { "source": "/{colleges/}?davenport{/}?", "destination": "/colleges/davenport-university", "permanent": true },
+    { "source": "/{colleges/}?mckendree{/}?", "destination": "/colleges/mckendree-university", "permanent": true },
+    { "source": "/{colleges/}?marian{/}?", "destination": "/colleges/marian-university", "permanent": true },
+    { "source": "/{colleges/}?wwu{/}?", "destination": "/colleges/western-washington-university", "permanent": true },
+    { "source": "/{colleges/}?ucsc{/}?", "destination": "/colleges/university-of-california-santa-cruz", "permanent": true },
+    { "source": "/{colleges/}?santa-clara{/}?", "destination": "/colleges/santa-clara-university", "permanent": true },
+    { "source": "/{colleges/}?st-thomas{/}?", "destination": "/colleges/st-thomas-university-florida", "permanent": true },
+    { "source": "/{colleges/}?thomas-more{/}?", "destination": "/colleges/thomas-more-university", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "host", "value": "rugby-campus\\.vercel\\.app" }], "destination": "https://www.rugbycampus.org/:path*", "permanent": true }
   ],
   "rewrites": [
@@ -20,14 +57,17 @@
     { "source": "/learn/:slug", "destination": "/learn/:slug/index.html" },
     { "source": "/training", "destination": "/training/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
-    { "source": "/for-coaches", "destination": "/for-coaches/index.html" }
+    { "source": "/for-coaches", "destination": "/for-coaches/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" }
   ],
   "headers": [
     { "source": "/(.*)\\.(png|ico|svg|jpg|jpeg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }] },
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/(.*)", "headers": [
       { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "X-Frame-Options", "value": "DENY" },
+      { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
     ] },
     { "source": "/(.*)", "missing": [{ "type": "host", "value": "www\\.rugbycampus\\.org" }], "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
   ]

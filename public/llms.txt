@@ -1,11 +1,13 @@
 # Rugby Campus
 
-> A free guide to US college rugby programs for aspiring players: CRAA D1A and NCR D1 programs, mapped and tiered, with coach contacts and plain-English recruitment guides. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.
+> A free guide to US men's college rugby programs for aspiring players: CRAA D1A and NCR D1 programs, mapped and tiered, with coach emails (free with an email signup) and plain-English recruitment guides. Built by Hugh Johnston, an Australian who played, captained and then coached Notre Dame College to the 2023 NCR D1 National Championship.
 
-Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. It is free for players. Revenue comes from paid one-on-one coaching and featured program listings for colleges (always labelled Featured).
+Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. It covers men's programs only; women's programs are not listed yet. Men's rugby is not an NCAA sport anywhere (the NCAA lists varsity women's rugby as an Emerging Sport for Women).
+
+How the site makes money: free for players. Revenue comes from paid one-on-one coaching, and colleges may pay for a featured listing, which is always labelled Featured. Program profiles, tiers, the map and the guides are open to everyone; coach email addresses are shown after a free one-time email signup.
 
 ## Core pages
-- [All programs, tiered](https://www.rugbycampus.org/colleges): Tier 1 (strongest) to Tier 4
+- [All men's programs, tiered](https://www.rugbycampus.org/colleges): Tier 1 (strongest) to Tier 4
 - [Interactive map](https://www.rugbycampus.org/map)
 - [Best rugby colleges in America guide](https://www.rugbycampus.org/learn/best-rugby-colleges-usa)
 - [Why college rugby rankings lie](https://www.rugbycampus.org/learn/why-college-rugby-rankings-lie)
@@ -16,6 +18,7 @@ Rugby Campus is independent. It is not affiliated with USA Rugby, CRAA or NCR. I
 - [Training](https://www.rugbycampus.org/training)
 - [About Hugh](https://www.rugbycampus.org/about)
 - [For college coaches](https://www.rugbycampus.org/for-coaches)
+- [Privacy](https://www.rugbycampus.org/privacy)
 
 ## Full data
 - [llms-full.txt](https://www.rugbycampus.org/llms-full.txt): every program with affiliation, conference, squad size, and MLR draft and playing numbers (drafted and played are counted separately)

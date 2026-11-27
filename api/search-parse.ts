@@ -5,7 +5,7 @@ import { writeSearchLog } from './_lib/logsink.js';
 import { capMicros, costMicros, monthKey } from './_lib/pricing.js';
 import { clientIp, ensureSid, hashed, readBody, send, type Req, type Res, rejectRequest } from './_lib/http.js';
 import { getStore } from './_lib/store.js';
-import { cleanSentence, FILTER_VERSION, parseFilters, stripPII } from '../src/lib/search/filters.js';
+import { applySentenceRules, cleanSentence, FILTER_VERSION, parseFilters, stripPII } from '../src/lib/search/filters.js';
 
 const num = (v: string | undefined, d: number) => { const n = Number(v); return n > 0 ? n : d; };
 const MSG = {
@@ -49,6 +49,7 @@ export default async function handler(req: Req, res: Res) {
         tokensIn += out.tokensIn; tokensOut += out.tokensOut; model = out.model;
         let raw: unknown = null; try { raw = JSON.parse(out.text); } catch { raw = null; }
         if (raw && typeof raw === 'object') filters = parseFilters(raw);
+        if (filters) filters = applySentenceRules(sentence, filters);
       } catch (e) { if (attempt === 1) break; }
     }
     const micros = costMicros(model, tokensIn, tokensOut);

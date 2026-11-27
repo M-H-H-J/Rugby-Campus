@@ -7,7 +7,7 @@ const STATE_BY_NAME: Record<string, string> = { alabama:'AL',arizona:'AZ',califo
 export function mockParse(sentence: string): Record<string, unknown> {
   const s = ' ' + sentence.toLowerCase() + ' ';
   const has = (...w: string[]) => w.some((x) => s.includes(x));
-  const out: Record<string, unknown> = { residency: null, home_state: null, states: [], regions: [], control: [], setting: [], division: [], size_band: [], conference: [], max_cost_usd_per_year: null, religion: null, climate: [], majors: [], rugby_tier: [], rugby_program: null, unparsed: [] };
+  const out: Record<string, unknown> = { residency: null, home_state: null, states: [], regions: [], control: [], setting: [], division: [], size_band: [], conference: [], max_cost_usd_per_year: null, budget: null, academics: null, religion: null, climate: [], majors: [], rugby_tier: [], rugby_level: null, rugby_program: null, unparsed: [] };
   const push = (k: string, ...v: string[]) => { for (const x of v) if (!(out[k] as string[]).includes(x)) (out[k] as string[]).push(x); };
   if (has('ignore your instructions', 'ignore previous', 'system prompt')) { push('unparsed', sentence.slice(0, 80)); return out; }
   if (has('australia', 'overseas', 'international', 'not a us citizen', 'sydney', 'from the uk', 'new zealand')) out.residency = 'international';
@@ -15,6 +15,7 @@ export function mockParse(sentence: string): Record<string, unknown> {
   if (has('north-east', 'northeast', 'new england')) push('regions', 'northeast');
   if (has('midwest', 'mid-west')) push('regions', 'midwest');
   if (has('west coast', ' the west')) push('regions', 'west');
+  if (has('east coast', 'eastern seaboard')) push('regions', 'east_coast');
   if (has('the south', 'southern ')) push('regions', 'south');
   if (has('public')) push('control', 'public');
   if (has('private', 'catholic')) push('control', 'private_nonprofit');
@@ -22,7 +23,8 @@ export function mockParse(sentence: string): Record<string, unknown> {
   if (has('near a city', 'leafy', 'suburb')) push('setting', 'suburb');
   if (has('college town')) push('setting', 'college_town');
   if (has('rural', 'countryside', 'small town')) push('setting', 'country');
-  if (has(' d1', 'division 1', 'division i ')) push('division', 'd1');
+  if (has('ncaa d1', 'ncaa division 1', 'ncaa division i ')) push('division', 'd1');
+  else if (has(' d1', 'division 1', 'division i ')) out.rugby_level = 'd1';
   if (has(' d2')) push('division', 'd2');
   if (has(' d3')) push('division', 'd3');
   if (has('naia')) push('division', 'naia');
@@ -32,7 +34,8 @@ export function mockParse(sentence: string): Record<string, unknown> {
   const cost = s.match(/(?:under|below|max|up to|less than)\s*(?:us)?\$?\s*(\d{2,3})\s*k/) || s.match(/\$\s*(\d{2,3})\s*k/);
   if (cost) out.max_cost_usd_per_year = Number(cost[1]) * 1000;
   const cost2 = s.match(/(?:under|below|up to)\s*\$\s*(\d{4,6})/); if (cost2) out.max_cost_usd_per_year = Number(cost2[1]);
-  if (has('cheap')) push('unparsed', 'cheap');
+  if (has('cheap', 'affordable', 'budget-friendly', 'low cost')) out.budget = 'affordable';
+  if (has('good academics', 'strong academics', 'top academics', 'selective')) out.academics = 'strong';
   if (has('not religious', 'secular')) out.religion = 'none_only';
   else if (has('religious college', 'religious school')) out.religion = 'religious';
   else if (has('catholic')) out.religion = 'catholic';

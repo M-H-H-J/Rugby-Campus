@@ -30,7 +30,7 @@ npm run dev      # local dev, localhost:5173
 npm run build    # tsc + vite build + prerender  ← must print BOTH success lines
 ```
 
-`npm run build` must end with `prerendered 64 pages + sitemap.xml + llms-full.txt` (63 sitemap routes plus `404.html`). If it doesn't, the SEO layer is broken — treat that as a failing build.
+`npm run build` must end with `prerendered 65 pages + sitemap.xml + llms-full.txt` (64 sitemap routes, including `/privacy`, plus `404.html`). If it doesn't, the SEO layer is broken — treat that as a failing build.
 
 ## File map
 
@@ -44,14 +44,16 @@ src/
   lib/useColleges.ts        Supabase-first with bundled fallback
   lib/usePageMeta.ts        client-side title/meta
   components/               Navigation, Footer, CollegeCard, ArticleCard,
-                            LeafletMap, USMap, CoachEmailUnlock, ContactForm
+                            LeafletMap, USMap, CoachEmailUnlock, ContactForm,
+                            PrivacyNote (the /privacy line beside every form that takes an email)
   pages/                    Home, Map, Colleges, CollegeDetail, Learn,
-                            ArticlePage, Training, About, WorkWithMe, ForCoaches
+                            ArticlePage, Training, About, WorkWithMe, ForCoaches, Privacy
 api/                        Vercel functions: search-parse (sentence -> JSON filters, rate limits, $ cap), shortlist-email. See .env.example
 src/lib/search/             filter schema, matcher, cost text, facts loader (+ __tests__). The model NEVER writes answers; it only fills the filter schema
 src/data/collegeSearchFacts.json  generated from rugby-campus-search/college-search-data.json; do not hand-edit
 scripts/prerender.mjs       post-build: static HTML per route + JSON-LD + sitemap + llms-full.txt
 scripts/data-entry.ts       bundles TS data for the prerender script
+scripts/page-entry.tsx      server-renders About, Training, ForCoaches, Learn and Privacy for the prerender (same words as the live page)
 public/                     logo.png, logo-white.png, icon.png, favicons,
                             robots.txt (public: allows crawlers, lists the sitemap), llms.txt
 vercel.json                 SPA rewrites + asset caching
@@ -65,6 +67,7 @@ supabase-setup.sql          full schema + all 40 rows + idempotent updates
 3. No Niche data, no Greek life filter, no women's rugby filter. Majors are broad fields only.
 4. Never put keys in the repo or use a `VITE_` prefix for them. `npm test` and `npm run typecheck:api` must pass.
 5. Default model is `gemini-3.1-flash-lite`, set in `api/_lib/llm.ts`. No env var needed. Cost is about US$0.0005 per search.
+6. `applySentenceRules` in `src/lib/search/filters.ts` corrects the model from the user's own words: "D1" means D1 rugby (never NCAA Division I unless the user says NCAA); "affordable/cheap" is the affordable band (US$65k/yr or less, cheapest first); "good academics" is an admit rate of 60% or lower; "East Coast" covers New England, the Mid-Atlantic and the Southeast; a Tier filter is dropped unless the sentence asks about the standard of rugby. Tests: `tests/api/search-accuracy.test.ts`.
 
 ## Do not break these
 
@@ -107,7 +110,7 @@ The site was deliberately redesigned away from generic "AI-built site" aesthetic
 - Programs are grouped into four **tiers**, shown as plain numbers: `championship` (Tier 1, strongest, gold `#ffb700`), `playoff` (Tier 2, navy `#00458c`), `competitive` (Tier 3, terracotta `#b5573a`), `emerging` (Tier 4, teal `#0f766e`). The internal keys never change (Supabase stores them). Never rank 1–50 inside a tier. Rankings shift weekly and Goff Rugby Report and NCR publish conflicting lists; tiers are defensible, numbers are false precision. This is a deliberate product decision and a published editorial position (`/learn/why-college-rugby-rankings-lie`). In search, the word "competitive" means Tier 1–2, never the Tier 3 key.
 - `SEASON_LABEL` in `colleges.ts` is the single place the season is stated.
 - **Never invent** coach names, emails, records, scholarship claims or draft numbers. Some programs have an empty `coachName` — that is correct and the UI handles it ("To be confirmed"). Leave blank rather than guessing. Coach name and email are owned by the Supabase `colleges` table: when a row exists, its value wins even when blank or null (`remoteCoachField`), so clearing a departed coach there takes effect. MLR: *Drafted* and *Played* are two separate numbers. Never fold unconfirmed picks into played. Never show a played number that isn't in `colleges.ts`. `mlrPlayed: null` means no draftees.
-- Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington ended varsity men's and women's rugby in April 2025, effective at the end of 2024–25 (deliberately excluded; a student-run men's club restarted in fall 2025); UCLA is dual NCR D1 / CRAA D1A for 2026–27; Iona University (NCR D1AA) was dropped from the curated list in Oct 2026; St. Thomas University (Miami Gardens, Florida; CRAA D1A Independent, 2025 D1AA champions) replaced the University of St. Thomas (Minnesota) in Oct 2026, whose team plays lower-level NCR (Northern Lights); MLR contracted to 6 teams for 2026 but the College Draft continues.
+- Verified facts to preserve: Cal won 2025 and 2026 D1A titles (36–22 over Navy in 2026, 17-0 season); coach is **Jack Clark**; St. Bonaventure won 2025 NCR D1; Central Washington ended varsity men's and women's rugby in April 2025, effective at the end of 2024–25 (deliberately excluded; a student-run men's club restarted in fall 2025); UCLA is dual NCR D1 / CRAA D1A for 2026–27; Iona University (NCR D1AA) was dropped from the curated list in Oct 2026; St. Thomas University (Miami Gardens, Florida; CRAA D1A Independent, 2025 D1AA champions) replaced the University of St. Thomas (Minnesota) in Oct 2026, whose team plays lower-level NCR (Northern Lights); MLR contracted to 6 teams for 2026 but the College Draft continues. Title history (Nov 2026 audit): Navy won the 2023 D1A title (28–22 over Cal) and were 2024 and 2026 finalists; Army won 2022 D1A (20–8 over Saint Mary's); Brown won NCR D1 in 2022 and 2024 (23–20 over Queens in 2024); Queens were 2024 and 2025 NCR D1 finalists; Life has four D1A titles (2013, 2016, 2018, 2019) and were 2025 D1A finalists.
 
 ## SEO / AI visibility
 

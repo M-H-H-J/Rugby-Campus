@@ -2,13 +2,23 @@
 // IMPORTANT: no '@/' alias imports in this file (the api/ functions import it by relative path).
 import { z } from 'zod';
 
-export const FILTER_VERSION = 3;
+export const FILTER_VERSION = 4;
 export const MAX_SENTENCE_CHARS = 300;
 
 export const STATE_CODES = [
   'AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY',
 ] as const;
-export const REGIONS = ['northeast', 'midwest', 'south', 'west'] as const;            // US Census regions
+/** US Census regions, plus 'east_coast' (New England + Mid-Atlantic + Southeast Atlantic states), which no Census region covers. */
+export const REGIONS = ['northeast', 'midwest', 'south', 'west', 'east_coast'] as const;
+export const EAST_COAST_STATES: readonly string[] = ['ME', 'NH', 'VT', 'MA', 'RI', 'CT', 'NY', 'NJ', 'PA', 'DE', 'MD', 'DC', 'VA', 'NC', 'SC', 'GA', 'FL'];
+export const BUDGETS = ['affordable'] as const;
+export const ACADEMICS = ['strong'] as const;
+/** Every program on the site is D1 rugby (CRAA D1A, NCR D1 or D1AA). "D1" in a sentence means this, never NCAA athletics. */
+export const RUGBY_LEVELS = ['d1'] as const;
+/** "Affordable" with no number: yearly cost at or under this, before scholarships. */
+export const AFFORDABLE_MAX_USD = 65000;
+/** "Good academics": admits this share of applicants or fewer. */
+export const SELECTIVE_MAX_ADMIT_RATE = 60;
 export const CONTROLS = ['public', 'private_nonprofit'] as const;
 export const SETTINGS = ['city', 'college_town', 'suburb', 'country'] as const;       // campus feel
 export const DIVISIONS = ['d1', 'd2', 'd3', 'naia'] as const;
@@ -65,16 +75,19 @@ export const FilterSchema = z.object({
   size_band: enumList(SIZE_BANDS),
   conference: z.preprocess((v) => (Array.isArray(v) ? v.map((x) => String(x).slice(0, 60).trim()).filter(Boolean).slice(0, 4) : []), z.array(z.string()).max(4)),
   max_cost_usd_per_year: z.preprocess((v) => (typeof v === 'number' && isFinite(v) && v > 0 && v < 1_000_000 ? Math.round(v) : null), z.number().nullable()),
+  budget: enumOrNull(BUDGETS),
+  academics: enumOrNull(ACADEMICS),
   religion: enumOrNull(RELIGIONS),
   climate: enumList(CLIMATES),
   majors: z.preprocess((v) => (Array.isArray(v) ? v.map((x) => String(x).toLowerCase().trim()).filter((x) => MAJOR_KEYS.includes(x)) : []), z.array(z.string()).max(4)),
   rugby_tier: enumList(RUGBY_TIERS),
+  rugby_level: enumOrNull(RUGBY_LEVELS),
   rugby_program: enumOrNull(RUGBY_PROGRAMS),
   unparsed: z.preprocess((v) => (Array.isArray(v) ? v.map((x) => String(x).slice(0, 80)).slice(0, 6) : []), z.array(z.string()).max(6)),
 });
 export type Filters = z.infer<typeof FilterSchema>;
 
-export const FILTER_KEYS = ['states', 'regions', 'control', 'setting', 'division', 'size_band', 'conference', 'max_cost_usd_per_year', 'religion', 'climate', 'majors', 'rugby_tier', 'rugby_program'] as const;
+export const FILTER_KEYS = ['states', 'regions', 'control', 'setting', 'division', 'size_band', 'conference', 'max_cost_usd_per_year', 'budget', 'academics', 'religion', 'climate', 'majors', 'rugby_tier', 'rugby_level', 'rugby_program'] as const;
 
 export function emptyFilters(): Filters {
   return FilterSchema.parse({});
@@ -93,6 +106,54 @@ export function hasAnyFilter(f: Filters): boolean {
     const v = f[k as keyof Filters];
     return Array.isArray(v) ? v.length > 0 : v !== null && v !== undefined;
   });
+}
+
+// ---- sentence rules: deterministic corrections applied to whatever the model returned ----
+// The model is good at the open-ended parts of a sentence and unreliable on a few words that matter a lot on a
+// rugby site. These rules only ever read the user's own words; they never add a college or a fact.
+const TIER_INTENT = new RegExp([
+  String.raw`\btier\s*[1-4]\b`,
+  String.raw`\bchampionship\b`, String.raw`\btitle[- ]?(?:winning|winners?|contend\w*)\b`, String.raw`\bnational champ\w*`,
+  String.raw`\bpowerhouse\b`, String.raw`\belite\b`, String.raw`\bhigh(?:est)?[- ]level\b`,
+  String.raw`\bcompetitive\b(?!\s+(?:academics?|admissions?|entry|college|school|university|price|cost))`,
+  String.raw`\b(?:top|best|strong|strongest|decent|good|great|serious|winning)\s+(?:(?!academ|and\b|or\b|with\b)[\w-]+\s+){0,2}?(?:rugby|programs?|teams?|sides?|clubs?)\b`,
+].join('|'), 'i');
+const D1_WORD = /\b(?:d-?1(?:a{1,2})?|div(?:ision)?\.?\s*(?:1|i|one)(?:a{1,2})?)\b/i;
+const D1_RUGBY = /\b(?:d-?1(?:a{1,2})?|div(?:ision)?\.?\s*(?:1|i|one)(?:a{1,2})?)\s+(?:college\s+)?rugby\b/i;
+/** Campus athletics, not rugby: the user wants an NCAA Division I school. */
+const NCAA_D1_INTENT = /\bncaa\s+(?:d-?1|div(?:ision)?\.?\s*(?:1|i|one))\b|\b(?:d-?1|div(?:ision)?\.?\s*(?:1|i|one))\s+(?:athletics|sports|football|basketball|school sports)\b|\bbig[- ]time\s+(?:college\s+)?(?:sports|athletics)\b|\bpower\s*(?:4|four|5|five)\b/i;
+const NCAA_WORD = /\bncaa\b/i;
+const AFFORDABLE_WORD = /\b(?:affordable|cheap(?:er|est)?|inexpensive|low[- ]cost|lower[- ]cost|on a budget|budget[- ]friendly|good value|value for money|low tuition|not (?:too )?expensive)\b/i;
+const ACADEMICS_WORD = /\b(?:good|great|strong|top|high|excellent|solid|serious|rigorous|elite|best|high[- ]quality)\s+(?:academics?|academic\s+(?:reputation|programs?|schools?|colleges?|standards?)|education|schools? academically)\b|\bacademically\s+(?:strong|rigorous|good|selective)\b|\b(?:highly\s+)?selective\b|\bprestigious\b/i;
+const EAST_COAST_WORD = /\beast(?:ern)?[- ]coast\b|\beastern seaboard\b/i;
+const NORTHEAST_WORD = /\bnorth[- ]?east\w*|\bnew england\b/i;
+const SOUTH_WORD = /\bsouth(?:ern|east\w*)?\b|\bthe south\b/i;
+
+export function applySentenceRules(sentence: string, input: Filters): Filters {
+  const s = sentence;
+  const f: Filters = { ...input, regions: [...input.regions], division: [...input.division], unparsed: [...input.unparsed] };
+  if (!TIER_INTENT.test(s)) f.rugby_tier = [];
+  const ncaaD1 = NCAA_D1_INTENT.test(s);
+  if (ncaaD1) {
+    if (!f.division.includes('d1')) f.division.push('d1');
+  } else if (D1_WORD.test(s) && !NCAA_WORD.test(s)) {
+    f.division = f.division.filter((d) => d !== 'd1');
+  }
+  if (D1_RUGBY.test(s) || (D1_WORD.test(s) && !ncaaD1 && !NCAA_WORD.test(s))) f.rugby_level = 'd1';
+  if (AFFORDABLE_WORD.test(s)) {
+    f.budget = 'affordable';
+    f.unparsed = f.unparsed.filter((u) => !AFFORDABLE_WORD.test(u));
+  }
+  if (ACADEMICS_WORD.test(s)) {
+    f.academics = 'strong';
+    f.unparsed = f.unparsed.filter((u) => !ACADEMICS_WORD.test(u));
+  }
+  if (EAST_COAST_WORD.test(s)) {
+    f.regions = f.regions.filter((r) => (r === 'northeast' ? NORTHEAST_WORD.test(s) : r === 'south' ? SOUTH_WORD.test(s) : true));
+    if (!f.regions.includes('east_coast')) f.regions.push('east_coast');
+    f.unparsed = f.unparsed.filter((u) => !EAST_COAST_WORD.test(u));
+  }
+  return f;
 }
 
 // ---- input hygiene (also used before anything is logged) ----

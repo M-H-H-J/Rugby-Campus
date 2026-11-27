@@ -9,6 +9,7 @@ import { loadShortlist, readParam, saveShortlist, writeParams } from '@/lib/sear
 import FilterPanel from './FilterPanel';
 import SearchResultCard from './SearchResultCard';
 import ShortlistEmail from './ShortlistEmail';
+import PrivacyNote from '@/components/PrivacyNote';
 
 const PAGE = 12;
 
@@ -110,7 +111,7 @@ export default function CollegeSearch({ colleges, initialSentence = '', onActive
           </span>
         ))}
       </p>
-      <p className="text-[12px] text-muted mt-3">We keep the words you type, without your name or email, to improve this tool. Please don't include personal details.</p>
+      <PrivacyNote className="mt-3">We keep the words you type, without your name or email, to improve this tool. Please don't include personal details.</PrivacyNote>
       {note && <p role="status" className="mt-3 text-[13px] text-ink">{note.text}</p>}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">

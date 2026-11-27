@@ -3,7 +3,7 @@ import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { useColleges } from '@/lib/useColleges';
 import { usePageMeta, useNoindex } from '@/lib/usePageMeta';
 import { CONTACT_EMAIL, SITE_URL } from '@/config';
-import { TIER_LABELS } from '@/data/colleges';
+import { TIER_LABELS, tierNumber } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
 import { climateFromTemps, mlrSummary, visibleBadges, weatherSentence } from '@/lib/search/display';
 import CoachEmailUnlock from '@/components/CoachEmailUnlock';
@@ -56,7 +56,7 @@ export default function CollegeDetail() {
   const programFacts: [string, string][] = [
     ['Affiliation', college.affiliation],
     ['Conference', college.conference],
-    ['Tier', TIER_LABELS[college.tier]],
+    ['Tier', tierNumber(college.tier)],
     ['Program type', college.programType],
     ['Squad size', college.playerCountNote || (college.playerCount > 0 ? `~${college.playerCount} players` : '')],
     ['Drafted (2020–26)', mlr.draftedText],

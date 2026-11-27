@@ -15,7 +15,7 @@ describe('copy batch, 2 Nov 2026', () => {
   });
   it('the fourth tier is "Tier 4", with no "Up and coming" left anywhere in the guides', () => {
     expect(TIER_LABELS.emerging).toBe('Tier 4');
-    expect(TIER_SUBLINE.emerging).toBe('Earlier game time, and a say in where the program goes.');
+    expect(TIER_SUBLINE.emerging).toBe('Programs with fewer playoff runs in recent seasons.');
     expect(articles.map((a) => a.content).join('\n')).not.toMatch(/up and coming|up & coming/i);
   });
   it('guide edits are in', () => {
