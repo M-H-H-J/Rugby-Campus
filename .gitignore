@@ -5,3 +5,5 @@ dist
 *.log
 .search-eval-handler.mjs
 .prerender-pages.mjs
+.env
+.env.local
