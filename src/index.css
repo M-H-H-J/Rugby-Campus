@@ -6,6 +6,8 @@
   --rc-navy: #00458c;
   --rc-gold: #f2b600;
   --rc-dark: #071B33;
+  --rc-ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --rc-fast: 140ms;
 }
 
 * { box-sizing: border-box; }
@@ -25,11 +27,18 @@ body {
   font-size: 15px;
 }
 
+/* Without these, a heading with no leading-* utility inherits the body's 1.55. Utilities still win. */
 h1, h2, h3 {
   font-family: 'Newsreader', Georgia, serif;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+h1 { line-height: 1.1; letter-spacing: -0.02em; }
+h2 { line-height: 1.15; letter-spacing: -0.015em; }
+h3 { line-height: 1.25; }
+
+/* Guide tables in prerendered HTML carry no utility classes */
+table { font-variant-numeric: tabular-nums; }
 
 ::selection { background: rgba(242, 182, 0, 0.35); }
 
@@ -45,19 +54,41 @@ h1, h2, h3 {
 
 /* Single consistent interaction set */
 .btn {
-  transition: background-color 150ms ease, transform 150ms ease, border-color 150ms ease, color 150ms ease;
+  transition: background-color var(--rc-fast) var(--rc-ease-out), transform var(--rc-fast) var(--rc-ease-out), border-color var(--rc-fast) var(--rc-ease-out), color var(--rc-fast) var(--rc-ease-out);
 }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(0.98); transition-duration: 80ms; }
 
 /* Press feedback for pills, tabs and cards. Transform only, so nothing around them moves.
    Lists colour properties too: this rule sits after Tailwind's transition-colors and replaces it. */
-.press, .press-card { transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease; }
+.press, .press-card { transition: color var(--rc-fast) var(--rc-ease-out), background-color var(--rc-fast) var(--rc-ease-out), border-color var(--rc-fast) var(--rc-ease-out), transform var(--rc-fast) var(--rc-ease-out); }
 .press:active { transform: scale(0.98); transition-duration: 80ms; }
 .press-card:active { transform: scale(0.99); transition-duration: 80ms; }
 
-.card-img { transition: transform 450ms cubic-bezier(0.2, 0.6, 0.2, 1); }
+.card-img { transition: transform 160ms var(--rc-ease-out); }
 .group:hover .card-img { transform: scale(1.03); }
+
+/* Map pins: Leaflet positions .rc-pin with translate3d, so the scale goes on the inner span or the pin would drift off its anchor */
+.rc-pin-inner { display: block; width: 100%; height: 100%; transform-origin: 50% 100%; transition: transform 120ms var(--rc-ease-out); }
+.rc-pin-inner svg { display: block; }
+.rc-pin:hover .rc-pin-inner, .rc-pin:focus-visible .rc-pin-inner { transform: scale(1.12); }
+.rc-pin:active .rc-pin-inner { transform: scale(0.94); transition-duration: 80ms; }
+
+/* Keyboard focus: one navy ring everywhere. :where() keeps it below any utility that sets its own. */
+:where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--rc-navy);
+  outline-offset: 2px;
+}
+/* Inputs carry outline-none for mouse focus; keyboard and typing still get a soft ring beside the navy border */
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid rgba(0, 69, 140, 0.3);
+  outline-offset: 1px;
+}
+input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outline: 2px solid var(--rc-navy); outline-offset: 2px; }
+a:has(> .press-card):focus-visible, a.group:focus-visible { outline-offset: 4px; border-radius: 10px; }
+.rc-pin:focus-visible { outline: 2px solid var(--rc-navy); outline-offset: 2px; border-radius: 6px; }
+.bg-dark :focus-visible { outline-color: #fff; }
+.bg-dark input:focus-visible { outline-color: rgba(255, 255, 255, 0.45); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -68,6 +99,7 @@ h1, h2, h3 {
     scroll-behavior: auto !important;
   }
   .btn:hover, .btn:active, .press:active, .press-card:active, .group:hover .card-img { transform: none; }
+  .rc-pin-inner, .rc-pin:hover .rc-pin-inner, .rc-pin:focus-visible .rc-pin-inner, .rc-pin:active .rc-pin-inner { transform: none; transition: none; }
 }
 
 /* Email blur effect */
@@ -75,7 +107,7 @@ h1, h2, h3 {
   filter: blur(5px);
   user-select: none;
   cursor: pointer;
-  transition: filter 0.3s ease;
+  transition: filter var(--rc-fast) var(--rc-ease-out);
 }
 .email-blurred:hover { filter: blur(3px); }
 

@@ -32,6 +32,12 @@ export default {
       letterSpacing: {
         caps: '0.12em',
       },
+      transitionDuration: {
+        DEFAULT: '140ms',
+      },
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.2, 0, 0, 1)',
+      },
     },
   },
   plugins: [],

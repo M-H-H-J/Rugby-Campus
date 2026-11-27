@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 export default function RuleTable({ header, rows, label }: { header: string[]; rows: ReactNode[][]; label: string }) {
   return (
     <div className="my-7 overflow-x-auto" tabIndex={0} role="region" aria-label={label}>
-      <table className="w-full min-w-[540px] border-collapse text-left font-body text-[14px] leading-snug">
+      <table className="w-full min-w-[540px] border-collapse text-left font-body text-[14px] leading-snug tabular-nums">
         <thead>
           <tr className="border-b border-ink">
             {header.map((h, j) => <th key={j} scope="col" className="py-2.5 pr-4 align-bottom text-[11px] font-semibold uppercase tracking-caps text-muted">{h}</th>)}

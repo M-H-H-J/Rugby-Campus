@@ -37,7 +37,7 @@ function renderContent(content: string) {
     if (line.startsWith('### ')) {
       elements.push(<h3 key={i} className="font-heading text-[22px] text-ink mt-9 mb-3">{line.slice(4)}</h3>);
     } else if (line.startsWith('## ')) {
-      elements.push(<h2 key={i} className="font-heading text-[27px] text-ink mt-12 mb-4 leading-tight">{line.slice(3)}</h2>);
+      elements.push(<h2 key={i} className="font-heading text-[27px] text-ink mt-12 mb-4 leading-[1.2]">{line.slice(3)}</h2>);
     } else if (line.startsWith('**') && line.endsWith('**')) {
       elements.push(<p key={i} className="font-heading text-[17.5px] font-semibold text-ink mt-5 mb-2">{line.slice(2, -2)}</p>);
     } else if (line.startsWith('- ')) {

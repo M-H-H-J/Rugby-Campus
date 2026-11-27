@@ -69,7 +69,7 @@ export default function Training() {
     <div className="max-w-6xl mx-auto px-5 py-10 md:py-14">
       <header className="mb-14 max-w-2xl">
         <p className="kicker mb-2">Training</p>
-        <h1 className="font-heading text-[34px] md:text-[40px] leading-tight text-ink mb-4">Arrive ready to compete</h1>
+        <h1 className="font-heading text-[34px] md:text-[40px] leading-[1.1] text-ink mb-4">Arrive ready to compete</h1>
         <p className="text-muted text-[15px] leading-relaxed">
           College rugby is a step up physically. Turn up ready. Below is a free four-day strength sample. Your email unlocks days two through four.
         </p>
@@ -127,7 +127,7 @@ export default function Training() {
         <div className="grid lg:grid-cols-12 gap-10 p-6 md:p-10">
           <div className="lg:col-span-7">
             <p className="kicker mb-3 !text-white/80">Paid coaching</p>
-            <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-tight mb-4">
+            <h2 className="font-heading text-[28px] md:text-[32px] text-white leading-[1.15] mb-4">
               Paid one-on-one coaching before you leave for college
             </h2>
             <p className="text-white/55 text-[14.5px] leading-relaxed mb-6 max-w-lg">

@@ -14,8 +14,8 @@ function makePin(color: string, size = 30, hollow = false) {
     ? `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="#fff" stroke="${color}" stroke-width="2.5"/>`
     : `<path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}" stroke="white" stroke-width="1.5"/><circle cx="14" cy="14" r="5" fill="white"/>`;
   return L.divIcon({
-    className: '',
-    html: `<svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">${mark}</svg>`,
+    className: 'rc-pin',
+    html: `<span class="rc-pin-inner"><svg width="${size}" height="${h}" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">${mark}</svg></span>`,
     iconSize: [size, h],
     iconAnchor: [size / 2, h],
     popupAnchor: [0, -h + 4],

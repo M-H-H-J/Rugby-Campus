@@ -54,7 +54,7 @@ export default function ForCoaches() {
       <section id="inquire" className="scroll-mt-24 bg-dark rounded-lg p-8 md:p-12 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <p className="kicker mb-3 !text-white/80">Get in touch</p>
-          <h2 className="font-heading text-[28px] text-white leading-tight mb-4">Verify, feature, or say hello</h2>
+          <h2 className="font-heading text-[28px] text-white leading-[1.15] mb-4">Verify, feature, or say hello</h2>
           <p className="text-white/55 text-[14.5px] leading-relaxed">
             Tell me which program you coach and what you'd like: a correction or a featured listing. I'll come back to you personally.
           </p>

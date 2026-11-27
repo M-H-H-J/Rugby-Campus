@@ -26,7 +26,7 @@ function TierHeading({ tier, count }: { tier: Tier; count: number }) {
         <span className="flex items-center h-[32px] shrink-0"><TierDot tier={tier} size="md" /></span>
         <span className="min-w-0 break-words">{TIER_LABELS[tier]}</span>
       </h2>
-      <p className="text-[13px] text-muted mt-2">{TIER_SUBLINE[tier]} <span className="text-faint">{plural(count, 'program', 'programs')}</span></p>
+      <p className="text-[13px] text-muted mt-2">{TIER_SUBLINE[tier]} <span className="text-faint tabular-nums">{plural(count, 'program', 'programs')}</span></p>
     </div>
   );
 }
