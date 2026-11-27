@@ -10,6 +10,7 @@ import CoachEmailUnlock from '@/components/CoachEmailUnlock';
 import ProfileFacts from '@/components/ProfileFacts';
 import CollegeFactsSection from '@/components/search/CollegeFactsSection';
 import { WALSH_GALLERY } from '@/data/walshPhotos';
+import CampusPhoto from '@/components/CampusPhoto';
 
 export function collegeMetaDescription(c: { name: string; affiliation: string; conference: string; tier: keyof typeof TIER_LABELS }): string {
   return `${c.name} rugby: ${c.affiliation}, ${c.conference}, ${TIER_LABELS[c.tier]}. Coach contact, squad size, MLR numbers, weather and campus facts.`;
@@ -89,7 +90,7 @@ export default function CollegeDetail() {
       <figure className="mb-10 -mx-5 md:mx-0">
         <div className="overflow-hidden relative bg-line md:rounded-lg">
           {college.imageUrl ? (
-            <img key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} width={1200} height={420} fetchPriority="high" className="w-full h-[240px] md:h-[420px] object-cover" />
+            <CampusPhoto key={college.slug} src={college.imageUrl} alt={`${college.name} campus`} size="hero" width={1200} height={420} eager className="w-full h-[240px] md:h-[420px] object-cover" />
           ) : (
             <div className="w-full h-[220px]" aria-hidden />
           )}

@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import type { College } from '@/data/colleges';
 import { TIER_LABELS } from '@/data/colleges';
 import TierDot from '@/components/TierDot';
+import CampusPhoto from '@/components/CampusPhoto';
 import { visibleBadges } from '@/lib/search/display';
 
 export default function CollegeCard({ college, variant = 'tool' }: { college: College; variant?: 'tool' | 'editorial' }) {
@@ -14,13 +15,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
         <article className="group cursor-pointer">
           <div className="relative overflow-hidden aspect-[4/3] rounded-lg bg-line mb-3">
             {college.imageUrl ? (
-              <img
-                src={college.imageUrl}
-                alt={`${college.name} campus`}
-                loading="lazy"
-                width={800} height={600}
-                className="card-img w-full h-full object-cover"
-              />
+              <CampusPhoto src={college.imageUrl} alt={`${college.name} campus`} size="card" width={800} height={600} className="card-img w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full" aria-hidden />
             )}
@@ -46,12 +41,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
       <article className="group cursor-pointer">
         <div className="relative overflow-hidden aspect-[4/3] rounded-lg mb-4 bg-line">
           {college.imageUrl ? (
-            <img
-              src={college.imageUrl}
-              alt={`${college.name} campus`}
-              loading="lazy"
-              className="card-img w-full h-full object-cover"
-            />
+            <CampusPhoto src={college.imageUrl} alt={`${college.name} campus`} size="card" width={800} height={600} className="card-img w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full" aria-hidden />
           )}

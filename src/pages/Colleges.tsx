@@ -8,6 +8,7 @@ import { sortColleges } from '@/lib/collegeOrder';
 import { hasExactAlias, matchesCollegeQuery } from '@/lib/collegeAliases';
 import { readParam, writeParams } from '@/lib/search/urlState';
 import TierDot from '@/components/TierDot';
+import CampusPhoto from '@/components/CampusPhoto';
 
 // The search box and its data load after the page has appeared.
 const CollegeSearch = lazy(() => import('@/components/search/CollegeSearch'));
@@ -36,7 +37,7 @@ function PhotoGrid({ items }: { items: College[] }) {
       {items.map((c) => (
         <Link key={c.slug} href={`/colleges/${c.slug}`} className="group">
           <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-3">
-            {c.imageUrl && <img src={c.imageUrl} alt={`${c.name} campus`} loading="lazy" width={800} height={600} className="card-img w-full h-full object-cover" />}
+            {c.imageUrl && <CampusPhoto src={c.imageUrl} alt={`${c.name} campus`} size="card" width={800} height={600} className="card-img w-full h-full object-cover" />}
           </div>
           <h3 className="font-heading text-[20px] leading-snug text-ink group-hover:text-navy">{c.name}</h3>
           <p className="text-[13px] text-muted mt-1">{c.location}</p>
