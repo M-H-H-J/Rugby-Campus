@@ -99,16 +99,16 @@ describe('campus photos: WebP at the right size, .jpg kept for Supabase paths', 
 });
 
 describe('map tiles', () => {
-  const map = src('src/components/LeafletMap.tsx');
+  const map = ['src/components/CollegeMap.tsx', 'src/lib/mapMarkup.ts', 'src/lib/vectorMap.ts', 'src/lib/rasterMap.ts'].map(src).join('\n');
   it('never requests tiles from OpenStreetMap\'s own servers', () => {
     expect(map).not.toMatch(/tile\.openstreetmap\.org/);
   });
-  it('uses OpenFreeMap vector tiles (no key) through MapLibre GL, with the required credit', () => {
+  it('uses OpenFreeMap vector tiles (no key) through native MapLibre GL, with the required credit', () => {
     expect(map).toContain("BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron'");
-    expect(map).toContain("import('@/lib/maplibreBasemap')");
-    expect(src('src/lib/maplibreBasemap.ts')).toContain("setWorkerUrl(workerUrl)");
+    expect(map).toContain("import('@/lib/vectorMap')");
+    expect(src('src/lib/vectorMap.ts')).toContain("setWorkerUrl(workerUrl)");
     for (const credit of ['href="https://openfreemap.org"', '&copy; OpenMapTiles', 'href="https://www.openstreetmap.org/copyright"']) expect(map).toContain(credit);
-    expect(map).toContain('map.attributionControl.addAttribution(BASEMAP_ATTRIBUTION)');
+    expect(map).toContain('new AttributionControl({ customAttribution: BASEMAP_ATTRIBUTION })');
     expect(map).not.toMatch(/basemaps\.cartocdn\.com/);
   });
 });

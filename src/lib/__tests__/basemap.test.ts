@@ -84,22 +84,60 @@ describe('mountBasemap', () => {
   });
 });
 
-describe('LeafletMap wiring', () => {
-  const map = src('src/components/LeafletMap.tsx');
+describe('CollegeMap wiring', () => {
+  const map = src('src/components/CollegeMap.tsx');
+  const markup = src('src/lib/mapMarkup.ts');
+  const vector = src('src/lib/vectorMap.ts');
+  const raster = src('src/lib/rasterMap.ts');
   it('never swallows basemap errors silently, and has a no-key raster fallback', () => {
-    expect(map).not.toMatch(/catch\s*\{\s*\/\*/);
+    for (const f of [map, vector, raster]) expect(f).not.toMatch(/catch\s*\{\s*\/\*/);
     expect(map).toContain('mountBasemap(');
-    expect(map).toContain("RASTER_TILES = 'https://basemap.nationalmap.gov/");
-    expect(map).toContain('USGS The National Map');
+    expect(markup).toContain("RASTER_TILES = 'https://basemap.nationalmap.gov/");
+    expect(markup).toContain('USGS The National Map');
     expect(src('src/index.css')).toMatch(/\.basemap-raster\s*\{[^}]*grayscale/);
   });
-  it('starts the basemap only after mapRef is set, so alive() is true on the synchronous fallback', () => {
-    const body = map.slice(map.indexOf('const map = L.map('));
-    expect(body.indexOf('mapRef.current = map;')).toBeGreaterThan(-1);
-    expect(body.indexOf('mapRef.current = map;')).toBeLessThan(body.indexOf('void addBasemap('));
+  it('loads each engine only when it runs: MapLibre for WebGL2, Leaflet for the fallback', () => {
+    expect(map).toContain("import('@/lib/vectorMap')");
+    expect(map).toContain("import('@/lib/rasterMap')");
+    expect(map).not.toMatch(/from 'leaflet'|from 'maplibre-gl'/);
+    expect(markup).not.toMatch(/from 'leaflet'|from 'maplibre-gl'/);
+    expect(vector).not.toMatch(/from 'leaflet'/);
+    expect(src('src/pages/MapPage.tsx')).not.toMatch(/leaflet|maplibre/i);
+  });
+  it('uses native MapLibre, not the Leaflet plugin', () => {
+    expect(vector).toContain('new GLMap(');
+    expect(vector).toContain('new NavigationControl(');
+    expect(vector).not.toContain('maplibre-gl-leaflet');
+    expect(JSON.parse(src('package.json')).dependencies).not.toHaveProperty('@maplibre/maplibre-gl-leaflet');
+  });
+  it('the vector map is destroyed before the fallback mounts in its container', () => {
+    const fail = vector.slice(vector.indexOf('const fail = '));
+    expect(fail.indexOf('handle.destroy()')).toBeLessThan(fail.indexOf('reject('));
+    const addRaster = map.slice(map.indexOf('const addRaster = '));
+    expect(addRaster.indexOf('handleRef.current?.destroy()')).toBeLessThan(addRaster.indexOf("import('@/lib/rasterMap')"));
+  });
+  it('fits the pins once, then keeps the visitor\'s pan and zoom across tab changes', () => {
+    expect(map.match(/fitted\.current = true/g)).toHaveLength(2);
+    expect(map).toContain('if (!fitted.current && colleges.length > 0)');
   });
   it('the WebGL check matches what the installed MapLibre needs', () => {
     const major = Number(JSON.parse(src('node_modules/maplibre-gl/package.json')).version.split('.')[0]);
     if (major >= 5) expect(src('src/lib/basemap.ts')).not.toMatch(/getContext\('webgl'\)/);
+  });
+});
+
+describe('Leaflet fallback zooms in whole steps and fetches tiles once the zoom settles', () => {
+  // Leaflet needs a DOM, so read the options from source rather than importing the module.
+  const raster = src('src/lib/rasterMap.ts');
+  it('map options', () => {
+    for (const opt of ['zoomSnap: 1,', 'zoomDelta: 1,', 'wheelPxPerZoomLevel: 120,', 'wheelDebounceTime: 60,']) expect(raster).toContain(opt);
+  });
+  it('tile options', () => {
+    for (const opt of ['updateWhenZooming: false,', 'updateWhenIdle: true,', 'keepBuffer: 4,']) expect(raster).toContain(opt);
+  });
+  it('the raster grey is a single filter, not a chain', () => {
+    const rule = src('src/index.css').match(/\.basemap-raster\s*\{([^}]*)\}/)?.[1] ?? '';
+    expect(rule).toMatch(/filter: grayscale\(1\);/);
+    expect(rule).not.toMatch(/brightness|contrast/);
   });
 });

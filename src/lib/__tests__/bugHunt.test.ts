@@ -256,7 +256,7 @@ describe('bug hunt nitpicks (site)', () => {
 
   it('N7: map popups escape text from Supabase', () => {
     expect(escHtml('<img src=x onerror=alert(1)> & "Saint" Mary\'s')).toBe('&lt;img src=x onerror=alert(1)&gt; &amp; &quot;Saint&quot; Mary&#39;s');
-    const m = src('src/components/LeafletMap.tsx');
+    const m = src('src/lib/mapMarkup.ts');
     for (const f of ['c.affiliation', 'c.name', 'c.location', 'c.slug']) expect(m, f).toContain(`\${escHtml(${f})}`);
     expect(m).not.toMatch(/>\$\{c\.(name|location|affiliation)\}</);
   });

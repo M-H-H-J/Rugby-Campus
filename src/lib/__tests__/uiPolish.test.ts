@@ -56,11 +56,16 @@ describe('numbers use tabular figures', () => {
 });
 
 describe('map pins press and lift without moving off their anchor', () => {
-  const map = src('src/components/LeafletMap.tsx');
-  it('the pin svg sits inside an inner span; Leaflet positions the outer .rc-pin', () => {
-    expect(map).toContain("className: 'rc-pin'");
-    expect(map).toMatch(/html: `<span class="rc-pin-inner"><svg [^`]*<\/svg><\/span>`/);
-    expect(map).toContain('iconAnchor: [size / 2, h]');
+  const markup = src('src/lib/mapMarkup.ts');
+  it('the pin svg sits inside an inner span; the map engine positions the outer .rc-pin from its tip', () => {
+    expect(markup).toMatch(/html: `<span class="rc-pin-inner"><svg [^`]*<\/svg><\/span>`/);
+    const vector = src('src/lib/vectorMap.ts');
+    expect(vector).toContain("el.className = 'rc-pin'");
+    expect(vector).toContain("new Marker({ element: el, anchor: 'bottom' })");
+    expect(vector).toMatch(/\.addTo\(map\)\.setPopup\(popup\)/);
+    const raster = src('src/lib/rasterMap.ts');
+    expect(raster).toContain("className: 'rc-pin'");
+    expect(raster).toContain('iconAnchor: [width / 2, height]');
   });
   it('scale is applied to the inner span only, from the pin tip, with short ease-out timing', () => {
     expect(css).toMatch(/\.rc-pin-inner \{[^}]*transform-origin: 50% 100%;[^}]*transition: transform 120ms var\(--rc-ease-out\);/);
