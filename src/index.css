@@ -48,10 +48,27 @@ h1, h2, h3 {
   transition: background-color 150ms ease, transform 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 .btn:hover { transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
+.btn:active { transform: translateY(0) scale(0.98); transition-duration: 80ms; }
+
+/* Press feedback for pills, tabs and cards. Transform only, so nothing around them moves.
+   Lists colour properties too: this rule sits after Tailwind's transition-colors and replaces it. */
+.press, .press-card { transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease; }
+.press:active { transform: scale(0.98); transition-duration: 80ms; }
+.press-card:active { transform: scale(0.99); transition-duration: 80ms; }
 
 .card-img { transition: transform 450ms cubic-bezier(0.2, 0.6, 0.2, 1); }
 .group:hover .card-img { transform: scale(1.03); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:hover, .btn:active, .press:active, .press-card:active, .group:hover .card-img { transform: none; }
+}
 
 /* Email blur effect */
 .email-blurred {

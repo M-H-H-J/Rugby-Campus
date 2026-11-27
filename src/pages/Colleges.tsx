@@ -137,7 +137,7 @@ export default function Colleges() {
           <div className="flex gap-1 -mb-px" role="group" aria-label="Competition">
             {AFFILIATION_TABS.map((t) => (
               <button key={t} onClick={() => setTab(t)} aria-pressed={tab === t}
-                className={`px-2 min-h-[44px] text-[13px] font-medium border-b-2 transition-colors whitespace-nowrap ${
+                className={`press px-2 min-h-[44px] text-[13px] font-medium border-b-2 whitespace-nowrap ${
                   tab === t ? 'border-navy text-ink' : 'border-transparent text-muted hover:text-ink'
                 }`}>
                 {t}

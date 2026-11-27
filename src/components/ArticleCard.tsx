@@ -6,7 +6,7 @@ export default function ArticleCard({ article }: { article: Article }) {
 
   return (
     <Link href={`/learn/${article.slug}`}>
-      <article className="group cursor-pointer">
+      <article className="group press-card cursor-pointer">
         <p className="kicker mb-2.5">
           {article.category}
           {!hasContent && <span className="text-faint font-normal normal-case tracking-normal"> · coming soon</span>}

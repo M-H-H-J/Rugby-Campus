@@ -12,7 +12,7 @@ const BUDGET_STEP = 5000;
 function Chip({ on, children, onClick, title }: { on: boolean; children: React.ReactNode; onClick: () => void; title?: string }) {
   return (
     <button type="button" onClick={onClick} aria-pressed={on} title={title}
-      className={`px-2.5 py-1 rounded-md text-[12px] border transition-colors ${on ? 'bg-white text-navy border-navy' : 'bg-white text-muted border-line hover:border-navy/40'}`}>
+      className={`press px-2.5 py-1 rounded-md text-[12px] border ${on ? 'bg-white text-navy border-navy' : 'bg-white text-muted border-line hover:border-navy/40'}`}>
       {children}
     </button>
   );

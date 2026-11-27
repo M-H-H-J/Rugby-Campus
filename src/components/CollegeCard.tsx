@@ -12,7 +12,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
   if (isToolCard) {
     return (
       <Link href={`/colleges/${college.slug}`}>
-        <article className="group cursor-pointer">
+        <article className="group press-card cursor-pointer">
           <div className="relative overflow-hidden aspect-[4/3] rounded-lg bg-line mb-3">
             {college.imageUrl ? (
               <CampusPhoto src={college.imageUrl} alt={`${college.name} campus`} size="card" width={800} height={600} className="card-img w-full h-full object-cover" />
@@ -38,7 +38,7 @@ export default function CollegeCard({ college, variant = 'tool' }: { college: Co
 
   return (
     <Link href={`/colleges/${college.slug}`}>
-      <article className="group cursor-pointer">
+      <article className="group press-card cursor-pointer">
         <div className="relative overflow-hidden aspect-[4/3] rounded-lg mb-4 bg-line">
           {college.imageUrl ? (
             <CampusPhoto src={college.imageUrl} alt={`${college.name} campus`} size="card" width={800} height={600} className="card-img w-full h-full object-cover" />
