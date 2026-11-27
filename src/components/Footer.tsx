@@ -5,6 +5,7 @@ import { captureEmail } from '@/lib/supabase';
 import { useSaveState } from '@/lib/useSaveState';
 import SaveError from '@/components/SaveError';
 import PrivacyNote from '@/components/PrivacyNote';
+import FoundUsPrompt from '@/components/FoundUsPrompt';
 import { CONTACT_EMAIL, MONEY_LINE } from '@/config';
 
 export default function Footer() {
@@ -56,7 +57,10 @@ export default function Footer() {
             <h2 className="text-[11px] font-semibold font-body tracking-caps text-white/75 uppercase mb-3">New guides by email</h2>
             <p className="text-white/75 text-xs mb-3">Get new guides and program updates. A short email, only when there is something worth sending.</p>
             {state === 'done' ? (
+              <>
               <p className="inline-flex items-center gap-1.5 text-white text-xs"><Check size={13} /> Subscribed</p>
+              <FoundUsPrompt context="newsletter" dark className="mt-3" />
+              </>
             ) : (
               <>
               <form onSubmit={subscribe} className="flex gap-1.5">
@@ -78,7 +82,7 @@ export default function Footer() {
           <p className="text-white/75 text-[11px] leading-relaxed">Program information can be incomplete or change; verify with the school or coach.</p>
           <p className="text-white/75 text-[11px] leading-relaxed">{MONEY_LINE}</p>
           <div className="flex flex-col sm:flex-row justify-between gap-3">
-            <p className="text-white/70 text-[11px]">© 2026 Rugby Campus. <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></p>
+            <p className="text-white/70 text-[11px]">© 2026 Rugby Campus. <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link> · <Link href="/ai-info" className="hover:text-white transition-colors">For AI assistants</Link></p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/70 hover:text-white text-[11px] transition-colors">{CONTACT_EMAIL}</a>
           </div>
         </div>

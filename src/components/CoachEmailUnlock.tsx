@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Lock, X, Check, ExternalLink } from 'lucide-react';
 import { captureEmail } from '@/lib/supabase';
 import PrivacyNote from '@/components/PrivacyNote';
+import FoundUsPrompt from '@/components/FoundUsPrompt';
 import { COACH_EMAIL_TIPS, coachEmailBody, coachEmailSubject } from '@/data/coachEmailTemplate';
 import { hasEmailUnlock, rememberEmailUnlock } from '@/lib/unlock';
 const FOCUSABLE = 'button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])';
@@ -122,6 +123,7 @@ export default function CoachEmailUnlock({ coachName, coachEmail, recruitmentFor
               <p className="text-[11px] uppercase tracking-caps text-muted">Coach email</p>
               <a href={`mailto:${coachEmail}`} className="text-[15px] font-semibold text-navy break-all">{coachEmail}</a>
               <EmailTemplate collegeName={collegeName} open={justUnlocked} />
+              {justUnlocked && <FoundUsPrompt context="coach_unlock" className="mt-4" />}
             </div>
           ) : (
             <button ref={trigger} type="button" onClick={() => setShowModal(true)} aria-haspopup="dialog" className="w-full min-h-[44px] flex items-center gap-2.5 group text-left">

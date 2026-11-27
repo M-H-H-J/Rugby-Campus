@@ -21,6 +21,7 @@ export default function Privacy() {
     ['"Notify me" on a guide', 'Your email address, so I can tell you when that guide is published.'],
     ['Email me this shortlist', 'Your email address, the colleges you ticked, and your search wording with personal details removed, so the list can be emailed to you.'],
     ['Contact and coaching forms', 'What you type in: your name, email and message. The coaching form also asks for age, where you live, position and a WhatsApp number. Used only to reply to you.'],
+    ['"How did you find us?" (optional)', 'Asked once, after a sign-up has already worked. The option you tap, and, if you pick AI assistant, anything you type about which AI you used and what you asked. Saved without your email, name or IP address, and emails, phone numbers and links are removed first. Used only to learn how players find the site.'],
   ];
   return (
     <div className="max-w-3xl mx-auto px-5 py-10 md:py-16">

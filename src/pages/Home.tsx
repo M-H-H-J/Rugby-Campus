@@ -13,6 +13,8 @@ import { pickTopPrograms } from '@/lib/topPrograms';
 import HughPhoto from '@/components/HughPhoto';
 import { HUGH_PHOTOS } from '@/lib/hughPhotos';
 import { HOME_HEADLINE, homeDescription } from '@/config';
+import CampusPhoto from '@/components/CampusPhoto';
+import FoundUsPrompt from '@/components/FoundUsPrompt';
 
 export default function Home() {
   const [, navigate] = useLocation();
@@ -109,7 +111,7 @@ export default function Home() {
               <Link href={`/colleges/${hero.slug}`} className="group">
                 <div className="aspect-[4/3] rounded-lg overflow-hidden bg-line mb-4">
                   {hero.imageUrl ? (
-                    <img src={hero.imageUrl} alt={`${hero.name} campus`} width={800} height={600} className="card-img w-full h-full object-cover" />
+                    <CampusPhoto src={hero.imageUrl} alt={`${hero.name} campus`} size="lead" width={800} height={600} className="card-img w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full" aria-hidden />
                   )}
@@ -195,9 +197,12 @@ export default function Home() {
               Program updates, recruitment windows and new guides. A short email, only when there's something worth sending.
             </p>
             {subscribeState === 'done' ? (
+              <>
               <p className="inline-flex items-center gap-2 text-[15px] text-white font-medium">
                 <Check size={18} className="text-gold" /> You're on the list. Welcome aboard.
               </p>
+              <FoundUsPrompt context="newsletter" dark className="mt-5 max-w-md" />
+              </>
             ) : (
               <>
               <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md">

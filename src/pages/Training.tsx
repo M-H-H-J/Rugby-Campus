@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import CoachingEnquiry from '@/components/CoachingEnquiry';
 import HughPhoto from '@/components/HughPhoto';
 import PrivacyNote from '@/components/PrivacyNote';
+import FoundUsPrompt from '@/components/FoundUsPrompt';
 import { captureEmail } from '@/lib/supabase';
 import { usePageMeta } from '@/lib/usePageMeta';
 import { readParam, writeParams } from '@/lib/search/urlState';
@@ -13,6 +14,7 @@ export default function Training() {
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(() => hasTrainingUnlock() || readParam(TRAINING_EMAIL_PARAM) === '1');
   const [busy, setBusy] = useState(false);
+  const [justUnlocked, setJustUnlocked] = useState(false);
 
   // The welcome email links to /training?unlocked=1, so the link opens the days on any device.
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function Training() {
     rememberEmailUnlock();
     setBusy(false);
     setUnlocked(true);
+    setJustUnlocked(true);
   };
 
   const day = (title: string, exercises: string[]) => (
@@ -81,9 +84,12 @@ export default function Training() {
             Four days from an off-season strength block, upper/lower split. Day one is open; your email unlocks days two through four.
           </p>
           {unlocked ? (
+            <>
             <p className="inline-flex items-center gap-2 text-[14px] text-navy font-medium">
               <Check size={16} /> Unlocked. Days 2–4 are open below.
             </p>
+            {justUnlocked && <FoundUsPrompt context="training_program" className="mt-4 max-w-sm" />}
+            </>
           ) : (
             <form onSubmit={handleUnlock} className="space-y-3 max-w-xs">
               <input
