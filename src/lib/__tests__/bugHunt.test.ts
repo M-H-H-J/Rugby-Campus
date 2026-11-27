@@ -171,15 +171,16 @@ describe('bug hunt S9: share tags follow in-app navigation', () => {
     expect(canonicalFor('/')).toBe('https://www.rugbycampus.org/');
     expect(canonicalFor('/colleges/brown-university/')).toBe('https://www.rugbycampus.org/colleges/brown-university');
   });
-  it('og:image is reset per page: the college photo, Hugh on About, the logo elsewhere', () => {
+  it('og:image is reset per page: the college photo, else the route\'s 1200×630 card (Wave 2: no more logo)', () => {
     expect(absImageUrl('/college-images/brown-university.jpg')).toBe('https://www.rugbycampus.org/college-images/brown-university.jpg');
-    expect(absImageUrl(undefined)).toBe('https://www.rugbycampus.org/logo.png');
+    expect(absImageUrl(undefined)).toBe('https://www.rugbycampus.org/og/rugby-campus.jpg');
     expect(absImageUrl('https://upload.wikimedia.org/x.jpg')).toBe('https://upload.wikimedia.org/x.jpg');
     const meta = src('src/lib/usePageMeta.ts');
-    expect(meta).toContain("setMeta('meta[property=\"og:image\"]', 'property', 'og:image', absImageUrl(image))");
+    expect(meta).toContain("setMeta('meta[property=\"og:image\"]', 'property', 'og:image', shareImage)");
+    expect(meta).toContain('absImageUrl(image ?? card?.file)');
     expect(meta).toContain("setMeta('meta[property=\"og:url\"]'");
     expect(src('src/pages/CollegeDetail.tsx')).toContain('college?.imageUrl,');
-    expect(src('src/pages/About.tsx')).toContain("'/images/hugh/hugh-johnston-headshot-og.jpg'");
+    expect(src('src/pages/About.tsx')).not.toContain('headshot-og.jpg'); // About uses /og/about.jpg, which shows the headshot
   });
 });
 
