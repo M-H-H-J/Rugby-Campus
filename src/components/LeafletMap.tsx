@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import { escHtml } from '@/lib/escHtml';
 import 'leaflet/dist/leaflet.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import type { College } from '@/data/colleges';
 import { TIER_COLORS, TIER_HOLLOW } from '@/data/colleges';
 
@@ -19,6 +20,30 @@ function makePin(color: string, size = 30, hollow = false) {
     iconAnchor: [size / 2, h],
     popupAnchor: [0, -h + 4],
   });
+}
+
+/**
+ * Basemap: OpenFreeMap vector tiles (free, no API key, no usage limits; OSM data via OpenMapTiles), drawn by MapLibre GL
+ * inside Leaflet so the pins, popups and fit-to-bounds stay as they were. Not OpenStreetMap's own tile servers (not for app traffic),
+ * and not CARTO's basemaps (they now need an API key). The credit below is OpenFreeMap's required attribution.
+ * MapLibre loads after the map mounts, so pins show at once and the WebGL library stays out of every other page.
+ * Without WebGL the pins still work on the plain background.
+ */
+export const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+export const BASEMAP_ATTRIBUTION = '<a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>';
+
+function hasWebGL(): boolean {
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+}
+
+async function addBasemap(map: L.Map, alive: () => boolean) {
+  map.attributionControl.addAttribution(BASEMAP_ATTRIBUTION);
+  if (!hasWebGL()) return;
+  try {
+    const { maplibreGL } = await import('@/lib/maplibreBasemap');
+    if (!alive()) return;
+    maplibreGL({ style: BASEMAP_STYLE, attributionControl: false }).addTo(map);
+  } catch { /* chunk or style failed: pins still work on the plain background */ }
 }
 
 interface Props {
@@ -51,22 +76,7 @@ export default function LeafletMap({ colleges, onSelect, height = 560 }: Props) 
       worldCopyJump: true,
     });
 
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map);
-    let tileErrors = 0;
-    osm.on('tileerror', () => {
-      tileErrors += 1;
-      if (tileErrors === 4) {
-        map.removeLayer(osm);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-          maxZoom: 19,
-          subdomains: 'abcd',
-        }).addTo(map);
-      }
-    });
+    void addBasemap(map, () => mapRef.current === map);
 
     layerRef.current = L.layerGroup().addTo(map);
     mapRef.current = map;
