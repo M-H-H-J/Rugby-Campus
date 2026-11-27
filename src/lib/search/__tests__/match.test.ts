@@ -112,9 +112,11 @@ describe('soft filters never hide a college', () => {
     expect(isVeryHot(F['university-of-arizona'])).toBe(true);
     expect(isVeryHot(F['university-of-california-berkeley'])).toBe(false);
   });
-  it('shows Aid: ask the coach when a budget is set', () => {
+  it('a budget does not add an "Aid: ask the coach" pill to every card (the cost detail already says it)', () => {
     const r = search(F, base({ max_cost_usd_per_year: 60000 }));
-    expect(r.results.every((x) => x.unknowns.some((u) => u.label === 'Aid: ask the coach'))).toBe(true);
+    expect(r.results.some((x) => x.checks.some((u) => u.key === 'rugby_aid'))).toBe(false);
+    const fit = r.results.find((x) => x.checks.some((u) => u.key === 'max_cost_usd_per_year' && u.status === 'match' && u.label.endsWith('/ yr')))!;
+    expect(fit.checks.find((u) => u.key === 'max_cost_usd_per_year')!.detail).toMatch(/Ask the coach what's available/);
   });
 });
 

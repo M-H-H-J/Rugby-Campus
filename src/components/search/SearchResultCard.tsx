@@ -4,7 +4,7 @@ import Pill from './Pill';
 import { INTL_SHORT, type Result } from '@/lib/search/match';
 import type { CollegeFacts } from '@/lib/search/facts';
 import { costText } from '@/lib/search/cost';
-import { isVeryHot, VERY_HOT_LABEL } from '@/lib/search/display';
+import { isVeryHot, VERY_HOT_DETAIL, VERY_HOT_LABEL } from '@/lib/search/display';
 import type { Filters } from '@/lib/search/filters';
 
 export default function SearchResultCard({ college, facts, result, filters, selected, onToggle }: {
@@ -19,7 +19,7 @@ export default function SearchResultCard({ college, facts, result, filters, sele
       <CollegeCard college={college} variant="tool" />
       <div className="px-1 pt-2 space-y-1.5">
         {checks.length > 0 && <div className="flex flex-wrap gap-1">{checks.map((c, i) => <Pill key={c.key + i} check={c} />)}</div>}
-        {!has('very_hot') && filters.climate.includes('warm_winters') && isVeryHot(facts) && <p className="text-[12px] text-muted">{VERY_HOT_LABEL}</p>}
+        {filters.climate.includes('warm_winters') && isVeryHot(facts) && <p className="text-[12px] text-muted">{VERY_HOT_LABEL}: {VERY_HOT_DETAIL.charAt(0).toLowerCase() + VERY_HOT_DETAIL.slice(1)}</p>}
         <p className="text-[12px] text-ink leading-snug">
           <span className="font-medium">{cost.headline}</span>
           {!has('max_cost_usd_per_year') && <span className="block text-[11px] text-muted">{cost.askCoach ? 'Ask the coach what it costs.' : cost.sub}</span>}

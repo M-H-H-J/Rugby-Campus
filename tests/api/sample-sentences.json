@@ -77,7 +77,7 @@
   }
  ],
  [
-  "D1 school in the north-east, business",
+  "NCAA D1 school in the north-east, business",
   {
    "division": [
     "d1"
@@ -139,12 +139,11 @@
  [
   "no football, d1, in a big city",
   {
-   "division": [
-    "d1"
-   ],
+   "division": [],
    "setting": [
     "city"
-   ]
+   ],
+   "rugby_level": "d1"
   }
  ],
  [
@@ -292,9 +291,8 @@
  [
   "cheap",
   {
-   "unparsed": [
-    "cheap"
-   ]
+   "budget": "affordable",
+   "unparsed": []
   }
  ],
  [
@@ -349,10 +347,9 @@
    "setting": [
     "college_town"
    ],
-   "division": [
-    "d1"
-   ],
-   "max_cost_usd_per_year": 70000
+   "division": [],
+   "max_cost_usd_per_year": 70000,
+   "rugby_level": "d1"
   }
  ]
 ]
