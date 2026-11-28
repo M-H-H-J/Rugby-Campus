@@ -5,6 +5,7 @@ import type { ErrorEvent as GLErrorEvent, PopupOptions } from 'maplibre-gl';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { College } from '@/data/colleges';
+import { visibleTimeout } from '@/lib/basemap';
 import { BASEMAP_ATTRIBUTION, US_CENTER, pinBounds, pinSpec, popupNode, type MapHandle, type MapView } from '@/lib/mapMarkup';
 
 setWorkerUrl(workerUrl);
@@ -123,27 +124,45 @@ export function mountVectorMap(container: HTMLElement, { style, onSelect, timeou
 
   return new Promise<void>((resolve, reject) => {
     let settled = false;
+    let cancelRestore = () => {};
     const fail = (err: unknown) => {
       if (settled) return;
       settled = true;
-      clearTimeout(timer);
+      cancelTimeout();
+      cancelRestore();
       handle.destroy();
       reject(err instanceof Error ? err : new Error(String(err)));
     };
-    const timer = setTimeout(() => fail(new Error(`basemap did not load within ${timeoutMs}ms`)), timeoutMs);
-    map.once('load', () => { if (settled) return; settled = true; clearTimeout(timer); resolve(); });
-    // Tile errors are recoverable (a retry or the next pan fixes them); a style, sprite or worker error is not.
+    // Only visible time counts: a background tab can't draw, which is not a failure.
+    const cancelTimeout = visibleTimeout(timeoutMs, () => fail(new Error(`style did not load and draw within ${timeoutMs / 1000}s of visible time`)));
+    // Ready once the style has loaded and a frame has drawn. Not `load`, which also waits for every tile in view:
+    // slow tiles fill in on their own, and the raster fallback would be no faster.
+    const onRender = () => {
+      if (settled || !map.isStyleLoaded()) return;
+      settled = true;
+      cancelTimeout();
+      map.off('render', onRender);
+      resolve();
+    };
+    map.on('render', onRender);
+    // Tile, glyph and sprite errors leave a usable map; only a style that can't be fetched or parsed is fatal now.
+    // Anything else is logged, and the visible-time timeout still catches a style that never loads.
     map.on('error', (e: GLErrorEvent & { tile?: unknown; sourceId?: string }) => {
       if (e.tile || e.sourceId) { console.warn('[map] basemap tile failed to load', e.error); return; }
-      if (!settled) fail(e.error);
+      const url = (e.error as { url?: string } | undefined)?.url;
+      if (!settled && url === style) fail(e.error);
       else console.warn('[map] basemap error', e.error);
     });
-    let restoreTimer: ReturnType<typeof setTimeout> | undefined;
+    // MapLibre also fires a lost/restored pair itself when it restarts its workers after the tab returns to the
+    // foreground, so give every loss the same chance to recover, before and after the first draw.
     map.on('webglcontextlost', () => {
-      if (!settled) { fail(new Error('WebGL context lost while loading')); return; }
-      clearTimeout(restoreTimer);
-      restoreTimer = setTimeout(() => { if (!destroyed) onLateFailure('WebGL context lost and not restored'); }, 5000);
+      cancelRestore();
+      cancelRestore = visibleTimeout(5000, () => {
+        if (destroyed) return;
+        if (!settled) fail(new Error('WebGL context lost and not restored'));
+        else onLateFailure('WebGL context lost and not restored');
+      });
     });
-    map.on('webglcontextrestored', () => clearTimeout(restoreTimer));
+    map.on('webglcontextrestored', () => cancelRestore());
   });
 }
