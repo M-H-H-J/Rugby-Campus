@@ -38,7 +38,9 @@ export default function CollegeMap({ colleges, onSelect, height = 560 }: Props) 
       else if (collegesRef.current.length > 0) { handle.fit(collegesRef.current); fitted.current = true; }
     };
 
-    const addRaster = () => {
+    const addRaster = (reason: string) => {
+      container.dataset.basemap = 'raster';
+      container.dataset.basemapReason = reason;
       const view = handleRef.current?.getView() ?? null;
       handleRef.current?.destroy();
       handleRef.current = null;
@@ -47,6 +49,8 @@ export default function CollegeMap({ colleges, onSelect, height = 560 }: Props) 
         .catch((err) => { if (alive) console.error('[map] Raster fallback failed to load', err); });
     };
 
+    // data-basemap (loading | vector | raster) and data-basemap-reason let anyone confirm the engine from DevTools.
+    container.dataset.basemap = 'loading';
     void mountBasemap({
       hasWebGL2,
       alive: () => alive,
@@ -62,6 +66,8 @@ export default function CollegeMap({ colleges, onSelect, height = 560 }: Props) 
           onLateFailure,
         });
       },
+    }).then((result) => {
+      if (result === 'vector' && container.dataset.basemap === 'loading') container.dataset.basemap = 'vector';
     });
 
     return () => {
